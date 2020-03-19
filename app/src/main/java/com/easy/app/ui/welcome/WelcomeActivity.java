@@ -29,11 +29,11 @@ public class WelcomeActivity extends CommonActivity<WelcomePresenter, WelcomeBin
     public void initView() {
         setBackground(R.color.colorPrimary);
         closeSwipeBackLayout();
-        if (BuildConfig.DEBUG) {
-            ARouter.getInstance().build("/demo/DebugActivity").navigation();
-        } else {
+//        if (BuildConfig.DEBUG) {
+//            ARouter.getInstance().build("/demo/DebugActivity").navigation();
+//        } else {
             presenter.countDown(1);
-        }
+//        }
     }
 
     @Override

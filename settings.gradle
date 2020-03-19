@@ -1,9 +1,10 @@
-include ':app', ':AptAnnotation', ':AptProcessor', ':aliplayer', ':eoschain', ':btcchain', ':tv', ':libtv',
-        ':AptLib', ':Common', ':Framework',
-        ':store',  ':demo','lottie'
+include ':app', ':AptProcessor', ':AptLib', ':Common', ':Framework', ':store',
+
 rootProject.name='app'
 
-if (wechat_aar.equals("0")) {
-    include(':wechat')
-    project(':wechat').projectDir = new File('./wechat')
-}
+//include ':aliplayer', ':eoschain', ':btcchain', ':tv', ':libtv',':demo','lottie'
+//
+//if (wechat_aar.equals("0")) {
+//    include(':wechat')
+//    project(':wechat').projectDir = new File('./wechat')
+//}
