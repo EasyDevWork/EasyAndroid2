@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
-//repositories {
-//    maven { url "https://jitpack.io" }
-//    mavenCentral()
-//    google()
-//    jcenter()
-//}
+repositories {
+    maven { url "https://jitpack.io" }
+    mavenCentral()
+    google()
+    jcenter()
+}
 
 def config = rootProject.ext.android
 def lib = rootProject.ext.dependencies
