@@ -98,7 +98,7 @@ dependencies {
 
 
 //    api project(':AptAnnotation')
-    api project(':AptLib')
+    implementation project(':AptLib')
     annotationProcessor project(':AptProcessor')
     api project(':store')
 //    api project(':wechat')
