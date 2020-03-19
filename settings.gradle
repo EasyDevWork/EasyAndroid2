@@ -1,6 +1,5 @@
-include ':app', ':AptProcessor', ':AptLib', ':Common', ':Framework', ':store',
-
-rootProject.name='app'
+rootProject.name='EasyAndroid2'
+include ':app', ':AptProcessor', ':AptLib', ':Common', ':Framework', ':store'
 
 //include ':aliplayer', ':eoschain', ':btcchain', ':tv', ':libtv',':demo','lottie'
 //
