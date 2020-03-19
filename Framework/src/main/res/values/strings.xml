@@ -1,0 +1,6 @@
+<resources>
+    <string name="update_remind">更新提醒</string>
+    <string name="update_now">现在更新</string>
+    <string name="quit_app">再次点击退出%1$s</string>
+    <string name="copy_success">复制成功</string>
+</resources>

@@ -1,0 +1,61 @@
+apply plugin: 'com.android.library'
+
+def config = rootProject.ext.android
+def lib = rootProject.ext.dependencies
+
+android {
+    compileSdkVersion 29
+
+    compileSdkVersion config.compileSdkVersion
+    defaultConfig {
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
+            zipAlignEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    annotationProcessor lib.dagger_compiler
+    annotationProcessor lib.arouter_compiler
+    annotationProcessor project(':AptProcessor')
+    implementation project(':Common')
+    api project(':eoschain')
+    api project(':btcchain')
+    implementation project(':lottie')
+}

@@ -1,2 +1,4 @@
-# EasyAndroid2
-EasyAndroid2
+rxlifecycle使用方式：
+https://github.com/trello/RxLifecycle
+
+

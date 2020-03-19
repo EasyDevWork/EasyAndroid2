@@ -1,0 +1,57 @@
+apply plugin: 'com.android.library'
+
+def config = rootProject.ext.android
+def lib = rootProject.ext.dependencies
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    defaultConfig {
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+        packagingOptions {
+            exclude('META-INF/LICENSE')
+            exclude('META-INF/beans.xml')
+        }
+    }
+
+    repositories {
+        flatDir { dirs 'libs' }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled true
+            zipAlignEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
+    implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.25'
+    implementation lib.gson
+    implementation 'com.aliyun.dpa:oss-android-sdk:+'
+    implementation 'com.alivc.conan:AlivcConan:0.9.5.1'
+
+    implementation project(':Framework')
+}

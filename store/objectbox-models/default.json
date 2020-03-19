@@ -1,0 +1,220 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:1422392174253573389",
+      "lastPropertyId": "6:7046953164465016795",
+      "name": "DownloadInfo",
+      "properties": [
+        {
+          "id": "1:7317464757142450310",
+          "name": "id"
+        },
+        {
+          "id": "2:1200003032165506035",
+          "name": "localUrl"
+        },
+        {
+          "id": "3:6334583877300093162",
+          "name": "serverUrl"
+        },
+        {
+          "id": "4:3659928530624080703",
+          "name": "totalSize"
+        },
+        {
+          "id": "5:7279280324703669108",
+          "name": "currentSize"
+        },
+        {
+          "id": "6:7046953164465016795",
+          "name": "state"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:1920986873079097276",
+      "lastPropertyId": "2:5385141696114301008",
+      "name": "GlobalConfig",
+      "properties": [
+        {
+          "id": "1:3545279642622564657",
+          "name": "id"
+        },
+        {
+          "id": "2:5385141696114301008",
+          "name": "isDebug"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:3240690737381858606",
+      "lastPropertyId": "3:4497601109715029135",
+      "name": "CacheDo",
+      "properties": [
+        {
+          "id": "1:5498432885806841786",
+          "name": "id"
+        },
+        {
+          "id": "2:4222802205443315095",
+          "name": "key"
+        },
+        {
+          "id": "3:4497601109715029135",
+          "name": "value"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:7660173877611154430",
+      "lastPropertyId": "25:7886390872507976638",
+      "name": "EosAccount",
+      "properties": [
+        {
+          "id": "1:2400141348523235478",
+          "name": "id"
+        },
+        {
+          "id": "2:5265438492607496370",
+          "name": "netType"
+        },
+        {
+          "id": "3:343164791521313680",
+          "name": "name"
+        },
+        {
+          "id": "4:6510556441022877471",
+          "name": "privateKey"
+        },
+        {
+          "id": "5:6322170338003560031",
+          "name": "publicKey"
+        },
+        {
+          "id": "6:2420369879734474300",
+          "name": "ramQuota"
+        },
+        {
+          "id": "7:381578503154758829",
+          "name": "ramUsage"
+        },
+        {
+          "id": "8:1440193406081647606",
+          "name": "netLimit"
+        },
+        {
+          "id": "9:8781297020886040480",
+          "name": "cpuLimit"
+        },
+        {
+          "id": "10:2004914726149208625",
+          "name": "permissions"
+        },
+        {
+          "id": "12:3446287279575939563",
+          "name": "refund_request"
+        },
+        {
+          "id": "13:5903548468250007598",
+          "name": "total_resources"
+        },
+        {
+          "id": "14:5361504107261092798",
+          "name": "self_delegated_bandwidth"
+        },
+        {
+          "id": "15:2930757358370687199",
+          "name": "stakeBean"
+        },
+        {
+          "id": "16:6003122041967692653",
+          "name": "rexBean"
+        },
+        {
+          "id": "17:3667993060582368749",
+          "name": "coreLiquidBalance"
+        },
+        {
+          "id": "18:1964366268178507853",
+          "name": "rexPrice"
+        },
+        {
+          "id": "19:2887001433800149685",
+          "name": "rexFund"
+        },
+        {
+          "id": "20:7118273078794593090",
+          "name": "tokenList"
+        },
+        {
+          "id": "21:6420278680405281286",
+          "name": "voterInfo"
+        },
+        {
+          "id": "22:9173206112480387273",
+          "name": "tokenPriceList"
+        },
+        {
+          "id": "23:1496711476567526845",
+          "name": "usdtPrice"
+        },
+        {
+          "id": "24:6531553264594324609",
+          "name": "ownPermissions"
+        },
+        {
+          "id": "25:7886390872507976638",
+          "name": "ramPrice"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:9009237096823456125",
+      "lastPropertyId": "4:4764390312049679947",
+      "name": "BtcAccount",
+      "properties": [
+        {
+          "id": "1:3502593621854619554",
+          "name": "id"
+        },
+        {
+          "id": "2:3271156271617980672",
+          "name": "publicKey"
+        },
+        {
+          "id": "3:2381473700707085609",
+          "name": "privateKey"
+        },
+        {
+          "id": "4:4764390312049679947",
+          "name": "address"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "6:9009237096823456125",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [
+    7317298895336172088
+  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    6427515260956328824,
+    6402877291689553997,
+    3134502980193291372
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

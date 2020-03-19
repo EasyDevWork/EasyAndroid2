@@ -1,0 +1,105 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def config = rootProject.ext.android
+def lib = rootProject.ext.dependencies
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    defaultConfig {
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    buildTypes {
+        release {
+            manifestPlaceholders = [application_id    : config.applicationId,
+                                    bugly_app_id      : "${bugly_app_id_debug}",
+                                    bugly_enable_debug: false,
+                                    bugly_app_channel : "1",
+                                    bugly_app_version : config.appName + '_' + config.versionName + '.' + config.versionCode]
+            minifyEnabled true
+            zipAlignEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        debug {
+            manifestPlaceholders = [application_id    : config.applicationId,
+                                    bugly_app_id      : "${bugly_app_id_release}",
+                                    bugly_enable_debug: true,
+                                    bugly_app_channel : "1",
+                                    bugly_app_version : config.appName + '_' + config.versionName + '.' + config.versionCode]
+            minifyEnabled true
+            zipAlignEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    api lib.androidx_appcompat
+    api lib.androidx_core
+    api lib.core_ktx
+    api lib.constraintlayout
+    api lib.kotlin
+    api lib.fastjson
+    api lib.glide
+    api lib.glide_transformations
+    api lib.eventbus
+    api lib.recyclerViewAdapter
+    api lib.recyclerviewDecoration
+    api lib.recyclerview
+    api lib.dialog_xpopup
+    implementation lib.multidex
+
+    api lib.rxjava
+    api lib.rxandroid
+    api lib.rxpermissions
+//    api lib.rxbinding
+    api lib.objectbox_rxjava
+
+    api lib.dagger
+    annotationProcessor lib.dagger_compiler
+
+    api lib.arouter_api
+    annotationProcessor lib.arouter_compiler
+
+    api lib.okhttp3
+    api lib.okhttp3_logging
+    api lib.retrofit
+    api lib.retrofit_adapter_rxjava2
+    implementation lib.retrofit_converter_gson
+
+    api lib.bugly_crashreport
+    api lib.bugly_nativecrashreport
+
+    debugImplementation lib.leakcanary_android
+    debugImplementation lib.blockcanary_android
+    releaseImplementation lib.blockcanary_no_op
+
+
+    api project(':AptAnnotation')
+    api project(':AptLib')
+    annotationProcessor project(':AptProcessor')
+    api project(':store')
+//    api project(':wechat')
+}

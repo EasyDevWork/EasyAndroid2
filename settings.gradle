@@ -1,0 +1,9 @@
+include ':app', ':AptAnnotation', ':AptProcessor', ':aliplayer', ':eoschain', ':btcchain', ':tv', ':libtv',
+        ':AptLib', ':Common', ':Framework',
+        ':store',  ':demo','lottie'
+rootProject.name='app'
+
+if (wechat_aar.equals("0")) {
+    include(':wechat')
+    project(':wechat').projectDir = new File('./wechat')
+}

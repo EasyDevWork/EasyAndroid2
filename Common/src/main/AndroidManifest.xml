@@ -1,0 +1,16 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.easy.common">
+
+    <!--扫二维码时用到-->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <application>
+        <activity android:name=".ui.qr_code.QrScanActivity" />
+        <activity android:name=".ui.web.activity.WebActivity" />
+    </application>
+
+</manifest>

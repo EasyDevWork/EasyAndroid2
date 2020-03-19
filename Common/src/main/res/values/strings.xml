@@ -1,0 +1,12 @@
+<resources>
+    <string name="install_app">Install</string>
+    <string name="open_album">打开图片</string>
+    <string name="qrcode_scan">将二维码对准框内，即可自动扫描</string>
+    <string name="permission_not_allow">请允许使用相机权限</string>
+    <string name="loading">加载中...</string>
+    <string name="upload_mode">请选择上传方式</string>
+    <string name="album">相册</string>
+    <string name="video">录像</string>
+    <string name="photograph">拍照</string>
+    <string name="no_date">暂无数据</string>
+</resources>
