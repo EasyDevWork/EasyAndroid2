@@ -1,11 +1,11 @@
 rootProject.name = 'EasyAndroid2'
 include ':app'
+include ':store'
 include ':Common'
 include ':Framework'
 include ':AptLib'
 include ':loadimage'
 include ':net'
-include ':store'
 include ':widget'
 include ':utils'
 

@@ -40,7 +40,7 @@ android {
                                     bugly_app_version : config.appName + '_' + config.versionName + '.' + config.versionCode]
             minifyEnabled false
             zipAlignEnabled false
-            consumerProguardFiles 'proguard-rules.pro'
+//            consumerProguardFiles 'proguard-rules.pro'
         }
 
         debug {
@@ -51,7 +51,7 @@ android {
                                     bugly_app_version : config.appName + '_' + config.versionName + '.' + config.versionCode]
             minifyEnabled false
             zipAlignEnabled false
-            consumerProguardFiles 'proguard-rules.pro'
+//            consumerProguardFiles 'proguard-rules.pro'
         }
     }
 

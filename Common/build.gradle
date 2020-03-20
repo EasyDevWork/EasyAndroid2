@@ -45,19 +45,18 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    annotationProcessor lib.dagger_compiler
-    annotationProcessor lib.arouter_compiler
-//    annotationProcessor project(':AptProcessor')
-    annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
-    api project(':Framework')
-//    api 'com.github.EasyDevWork:EasyAndroid2:1.0.3'
-//    implementation project(':aliplayer')
-
-    api project(':store')
     api(lib.qrcodereaderview) {
         transitive = true
         exclude group: 'com.google.zxing' //by group
     }
     api files('libs/zxing.jar')
+
+    annotationProcessor lib.dagger_compiler
+    annotationProcessor lib.arouter_compiler
+//    annotationProcessor project(':AptProcessor')
+    annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
+//    api project(':Framework')
+    api 'com.github.EasyDevWork:EasyAndroid2:1.0.4'
+//    implementation project(':aliplayer')
+    api project(':store')
 }
