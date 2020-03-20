@@ -92,6 +92,7 @@ dependencies {
     releaseImplementation lib.blockcanary_no_op
 
     api project(':AptLib')
+//    api 'com.github.EasyDevWork:EasyAndroid2:1.0.0'
     annotationProcessor project(':AptProcessor')
 
     api project(':net')

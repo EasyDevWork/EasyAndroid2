@@ -1,6 +1,7 @@
 rootProject.name='EasyAndroid2'
 include ':app',  ':Common', ':Framework', ':store'
-include ':AptLib',':AptProcessor'
+include ':AptLib'
+include ':AptProcessor'
 //include ':aliplayer', ':eoschain', ':btcchain', ':tv', ':libtv',':demo','lottie'
 //
 //if (wechat_aar.equals("0")) {
