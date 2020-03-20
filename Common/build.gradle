@@ -50,7 +50,6 @@ dependencies {
     annotationProcessor lib.arouter_compiler
     annotationProcessor project(':AptProcessor')
     api project(':Framework')
-    implementation project(':AptLib')
 //    implementation project(':aliplayer')
 
     api(lib.qrcodereaderview) {

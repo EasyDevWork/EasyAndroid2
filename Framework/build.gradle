@@ -96,9 +96,8 @@ dependencies {
     debugImplementation lib.blockcanary_android
     releaseImplementation lib.blockcanary_no_op
 
-
-//    api project(':AptAnnotation')
-    implementation project(':AptLib')
+    api project(':AptLib')
+//    api 'com.github.EasyDevWork:EasyAndroid2:0.0.7'
     annotationProcessor project(':AptProcessor')
     api project(':store')
 //    api project(':wechat')

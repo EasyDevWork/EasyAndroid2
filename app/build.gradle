@@ -116,5 +116,4 @@ dependencies {
     annotationProcessor project(':AptProcessor')
 //    implementation project(':tv')
     implementation project(':Common')
-    implementation project(':AptLib')
 }

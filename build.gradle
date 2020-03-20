@@ -20,9 +20,9 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url "https://jitpack.io" }
         google()
         jcenter()
-        maven { url "https://jitpack.io" }
         maven { url "http://objectbox.net/beta-repo/" }
         //ali播放器要用
         maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
