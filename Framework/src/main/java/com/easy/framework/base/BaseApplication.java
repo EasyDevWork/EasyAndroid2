@@ -15,6 +15,7 @@ import com.easy.framework.component.DaggerAppcomponent;
 import com.easy.framework.manager.activity.ActivityManager;
 import com.easy.framework.module.AppModule;
 import com.easy.store.IProvider.IFrameWork2StoreProvider;
+import com.easy.store.base.EasyStore;
 import com.easy.utils.CrashUtils;
 import com.easy.utils.EasyUtils;
 import com.easy.utils.ToastUtils;
@@ -57,7 +58,7 @@ public abstract class BaseApplication extends Application {
         RetrofitConfig.Builder builder = new RetrofitConfig.Builder(this);
         initBaseConfig(builder);
         initRetrofit(builder);
-        ARouter.getInstance().navigation(IFrameWork2StoreProvider.class).init(this);
+        EasyStore.getInstance().init(this);
         //注册生命周期监听
         registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
         initLogger();

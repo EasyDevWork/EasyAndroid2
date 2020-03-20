@@ -9,15 +9,15 @@ import com.easy.store.bean.MyObjectBox;
 import io.objectbox.BoxStore;
 import io.objectbox.android.AndroidObjectBrowser;
 
-public class DataStore {
+public class EasyStore {
     private static BoxStore boxStore;
 
-    private static DataStore instance = new DataStore();
+    private static EasyStore instance = new EasyStore();
 
-    private DataStore() {
+    private EasyStore() {
     }
 
-    public static DataStore getInstance() {
+    public static EasyStore getInstance() {
         return instance;
     }
 
