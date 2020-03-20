@@ -91,13 +91,13 @@ dependencies {
     debugImplementation lib.blockcanary_android
     releaseImplementation lib.blockcanary_no_op
 
-    api project(':AptLib')
-    api project(':net')
-    api project(':loadimage')
+//    api project(':AptLib')
+//    api project(':net')
+//    api project(':loadimage')
     api project(':store')
-    api project(':widget')
-    api project(':utils')
-//    api 'com.github.EasyDevWork:EasyAndroid2:1.0.2'
+//    api project(':widget')
+//    api project(':utils')
+    api 'com.github.EasyDevWork:EasyAndroid2:1.0.3'
 //   annotationProcessor project(':AptProcessor')
     annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
 
