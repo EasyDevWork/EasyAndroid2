@@ -97,7 +97,7 @@ dependencies {
 
     debugImplementation lib.leakcanary_android
     debugImplementation lib.blockcanary_android
-    releaseImplementation lib.blockcanary_android
+    releaseImplementation lib.blockcanary_no_op
 
     api project(':AptLib')
     api project(':net')
