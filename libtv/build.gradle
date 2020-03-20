@@ -47,7 +47,8 @@ dependencies {
 
     annotationProcessor lib.dagger_compiler
     annotationProcessor lib.arouter_compiler
-    annotationProcessor project(':AptProcessor')
+//    annotationProcessor project(':AptProcessor')
+    annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
     api project(':Common')
     api 'com.owen:tv-focusborder:1.0.8'
 }

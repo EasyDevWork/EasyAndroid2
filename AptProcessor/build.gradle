@@ -1,12 +1,13 @@
 apply plugin: 'java-library'
-apply plugin: 'com.github.dcendents.android-maven'
-
-repositories {
-    maven { url "https://jitpack.io" }
-    mavenCentral()
-    google()
-    jcenter()
-}
+//编译库需要单独项目打通过这个项目打https://github.com/EasyDevWork/AptProcessor
+//apply plugin: 'com.github.dcendents.android-maven'
+//
+//repositories {
+//    maven { url "https://jitpack.io" }
+//    mavenCentral()
+//    google()
+//    jcenter()
+//}
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
