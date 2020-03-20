@@ -1,6 +1,14 @@
 apply plugin: 'com.android.library'
 //apply plugin: 'kotlin-android'
 //apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.github.dcendents.android-maven'
+
+repositories {
+    maven { url "https://jitpack.io" }
+    mavenCentral()
+    google()
+    jcenter()
+}
 
 def config = rootProject.ext.android
 def lib = rootProject.ext.dependencies
@@ -30,8 +38,8 @@ android {
                                     bugly_enable_debug: false,
                                     bugly_app_channel : "1",
                                     bugly_app_version : config.appName + '_' + config.versionName + '.' + config.versionCode]
-            minifyEnabled true
-            zipAlignEnabled true
+            minifyEnabled false
+            zipAlignEnabled false
             consumerProguardFiles 'proguard-rules.pro'
         }
 
@@ -41,8 +49,8 @@ android {
                                     bugly_enable_debug: true,
                                     bugly_app_channel : "1",
                                     bugly_app_version : config.appName + '_' + config.versionName + '.' + config.versionCode]
-            minifyEnabled true
-            zipAlignEnabled true
+            minifyEnabled false
+            zipAlignEnabled false
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
@@ -91,13 +99,12 @@ dependencies {
     debugImplementation lib.blockcanary_android
     releaseImplementation lib.blockcanary_no_op
 
-//    api project(':AptLib')
-//    api project(':net')
-//    api project(':loadimage')
+    api project(':AptLib')
+    api project(':net')
+    api project(':loadimage')
     api project(':store')
-//    api project(':widget')
-//    api project(':utils')
-    api 'com.github.EasyDevWork:EasyAndroid2:1.0.3'
+    api project(':widget')
+    api project(':utils')
 //   annotationProcessor project(':AptProcessor')
     annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
 

@@ -51,6 +51,7 @@ dependencies {
 //    annotationProcessor project(':AptProcessor')
     annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
     api project(':Framework')
+//    api 'com.github.EasyDevWork:EasyAndroid2:1.0.3'
 //    implementation project(':aliplayer')
 
     api(lib.qrcodereaderview) {
