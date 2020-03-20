@@ -8,26 +8,32 @@ repositories {
     jcenter()
 }
 
+def config = rootProject.ext.android
 def lib = rootProject.ext.dependencies
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion config.compileSdkVersion
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName '0.0.9'
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled true
-            zipAlignEnabled true
+            minifyEnabled false
+            zipAlignEnabled false
             consumerProguardFiles 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true
-            zipAlignEnabled true
+            minifyEnabled false
+            zipAlignEnabled false
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
