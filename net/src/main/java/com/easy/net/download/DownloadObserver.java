@@ -5,7 +5,6 @@ import android.os.Handler;
 
 import com.easy.net.RxDownLoad;
 import com.easy.net.tools.ComputeUtils;
-import com.easy.store.dao.DownloadInfoDao;
 
 import java.lang.ref.SoftReference;
 
@@ -24,16 +23,16 @@ public class DownloadObserver<T extends Download> implements DownloadProgressCal
     private Handler handler;
     private Disposable disposable;
     private SoftReference<DownloadCallback> downloadCallback;
-    DownloadInfoDao downloadInfoDao;
+    IDownload iDownload;
 
     public void setDownload(Download download) {
         this.download = download;
         this.downloadCallback = new SoftReference<>(download.getCallback());
     }
 
-    public DownloadObserver(Download download, Handler handler, DownloadInfoDao downloadInfoDao) {
+    public DownloadObserver(Download download, Handler handler, IDownload iDownload) {
         this.download = download;
-        this.downloadInfoDao = downloadInfoDao;
+        this.iDownload = iDownload;
         this.handler = handler;
         this.downloadCallback = new SoftReference<>(download.getCallback());
     }
@@ -46,7 +45,7 @@ public class DownloadObserver<T extends Download> implements DownloadProgressCal
     public void onSubscribe(@NonNull Disposable d) {
         disposable = d;
         download.getDownloadInfo().setState(1);//等待状态
-        downloadInfoDao.insertOrUpdate(download.getDownloadInfo());
+        iDownload.insertOrUpdate(download.getDownloadInfo());
         if (downloadCallback.get() != null) {//回调
             float progress = ComputeUtils.getProgress(download.getDownloadInfo().getCurrentSize(), download.getDownloadInfo().getTotalSize());
             downloadCallback.get().onProgress(download.getDownloadInfo().getState(), download.getDownloadInfo().getCurrentSize(), download.getDownloadInfo().getTotalSize(), progress);
@@ -61,7 +60,7 @@ public class DownloadObserver<T extends Download> implements DownloadProgressCal
     public void onError(Throwable e) {
         download.getDownloadInfo().setState(4);//错误状态
         RxDownLoad.get().removeDownload(download, false);//移除下载
-        downloadInfoDao.insertOrUpdate(download.getDownloadInfo());
+        iDownload.insertOrUpdate(download.getDownloadInfo());
         if (downloadCallback.get() != null) {
             float progress = ComputeUtils.getProgress(download.getDownloadInfo().getCurrentSize(), download.getDownloadInfo().getTotalSize());
             downloadCallback.get().onProgress(download.getDownloadInfo().getState(), download.getDownloadInfo().getCurrentSize(), download.getDownloadInfo().getTotalSize(), progress);
@@ -77,7 +76,7 @@ public class DownloadObserver<T extends Download> implements DownloadProgressCal
     public void onNext(T t) {
         download.getDownloadInfo().setState(5);//下载完成
         RxDownLoad.get().removeDownload(download, false);//移除下载
-        downloadInfoDao.insertOrUpdate(download.getDownloadInfo());
+        iDownload.insertOrUpdate(download.getDownloadInfo());
         if (downloadCallback.get() != null) {//回调
             downloadCallback.get().onSuccess(t);
         }

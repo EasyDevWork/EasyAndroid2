@@ -5,7 +5,10 @@ import com.easy.common.Interceptor.NetSwitchInterceptorImp;
 import com.easy.common.Interceptor.NetWorkInterceptorImp;
 import com.easy.common.base.CommonApplication;
 import com.easy.common.manager.protocol.WebProtocolManager;
+import com.easy.net.EasyNet;
 import com.easy.net.RetrofitConfig;
+import com.easy.store.base.EasyStore;
+import com.easy.store.dao.DownloadInfoDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,7 @@ public class App extends CommonApplication {
 
     @Override
     public void initOnMainThread() {
-
+        EasyStore.getInstance().init(this);
+        EasyNet.init(new DownloadInfoDao());
     }
 }

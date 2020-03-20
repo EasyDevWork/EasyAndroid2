@@ -1,8 +1,6 @@
 package com.easy.net.download;
 
 import com.easy.net.api.HttpApi;
-import com.easy.store.bean.DownloadInfo;
-
 import io.objectbox.annotation.Transient;
 
 /**
@@ -13,7 +11,6 @@ import io.objectbox.annotation.Transient;
 public class Download{
 
     DownloadInfo downloadInfo;
-
     @Transient
     private HttpApi api;//接口service
     @Transient

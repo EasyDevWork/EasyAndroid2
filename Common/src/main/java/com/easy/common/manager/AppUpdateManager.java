@@ -10,11 +10,11 @@ import com.easy.common.dialog.AppUpdateDialog;
 import com.easy.net.RxDownLoad;
 import com.easy.net.download.Download;
 import com.easy.net.download.DownloadCallback;
+import com.easy.net.download.DownloadInfo;
 import com.easy.utils.FileUtils;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.Utils;
 import com.easy.utils.base.FileConstant;
-import com.easy.store.bean.DownloadInfo;
 
 public class AppUpdateManager {
 
@@ -110,6 +110,7 @@ public class AppUpdateManager {
         String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, context) + fileName;
         Download download = new Download();
         DownloadInfo info = new DownloadInfo();
+        info.setTag(System.currentTimeMillis() + "");
         info.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.2.2.apk");
         info.setLocalUrl(downloadPath);
         download.setDownloadInfo(info);

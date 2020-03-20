@@ -57,7 +57,4 @@ dependencies {
     implementation lib.rxandroid
 
     implementation lib.logger
-
-
-    implementation project(':store')//存下载进度
 }

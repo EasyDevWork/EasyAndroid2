@@ -102,7 +102,6 @@ dependencies {
     api project(':AptLib')
     api project(':net')
     api project(':loadimage')
-    api project(':store')
     api project(':widget')
     api project(':utils')
 //   annotationProcessor project(':AptProcessor')

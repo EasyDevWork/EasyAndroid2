@@ -5,13 +5,13 @@ import android.os.Looper;
 
 import com.easy.net.api.HttpApi;
 import com.easy.net.download.Download;
+import com.easy.net.download.IDownload;
 import com.easy.net.download.DownloadInterceptor;
 import com.easy.net.download.DownloadObserver;
 import com.easy.net.retrofit.RetrofitUtils;
 import com.easy.net.tools.ComputeUtils;
 import com.easy.net.tools.RequestUtils;
 import com.easy.net.tools.ResponseUtils;
-import com.easy.store.dao.DownloadInfoDao;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -40,13 +40,16 @@ public class RxDownLoad {
     private HashMap<String, DownloadObserver> callbackMap;
     /*Handler 回调下载进度到主线程*/
     private Handler handler;
-    DownloadInfoDao downloadInfoDao;
+    IDownload iDownload;
 
     private RxDownLoad() {
         downloadSet = new HashSet<>();
         callbackMap = new HashMap<>();
         handler = new Handler(Looper.getMainLooper());
-        downloadInfoDao = new DownloadInfoDao();
+    }
+
+    public void init(IDownload iDownload) {
+        this.iDownload = iDownload;
     }
 
     public static RxDownLoad get() {
@@ -85,7 +88,7 @@ public class RxDownLoad {
             download.getDownloadInfo().setCurrentSize(0);
         }
 
-        DownloadObserver observer = new DownloadObserver(download, handler, downloadInfoDao);
+        DownloadObserver observer = new DownloadObserver(download, handler, iDownload);
         callbackMap.put(download.getDownloadInfo().getServerUrl(), observer);
         HttpApi httpApi;
         if (downloadSet.contains(download)) {
@@ -108,7 +111,7 @@ public class RxDownLoad {
                 .subscribeOn(Schedulers.io())
                 .map((Function<ResponseBody, Object>) responseBody -> {
                             download.getDownloadInfo().setState(2);//下载中状态
-                            downloadInfoDao.insertOrUpdate(download.getDownloadInfo());
+                            iDownload.insertOrUpdate(download.getDownloadInfo());
                             //写入文件
                             ResponseUtils.get().download2LocalFile(responseBody, new File(download.getDownloadInfo().getLocalUrl()), download);
                             return download;
@@ -147,7 +150,7 @@ public class RxDownLoad {
         download.getCallback().onProgress(download.getDownloadInfo().getState(), download.getDownloadInfo().getCurrentSize(), download.getDownloadInfo().getTotalSize(), progress);//回调
 
         /*3.更新数据库*/
-        downloadInfoDao.insertOrUpdate(download.getDownloadInfo());
+        iDownload.insertOrUpdate(download.getDownloadInfo());
     }
 
     /**
@@ -173,7 +176,7 @@ public class RxDownLoad {
         downloadSet.remove(download);
 
         //移除数据
-        downloadInfoDao.delete(download.getDownloadInfo());
+        iDownload.delete(download.getDownloadInfo());
     }
 
     /**

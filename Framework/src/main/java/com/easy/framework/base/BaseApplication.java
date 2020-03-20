@@ -14,7 +14,6 @@ import com.easy.framework.manager.activity.ActivityManager;
 import com.easy.framework.module.AppModule;
 import com.easy.net.RetrofitConfig;
 import com.easy.net.retrofit.RetrofitUtils;
-import com.easy.store.base.EasyStore;
 import com.easy.utils.EasyUtils;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -55,11 +54,10 @@ public abstract class BaseApplication extends Application {
         RetrofitConfig.Builder builder = new RetrofitConfig.Builder(this);
         initBaseConfig(builder);
         initRetrofit(builder);
-        EasyStore.getInstance().init(this);
+
         //注册生命周期监听
         registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
         initLogger();
-
         initBugly();
         EasyUtils.init(this);
     }

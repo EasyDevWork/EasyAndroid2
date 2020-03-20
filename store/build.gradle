@@ -45,6 +45,8 @@ dependencies {
 
     implementation lib.fastjson
 
+    implementation project(':net')
+
     debugImplementation lib.objectbox_browser
     releaseImplementation lib.objectbox_android
 }

@@ -174,9 +174,33 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "6:9009237096823456125",
+      "lastPropertyId": "4:4764390312049679947",
+      "name": "BtcAccount",
+      "properties": [
+        {
+          "id": "1:3502593621854619554",
+          "name": "id"
+        },
+        {
+          "id": "2:3271156271617980672",
+          "name": "publicKey"
+        },
+        {
+          "id": "3:2381473700707085609",
+          "name": "privateKey"
+        },
+        {
+          "id": "4:4764390312049679947",
+          "name": "address"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "5:7660173877611154430",
+  "lastEntityId": "6:9009237096823456125",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

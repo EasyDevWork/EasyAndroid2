@@ -54,6 +54,7 @@ dependencies {
 //    api 'com.github.EasyDevWork:EasyAndroid2:1.0.3'
 //    implementation project(':aliplayer')
 
+    api project(':store')
     api(lib.qrcodereaderview) {
         transitive = true
         exclude group: 'com.google.zxing' //by group

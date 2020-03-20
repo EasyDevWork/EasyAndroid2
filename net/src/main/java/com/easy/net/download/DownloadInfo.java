@@ -1,24 +1,19 @@
-package com.easy.store.bean;
+package com.easy.net.download;
 
-import io.objectbox.annotation.Entity;
-import io.objectbox.annotation.Id;
-
-@Entity
-public class DownloadInfo {
-    @Id
-    private long id;
+public  class DownloadInfo {
+    private String tag;//下载标记
     private String localUrl;//本地存储地址
     private String serverUrl;//下载地址
     private long totalSize;//文件大
     private long currentSize;//当前大小
-    private int state= 0;//0:无状态 1:等待 2:下载中 3:暂停 4:错误 5:完成
+    private int state = 0;//0:无状态 1:等待 2:下载中 3:暂停 4:错误 5:完成
 
-    public long getId() {
-        return id;
+    public String getTag() {
+        return tag;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getLocalUrl() {
@@ -64,7 +59,6 @@ public class DownloadInfo {
     @Override
     public String toString() {
         return "DownloadInfo{" +
-                "id=" + id +
                 ", localUrl='" + localUrl + '\'' +
                 ", serverUrl='" + serverUrl + '\'' +
                 ", totalSize=" + totalSize +
