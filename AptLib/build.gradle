@@ -8,16 +8,15 @@ repositories {
     jcenter()
 }
 
-def config = rootProject.ext.android
 def lib = rootProject.ext.dependencies
 
 android {
-    compileSdkVersion config.compileSdkVersion
+    compileSdkVersion 29
     defaultConfig {
-        minSdkVersion config.minSdkVersion
-        targetSdkVersion config.targetSdkVersion
-        versionCode config.versionCode
-        versionName config.versionName
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName '0.0.9'
     }
 
     buildTypes {
@@ -36,5 +35,5 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation lib.androidx_appcompat
+    implementation 'androidx.appcompat:appcompat:1.1.0'
 }
