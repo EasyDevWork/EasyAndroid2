@@ -1,6 +1,7 @@
 package com.easy.common.Interceptor;
 
-import com.easy.framework.Http.IHeaderInterceptor;
+
+import com.easy.net.IHeaderInterceptor;
 
 import java.io.IOException;
 

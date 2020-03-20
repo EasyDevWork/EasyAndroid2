@@ -3,7 +3,7 @@ package com.easy.common.manager.protocol;
 import android.content.Context;
 import android.net.Uri;
 
-import com.easy.framework.utils.Utils;
+import com.easy.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

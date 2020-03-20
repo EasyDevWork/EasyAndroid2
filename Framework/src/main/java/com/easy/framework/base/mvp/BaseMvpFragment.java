@@ -7,7 +7,7 @@ import androidx.databinding.ViewDataBinding;
 
 import com.easy.apt.lib.InjectFragment;
 import com.easy.framework.base.BaseFragment;
-import com.easy.framework.rxlifecycle.FragmentEvent;
+import com.easy.net.event.FragmentEvent;
 
 import javax.inject.Inject;
 

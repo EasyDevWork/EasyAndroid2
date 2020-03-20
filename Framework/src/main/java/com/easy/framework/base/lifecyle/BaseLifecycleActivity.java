@@ -8,11 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.easy.framework.rxlifecycle.ActivityEvent;
-import com.easy.framework.rxlifecycle.LifecycleProvider;
-import com.easy.framework.rxlifecycle.LifecycleTransformer;
-import com.easy.framework.rxlifecycle.RxLifecycle;
-import com.easy.framework.rxlifecycle.RxLifecycleAndroid;
+import com.easy.net.event.ActivityEvent;
+import com.easy.net.rxlifecycle.LifecycleProvider;
+import com.easy.net.rxlifecycle.LifecycleTransformer;
+import com.easy.net.rxlifecycle.RxLifecycle;
+import com.easy.net.rxlifecycle.RxLifecycleAndroid;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;

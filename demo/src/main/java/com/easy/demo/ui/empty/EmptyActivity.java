@@ -5,7 +5,7 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.common.base.CommonActivity;
 import com.easy.demo.R;
 import com.easy.demo.databinding.EmptyBinding;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.net.rxlifecycle.ActivityEvent;
 
 @ActivityInject
 @Route(path = "/demo/EmptyActivity", name = "空页面")

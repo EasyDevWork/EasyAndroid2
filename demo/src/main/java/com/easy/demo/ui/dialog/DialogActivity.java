@@ -7,7 +7,7 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.common.base.CommonActivity;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestDialogBinding;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.net.rxlifecycle.ActivityEvent;
 import com.easy.framework.utils.ToastUtils;
 import com.lxj.xpopup.XPopup;
 

@@ -5,16 +5,14 @@ import android.view.View;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.CheckResult;
-import androidx.annotation.ContentView;
-import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import com.easy.framework.rxlifecycle.FragmentEvent;
-import com.easy.framework.rxlifecycle.LifecycleProvider;
-import com.easy.framework.rxlifecycle.LifecycleTransformer;
-import com.easy.framework.rxlifecycle.RxLifecycle;
-import com.easy.framework.rxlifecycle.RxLifecycleAndroid;
+import com.easy.net.event.FragmentEvent;
+import com.easy.net.rxlifecycle.LifecycleProvider;
+import com.easy.net.rxlifecycle.LifecycleTransformer;
+import com.easy.net.rxlifecycle.RxLifecycle;
+import com.easy.net.rxlifecycle.RxLifecycleAndroid;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;

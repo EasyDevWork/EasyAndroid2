@@ -9,8 +9,8 @@ import androidx.databinding.ViewDataBinding;
 
 import com.easy.common.view.TitleView;
 import com.easy.framework.base.mvp.BaseMvpActivity;
-import com.easy.framework.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.KeyBoardUtils;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.KeyBoardUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 

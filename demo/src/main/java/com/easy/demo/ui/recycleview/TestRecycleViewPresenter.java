@@ -2,7 +2,7 @@ package com.easy.demo.ui.recycleview;
 
 import com.easy.common.base.CommonPresenter;
 import com.easy.demo.bean.TestDo;
-import com.easy.framework.bean.Response;
+import com.easy.net.beans.Response;
 
 import java.util.ArrayList;
 import java.util.List;

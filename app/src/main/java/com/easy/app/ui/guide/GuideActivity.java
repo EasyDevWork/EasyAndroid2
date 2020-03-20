@@ -10,7 +10,7 @@ import com.easy.app.databinding.GuideBinding;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.apt.lib.SharePreference;
 import com.easy.common.base.CommonActivity;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.net.event.ActivityEvent;
 
 @ActivityInject
 @Route(path = "/app/GuideActivity", name = "引导页")

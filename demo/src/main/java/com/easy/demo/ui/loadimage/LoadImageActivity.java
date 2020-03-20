@@ -11,9 +11,9 @@ import com.easy.demo.databinding.TestLoadImageBinding;
 import com.easy.framework.loadimage.ImageLoadFactory;
 import com.easy.framework.loadimage.ImageLoaderOptions;
 import com.easy.framework.loadimage.ImageLoaderRequestListener;
-import com.easy.framework.loadimage.transform.BlurTransformation;
-import com.easy.framework.loadimage.transform.GlideRoundedCornersTransform;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.loadimage.transform.BlurTransformation;
+import com.easy.loadimage.transform.GlideRoundedCornersTransform;
+import com.easy.net.rxlifecycle.ActivityEvent;
 import com.easy.framework.utils.DimensUtils;
 
 @ActivityInject

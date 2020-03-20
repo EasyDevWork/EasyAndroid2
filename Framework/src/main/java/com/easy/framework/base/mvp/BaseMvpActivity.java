@@ -6,7 +6,7 @@ import androidx.databinding.ViewDataBinding;
 
 import com.easy.apt.lib.InjectActivity;
 import com.easy.framework.base.BaseActivity;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.net.event.ActivityEvent;
 
 import javax.inject.Inject;
 

@@ -7,7 +7,7 @@ import android.provider.Settings;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.net.rxlifecycle.ActivityEvent;
 import com.easy.framework.utils.ToastUtils;
 import com.easy.tv.R;
 import com.easy.tv.base.TvBaseActivity;

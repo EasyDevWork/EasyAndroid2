@@ -15,9 +15,9 @@ import com.easy.common.databinding.WebActivityBinding;
 import com.easy.common.ui.web.base.IWebCallback;
 import com.easy.common.ui.web.base.JsToAndroid;
 import com.easy.common.ui.web.fragment.WebViewFragment;
-import com.easy.framework.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.ToastUtils;
-import com.easy.framework.utils.Utils;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.ToastUtils;
+import com.easy.utils.Utils;
 
 @ActivityInject
 @Route(path = "/common/WebActivity", name = "web页面")

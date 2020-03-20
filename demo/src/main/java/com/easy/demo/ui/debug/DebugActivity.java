@@ -13,7 +13,7 @@ import com.easy.common.view.TitleView;
 import com.easy.demo.R;
 import com.easy.demo.base.DemoSharePreferences;
 import com.easy.demo.databinding.DebugBinding;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.net.rxlifecycle.ActivityEvent;
 import com.easy.framework.utils.DimensUtils;
 import com.easy.framework.utils.LanguageUtil;
 import com.easy.framework.utils.WebCacheUtils;

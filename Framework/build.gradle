@@ -57,13 +57,12 @@ dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
 
     api lib.androidx_appcompat
-    api lib.androidx_core
+
     api lib.core_ktx
     api lib.constraintlayout
     api lib.kotlin
     api lib.fastjson
-    api lib.glide
-    api lib.glide_transformations
+
     api lib.eventbus
     api lib.recyclerViewAdapter
     api lib.recyclerviewDecoration
@@ -83,11 +82,6 @@ dependencies {
     api lib.arouter_api
     annotationProcessor lib.arouter_compiler
 
-    api lib.okhttp3
-    api lib.okhttp3_logging
-    api lib.retrofit
-    api lib.retrofit_adapter_rxjava2
-    implementation lib.retrofit_converter_gson
 
     api lib.bugly_crashreport
     api lib.bugly_nativecrashreport
@@ -96,10 +90,13 @@ dependencies {
     debugImplementation lib.blockcanary_android
     releaseImplementation lib.blockcanary_no_op
 
-//    api project(':AptLib')
-    api 'com.github.EasyDevWork:EasyAndroid2:0.0.10'
-
+    api project(':AptLib')
     annotationProcessor project(':AptProcessor')
+
+    api project(':net')
+    api project(':loadimage')
     api project(':store')
+    api project(':widget')
+    api project(':utils')
 //    api project(':wechat')
 }

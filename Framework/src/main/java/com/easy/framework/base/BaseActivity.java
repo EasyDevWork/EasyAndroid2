@@ -11,8 +11,8 @@ import androidx.databinding.ViewDataBinding;
 import com.easy.framework.R;
 import com.easy.framework.base.lifecyle.BaseLifecycleActivity;
 import com.easy.framework.statusbar.StatusBarUtil;
-import com.easy.framework.swipeback.SwipeBackActivityHelper;
-import com.easy.framework.swipeback.SwipeBackLayout;
+import com.easy.widget.swipeback.SwipeBackActivityHelper;
+import com.easy.widget.swipeback.SwipeBackLayout;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 public abstract class BaseActivity<V extends ViewDataBinding> extends BaseLifecycleActivity {

@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.easy.common.base.CommonPresenter;
 import com.easy.framework.base.DataObservable;
 import com.easy.framework.base.DataObserver;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.net.event.ActivityEvent;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.LuminanceSource;

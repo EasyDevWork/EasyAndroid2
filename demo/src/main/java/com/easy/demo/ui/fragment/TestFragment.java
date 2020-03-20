@@ -13,7 +13,7 @@ import com.easy.apt.annotation.FragmentInject;
 import com.easy.common.base.CommonFragment;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestFragmentBinding;
-import com.easy.framework.rxlifecycle.FragmentEvent;
+import com.easy.net.rxlifecycle.FragmentEvent;
 
 @FragmentInject
 public class TestFragment extends CommonFragment<TestFragmentPresenter, TestFragmentBinding> implements TestFragmentView<FragmentEvent> {

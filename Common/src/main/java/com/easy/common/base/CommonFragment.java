@@ -5,7 +5,7 @@ import android.app.Activity;
 import androidx.databinding.ViewDataBinding;
 
 import com.easy.framework.base.mvp.BaseMvpFragment;
-import com.easy.framework.rxlifecycle.FragmentEvent;
+import com.easy.net.event.FragmentEvent;
 
 public abstract class CommonFragment<P extends CommonPresenter, V extends ViewDataBinding> extends BaseMvpFragment<P, V> implements CommonView<FragmentEvent> {
 

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.common.bean.CommonRespond;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.net.rxlifecycle.ActivityEvent;
 import com.easy.framework.utils.ToastUtils;
 import com.easy.libtv.SimpleOnItemListener;
 import com.easy.libtv.TvRecyclerView;

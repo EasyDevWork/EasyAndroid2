@@ -5,7 +5,7 @@ import com.easy.common.Interceptor.NetSwitchInterceptorImp;
 import com.easy.common.Interceptor.NetWorkInterceptorImp;
 import com.easy.common.base.CommonApplication;
 import com.easy.common.manager.protocol.WebProtocolManager;
-import com.easy.framework.Http.RetrofitConfig;
+import com.easy.net.RetrofitConfig;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -25,9 +25,9 @@ import com.easy.common.ui.web.base.JsToAndroid;
 import com.easy.common.ui.web.base.ScrollWebView;
 import com.easy.common.ui.web.base.WebChromeClientBase;
 import com.easy.common.ui.web.base.WebViewClientBase;
-import com.easy.framework.rxlifecycle.FragmentEvent;
-import com.easy.framework.utils.SystemUtils;
-import com.easy.framework.utils.Utils;
+import com.easy.net.event.FragmentEvent;
+import com.easy.utils.SystemUtils;
+import com.easy.utils.Utils;
 
 @FragmentInject
 public class WebViewFragment extends CommonFragment<WebViewPresenter, WebVewFragmentBinding> implements WebViewView<FragmentEvent>, View.OnTouchListener {

@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easy.common.R;
-import com.easy.framework.utils.Utils;
+import com.easy.utils.Utils;
 
 
 public class TitleView extends RelativeLayout {

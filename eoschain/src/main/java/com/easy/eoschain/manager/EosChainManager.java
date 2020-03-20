@@ -17,9 +17,9 @@ import com.easy.eoschain.encrypt.crypto.signature.PrivateKeySigning;
 import com.easy.eoschain.utils.EosUtils;
 import com.easy.framework.Http.RetrofitConfig;
 import com.easy.framework.Http.RxHttp;
-import com.easy.framework.Http.callback.HttpCallback;
-import com.easy.framework.Http.retrofit.RetrofitUtils;
-import com.easy.framework.rxlifecycle.LifecycleProvider;
+import com.easy.net.callback.HttpCallback;
+import com.easy.net.retrofit.RetrofitUtils;
+import com.easy.net.rxlifecycle.LifecycleProvider;
 import com.easy.framework.utils.Utils;
 
 import org.greenrobot.essentials.StringUtils;

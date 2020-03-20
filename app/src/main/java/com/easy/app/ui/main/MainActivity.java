@@ -10,10 +10,10 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.common.base.CommonActivity;
 import com.easy.common.bean.AppVersion;
 import com.easy.common.manager.AppUpdateManager;
-import com.easy.framework.bean.Response;
+import com.easy.net.beans.Response;
 import com.easy.framework.manager.AppQuitManager;
-import com.easy.framework.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.ToastUtils;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.ToastUtils;
 
 
 @ActivityInject
@@ -32,7 +32,7 @@ public class MainActivity extends CommonActivity<MainPresenter, MainBinding> imp
     @Override
     public void initView() {
         manager = new AppQuitManager();
-        closeSwipeBackLayout();
+        openSwipeBackLayout();
         presenter.requestPermission(getRxPermissions());
     }
 

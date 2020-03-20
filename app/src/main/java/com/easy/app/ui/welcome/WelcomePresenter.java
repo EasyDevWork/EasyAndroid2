@@ -3,7 +3,7 @@ package com.easy.app.ui.welcome;
 import com.easy.app.base.AppPresenter;
 import com.easy.framework.base.DataObservable;
 import com.easy.framework.base.DataObserver;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.net.event.ActivityEvent;
 
 import java.util.concurrent.TimeUnit;
 

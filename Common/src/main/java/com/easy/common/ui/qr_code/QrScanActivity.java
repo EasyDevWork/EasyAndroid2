@@ -12,9 +12,9 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.common.R;
 import com.easy.common.base.CommonActivity;
 import com.easy.common.databinding.QrScanBinding;
-import com.easy.framework.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.IntentUtils;
-import com.easy.framework.utils.ToastUtils;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.IntentUtils;
+import com.easy.utils.ToastUtils;
 
 @ActivityInject
 @Route(path = "/common/QrScanActivity", name = "二维码扫码")

@@ -1,8 +1,8 @@
 package com.easy.framework.base;
 
-import com.easy.framework.rxlifecycle.ActivityEvent;
-import com.easy.framework.rxlifecycle.FragmentEvent;
-import com.easy.framework.rxlifecycle.LifecycleProvider;
+import com.easy.net.event.ActivityEvent;
+import com.easy.net.event.FragmentEvent;
+import com.easy.net.rxlifecycle.LifecycleProvider;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;

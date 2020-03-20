@@ -5,20 +5,13 @@ import android.util.Log;
 
 import com.easy.app.base.AppPresenter;
 import com.easy.common.bean.AppVersion;
-import com.easy.framework.Http.RxDownLoad;
-import com.easy.framework.Http.RxHttp;
-import com.easy.framework.Http.callback.RHttpCallback;
-import com.easy.framework.Http.exception.ApiException;
-import com.easy.framework.Http.load.Download;
-import com.easy.framework.Http.load.DownloadCallback;
 import com.easy.framework.base.DataObservable;
 import com.easy.framework.base.DataObserver;
-import com.easy.framework.base.FileConstant;
-import com.easy.framework.bean.Response;
-import com.easy.framework.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.FileUtils;
-import com.easy.framework.utils.Utils;
-import com.easy.store.bean.DownloadInfo;
+import com.easy.net.RxHttp;
+import com.easy.net.beans.Response;
+import com.easy.net.callback.RHttpCallback;
+import com.easy.net.exception.ApiException;
+import com.easy.net.event.ActivityEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.TreeMap;

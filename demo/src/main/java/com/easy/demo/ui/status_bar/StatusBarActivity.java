@@ -7,7 +7,7 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.common.base.CommonActivity;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestStatusBarBinding;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.net.rxlifecycle.ActivityEvent;
 import com.easy.framework.statusbar.StatusBarUtil;
 
 @ActivityInject

@@ -7,13 +7,13 @@ import android.util.Log;
 import com.easy.common.BuildConfig;
 import com.easy.common.bean.AppVersion;
 import com.easy.common.dialog.AppUpdateDialog;
-import com.easy.framework.Http.RxDownLoad;
-import com.easy.framework.Http.load.Download;
-import com.easy.framework.Http.load.DownloadCallback;
-import com.easy.framework.base.FileConstant;
-import com.easy.framework.utils.FileUtils;
-import com.easy.framework.utils.SystemUtils;
-import com.easy.framework.utils.Utils;
+import com.easy.net.RxDownLoad;
+import com.easy.net.download.Download;
+import com.easy.net.download.DownloadCallback;
+import com.easy.utils.FileUtils;
+import com.easy.utils.SystemUtils;
+import com.easy.utils.Utils;
+import com.easy.utils.base.FileConstant;
 import com.easy.store.bean.DownloadInfo;
 
 public class AppUpdateManager {

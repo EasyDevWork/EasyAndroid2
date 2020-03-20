@@ -6,15 +6,14 @@ import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.easy.app.BuildConfig;
 import com.easy.app.R;
 import com.easy.app.base.AppSharePreferences;
 import com.easy.app.databinding.WelcomeBinding;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.apt.lib.SharePreference;
 import com.easy.common.base.CommonActivity;
-import com.easy.framework.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.ToastUtils;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.ToastUtils;
 
 @ActivityInject
 @Route(path = "/app/WelcomeActivity", name = "闪屏页")

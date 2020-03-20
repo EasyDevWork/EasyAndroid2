@@ -1,7 +1,7 @@
 package com.easy.common.ui.qr_code;
 
 import com.easy.common.base.CommonView;
-import com.easy.framework.rxlifecycle.LifecycleEvent;
+import com.easy.net.event.LifecycleEvent;
 
 public interface QrScanView<E extends LifecycleEvent> extends CommonView<E> {
 

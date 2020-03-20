@@ -7,7 +7,7 @@ import com.easy.common.ui.qr_code.qrcode.BarCodeCreate;
 import com.easy.common.ui.qr_code.qrcode.QRCodeCreate;
 import com.easy.framework.base.DataObservable;
 import com.easy.framework.base.DataObserver;
-import com.easy.framework.rxlifecycle.ActivityEvent;
+import com.easy.net.rxlifecycle.ActivityEvent;
 import com.easy.framework.utils.DimensUtils;
 import com.easy.store.dao.CacheDao;
 

@@ -1,6 +1,7 @@
 package com.easy.common.Interceptor;
 
-import com.easy.framework.Http.INetworkInterceptor;
+
+import com.easy.net.INetworkInterceptor;
 
 import java.io.IOException;
 

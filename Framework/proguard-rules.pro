@@ -89,7 +89,7 @@
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 -keep class android.support.**{*;}
--keep class com.easy.framework.bean.**{*;}
+-keep class com.easy.net.bean.**{*;}
 
 ####################友盟数据统计############
 -keep class com.umeng.** {*;}

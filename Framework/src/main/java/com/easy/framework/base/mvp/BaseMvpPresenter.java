@@ -3,7 +3,7 @@ package com.easy.framework.base.mvp;
 import android.content.Context;
 
 import com.easy.framework.base.BasePresenter;
-import com.easy.framework.rxlifecycle.LifecycleProvider;
+import com.easy.net.rxlifecycle.LifecycleProvider;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
