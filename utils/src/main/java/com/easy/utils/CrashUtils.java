@@ -140,9 +140,7 @@ public class CrashUtils {
         });
         try {
             if (submit.get()) return;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Log.e("CrashUtils", "write crash info to " + filePath + " failed!");

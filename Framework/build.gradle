@@ -82,6 +82,7 @@ dependencies {
     api lib.arouter_api
     annotationProcessor lib.arouter_compiler
 
+    api lib.logger
 
     api lib.bugly_crashreport
     api lib.bugly_nativecrashreport

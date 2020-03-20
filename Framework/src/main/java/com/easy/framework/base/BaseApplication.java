@@ -16,6 +16,7 @@ import com.easy.framework.manager.activity.ActivityManager;
 import com.easy.framework.module.AppModule;
 import com.easy.store.IProvider.IFrameWork2StoreProvider;
 import com.easy.utils.CrashUtils;
+import com.easy.utils.EasyUtils;
 import com.easy.utils.ToastUtils;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -52,7 +53,7 @@ public abstract class BaseApplication extends Application {
         initARouter();
         appcomponent = DaggerAppcomponent.builder().appModule(new AppModule(this)).build();
         appcomponent.inject(this);
-        ToastUtils.initToast(this);
+
         RetrofitConfig.Builder builder = new RetrofitConfig.Builder(this);
         initBaseConfig(builder);
         initRetrofit(builder);
@@ -60,8 +61,9 @@ public abstract class BaseApplication extends Application {
         //注册生命周期监听
         registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
         initLogger();
-        CrashUtils.init(this);
+
         initBugly();
+        EasyUtils.init(this);
     }
 
     private void initBugly() {

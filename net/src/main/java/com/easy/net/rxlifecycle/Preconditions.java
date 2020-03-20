@@ -1,6 +1,6 @@
 package com.easy.net.rxlifecycle;
 
-public final class Preconditions {
+public  class Preconditions {
     public static <T> T checkNotNull(T value, String message) {
         if (value == null) {
             throw new NullPointerException(message);
