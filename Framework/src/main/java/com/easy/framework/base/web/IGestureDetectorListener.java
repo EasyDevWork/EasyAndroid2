@@ -1,4 +1,4 @@
-package com.easy.common.ui.web.base;
+package com.easy.framework.base.web;
 
 import android.view.GestureDetector;
 import android.view.MotionEvent;

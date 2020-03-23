@@ -43,10 +43,6 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         viewBind.lottie.playAnimation();
     }
 
-    public void testWeb(View view) {
-        ARouter.getInstance().build("/demo/TestWebActivity").navigation();
-    }
-
     public void goStatusBar(View view) {
         ARouter.getInstance().build("/demo/StatusBarActivity").navigation();
     }
@@ -98,8 +94,9 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         ARouter.getInstance().build("/demo/TestRecycleViewActivity").navigation();
     }
 
-    public void goWeb(View view) {
-        ARouter.getInstance().build("/common/WebActivity").withString("url", "http://www.baidu.com").navigation();
+    public void testWeb(View view) {
+        ARouter.getInstance().build("/demo/TestWebActivity")
+                .withString("url", "file:///android_asset/testjs.html").navigation();
     }
 
     public void createBarCode(View view) {

@@ -1,6 +1,6 @@
 package com.easy.app.base;
 
-import com.easy.common.manager.protocol.WebProtocolManager;
+import com.easy.framework.base.web.protocol.WebProtocolManager;
 import com.easy.framework.base.BaseApplication;
 import com.easy.net.RetrofitConfig;
 

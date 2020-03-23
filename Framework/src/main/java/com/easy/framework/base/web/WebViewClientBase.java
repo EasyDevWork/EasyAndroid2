@@ -1,4 +1,4 @@
-package com.easy.common.ui.web.base;
+package com.easy.framework.base.web;
 
 import android.graphics.Bitmap;
 import android.net.http.SslError;
@@ -8,15 +8,15 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.easy.common.ui.web.fragment.WebViewFragment;
+import com.easy.framework.base.WebBaseFragment;
 
 import java.lang.ref.WeakReference;
 
 public class WebViewClientBase extends WebViewClient {
 
-    WeakReference<WebViewFragment> webViewFragment;
+    WeakReference<WebBaseFragment> webViewFragment;
 
-    public WebViewClientBase(WebViewFragment webViewFragment) {
+    public WebViewClientBase(WebBaseFragment webViewFragment) {
         this.webViewFragment = new WeakReference<>(webViewFragment);
     }
 

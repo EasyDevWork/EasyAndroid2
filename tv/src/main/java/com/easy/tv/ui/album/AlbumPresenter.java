@@ -2,18 +2,17 @@ package com.easy.tv.ui.album;
 
 import android.content.Context;
 
-import com.easy.common.base.CommonPresenter;
-import com.easy.common.bean.CommonRespond;
-import com.easy.framework.utils.DimensUtils;
-import com.easy.tv.R;
+import com.easy.tv.base.CommonRespond;
+import com.easy.framework.base.BasePresenter;
 import com.easy.tv.bean.Album;
+import com.easy.utils.DimensUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class AlbumPresenter extends CommonPresenter<AlbumView> {
+public class AlbumPresenter extends BasePresenter<AlbumView> {
     @Inject
     public AlbumPresenter() {
 

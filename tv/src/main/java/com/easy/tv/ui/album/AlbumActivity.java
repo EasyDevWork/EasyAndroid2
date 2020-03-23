@@ -2,19 +2,18 @@ package com.easy.tv.ui.album;
 
 import android.view.View;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.common.bean.CommonRespond;
-import com.easy.net.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.ToastUtils;
+import com.easy.tv.base.CommonRespond;
 import com.easy.libtv.SimpleOnItemListener;
 import com.easy.libtv.TvRecyclerView;
+import com.easy.net.event.ActivityEvent;
 import com.easy.tv.R;
 import com.easy.tv.base.TvBaseActivity;
 import com.easy.tv.bean.Album;
 import com.easy.tv.databinding.AlbumBinding;
+import com.easy.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,20 +1,26 @@
-package com.easy.common.ui.web.activity;
+package com.easy.framework.base;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.webkit.ValueCallback;
 
 import androidx.core.content.FileProvider;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.easy.common.dialog.WebViewMenuDialog;
-import com.easy.common.event.ChooseFileEvent;
-import com.easy.framework.base.BaseActivity;
-import com.easy.framework.base.BasePresenter;
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.easy.framework.even.ChooseFileEvent;
+import com.easy.widget.WebViewMenuDialog;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -23,17 +29,39 @@ import java.io.File;
 
 public abstract class WebBaseActivity<P extends BasePresenter, V extends ViewDataBinding> extends BaseActivity<P, V> {
 
+    //处理WebView上传视频/图片/拍照功能
     private ValueCallback<Uri> uploadMessage;
     private ValueCallback<Uri[]> uploadMessageAboveL;
-    public final static int FILE = 10000;
+    public final static int FILE = 10000;//修改要对应改com.easy.widget.WebViewMenuDialog这个类
     public final static int CAPTURE = 10001;
     public final static int VIDEO = 10002;
     public static String PHOTO_PATH, VIDEO_PATH;
     private Uri photoUri, videoUri;
 
+    @Autowired(name = "url")
+    String url;
+    @Autowired(name = "title")
+    public String title;//有值显示，没值显示webview里的标题
+    @Autowired(name = "openGesture")
+    boolean openGesture = false;
+    @Autowired(name = "htmlData")
+    String htmlData;
+
+    public WebBaseFragment webViewFragment;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ARouter.getInstance().inject(this);
+        initPath();
+        initFragment();
+    }
+    public abstract int getWebViewContainId();
+
+    /**
+     * 初始化图片/视频上传路径
+     */
+    private void initPath() {
         //path为保存图片的路径，执行完拍照以后能保存到指定的路径下
 //        PATH = MeetOneFileUtils.getSaveFilePath(PrivateConstant.FileInfo.TYPE_PHOTO, this) + "capture.jpg";
         PHOTO_PATH = getCacheDir() + "/capture.jpg";
@@ -53,24 +81,68 @@ public abstract class WebBaseActivity<P extends BasePresenter, V extends ViewDat
         }
     }
 
+    private void initFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putString(WebBaseFragment.KEY_RUL, url);
+        bundle.putString(WebBaseFragment.HTML_DATA, htmlData);
+        bundle.putBoolean(WebBaseFragment.OPEN_GESTURE, openGesture);
+        webViewFragment = (WebBaseFragment) Fragment.instantiate(this, WebBaseFragment.class.getName(), bundle);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(getWebViewContainId(), webViewFragment);
+        fragmentTransaction.commit();
+    }
+
+    @SuppressLint("CheckResult")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void openChooserList(ChooseFileEvent chooseFileEvent) {
         uploadMessage = chooseFileEvent.getUploadMessage();
         uploadMessageAboveL = chooseFileEvent.getUploadMessageAboveL();
         Bundle bundle = new Bundle();
         bundle.putBoolean("isFeedBack", chooseFileEvent.isFeedBack());
-        WebViewMenuDialog.newInstance(bundle).show(getSupportFragmentManager(), null);
+        WebViewMenuDialog.newInstance(bundle, new WebViewMenuDialog.Callback() {
+            @Override
+            public void cancelDialog() {
+
+            }
+
+            @Override
+            public void choosePhotograph() {
+                RxPermissions permissions = new RxPermissions(WebBaseActivity.this);
+                permissions.request(Manifest.permission.CAMERA).subscribe(granted -> {
+                    if (granted) {
+                        //步骤四：调取系统拍照
+                        Intent intent = new Intent();
+                        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                        startActivityForResult(intent, CAPTURE);
+                    }
+                });
+            }
+
+            @Override
+            public void chooseVideo() {
+                RxPermissions permissions = new RxPermissions(WebBaseActivity.this);
+                permissions.request(Manifest.permission.CAMERA).subscribe(granted -> {
+                    if (granted) {
+                        //步骤四：调取系统拍照
+                        Intent intent = new Intent();
+                        intent.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
+                        startActivityForResult(intent, VIDEO);
+                    }
+                });
+            }
+        }).show(getSupportFragmentManager(), null);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (null == uploadMessage && null == uploadMessageAboveL) return;
         try {
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode == FILE) {
-                    Uri result = data == null || resultCode != RESULT_OK ? null : data.getData();
+                    Uri result = data == null ? null : data.getData();
                     if (uploadMessageAboveL != null) {
                         onActivityResultAboveL(requestCode, resultCode, data);
                     } else if (uploadMessage != null) {
@@ -81,7 +153,7 @@ public abstract class WebBaseActivity<P extends BasePresenter, V extends ViewDat
                     if (uploadMessageAboveL != null) {
                         uploadMessageAboveL.onReceiveValue(new Uri[]{photoUri});
                         uploadMessageAboveL = null;
-                    } else if (uploadMessage != null) {
+                    } else {
                         uploadMessage.onReceiveValue(photoUri);
                         uploadMessage = null;
                     }
@@ -89,7 +161,7 @@ public abstract class WebBaseActivity<P extends BasePresenter, V extends ViewDat
                     if (uploadMessageAboveL != null) {
                         uploadMessageAboveL.onReceiveValue(new Uri[]{videoUri});
                         uploadMessageAboveL = null;
-                    } else if (uploadMessage != null) {
+                    } else {
                         uploadMessage.onReceiveValue(videoUri);
                         uploadMessage = null;
                     }

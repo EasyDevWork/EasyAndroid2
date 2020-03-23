@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <application>
         <activity android:name=".ui.qr_code.QrScanActivity" />
-        <activity android:name=".ui.web.activity.WebActivity" />
     </application>
 
 </manifest>

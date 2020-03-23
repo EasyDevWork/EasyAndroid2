@@ -1,4 +1,4 @@
-package com.easy.common.event;
+package com.easy.framework.even;
 
 import android.net.Uri;
 import android.webkit.ValueCallback;

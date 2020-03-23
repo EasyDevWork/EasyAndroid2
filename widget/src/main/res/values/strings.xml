@@ -1,4 +1,8 @@
 <resources>
     <string name="no_date">暂无数据</string>
     <string name="install_app">Install</string>
+    <string name="upload_mode">请选择上传方式</string>
+    <string name="album">相册</string>
+    <string name="video">录像</string>
+    <string name="photograph">拍照</string>
 </resources>

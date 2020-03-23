@@ -1,22 +1,24 @@
 package com.easy.tv.base;
 
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 
 import androidx.databinding.ViewDataBinding;
 
-import com.easy.common.base.CommonActivity;
-import com.easy.common.base.CommonPresenter;
+import com.easy.framework.base.BaseActivity;
+import com.easy.framework.base.BasePresenter;
 import com.easy.tv.R;
 import com.owen.focus.FocusBorder;
 
-public abstract class TvBaseActivity<P extends CommonPresenter, V extends ViewDataBinding> extends CommonActivity<P, V> {
+public abstract class TvBaseActivity<P extends BasePresenter, V extends ViewDataBinding> extends BaseActivity<P, V> {
     public FocusBorder mFocusBorder;
 
     @Override
-    public void setOrientation() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    public void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        super.onCreate(savedInstanceState);
     }
 
     @Override

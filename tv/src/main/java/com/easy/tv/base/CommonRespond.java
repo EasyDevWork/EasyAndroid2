@@ -1,4 +1,4 @@
-package com.easy.common.bean;
+package com.easy.tv.base;
 
 import java.io.Serializable;
 

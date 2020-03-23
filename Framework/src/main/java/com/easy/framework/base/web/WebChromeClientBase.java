@@ -1,21 +1,21 @@
-package com.easy.common.ui.web.base;
+package com.easy.framework.base.web;
 
 import android.net.Uri;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.easy.common.event.ChooseFileEvent;
-import com.easy.common.ui.web.fragment.WebViewFragment;
+import com.easy.framework.base.WebBaseFragment;
+import com.easy.framework.even.ChooseFileEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 
 public class WebChromeClientBase extends WebChromeClient {
-    WeakReference<WebViewFragment> fragment;
+    WeakReference<WebBaseFragment> fragment;
 
-    public WebChromeClientBase(WebViewFragment fragment) {
+    public WebChromeClientBase(WebBaseFragment fragment) {
         this.fragment = new WeakReference<>(fragment);
     }
 

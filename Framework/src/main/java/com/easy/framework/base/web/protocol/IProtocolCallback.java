@@ -1,4 +1,4 @@
-package com.easy.common.manager.protocol;
+package com.easy.framework.base.web.protocol;
 
 import android.content.Context;
 import android.net.Uri;

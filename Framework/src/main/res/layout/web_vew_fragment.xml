@@ -20,7 +20,7 @@
                 android:max="100"
                 android:progressDrawable="@drawable/web_view_progressbar" />
 
-            <com.easy.common.ui.web.base.ScrollWebView
+            <com.easy.widget.ScrollWebView
                 android:id="@+id/webView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
