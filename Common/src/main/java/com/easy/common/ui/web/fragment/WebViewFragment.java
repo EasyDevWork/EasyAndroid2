@@ -15,7 +15,6 @@ import android.webkit.WebView;
 
 import com.easy.apt.annotation.FragmentInject;
 import com.easy.common.R;
-import com.easy.common.base.CommonFragment;
 import com.easy.common.databinding.WebVewFragmentBinding;
 import com.easy.common.manager.protocol.IProtocolCallback;
 import com.easy.common.manager.protocol.WebProtocolManager;
@@ -25,12 +24,13 @@ import com.easy.common.ui.web.base.JsToAndroid;
 import com.easy.common.ui.web.base.ScrollWebView;
 import com.easy.common.ui.web.base.WebChromeClientBase;
 import com.easy.common.ui.web.base.WebViewClientBase;
+import com.easy.framework.base.BaseFragment;
 import com.easy.net.event.FragmentEvent;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.Utils;
 
 @FragmentInject
-public class WebViewFragment extends CommonFragment<WebViewPresenter, WebVewFragmentBinding> implements WebViewView<FragmentEvent>, View.OnTouchListener {
+public class WebViewFragment extends BaseFragment<WebViewPresenter, WebVewFragmentBinding> implements WebViewView<FragmentEvent>, View.OnTouchListener {
 
     public static final String KEY_RUL = "URL";
     public static final String HTML_DATA = "htmlData";

@@ -4,16 +4,16 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.common.base.CommonActivity;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestDialogBinding;
-import com.easy.net.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.ToastUtils;
+import com.easy.framework.base.BaseActivity;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.ToastUtils;
 import com.lxj.xpopup.XPopup;
 
 @ActivityInject
 @Route(path = "/demo/DialogActivity", name = "对话框测试")
-public class DialogActivity extends CommonActivity<DialogPresenter, TestDialogBinding> implements DialogView<ActivityEvent> {
+public class DialogActivity extends BaseActivity<DialogPresenter, TestDialogBinding> implements DialogView<ActivityEvent> {
     XPopup.Builder builder;
 
     @Override

@@ -1,12 +1,9 @@
-package com.easy.common.view;
+package com.easy.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
-
-import com.easy.common.R;
-
 
 /**
  * 列表头部

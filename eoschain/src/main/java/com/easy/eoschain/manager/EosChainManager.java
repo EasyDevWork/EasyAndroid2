@@ -15,19 +15,16 @@ import com.easy.eoschain.bean.response.TransactionCommitted;
 import com.easy.eoschain.encrypt.abi.ActionAbi;
 import com.easy.eoschain.encrypt.crypto.signature.PrivateKeySigning;
 import com.easy.eoschain.utils.EosUtils;
-import com.easy.framework.Http.RetrofitConfig;
-import com.easy.framework.Http.RxHttp;
+
+import com.easy.net.RetrofitConfig;
+import com.easy.net.RxHttp;
 import com.easy.net.callback.HttpCallback;
 import com.easy.net.retrofit.RetrofitUtils;
 import com.easy.net.rxlifecycle.LifecycleProvider;
-import com.easy.framework.utils.Utils;
-
-import org.greenrobot.essentials.StringUtils;
+import com.easy.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -35,7 +32,6 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class EosChainManager {

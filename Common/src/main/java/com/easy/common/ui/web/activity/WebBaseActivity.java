@@ -11,17 +11,17 @@ import android.webkit.ValueCallback;
 import androidx.core.content.FileProvider;
 import androidx.databinding.ViewDataBinding;
 
-import com.easy.common.base.CommonActivity;
-import com.easy.common.base.CommonPresenter;
 import com.easy.common.dialog.WebViewMenuDialog;
 import com.easy.common.event.ChooseFileEvent;
+import com.easy.framework.base.BaseActivity;
+import com.easy.framework.base.BasePresenter;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 
-public abstract class WebBaseActivity<P extends CommonPresenter, V extends ViewDataBinding> extends CommonActivity<P, V> {
+public abstract class WebBaseActivity<P extends BasePresenter, V extends ViewDataBinding> extends BaseActivity<P, V> {
 
     private ValueCallback<Uri> uploadMessage;
     private ValueCallback<Uri[]> uploadMessageAboveL;

@@ -2,9 +2,9 @@ package com.easy.demo.ui.debug;
 
 import android.graphics.Bitmap;
 
-import com.easy.common.base.CommonView;
-import com.easy.net.rxlifecycle.LifecycleEvent;
+import com.easy.framework.base.BaseView;
+import com.easy.net.event.LifecycleEvent;
 
-public interface DebugView<E extends LifecycleEvent> extends CommonView<E> {
+public interface DebugView<E extends LifecycleEvent> extends BaseView<E> {
     void qRCodeCallback(Bitmap bitmap);
 }

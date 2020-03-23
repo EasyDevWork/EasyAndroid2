@@ -5,7 +5,6 @@ import android.view.View;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.fastjson.JSON;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.common.base.CommonActivity;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestEosChainBinding;
 import com.easy.eoschain.action.args.AuthArg;
@@ -17,10 +16,9 @@ import com.easy.eoschain.bean.ProducerInfo;
 import com.easy.eoschain.bean.response.ChainResponse;
 import com.easy.eoschain.bean.response.TransactionCommitted;
 import com.easy.eoschain.manager.EosChainManager;
+import com.easy.framework.base.BaseActivity;
 import com.easy.net.beans.Response;
-import com.easy.net.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.ClipBoardUtils;
-import com.easy.framework.utils.Utils;
+import com.easy.net.event.ActivityEvent;
 import com.easy.store.bean.EosAccount;
 import com.easy.store.bean.eoschain.Eos2UsdtPrice;
 import com.easy.store.bean.eoschain.KeysBean;
@@ -30,13 +28,15 @@ import com.easy.store.bean.eoschain.RexBean;
 import com.easy.store.bean.eoschain.RexPrice;
 import com.easy.store.bean.eoschain.StakeBean;
 import com.easy.store.bean.eoschain.Token;
+import com.easy.utils.ClipBoardUtils;
+import com.easy.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ActivityInject
 @Route(path = "/demo/EosChainActivity", name = "eos相关")
-public class EosChainActivity extends CommonActivity<EosChainPresenter, TestEosChainBinding> implements EosChainView<ActivityEvent> {
+public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosChainBinding> implements EosChainView<ActivityEvent> {
 
     private String domain = "https://mainnet.meet.one";
     private String netType = "EOS";

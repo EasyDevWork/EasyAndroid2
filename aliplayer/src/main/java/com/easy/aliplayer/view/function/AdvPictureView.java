@@ -13,8 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easy.aliplayer.R;
-import com.easy.framework.loadimage.ImageLoadFactory;
-import com.easy.framework.loadimage.ImageLoaderOptions;
+import com.easy.loadimage.ImageLoadFactory;
+import com.easy.loadimage.ImageLoaderOptions;
 
 import java.lang.ref.WeakReference;
 

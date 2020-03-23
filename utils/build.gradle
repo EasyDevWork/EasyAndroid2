@@ -44,6 +44,16 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api lib.logger
     implementation lib.fastjson
     implementation lib.androidx_core
+
+    //bugly
+    implementation lib.bugly_crashreport
+    implementation lib.bugly_nativecrashreport
+
+    debugImplementation lib.blockcanary_android
+    releaseImplementation lib.blockcanary_no_op
+
+    debugImplementation lib.leakcanary_android
 }

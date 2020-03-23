@@ -3,7 +3,7 @@ package com.easy.eoschain.action.args;
 import com.easy.eoschain.action.Writer;
 import com.easy.eoschain.encrypt.abi.ActionAbi;
 import com.easy.eoschain.utils.EosUtils;
-import com.easy.framework.utils.Utils;
+import com.easy.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

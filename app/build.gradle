@@ -116,5 +116,5 @@ dependencies {
 //    annotationProcessor project(':AptProcessor')
     annotationProcessor 'com.github.EasyDevWork:EasyAndroid2:0.0.11'
 //    implementation project(':tv')
-    implementation project(':Common')
+    api project(':demo')
 }

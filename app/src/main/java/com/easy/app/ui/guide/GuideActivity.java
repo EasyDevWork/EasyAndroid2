@@ -9,12 +9,12 @@ import com.easy.app.base.AppSharePreferences;
 import com.easy.app.databinding.GuideBinding;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.apt.lib.SharePreference;
-import com.easy.common.base.CommonActivity;
+import com.easy.framework.base.BaseActivity;
 import com.easy.net.event.ActivityEvent;
 
 @ActivityInject
 @Route(path = "/app/GuideActivity", name = "引导页")
-public class GuideActivity extends CommonActivity<GuidePresenter, GuideBinding> implements GuideView<ActivityEvent> {
+public class GuideActivity extends BaseActivity<GuidePresenter, GuideBinding> implements GuideView<ActivityEvent> {
 
     @Override
     public int getLayoutId() {

@@ -6,18 +6,19 @@ import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.callback.NavCallback;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.easy.app.BuildConfig;
 import com.easy.app.R;
 import com.easy.app.base.AppSharePreferences;
 import com.easy.app.databinding.WelcomeBinding;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.apt.lib.SharePreference;
-import com.easy.common.base.CommonActivity;
+import com.easy.framework.base.BaseActivity;
 import com.easy.net.event.ActivityEvent;
 import com.easy.utils.ToastUtils;
 
 @ActivityInject
 @Route(path = "/app/WelcomeActivity", name = "闪屏页")
-public class WelcomeActivity extends CommonActivity<WelcomePresenter, WelcomeBinding> implements WelcomeView<ActivityEvent> {
+public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeBinding> implements WelcomeView<ActivityEvent> {
 
     @Override
     public int getLayoutId() {
@@ -28,11 +29,11 @@ public class WelcomeActivity extends CommonActivity<WelcomePresenter, WelcomeBin
     public void initView() {
         setBackground(R.color.colorPrimary);
         closeSwipeBackLayout();
-//        if (BuildConfig.DEBUG) {
-//            ARouter.getInstance().build("/demo/DebugActivity").navigation();
-//        } else {
+        if (BuildConfig.DEBUG) {
+            ARouter.getInstance().build("/demo/DebugActivity").navigation();
+        } else {
             presenter.countDown(1);
-//        }
+        }
     }
 
     @Override

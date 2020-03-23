@@ -1,7 +1,7 @@
 package com.easy.demo.ui.dialog;
 
-import com.easy.common.base.CommonView;
-import com.easy.net.rxlifecycle.LifecycleEvent;
+import com.easy.framework.base.BaseView;
+import com.easy.net.event.LifecycleEvent;
 
-public interface DialogView<E extends LifecycleEvent> extends CommonView<E> {
+public interface DialogView<E extends LifecycleEvent> extends BaseView<E> {
 }

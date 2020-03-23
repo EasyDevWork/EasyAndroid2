@@ -7,7 +7,7 @@ import android.provider.MediaStore;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.easy.common.base.CommonPresenter;
+import com.easy.framework.base.BasePresenter;
 import com.easy.framework.base.DataObservable;
 import com.easy.framework.base.DataObserver;
 import com.easy.net.event.ActivityEvent;
@@ -28,7 +28,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
-public class QrScanPresenter extends CommonPresenter<QrScanView> {
+public class QrScanPresenter extends BasePresenter<QrScanView> {
     @Inject
     public QrScanPresenter() {
     }

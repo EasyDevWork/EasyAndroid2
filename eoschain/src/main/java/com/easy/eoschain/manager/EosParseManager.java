@@ -3,7 +3,6 @@ package com.easy.eoschain.manager;
 
 import com.alibaba.fastjson.JSONObject;
 import com.easy.eoschain.utils.EosUtils;
-import com.easy.framework.utils.Utils;
 import com.easy.store.bean.EosAccount;
 import com.easy.store.bean.eoschain.CpuLimit;
 import com.easy.store.bean.eoschain.KeysBean;
@@ -21,6 +20,7 @@ import com.easy.store.bean.eoschain.Token;
 import com.easy.store.bean.eoschain.TokenPrice;
 import com.easy.store.bean.eoschain.TokenShow;
 import com.easy.store.bean.eoschain.TotalResources;
+import com.easy.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -8,17 +8,17 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.common.base.CommonActivity;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestWechatBinding;
-import com.easy.net.rxlifecycle.ActivityEvent;
+import com.easy.framework.base.BaseActivity;
+import com.easy.net.event.ActivityEvent;
 import com.easy.wechat.base.Constants;
 import com.easy.wechat.manager.WeChatManager;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 
 @ActivityInject
 @Route(path = "/demo/WeChatActivity", name = "微信测试")
-public class WeChatActivity extends CommonActivity<WeChatPresenter, TestWechatBinding> implements WeChatView<ActivityEvent> {
+public class WeChatActivity extends BaseActivity<WeChatPresenter, TestWechatBinding> implements WeChatView<ActivityEvent> {
     private static final int THUMB_SIZE = 150;
 
     @Override

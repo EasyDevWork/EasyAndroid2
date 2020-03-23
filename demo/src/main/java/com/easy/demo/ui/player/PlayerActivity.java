@@ -6,24 +6,23 @@ import android.view.KeyEvent;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.aliyun.player.IPlayer;
-import com.easy.aliplayer.base.LockPortrait;
 import com.easy.aliplayer.base.ThemeEnum;
 import com.easy.aliplayer.listener.OnChangeQualityListener;
 import com.easy.aliplayer.listener.OnScreenBrightnessListener;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.common.base.CommonActivity;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestPlayerBinding;
-import com.easy.net.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.BrightnessUtils;
+import com.easy.framework.base.BaseActivity;
 import com.easy.framework.watch.NetStatusWatch;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.BrightnessUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @ActivityInject
 @Route(path = "/demo/PlayerActivity", name = "播放器页面")
-public class PlayerActivity extends CommonActivity<PlayerPresenter, TestPlayerBinding> implements PlayerView<ActivityEvent> {
+public class PlayerActivity extends BaseActivity<PlayerPresenter, TestPlayerBinding> implements PlayerView<ActivityEvent> {
     private final static String TAG = "PlayerActivity";
 
     @Override

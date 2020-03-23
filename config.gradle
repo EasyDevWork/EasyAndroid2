@@ -67,7 +67,7 @@ ext {
             "bugly_crashreport"       : "com.tencent.bugly:crashreport:latest.release",
             "bugly_nativecrashreport" : "com.tencent.bugly:nativecrashreport:latest.release",
 
-            "leakcanary_android"      : "com.squareup.leakcanary:leakcanary-android:2.0",
+            "leakcanary_android"      : "com.squareup.leakcanary:leakcanary-android:2.2",
             "blockcanary_android"     : "com.github.markzhai:blockcanary-android:1.5.0",
             "blockcanary_no_op"       : "com.github.markzhai:blockcanary-no-op:1.5.0",
 

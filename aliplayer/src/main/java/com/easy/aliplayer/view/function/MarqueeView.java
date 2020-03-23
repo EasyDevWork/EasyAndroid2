@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.easy.aliplayer.R;
 import com.easy.aliplayer.base.ScreenMode;
-import com.easy.framework.utils.DimensUtils;
+import com.easy.utils.DimensUtils;
 
 import java.lang.ref.WeakReference;
 

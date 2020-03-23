@@ -4,7 +4,7 @@ import android.Manifest;
 import android.util.Log;
 
 import com.easy.app.base.AppPresenter;
-import com.easy.common.bean.AppVersion;
+import com.easy.framework.bean.AppVersion;
 import com.easy.framework.base.DataObservable;
 import com.easy.framework.base.DataObserver;
 import com.easy.net.RxHttp;

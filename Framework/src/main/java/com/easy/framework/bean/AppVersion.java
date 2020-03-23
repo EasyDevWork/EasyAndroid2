@@ -1,4 +1,4 @@
-package com.easy.common.bean;
+package com.easy.framework.bean;
 
 public class AppVersion {
     private String type;

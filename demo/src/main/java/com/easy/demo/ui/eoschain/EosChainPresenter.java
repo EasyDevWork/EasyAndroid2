@@ -2,7 +2,6 @@ package com.easy.demo.ui.eoschain;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.easy.common.base.CommonPresenter;
 import com.easy.eoschain.action.args.AuthArg;
 import com.easy.eoschain.action.args.BuyRamArg;
 import com.easy.eoschain.action.args.BuyRexArg;
@@ -25,13 +24,12 @@ import com.easy.eoschain.bean.ProducerInfo;
 import com.easy.eoschain.manager.EosChainManager;
 import com.easy.eoschain.manager.EosParseManager;
 import com.easy.eoschain.utils.EosUtils;
+import com.easy.framework.base.BasePresenter;
+import com.easy.net.beans.Response;
 import com.easy.net.callback.HttpCallback;
 import com.easy.net.callback.RHttpCallback;
 import com.easy.net.exception.ApiException;
-import com.easy.net.beans.Response;
 import com.easy.net.rxlifecycle.LifecycleProvider;
-import com.easy.framework.utils.ToastUtils;
-import com.easy.framework.utils.Utils;
 import com.easy.store.bean.EosAccount;
 import com.easy.store.bean.eoschain.Eos2UsdtPrice;
 import com.easy.store.bean.eoschain.RamPrice;
@@ -43,6 +41,8 @@ import com.easy.store.bean.eoschain.Token;
 import com.easy.store.bean.eoschain.TokenPrice;
 import com.easy.store.bean.eoschain.TokenShow;
 import com.easy.store.dao.EosAccountDao;
+import com.easy.utils.ToastUtils;
+import com.easy.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +55,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class EosChainPresenter extends CommonPresenter<EosChainView> {
+public class EosChainPresenter extends BasePresenter<EosChainView> {
     @Inject
     public Lazy<EosAccountDao> eosAccountDao;
 

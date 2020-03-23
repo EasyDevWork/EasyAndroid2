@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 
 import com.easy.aliplayer.R;
-import com.easy.framework.utils.DimensUtils;
+import com.easy.utils.DimensUtils;
 
 /**
  * 用于展示视频广告的seekBar

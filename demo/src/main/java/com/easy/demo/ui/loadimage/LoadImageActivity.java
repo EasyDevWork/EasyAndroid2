@@ -5,20 +5,20 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.common.base.CommonActivity;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestLoadImageBinding;
-import com.easy.framework.loadimage.ImageLoadFactory;
-import com.easy.framework.loadimage.ImageLoaderOptions;
-import com.easy.framework.loadimage.ImageLoaderRequestListener;
+import com.easy.framework.base.BaseActivity;
+import com.easy.loadimage.ImageLoadFactory;
+import com.easy.loadimage.ImageLoaderOptions;
+import com.easy.loadimage.ImageLoaderRequestListener;
 import com.easy.loadimage.transform.BlurTransformation;
 import com.easy.loadimage.transform.GlideRoundedCornersTransform;
-import com.easy.net.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.DimensUtils;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.DimensUtils;
 
 @ActivityInject
 @Route(path = "/demo/LoadImageActivity", name = "图片加载")
-public class LoadImageActivity extends CommonActivity<LoadImagePresenter, TestLoadImageBinding> implements LoadImageView<ActivityEvent> {
+public class LoadImageActivity extends BaseActivity<LoadImagePresenter, TestLoadImageBinding> implements LoadImageView<ActivityEvent> {
 
     public String imageUrl = "http://img2.imgtn.bdimg.com/it/u=3137891603,2800618441&fm=26&gp=0.jpg";
 

@@ -75,7 +75,7 @@ dependencies {
     api lib.recyclerViewAdapter
     api lib.recyclerviewDecoration
     api lib.recyclerview
-    api lib.dialog_xpopup
+
     implementation lib.multidex
 
     api lib.rxjava
@@ -90,17 +90,10 @@ dependencies {
     api lib.arouter_api
     annotationProcessor lib.arouter_compiler
 
-    api lib.logger
-
-    api lib.bugly_crashreport
-    api lib.bugly_nativecrashreport
-
-    debugImplementation lib.leakcanary_android
-    debugImplementation lib.blockcanary_android
-    releaseImplementation lib.blockcanary_no_op
 
     api project(':AptLib')
     api project(':net')
+    api project(':store')
     api project(':loadimage')
     api project(':widget')
     api project(':utils')

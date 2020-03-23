@@ -15,7 +15,7 @@ import com.easy.eoschain.encrypt.info.Info;
 import com.easy.eoschain.encrypt.signing.PushTransaction;
 import com.easy.eoschain.encrypt.write.TransactionWriter;
 import com.easy.eoschain.manager.EosPrivateKey;
-import com.easy.framework.utils.Utils;
+import com.easy.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;

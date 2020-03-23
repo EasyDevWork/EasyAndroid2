@@ -9,10 +9,13 @@ include ':net'
 include ':widget'
 include ':utils'
 
+include ':demo'
+
 //include ':AptProcessor'
-//include ':aliplayer', ':eoschain', ':btcchain', ':tv', ':libtv',':demo','lottie'
+    include(':wechat')
+    project(':wechat').projectDir = new File('./wechat')
+include ':aliplayer', ':eoschain', ':btcchain', ':tv', ':libtv',':demo','lottie'
 //
 //if (wechat_aar.equals("0")) {
-//    include(':wechat')
-//    project(':wechat').projectDir = new File('./wechat')
+
 //}

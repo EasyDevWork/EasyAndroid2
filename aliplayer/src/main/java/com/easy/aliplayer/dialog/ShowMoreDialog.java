@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 
 import com.easy.aliplayer.R;
 import com.easy.aliplayer.base.ScreenMode;
-import com.easy.framework.utils.DimensUtils;
+import com.easy.utils.DimensUtils;
 
 public class ShowMoreDialog extends Dialog {
     private final static int ANIMATION_DURATION = 200;

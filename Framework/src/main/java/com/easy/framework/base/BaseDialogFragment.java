@@ -10,18 +10,30 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import com.easy.apt.lib.InjectFragment;
 import com.easy.framework.base.lifecyle.BaseLifecycleDialogFragment;
+import com.easy.net.event.FragmentEvent;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-public abstract class BaseDialogFragment<V extends ViewDataBinding> extends BaseLifecycleDialogFragment {
+import javax.inject.Inject;
+
+public abstract class BaseDialogFragment<P extends BasePresenter,V extends ViewDataBinding> extends BaseLifecycleDialogFragment implements BaseView<FragmentEvent> {
     public V viewBind;
     public Context context;
     View rootView;
+    @Inject
+    protected P presenter;
+    BasePopupView loadingDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getContext();
+        InjectFragment.inject(this);
+        if (presenter != null)
+            presenter.attachView(this, context);
     }
 
     @Override
@@ -40,5 +52,30 @@ public abstract class BaseDialogFragment<V extends ViewDataBinding> extends Base
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.setLogging(true);
         return rxPermissions;
+    }
+
+    private void hideLoading() {
+        if (loadingDialog != null && loadingDialog.isShow()) {
+            loadingDialog.dismiss();
+        }
+    }
+
+    private void showLoading() {
+        if (loadingDialog == null) {
+            loadingDialog = new XPopup.Builder(context).autoDismiss(false)
+                    .asLoading("正在加载中")
+                    .show();
+        } else if (!loadingDialog.isShow()) {
+            loadingDialog.show();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        hideLoading();
+        super.onDestroy();
+        if (presenter != null) {
+            presenter.detachView();
+        }
     }
 }

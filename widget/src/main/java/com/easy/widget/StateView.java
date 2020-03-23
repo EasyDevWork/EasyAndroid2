@@ -1,4 +1,4 @@
-package com.easy.common.view;
+package com.easy.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.easy.common.R;
-
 
 /**
  * 无数据页面/错误页面

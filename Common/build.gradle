@@ -58,5 +58,4 @@ dependencies {
     api project(':Framework')
 //    api 'com.github.EasyDevWork:EasyAndroid2:1.0.4'
 //    implementation project(':aliplayer')
-    api project(':store')
 }

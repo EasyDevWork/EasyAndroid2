@@ -8,19 +8,19 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.apt.lib.SharePreference;
-import com.easy.common.base.CommonActivity;
-import com.easy.common.view.TitleView;
 import com.easy.demo.R;
 import com.easy.demo.base.DemoSharePreferences;
 import com.easy.demo.databinding.DebugBinding;
-import com.easy.net.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.DimensUtils;
-import com.easy.framework.utils.LanguageUtil;
-import com.easy.framework.utils.WebCacheUtils;
+import com.easy.framework.base.BaseActivity;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.DimensUtils;
+import com.easy.utils.LanguageUtil;
+import com.easy.utils.WebCacheUtils;
+import com.easy.widget.TitleView;
 
 @ActivityInject
 @Route(path = "/demo/DebugActivity", name = "测试页面")
-public class DebugActivity extends CommonActivity<DebugPresenter, DebugBinding> implements DebugView<ActivityEvent> {
+public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> implements DebugView<ActivityEvent> {
 
     int i = 0;
     TitleView titleView;

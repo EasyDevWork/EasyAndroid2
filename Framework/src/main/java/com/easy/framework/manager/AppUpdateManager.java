@@ -1,12 +1,11 @@
-package com.easy.common.manager;
+package com.easy.framework.manager;
 
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.easy.common.BuildConfig;
-import com.easy.common.bean.AppVersion;
-import com.easy.common.dialog.AppUpdateDialog;
+import com.easy.framework.BuildConfig;
+import com.easy.framework.bean.AppVersion;
 import com.easy.net.RxDownLoad;
 import com.easy.net.download.Download;
 import com.easy.net.download.DownloadCallback;
@@ -15,6 +14,7 @@ import com.easy.utils.FileUtils;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.Utils;
 import com.easy.utils.base.FileConstant;
+import com.easy.widget.AppUpdateDialog;
 
 public class AppUpdateManager {
 

@@ -2,14 +2,14 @@ package com.easy.demo.ui.debug;
 
 import android.graphics.Bitmap;
 
-import com.easy.common.base.CommonPresenter;
 import com.easy.common.ui.qr_code.qrcode.BarCodeCreate;
 import com.easy.common.ui.qr_code.qrcode.QRCodeCreate;
+import com.easy.framework.base.BasePresenter;
 import com.easy.framework.base.DataObservable;
 import com.easy.framework.base.DataObserver;
-import com.easy.net.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.DimensUtils;
+import com.easy.net.event.ActivityEvent;
 import com.easy.store.dao.CacheDao;
+import com.easy.utils.DimensUtils;
 
 import javax.inject.Inject;
 
@@ -17,7 +17,7 @@ import dagger.Lazy;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 
-public class DebugPresenter extends CommonPresenter<DebugView> {
+public class DebugPresenter extends BasePresenter<DebugView> {
     @Inject
     public DebugPresenter() {
 

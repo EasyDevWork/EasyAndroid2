@@ -26,7 +26,7 @@ import com.easy.aliplayer.base.ThemeEnum;
 import com.easy.aliplayer.quality.QualityItem;
 import com.easy.aliplayer.interfaces.ITheme;
 import com.easy.aliplayer.interfaces.ViewAction;
-import com.easy.framework.utils.DateUtils;
+import com.easy.utils.DateUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

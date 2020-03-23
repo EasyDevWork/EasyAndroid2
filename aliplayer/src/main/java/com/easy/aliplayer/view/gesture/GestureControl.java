@@ -7,8 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-import com.easy.framework.utils.DimensUtils;
-
+import com.easy.utils.DimensUtils;
 
 /**
  * 播放控手势控制。通过对view的GestureDetector事件做监听，判断水平滑动还是垂直滑动。

@@ -1,16 +1,13 @@
-package com.easy.common.view;
+package com.easy.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.easy.common.R;
-import com.easy.utils.Utils;
-
 
 public class TitleView extends RelativeLayout {
 
@@ -52,7 +49,7 @@ public class TitleView extends RelativeLayout {
     }
 
     public TextView setTitleText(String titleText) {
-        if (Utils.isNotEmpty(titleText)) {
+        if (!TextUtils.isEmpty(titleText)) {
             if (tvTitle != null) {
                 tvTitle.setText(titleText);
                 tvTitle.setVisibility(VISIBLE);

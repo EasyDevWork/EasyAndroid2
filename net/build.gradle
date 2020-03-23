@@ -47,14 +47,15 @@ dependencies {
     implementation lib.androidx_appcompat
     implementation lib.fastjson
 
+    implementation lib.rxandroid
     api lib.okhttp3
-    implementation lib.okhttp3_logging
-    implementation lib.retrofit
-    implementation lib.retrofit_adapter_rxjava2
-    implementation lib.retrofit_converter_gson
+    api lib.okhttp3_logging
+    api lib.retrofit
+    api lib.retrofit_adapter_rxjava2
+    api lib.retrofit_converter_gson
 
     implementation lib.objectbox_rxjava
-    implementation lib.rxandroid
+
 
     implementation lib.logger
 }

@@ -1,6 +1,5 @@
-package com.easy.common.dialog;
+package com.easy.widget;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
@@ -16,11 +15,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDialog;
 
-import com.easy.common.R;
 
-
-public class AppUpdateDialog extends Dialog {
+public class AppUpdateDialog extends AppCompatDialog {
     View.OnClickListener listener;
     TextView tvContent, tvCommit, tvTitle, tvProgress;
     LinearLayout llProgress;

@@ -3,24 +3,20 @@ package com.easy.framework.base;
 import android.app.Application;
 import android.content.Context;
 
-import androidx.annotation.Nullable;
 import androidx.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.framework.BuildConfig;
 import com.easy.framework.component.Appcomponent;
 import com.easy.framework.component.DaggerAppcomponent;
-import com.easy.framework.manager.activity.ActivityManager;
+import com.easy.framework.manager.ActivityManager;
 import com.easy.framework.module.AppModule;
+import com.easy.net.EasyNet;
 import com.easy.net.RetrofitConfig;
-import com.easy.net.retrofit.RetrofitUtils;
+import com.easy.store.base.EasyStore;
 import com.easy.utils.EasyUtils;
-import com.github.moduth.blockcanary.BlockCanary;
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
-import com.orhanobut.logger.PrettyFormatStrategy;
-import com.tencent.bugly.crashreport.CrashReport;
+
 
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
@@ -35,57 +31,68 @@ public abstract class BaseApplication extends Application {
     Disposable lazyInit;
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         application = this;
+        Logger.d("Application start 初始化");
         initImportant();
+        Logger.d("Application initImportant 初始化完成");
         initOnMainThread();
+        Logger.d("Application initOnMainThread 初始化完成");
         lazyInit();
+        Logger.d("Application  end 初始化");
+    }
+
+    protected abstract void initBaseConfig(RetrofitConfig.Builder builder);
+
+    /**
+     * app上其他初始化---线程上执行
+     */
+    public abstract void initOnThread();
+
+    /**
+     * app上其他初始化--主线程
+     */
+    public abstract void initOnMainThread();
+
+    public static BaseApplication getInst() {
+        return application;
+    }
+
+    public Appcomponent getAppComponent() {
+        return appcomponent;
     }
 
     /**
      * 初始化重要
      */
     private void initImportant() {
+        //路由初始化--用于页面跳转
         initARouter();
+
+        //Dagger初始化--用于注入对象
         appcomponent = DaggerAppcomponent.builder().appModule(new AppModule(this)).build();
         appcomponent.inject(this);
 
+        //存储数据初始化--用户数据库，文件，SharePreference
+        EasyStore.getInstance().init(this);
+
+        //Retrofit初始化--用于接口请求，数据下载
         RetrofitConfig.Builder builder = new RetrofitConfig.Builder(this);
         initBaseConfig(builder);
-        initRetrofit(builder);
+        EasyNet.init(builder, EasyStore.getInstance().getDownloadDao());
+
+        //工具初始化--用于吐司，奔溃信息
+        EasyUtils.init(this);
 
         //注册生命周期监听
         registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
-        initLogger();
-        initBugly();
-        EasyUtils.init(this);
-    }
-
-    private void initBugly() {
-        CrashReport.initCrashReport(this);
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
-
-    private void initLogger() {
-        FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
-                .showThreadInfo(true)  // (Optional) Whether to show thread info or not. Default true
-                .methodCount(2)         // (Optional) How many method line to show. Default 2
-                .methodOffset(5)        // (Optional) Hides internal method calls up to offset. Default 5
-                // ( .logStrategy(customLog) // (Optional) Changes the log strategy to print out. Default LogCat
-                .tag("MyLog")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
-                .build();
-        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
-            @Override
-            public boolean isLoggable(int priority, @Nullable String tag) {
-                return BuildConfig.DEBUG;
-            }
-        });
     }
 
     private void initARouter() {
@@ -97,24 +104,9 @@ public abstract class BaseApplication extends Application {
         ARouter.init(this); // 尽可能早，推荐在Application中初始化
     }
 
-    public void initRetrofit(RetrofitConfig.Builder builder) {
-        RetrofitUtils.get().initRetrofit(builder.build());
-    }
-
-    protected abstract void initBaseConfig(RetrofitConfig.Builder builder);
-
-    public static BaseApplication getInst() {
-        return application;
-    }
-
-    public Appcomponent getAppComponent() {
-        return appcomponent;
-    }
-
     private void lazyInit() {
         Single.create((SingleOnSubscribe<String>) emitter -> {
             initOnThread();
-            initDebug();
             emitter.onSuccess("success");
         }).subscribeOn(Schedulers.io())
                 .subscribe(new SingleObserver<String>() {
@@ -125,6 +117,7 @@ public abstract class BaseApplication extends Application {
 
                     @Override
                     public void onSuccess(String s) {
+                        Logger.d("Application lazyInit 初始化完成");
                         if (lazyInit != null) {
                             lazyInit.dispose();
                         }
@@ -138,33 +131,4 @@ public abstract class BaseApplication extends Application {
                     }
                 });
     }
-
-    public void initDebug() {
-        initStetho();
-        initBlockCanary();
-        initStrictMode();
-    }
-
-    private void initStetho() {
-//        Stetho.initializeWithDefaults(this);
-    }
-
-    private void initBlockCanary() {
-        BlockCanary.install(application.getApplicationContext(), new BlockCanaryConfig(this)).start();
-    }
-
-    private void initStrictMode() {
-//        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
-//        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
-    }
-
-    /**
-     * app上其他初始化---线程上执行
-     */
-    public abstract void initOnThread();
-
-    /**
-     * app上其他初始化--主线程
-     */
-    public abstract void initOnMainThread();
 }

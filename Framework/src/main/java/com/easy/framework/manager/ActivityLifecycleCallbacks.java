@@ -1,4 +1,4 @@
-package com.easy.framework.manager.activity;
+package com.easy.framework.manager;
 
 import android.app.Activity;
 import android.app.Application;
@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.easy.framework.even.ActivityWakeUpEvent;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -21,7 +22,7 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
     private int paused;
     private int started;
     private int stopped;
-    public boolean isForeground = true;//是否在前台；
+    private boolean isForeground = true;//是否在前台；
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
@@ -41,7 +42,7 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
             isForeground = true;
             EventBus.getDefault().post(new ActivityWakeUpEvent());
         }
-        Log.d("MyLog", "CurrentActivity=>" + activity.getClass().getSimpleName());
+        Logger.d("CurrentActivity=>" + activity.getClass().getSimpleName());
     }
 
     @Override

@@ -1,9 +1,10 @@
 package com.easy.framework.base;
 
+import com.easy.net.event.LifecycleEvent;
 import com.easy.net.rxlifecycle.LifecycleProvider;
 import com.easy.net.rxlifecycle.LifecycleTransformer;
 
-public interface BaseView<E> {
+public interface BaseView<E extends LifecycleEvent> {
 
     <T> LifecycleTransformer<T> bindToLifecycle(E event);
 

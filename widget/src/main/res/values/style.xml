@@ -6,4 +6,8 @@
         <item name="shadow_right">@drawable/shadow_right</item>
         <item name="shadow_bottom">@drawable/shadow_bottom</item>
     </style>
+    <style name="dialogBottomAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_bottom_popup_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_bottom_popup_out</item>
+    </style>
 </resources>

@@ -1,9 +1,9 @@
 package com.easy.common.ui.qr_code;
 
-import com.easy.common.base.CommonView;
+import com.easy.framework.base.BaseView;
 import com.easy.net.event.LifecycleEvent;
 
-public interface QrScanView<E extends LifecycleEvent> extends CommonView<E> {
+public interface QrScanView<E extends LifecycleEvent> extends BaseView<E> {
 
     void permissionCallback(Boolean granted,int type,Throwable e);
 

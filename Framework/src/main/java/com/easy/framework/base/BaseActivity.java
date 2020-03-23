@@ -1,44 +1,65 @@
 package com.easy.framework.base;
 
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import com.easy.apt.lib.InjectActivity;
 import com.easy.framework.R;
 import com.easy.framework.base.lifecyle.BaseLifecycleActivity;
 import com.easy.framework.statusbar.StatusBarUtil;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.KeyBoardUtils;
+import com.easy.widget.TitleView;
 import com.easy.widget.swipeback.SwipeBackActivityHelper;
 import com.easy.widget.swipeback.SwipeBackLayout;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-public abstract class BaseActivity<V extends ViewDataBinding> extends BaseLifecycleActivity {
-    public Context context;
-    public V viewBind;
-    public boolean supportMvp;//是否支持MVP
+import javax.inject.Inject;
 
+public abstract class BaseActivity<P extends BasePresenter, V extends ViewDataBinding> extends BaseLifecycleActivity implements BaseView<ActivityEvent> {
+
+    public V viewBind;
+    @Inject
+    public P presenter;
+    public Context context;
+    //右滑退出
     public SwipeBackActivityHelper mHelper;
     public SwipeBackLayout mSwipeBackLayout;
+    BasePopupView loadingDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setOrientation();
         super.onCreate(savedInstanceState);
         context = this;
         viewBind = DataBindingUtil.setContentView(this, getLayoutId());
         initStateBar();
         setBackground(R.color.color_ffffff);
         initSwipeBackLayout();
-        if (!supportMvp) {
-            initView();
+        InjectActivity.inject(this);
+        if (presenter != null) {
+            presenter.attachView(this, context);
+        }
+        initView();
+    }
+
+    @Override
+    public void onDestroy() {
+        hideLoading();
+        super.onDestroy();
+        if (presenter != null) {
+            presenter.detachView();
         }
     }
-    public void setOrientation() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-    }
+
     public void setBackground(int id) {
         View rootView = findViewById(android.R.id.content);
         if (rootView != null) {
@@ -55,6 +76,22 @@ public abstract class BaseActivity<V extends ViewDataBinding> extends BaseLifecy
     public abstract int getLayoutId();
 
     public abstract void initView();
+
+    public TitleView addTitleView() {
+        ViewGroup rootView = findViewById(android.R.id.content);
+        if (rootView != null && rootView.getChildCount() > 0) {
+            View view = rootView.getChildAt(0);
+            if (view instanceof LinearLayout) {
+                LinearLayout linearLayout = (LinearLayout) view;
+                TitleView titleView = new TitleView(this);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                linearLayout.addView(titleView, 0, layoutParams);
+                titleView.setLeftClickListener(v -> finish());
+                return titleView;
+            }
+        }
+        return null;
+    }
 
     /**
      * 初始化左滑关闭
@@ -86,6 +123,22 @@ public abstract class BaseActivity<V extends ViewDataBinding> extends BaseLifecy
         }
     }
 
+    public void hideLoading() {
+        if (loadingDialog != null && loadingDialog.isShow()) {
+            loadingDialog.dismiss();
+        }
+    }
+
+    public void showLoading() {
+        if (loadingDialog == null) {
+            loadingDialog = new XPopup.Builder(this).autoDismiss(false)
+                    .asLoading("正在加载中")
+                    .show();
+        } else if (!loadingDialog.isShow()) {
+            loadingDialog.show();
+        }
+    }
+
     /**
      * 设置自定义状态颜色
      */
@@ -99,5 +152,22 @@ public abstract class BaseActivity<V extends ViewDataBinding> extends BaseLifecy
         } else {
             StatusBarUtil.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary));
         }
+    }
+
+    /**
+     * 点击空白地方隐藏键盘
+     *
+     * @param ev
+     * @return
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (MotionEvent.ACTION_DOWN == ev.getAction()) {
+            View view = getCurrentFocus();
+            if (view != null) {
+                KeyBoardUtils.hideKeyboard(ev, view, getApplicationContext());//调用方法判断是否需要隐藏键盘
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

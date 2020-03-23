@@ -10,15 +10,15 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.common.R;
-import com.easy.common.base.CommonActivity;
 import com.easy.common.databinding.QrScanBinding;
+import com.easy.framework.base.BaseActivity;
 import com.easy.net.event.ActivityEvent;
 import com.easy.utils.IntentUtils;
 import com.easy.utils.ToastUtils;
 
 @ActivityInject
 @Route(path = "/common/QrScanActivity", name = "二维码扫码")
-public class QrScanActivity extends CommonActivity<QrScanPresenter, QrScanBinding> implements QrScanView<ActivityEvent>, QRCodeReaderView.OnQRCodeReadListener {
+public class QrScanActivity extends BaseActivity<QrScanPresenter, QrScanBinding> implements QrScanView<ActivityEvent>, QRCodeReaderView.OnQRCodeReadListener {
 
     private boolean hasPermission;
     Vibrator vibrator;

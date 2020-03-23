@@ -3,7 +3,7 @@ package com.easy.aliplayer.view.gesturedialog;
 import android.app.Activity;
 
 import com.easy.aliplayer.R;
-import com.easy.framework.utils.DateUtils;
+import com.easy.utils.DateUtils;
 
 /**
  * 手势滑动的seek提示框。

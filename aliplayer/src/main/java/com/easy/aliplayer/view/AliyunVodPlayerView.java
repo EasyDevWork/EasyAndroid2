@@ -64,14 +64,14 @@ import com.easy.aliplayer.view.function.ShowMoreView;
 import com.easy.aliplayer.view.function.SpeedView;
 import com.easy.aliplayer.view.function.ThumbnailView;
 import com.easy.aliplayer.view.tipsview.TipsView;
-import com.easy.framework.utils.DateUtils;
-import com.easy.framework.utils.DeviceUtils;
-import com.easy.framework.utils.DimensUtils;
-import com.easy.framework.utils.NetUtils;
-import com.easy.framework.utils.ToastUtils;
-import com.easy.framework.utils.VolumeUtils;
 import com.easy.framework.watch.NetStatusWatch;
 import com.easy.framework.watch.ScreenOrientationWatch;
+import com.easy.utils.DateUtils;
+import com.easy.utils.DeviceUtils;
+import com.easy.utils.DimensUtils;
+import com.easy.utils.NetUtils;
+import com.easy.utils.ToastUtils;
+import com.easy.utils.VolumeUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -1275,9 +1275,9 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
                 if (lockPortrait == LockPortrait.FIX_NONE) {
                     //不是固定竖屏播放。
                     if (isReverse) {
-                        ((Activity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+                        ((Activity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
                     } else {
-                        ((Activity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                        ((Activity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
                     }
                     //SCREEN_ORIENTATION_LANDSCAPE只能固定一个横屏方向
                 } else {

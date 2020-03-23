@@ -1,7 +1,7 @@
 package com.easy.demo.ui.recycleview;
 
-import com.easy.common.base.CommonPresenter;
 import com.easy.demo.bean.TestDo;
+import com.easy.framework.base.BasePresenter;
 import com.easy.net.beans.Response;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class TestRecycleViewPresenter extends CommonPresenter<TestRecycleView> {
+public class TestRecycleViewPresenter extends BasePresenter<TestRecycleView> {
 
     int size = 10;//一次加载条数
 

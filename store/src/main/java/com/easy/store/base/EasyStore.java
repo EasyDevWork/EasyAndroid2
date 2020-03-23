@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.easy.store.BuildConfig;
 import com.easy.store.bean.MyObjectBox;
+import com.easy.store.dao.DownloadInfoDao;
 
 import io.objectbox.BoxStore;
 import io.objectbox.android.AndroidObjectBrowser;
@@ -32,5 +33,9 @@ public class EasyStore {
 
     public BoxStore getBoxStore() {
         return boxStore;
+    }
+
+    public DownloadInfoDao getDownloadDao() {
+        return new DownloadInfoDao();
     }
 }

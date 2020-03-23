@@ -1,10 +1,10 @@
 package com.easy.demo.ui.fragment;
 
-import com.easy.common.base.CommonPresenter;
+import com.easy.framework.base.BasePresenter;
 
 import javax.inject.Inject;
 
-public class TestFragmentPresenter extends CommonPresenter<TestFragmentView> {
+public class TestFragmentPresenter extends BasePresenter<TestFragmentView> {
 
 
     @Inject

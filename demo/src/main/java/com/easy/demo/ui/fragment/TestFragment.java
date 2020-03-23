@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 
 import com.easy.apt.annotation.FragmentInject;
-import com.easy.common.base.CommonFragment;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestFragmentBinding;
-import com.easy.net.rxlifecycle.FragmentEvent;
+import com.easy.framework.base.BaseFragment;
+import com.easy.net.event.FragmentEvent;
 
 @FragmentInject
-public class TestFragment extends CommonFragment<TestFragmentPresenter, TestFragmentBinding> implements TestFragmentView<FragmentEvent> {
+public class TestFragment extends BaseFragment<TestFragmentPresenter, TestFragmentBinding> implements TestFragmentView<FragmentEvent> {
 
     String type;
 

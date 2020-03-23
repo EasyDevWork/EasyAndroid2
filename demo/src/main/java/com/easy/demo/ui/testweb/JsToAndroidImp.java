@@ -5,7 +5,7 @@ import android.webkit.JavascriptInterface;
 
 import com.easy.common.manager.protocol.IProtocolCallback;
 import com.easy.common.ui.web.base.JsToAndroid;
-import com.easy.framework.utils.ToastUtils;
+import com.easy.utils.ToastUtils;
 
 public class JsToAndroidImp extends JsToAndroid {
 

@@ -1,11 +1,10 @@
 package com.easy.demo.ui.status_bar;
 
-import com.easy.common.base.CommonPresenter;
-import com.easy.demo.ui.empty.EmptyView;
+import com.easy.framework.base.BasePresenter;
 
 import javax.inject.Inject;
 
-public class StatusBarPresenter extends CommonPresenter<StatusBarView> {
+public class StatusBarPresenter extends BasePresenter<StatusBarView> {
     @Inject
     public StatusBarPresenter() {
 

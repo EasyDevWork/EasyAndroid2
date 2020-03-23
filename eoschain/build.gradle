@@ -50,7 +50,7 @@ dependencies {
     annotationProcessor lib.arouter_compiler
 //    annotationProcessor project(':AptProcessor')
     annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
-    implementation project(':Framework')
+    api project(':Framework')
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.31'
     implementation 'org.bitcoinj:bitcoinj-core:0.15'

@@ -1,10 +1,10 @@
 package com.easy.common.ui.web.fragment;
 
-import com.easy.common.base.CommonPresenter;
+import com.easy.framework.base.BasePresenter;
 
 import javax.inject.Inject;
 
-public class WebViewPresenter extends CommonPresenter<WebViewView> {
+public class WebViewPresenter extends BasePresenter<WebViewView> {
     @Inject
     public WebViewPresenter() {
     }

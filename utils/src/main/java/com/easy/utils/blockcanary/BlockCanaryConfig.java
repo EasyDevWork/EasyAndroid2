@@ -1,26 +1,26 @@
-package com.easy.framework.base;
+package com.easy.utils.blockcanary;
 
-import android.app.Application;
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import com.easy.framework.BuildConfig;
+import com.easy.utils.BuildConfig;
 import com.github.moduth.blockcanary.BlockCanaryContext;
 
 public class BlockCanaryConfig extends BlockCanaryContext {
 
-    Application application;
+    Context context;
 
-    public BlockCanaryConfig(Application application) {
-        this.application = application;
+    public BlockCanaryConfig(Context context) {
+        this.context = context;
     }
 
     @Override
     public String provideQualifier() {
         String qualifier = "";
         try {
-            PackageInfo info = application.getPackageManager().getPackageInfo(application.getPackageName(), 0);
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             qualifier += info.versionCode + "_" + info.versionName + "_YYB";
         } catch (PackageManager.NameNotFoundException e) {
             Log.e("BlockCanaryConfig", "provideQualifier exception", e);

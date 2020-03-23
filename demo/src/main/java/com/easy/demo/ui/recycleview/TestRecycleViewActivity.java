@@ -7,18 +7,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.common.base.CommonActivity;
-import com.easy.common.view.FootView;
-import com.easy.common.view.HeadView;
-import com.easy.common.view.StateView;
 import com.easy.demo.R;
 import com.easy.demo.bean.TestDo;
 import com.easy.demo.databinding.TestRecycleViewBinding;
+import com.easy.framework.base.BaseActivity;
 import com.easy.net.beans.Response;
-import com.easy.net.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.DimensUtils;
-import com.easy.framework.utils.ToastUtils;
-import com.easy.framework.utils.Utils;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.DimensUtils;
+import com.easy.utils.ToastUtils;
+import com.easy.utils.Utils;
+import com.easy.widget.FootView;
+import com.easy.widget.HeadView;
+import com.easy.widget.StateView;
 import com.gavin.com.library.StickyDecoration;
 import com.gavin.com.library.listener.GroupListener;
 
@@ -27,7 +27,7 @@ import java.util.List;
 
 @ActivityInject
 @Route(path = "/demo/TestRecycleViewActivity", name = "RecycleView测试")
-public class TestRecycleViewActivity extends CommonActivity<TestRecycleViewPresenter, TestRecycleViewBinding> implements TestRecycleView<ActivityEvent> {
+public class TestRecycleViewActivity extends BaseActivity<TestRecycleViewPresenter, TestRecycleViewBinding> implements TestRecycleView<ActivityEvent> {
 //    TestRecycleViewAdapter adapter;
     TestRecycleViewMultipleAdapter adapter;
     StateView emptyView;

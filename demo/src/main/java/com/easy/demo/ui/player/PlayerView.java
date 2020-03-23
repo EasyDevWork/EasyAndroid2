@@ -1,7 +1,8 @@
 package com.easy.demo.ui.player;
 
-import com.easy.common.base.CommonView;
-import com.easy.net.rxlifecycle.LifecycleEvent;
 
-public interface PlayerView<E extends LifecycleEvent> extends CommonView<E> {
+import com.easy.framework.base.BaseView;
+import com.easy.net.event.LifecycleEvent;
+
+public interface PlayerView<E extends LifecycleEvent> extends BaseView<E> {
 }

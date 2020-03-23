@@ -4,15 +4,15 @@ import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.common.base.CommonActivity;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestStatusBarBinding;
-import com.easy.net.rxlifecycle.ActivityEvent;
+import com.easy.framework.base.BaseActivity;
 import com.easy.framework.statusbar.StatusBarUtil;
+import com.easy.net.event.ActivityEvent;
 
 @ActivityInject
 @Route(path = "/demo/StatusBarActivity", name = "状态栏页面")
-public class StatusBarActivity extends CommonActivity<StatusBarPresenter, TestStatusBarBinding> implements StatusBarView<ActivityEvent> {
+public class StatusBarActivity extends BaseActivity<StatusBarPresenter, TestStatusBarBinding> implements StatusBarView<ActivityEvent> {
 
     int i = 0;
 

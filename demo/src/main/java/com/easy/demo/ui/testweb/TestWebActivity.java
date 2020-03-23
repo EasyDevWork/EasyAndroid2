@@ -16,9 +16,9 @@ import com.easy.common.ui.web.base.JsToAndroid;
 import com.easy.common.ui.web.fragment.WebViewFragment;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestWebBinding;
-import com.easy.net.rxlifecycle.ActivityEvent;
-import com.easy.framework.utils.SystemUtils;
-import com.easy.framework.utils.Utils;
+import com.easy.net.event.ActivityEvent;
+import com.easy.utils.SystemUtils;
+import com.easy.utils.Utils;
 
 @ActivityInject
 @Route(path = "/demo/TestWebActivity", name = "测试web")

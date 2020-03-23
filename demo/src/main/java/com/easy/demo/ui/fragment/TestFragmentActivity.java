@@ -6,17 +6,17 @@ import androidx.fragment.app.Fragment;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.common.base.CommonActivity;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestFragmentActivityBinding;
-import com.easy.net.rxlifecycle.ActivityEvent;
+import com.easy.framework.base.BaseActivity;
+import com.easy.net.event.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ActivityInject
 @Route(path = "/demo/TestFragmentActivity", name = "测试fragment的页面")
-public class TestFragmentActivity extends CommonActivity<TestFragmentActivityPresenter, TestFragmentActivityBinding> implements TestFragmentActivityView<ActivityEvent> {
+public class TestFragmentActivity extends BaseActivity<TestFragmentActivityPresenter, TestFragmentActivityBinding> implements TestFragmentActivityView<ActivityEvent> {
 
     @Override
     public int getLayoutId() {

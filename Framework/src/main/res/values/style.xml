@@ -17,9 +17,4 @@
         <item name="android:maxHeight">8dip</item>
     </style>
 
-    <style name="dialogBottomAnimation" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/dialog_bottom_popup_in</item>
-        <item name="android:windowExitAnimation">@anim/dialog_bottom_popup_out</item>
-    </style>
-
 </resources>

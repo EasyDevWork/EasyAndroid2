@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.easy.demo.R;
 import com.easy.demo.bean.TestDo;
-import com.easy.framework.loadimage.ImageLoadFactory;
+import com.easy.loadimage.ImageLoadFactory;
 
 public class TestRecycleViewAdapter extends BaseQuickAdapter<TestDo, BaseViewHolder> {
     Context context;
