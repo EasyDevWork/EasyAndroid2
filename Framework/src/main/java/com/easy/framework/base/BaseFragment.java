@@ -2,6 +2,7 @@ package com.easy.framework.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
 
-public abstract class BaseFragment<P extends BasePresenter,V extends ViewDataBinding> extends BaseLifecycleFragment implements BaseView<FragmentEvent> {
+public abstract class BaseFragment<P extends BasePresenter, V extends ViewDataBinding> extends BaseLifecycleFragment implements BaseView<FragmentEvent> {
     public V viewBind;
     public Context context;
     View rootView;
@@ -40,8 +41,33 @@ public abstract class BaseFragment<P extends BasePresenter,V extends ViewDataBin
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewBind = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         rootView = viewBind.getRoot();
-        initView(rootView);
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        isCreateView = true;
+        isLazyLoaded = false;
+        handleLazyLoad();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        handleLazyLoad();
+    }
+
+    protected void handleLazyLoad() {
+        if (isCreateView && isShow) {
+            if (!isLazyLoaded) {
+                isLazyLoaded = true;
+                Log.d("LifecycleFragment", tag + "===>lazyInitData 执行");
+                initView(rootView);
+            } else {
+                Log.d("LifecycleFragment", tag + "===>lazyInitData 不执行");
+            }
+        }
     }
 
     public abstract int getLayoutId();

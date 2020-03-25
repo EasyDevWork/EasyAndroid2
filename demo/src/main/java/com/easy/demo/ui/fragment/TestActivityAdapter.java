@@ -6,10 +6,10 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
-public class TestFragmentActivityAdapter extends FragmentStatePagerAdapter {
+public class TestActivityAdapter extends FragmentStatePagerAdapter {
     private List<Fragment> fragments;
 
-    public TestFragmentActivityAdapter(FragmentManager fm, List<Fragment> fragments) {
+    public TestActivityAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
         this.fragments = fragments;
     }

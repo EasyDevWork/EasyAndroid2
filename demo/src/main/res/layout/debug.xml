@@ -50,22 +50,15 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="testLottieAnimation"
+                        android:onClick="testLottie"
                         android:text="lottie动画" />
 
                     <Button
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="goStatusBar"
-                        android:text="状态栏" />
-
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="showFragment"
-                        android:text="显示Fragment" />
+                        android:onClick="testActivity"
+                        android:text="页面测试" />
 
                     <Button
                         android:layout_width="0dp"

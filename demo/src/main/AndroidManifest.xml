@@ -3,7 +3,6 @@
 
     <application>
         <activity android:name=".ui.debug.DebugActivity" />
-        <activity android:name=".ui.status_bar.StatusBarActivity" />
         <activity
             android:name="com.easy.demo.ui.transparent.TransparentActivity"
             android:theme="@style/transparent" />
@@ -12,7 +11,7 @@
         <activity android:name=".ui.dialog.DialogActivity" />
         <activity android:name=".ui.wechat.TestWeChatActivity" />
         <activity android:name=".ui.eoschain.EosChainActivity" />
-        <activity android:name=".ui.fragment.TestFragmentActivity" />
+        <activity android:name=".ui.fragment.TestActivity" />
         <activity android:name=".ui.testweb.TestWebActivity"/>
         <activity android:name=".ui.qrcode.TestQrCodeActivity"/>
         <activity android:name=".ui.lottie.TestLottieActivity"/>

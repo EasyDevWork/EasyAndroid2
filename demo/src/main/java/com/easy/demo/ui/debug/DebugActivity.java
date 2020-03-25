@@ -36,15 +36,11 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         }
     }
 
-    public void testLottieAnimation(View view) {
+    public void testLottie(View view) {
         ARouter.getInstance().build("/demo/TestLottieActivity").navigation();
     }
 
-    public void goStatusBar(View view) {
-        ARouter.getInstance().build("/demo/StatusBarActivity").navigation();
-    }
-
-    public void showFragment(View view) {
+    public void testActivity(View view) {
         ARouter.getInstance().build("/demo/TestFragmentActivity").navigation();
 //        FragmentManager manager = getSupportFragmentManager();
 //        Bundle bundle = new Bundle();
