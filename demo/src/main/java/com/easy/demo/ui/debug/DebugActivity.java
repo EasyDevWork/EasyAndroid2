@@ -34,11 +34,10 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         if (titleView != null) {
             titleView.setTitleText(getString(R.string.debug_title));
         }
-        viewBind.lottie.setAnimationFromUrl("https://assets2.lottiefiles.com/packages/lf20_bGW6Oe.json");
     }
 
     public void testLottieAnimation(View view) {
-        viewBind.lottie.playAnimation();
+        ARouter.getInstance().build("/demo/TestLottieActivity").navigation();
     }
 
     public void goStatusBar(View view) {
