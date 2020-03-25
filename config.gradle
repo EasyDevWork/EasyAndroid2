@@ -71,5 +71,8 @@ ext {
             "blockcanary_android"     : "com.github.markzhai:blockcanary-android:1.5.0",
             "blockcanary_no_op"       : "com.github.markzhai:blockcanary-no-op:1.5.0",
 
+            "tencent_opensdk":"com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.3.1",
+            "okio":"com.squareup.okio:okio:1.17.4"
+
     ]
 }

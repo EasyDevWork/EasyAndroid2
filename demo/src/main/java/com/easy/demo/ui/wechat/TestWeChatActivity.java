@@ -13,12 +13,12 @@ import com.easy.demo.databinding.TestWechatBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.net.event.ActivityEvent;
 import com.easy.wechat.base.Constants;
-import com.easy.wechat.manager.WeChatManager;
+import com.easy.wechat.manager.EasyWeChat;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 
 @ActivityInject
 @Route(path = "/demo/WeChatActivity", name = "微信测试")
-public class WeChatActivity extends BaseActivity<WeChatPresenter, TestWechatBinding> implements WeChatView<ActivityEvent> {
+public class TestWeChatActivity extends BaseActivity<TestWeChatPresenter, TestWechatBinding> implements TestWeChatView<ActivityEvent> {
     private static final int THUMB_SIZE = 150;
 
     @Override
@@ -28,12 +28,13 @@ public class WeChatActivity extends BaseActivity<WeChatPresenter, TestWechatBind
 
     @Override
     public void initView() {
-        WeChatManager.getInstance().init(this, Constants.APP_ID, Constants.APP_SECRET);
-        viewBind.sendText.setOnClickListener(v -> WeChatManager.getInstance().sendTextMsg("测试发送文本信息"));
+        addTitleView().setTitleText("微信测试");
+        EasyWeChat.getInstance().init(this, Constants.APP_ID, Constants.APP_SECRET);
+        viewBind.sendText.setOnClickListener(v -> EasyWeChat.getInstance().sendTextMsg("测试发送文本信息"));
 
         viewBind.sendImg.setOnClickListener(v -> {
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), com.easy.wechat.R.drawable.send_img);
-            WeChatManager.getInstance().sendImageMsg(bmp);
+            EasyWeChat.getInstance().sendImageMsg(bmp);
 
 //            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.png";
 //            File file = new File(path);
@@ -49,7 +50,7 @@ public class WeChatActivity extends BaseActivity<WeChatPresenter, TestWechatBind
             Bitmap bmp = BitmapFactory.decodeResource(this.getResources(), com.easy.wechat.R.drawable.send_music_thumb);
             Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
             bmp.recycle();
-            WeChatManager.getInstance().sendMusic(
+            EasyWeChat.getInstance().sendMusic(
                     "http://staff2.ustc.edu.cn/~wdw/softdown/index.asp/0042515_05.ANDY.mp3",
                     "title",
                     "description", thumbBmp);
@@ -59,20 +60,20 @@ public class WeChatActivity extends BaseActivity<WeChatPresenter, TestWechatBind
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), com.easy.wechat.R.drawable.send_music_thumb);
             Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
             bmp.recycle();
-            WeChatManager.getInstance().sendVideo("http://staff2.ustc.edu.cn/~wdw/softdown/index.asp/0042515_05.ANDY.mp3", "Video Title", "Video Description", thumbBmp);
+            EasyWeChat.getInstance().sendVideo("http://staff2.ustc.edu.cn/~wdw/softdown/index.asp/0042515_05.ANDY.mp3", "Video Title", "Video Description", thumbBmp);
         });
 
         viewBind.sendWebpage.setOnClickListener(v -> {
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), com.easy.wechat.R.drawable.send_img);
             Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
             bmp.recycle();
-            WeChatManager.getInstance().sendWabPage("http://www.qq.com",
+            EasyWeChat.getInstance().sendWabPage("http://www.qq.com",
                     "WebPage Title", "WebPage Description", thumbBmp);
         });
 
         // get user info by token
         viewBind.getInfo.setOnClickListener(v -> {
-            WeChatManager.getInstance().getUserInfo(weChatUser -> {
+            EasyWeChat.getInstance().getUserInfo(weChatUser -> {
                         TextView tvResult = findViewById(R.id.tvResult);
                         tvResult.post(() -> tvResult.setText(weChatUser.toString()));
                     }
@@ -88,15 +89,15 @@ public class WeChatActivity extends BaseActivity<WeChatPresenter, TestWechatBind
         int id = view.getId();
         if (id == R.id.target_scene_session) {
             if (checked) {
-                WeChatManager.getInstance().setTargetScene(SendMessageToWX.Req.WXSceneSession);
+                EasyWeChat.getInstance().setTargetScene(SendMessageToWX.Req.WXSceneSession);
             }
         } else if (id == R.id.target_scene_timeline) {
             if (checked) {
-                WeChatManager.getInstance().setTargetScene(SendMessageToWX.Req.WXSceneTimeline);
+                EasyWeChat.getInstance().setTargetScene(SendMessageToWX.Req.WXSceneTimeline);
             }
         } else if (id == R.id.target_scene_favorite) {
             if (checked) {
-                WeChatManager.getInstance().setTargetScene(SendMessageToWX.Req.WXSceneFavorite);
+                EasyWeChat.getInstance().setTargetScene(SendMessageToWX.Req.WXSceneFavorite);
             }
         }
     }

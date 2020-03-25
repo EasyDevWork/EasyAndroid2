@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.easy.wechat.R;
 import com.easy.wechat.base.Constants;
-import com.easy.wechat.manager.WeChatManager;
+import com.easy.wechat.manager.EasyWeChat;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -105,7 +105,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
         if (resp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
             SendAuth.Resp authResp = (SendAuth.Resp) resp;
-            WeChatManager.getInstance().sendAuth(authResp.code);
+            EasyWeChat.getInstance().sendAuth(authResp.code);
         }
 
         finish();

@@ -2,7 +2,7 @@ package com.easy.wechat.utils;
 
 import android.graphics.Bitmap;
 
-import com.easy.wechat.manager.WeChatManager;
+import com.easy.wechat.manager.EasyWeChat;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -62,7 +62,7 @@ public class WxNetworkUtil {
                     in.close();
                     String httpResult = sb.toString();
 
-                    WeChatManager.getInstance().parseData(httpResult, msgTag);
+                    EasyWeChat.getInstance().parseData(httpResult, msgTag);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

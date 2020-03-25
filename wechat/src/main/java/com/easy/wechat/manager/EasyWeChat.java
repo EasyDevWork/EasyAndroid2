@@ -21,7 +21,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.io.File;
 
-public class WeChatManager {
+public class EasyWeChat {
 
     private IWXAPI api;
     //分享到对话:
@@ -37,13 +37,13 @@ public class WeChatManager {
     String appId, appSecret;
 
     private static class Holder {
-        private static WeChatManager instance = new WeChatManager();
+        private static EasyWeChat instance = new EasyWeChat();
     }
 
-    private WeChatManager() {
+    private EasyWeChat() {
     }
 
-    public static WeChatManager getInstance() {
+    public static EasyWeChat getInstance() {
         return Holder.instance;
     }
 

@@ -10,7 +10,7 @@
         <activity android:name=".ui.recycleview.TestRecycleViewActivity" />
         <activity android:name=".ui.loadimage.LoadImageActivity" />
         <activity android:name=".ui.dialog.DialogActivity" />
-        <activity android:name=".ui.wechat.WeChatActivity" />
+        <activity android:name=".ui.wechat.TestWeChatActivity" />
         <activity android:name=".ui.eoschain.EosChainActivity" />
         <activity android:name=".ui.fragment.TestFragmentActivity" />
         <activity android:name=".ui.testweb.TestWebActivity"/>

@@ -4,9 +4,9 @@ import com.easy.framework.base.BasePresenter;
 
 import javax.inject.Inject;
 
-public class WeChatPresenter extends BasePresenter<WeChatView> {
+public class TestWeChatPresenter extends BasePresenter<TestWeChatView> {
     @Inject
-    public WeChatPresenter() {
+    public TestWeChatPresenter() {
 
     }
 

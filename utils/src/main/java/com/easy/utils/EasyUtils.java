@@ -1,12 +1,9 @@
 package com.easy.utils;
 
 import android.content.Context;
-import android.os.StrictMode;
 
 import androidx.annotation.Nullable;
 
-import com.easy.utils.blockcanary.BlockCanaryConfig;
-import com.github.moduth.blockcanary.BlockCanary;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -40,7 +37,7 @@ public class EasyUtils {
     }
 
     private static void debugInit(Context context) {
-        BlockCanary.install(context, new BlockCanaryConfig(context)).start();
+//        BlockCanary.install(context, new BlockCanaryConfig(context)).start();
 
 //        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
 //        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
