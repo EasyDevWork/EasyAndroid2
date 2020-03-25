@@ -14,6 +14,7 @@
         <activity android:name=".ui.eoschain.EosChainActivity" />
         <activity android:name=".ui.fragment.TestFragmentActivity" />
         <activity android:name=".ui.testweb.TestWebActivity"/>
+        <activity android:name=".ui.qrcode.TestQrCodeActivity"/>
         <activity
             android:name=".ui.player.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

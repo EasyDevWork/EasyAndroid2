@@ -1,6 +1,5 @@
 package com.easy.demo.ui.debug;
 
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
 
@@ -13,7 +12,6 @@ import com.easy.demo.base.DemoSharePreferences;
 import com.easy.demo.databinding.DebugBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.net.event.ActivityEvent;
-import com.easy.utils.DimensUtils;
 import com.easy.utils.LanguageUtil;
 import com.easy.utils.WebCacheUtils;
 import com.easy.widget.TitleView;
@@ -70,10 +68,6 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         ARouter.getInstance().build("/demo/TransparentActivity").navigation();
     }
 
-    public void goQrScan(View view) {
-        ARouter.getInstance().build("/qrCode/QrScanActivity").navigation();
-    }
-
     public void goEosChain(View view) {
         ARouter.getInstance().build("/demo/EosChainActivity").navigation();
     }
@@ -86,8 +80,8 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         ARouter.getInstance().build("/demo/WeChatActivity").navigation();
     }
 
-    public void createQrCode(View view) {
-        presenter.createQrCode("hello word !!!", DimensUtils.dp2px(this, 200), 1);
+    public void testQrCode(View view) {
+        ARouter.getInstance().build("/demo/TestQrCodeActivity").navigation();
     }
 
     public void goTestRecycleView(View view) {
@@ -97,10 +91,6 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     public void testWeb(View view) {
         ARouter.getInstance().build("/demo/TestWebActivity")
                 .withString("url", "file:///android_asset/testjs.html").navigation();
-    }
-
-    public void createBarCode(View view) {
-        presenter.createQrCode("23232323", DimensUtils.dp2px(this, 200), 2);
     }
 
     public void goBtcChain(View view) {
@@ -141,11 +131,4 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         viewBind.tvScreen.setText(content);
     }
 
-    @Override
-    public void qRCodeCallback(Bitmap bitmap) {
-        if (bitmap != null) {
-            viewBind.ivScreen.setVisibility(View.VISIBLE);
-            viewBind.ivScreen.setImageBitmap(bitmap);
-        }
-    }
 }

@@ -86,7 +86,11 @@
                         android:onClick="goPlayer"
                         android:text="播放器" />
                 </LinearLayout>
-
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="testQrCode"
+                    android:text="测试二维码" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -113,12 +117,7 @@
                         android:onClick="createBarCode"
                         android:text="生成条形码" />
 
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="createBarCode"
-                        android:text="Rxjava" />
+
                 </LinearLayout>
 
                 <LinearLayout

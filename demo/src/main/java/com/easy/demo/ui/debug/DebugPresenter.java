@@ -35,32 +35,5 @@ public class DebugPresenter extends BasePresenter<DebugView> {
     }
 
 
-    public void createQrCode(final String content, int size, int type) {
-        DataObservable.builder(Observable.create((ObservableOnSubscribe<Bitmap>) e -> {
-            int width = DimensUtils.dp2px(getContext(), size);
-            Bitmap bitmap;
-            if (type == 1) {
-                bitmap = QRCodeCreate.createQRCodeBitmap(content, width, width);
-            } else {
-                bitmap = BarCodeCreate.createBarCode(content, width, width);
-            }
-            if (bitmap == null) {
-                e.onError(null);
-            } else {
-                e.onNext(bitmap);
-            }
-        })).lifecycleProvider(mvpView.getRxLifecycle())
-                .activityEvent(ActivityEvent.DESTROY)
-                .dataObserver(new DataObserver<Bitmap>() {
-                    @Override
-                    protected void onSuccess(Bitmap bitmap) {
-                        mvpView.qRCodeCallback(bitmap);
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mvpView.qRCodeCallback(null);
-                    }
-                });
-    }
 }
