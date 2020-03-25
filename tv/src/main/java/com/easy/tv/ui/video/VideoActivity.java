@@ -2,7 +2,7 @@ package com.easy.tv.ui.video;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.common.base.CommonActivity;
+import com.easy.qrcode.base.CommonActivity;
 import com.easy.net.rxlifecycle.ActivityEvent;
 import com.easy.tv.R;
 import com.easy.tv.databinding.VideoBinding;

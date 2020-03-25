@@ -71,7 +71,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     }
 
     public void goQrScan(View view) {
-        ARouter.getInstance().build("/common/QrScanActivity").navigation();
+        ARouter.getInstance().build("/qrCode/QrScanActivity").navigation();
     }
 
     public void goEosChain(View view) {

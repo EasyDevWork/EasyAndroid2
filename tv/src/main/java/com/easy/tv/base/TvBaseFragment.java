@@ -5,8 +5,8 @@ import android.view.View;
 
 import androidx.databinding.ViewDataBinding;
 
-import com.easy.common.base.CommonFragment;
-import com.easy.common.base.CommonPresenter;
+import com.easy.qrcode.base.CommonFragment;
+import com.easy.qrcode.base.CommonPresenter;
 import com.easy.tv.R;
 import com.owen.focus.FocusBorder;
 

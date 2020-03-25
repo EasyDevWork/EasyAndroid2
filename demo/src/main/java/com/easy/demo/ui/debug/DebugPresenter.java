@@ -2,8 +2,8 @@ package com.easy.demo.ui.debug;
 
 import android.graphics.Bitmap;
 
-import com.easy.common.ui.qr_code.qrcode.BarCodeCreate;
-import com.easy.common.ui.qr_code.qrcode.QRCodeCreate;
+import com.easy.qrcode.ui.qr_code.qrcode.BarCodeCreate;
+import com.easy.qrcode.ui.qr_code.qrcode.QRCodeCreate;
 import com.easy.framework.base.BasePresenter;
 import com.easy.framework.base.DataObservable;
 import com.easy.framework.base.DataObserver;

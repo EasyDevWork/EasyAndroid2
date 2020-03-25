@@ -1,6 +1,6 @@
 package com.easy.tv.ui.albumdetail;
 
-import com.easy.common.base.CommonPresenter;
+import com.easy.qrcode.base.CommonPresenter;
 
 import javax.inject.Inject;
 
