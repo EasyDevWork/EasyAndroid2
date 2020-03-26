@@ -36,6 +36,10 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
@@ -44,4 +48,9 @@ dependencies {
 
     api lib.glide
     api lib.glide_transformations
+    annotationProcessor lib.glide_compiler
+
+    implementation lib.rxjava
+    implementation lib.rxandroid
+    implementation lib.okhttp3
 }

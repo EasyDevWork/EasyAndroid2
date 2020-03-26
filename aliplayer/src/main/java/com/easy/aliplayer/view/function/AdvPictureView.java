@@ -12,9 +12,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.easy.aliplayer.R;
-import com.easy.loadimage.ImageLoadFactory;
+import com.easy.loadimage.EasyLoadImage;
 import com.easy.loadimage.ImageLoaderOptions;
+import com.easy.loadimage.transform.GrayscaleTransformation;
 
 import java.lang.ref.WeakReference;
 
@@ -103,12 +106,14 @@ public class AdvPictureView extends RelativeLayout {
 
     private void initPicture() {
         if (mAdvImageView != null) {
-            ImageLoadFactory.create().loadImage(getContext(), mAdvPictureUrl, new ImageLoaderOptions.Builder()
-                                            .crossFade()
-                                            .centerCrop()
-                                            .error(R.drawable.alivc_player_adv_picture)
-                                            .build())
-            .into(mAdvImageView);
+            EasyLoadImage.loadImage(getContext(), ImageLoaderOptions
+                    .builder()
+                    .url(mAdvPictureUrl)
+                    .transformation(new CenterCrop(), new GrayscaleTransformation())
+                    .isCrossFade(true)
+                    .errorPic(R.drawable.alivc_player_adv_picture)
+                    .imageView(mAdvImageView)
+                    .build());
         }
     }
 
@@ -239,7 +244,7 @@ public class AdvPictureView extends RelativeLayout {
             layoutParams.width = mWidth / 2;
             layoutParams.addRule(CENTER_IN_PARENT);
             mAdvImageView.setLayoutParams(layoutParams);
-            if ( mAdvPictureRootRelativeLayout != null ) {
+            if (mAdvPictureRootRelativeLayout != null) {
                 mAdvPictureRootRelativeLayout.setVisibility(View.VISIBLE);
             }
             if (mCountDownTextView != null) {
@@ -261,7 +266,6 @@ public class AdvPictureView extends RelativeLayout {
             mCountDownHandler.removeCallbacksAndMessages(null);
         }
     }
-
 
 
     public void setOnAdvPictureListener(OnAdvPictureListener listener) {
@@ -319,13 +323,13 @@ public class AdvPictureView extends RelativeLayout {
                         advPictureView.mIsCountDown = false;
                         advPictureView.mOnAdvPictureListener.close();
                     }
-                    return ;
+                    return;
                 }
                 advPictureView.mIsCountDown = true;
                 String content = "<font color='#00c1de'>" + (countDownTime) + "&nbsp;&nbsp;" + "</font>"
-                                 + "<font color='#FFFFFF'>" + advPictureView.getContext().getString(R.string.alivc_check_list_close) + "</font>";
+                        + "<font color='#FFFFFF'>" + advPictureView.getContext().getString(R.string.alivc_check_list_close) + "</font>";
                 advPictureView.mCountDownTextView.setText(Html.fromHtml(content));
-                countDownTime --;
+                countDownTime--;
                 Message mMsg = Message.obtain();
                 mMsg.what = countDownTime;
                 advPictureView.mCountDownHandler.sendMessageDelayed(mMsg, 1000);

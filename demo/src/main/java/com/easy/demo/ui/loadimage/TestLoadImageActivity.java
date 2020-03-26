@@ -1,20 +1,30 @@
 package com.easy.demo.ui.loadimage;
 
-import android.graphics.drawable.Drawable;
+import android.animation.ValueAnimator;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestLoadImageBinding;
 import com.easy.framework.base.BaseActivity;
-import com.easy.loadimage.ImageLoadFactory;
-import com.easy.loadimage.ImageLoaderOptions;
-import com.easy.loadimage.ImageLoaderRequestListener;
+import com.easy.loadimage.EasyLoadImage;
+import com.easy.loadimage.progress.ImageLoadProgressListener;
 import com.easy.loadimage.transform.BlurTransformation;
-import com.easy.loadimage.transform.GlideRoundedCornersTransform;
+import com.easy.loadimage.transform.GrayscaleTransformation;
+import com.easy.loadimage.transform.RoundedCornersTransform;
 import com.easy.net.event.ActivityEvent;
-import com.easy.utils.DimensUtils;
+import com.easy.utils.ToastUtils;
+
+import io.reactivex.annotations.Nullable;
 
 @ActivityInject
 @Route(path = "/demo/TestLoadImageActivity", name = "图片加载")
@@ -29,47 +39,60 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
 
     @Override
     public void initView() {
+        EasyLoadImage.placeHolderImageView = R.color.alivc_player_theme_green;
+        EasyLoadImage.circlePlaceholderImageView = R.color.alivc_player_theme_green;
 
-    }
 
-    public void loadResource(View view) {
-        ImageLoadFactory.create().loadImage(this, R.drawable.testimg).into(viewBind.tvImage);
-    }
+        viewBind.loadingImageView.setSize(200,200);
+        viewBind.loadingImageView.loadImage(imageUrl);
 
-    public void loadUrl(View view) {
-        ImageLoadFactory.create().loadImage(this, imageUrl).into(viewBind.tvImage);
-    }
+        ValueAnimator animator = ValueAnimator.ofInt(0, 100);
+        animator.setDuration(2000);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.addUpdateListener(animation -> viewBind.progressView2.setProgress((Integer) animator.getAnimatedValue()));
+        animator.start();
 
-    public void loadUrl2(View view) {
-        int width = DimensUtils.dp2px(this, 150);
-        int radius = DimensUtils.dp2px(this, 10);
-        ImageLoadFactory.create()
-                .loadImage(this, imageUrl, new ImageLoaderOptions.Builder()
-                        .placeholder(R.drawable.default_image)
-                        .error(R.drawable.default_error_image)
-                        .centerCrop()
-                        .override(width, width)
-//                        .skipDiskCacheCache()
-//                        .skipMemoryCache()
-//                        .circle()
-//                        .transformation(new GlideCircleTransformWithBoard(this, radius, Color.parseColor("#c83c3c")))
-//                        .transformation(new BlurTransformation())
-                        .transformation(new GlideRoundedCornersTransform(radius, GlideRoundedCornersTransform.CornerType.TOP_LEFT), new BlurTransformation())
-                        .thumbnail(0.3f)
-                        .crossFade()
-//                       .override(DimensUtils.dp2px(this,50),DimensUtils.dp2px(this,50))
-                        .build())
-                .listener(new ImageLoaderRequestListener<Drawable>() {
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv1);
+        viewBind.iv1.setOnClickListener(v ->
+                EasyLoadImage.downloadImageToGallery(this, imageUrl)
+        );
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv2, new RequestListener() {
                     @Override
-                    public boolean onLoadFailed(String exception, boolean isFirstResource) {
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+//                        Toast.makeText(getApplication(), R.string.load_failed, Toast.LENGTH_LONG).show();
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource, boolean isFirstResource) {
+                    public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
+//                        Toast.makeText(getApplication(), R.string.load_success, Toast.LENGTH_LONG).show();
                         return false;
                     }
-                })
-                .into(viewBind.tvImage);
+                }
+        );
+
+        EasyLoadImage.loadBlurImage(this, imageUrl, viewBind.iv3);
+
+        EasyLoadImage.loadCircleImage(this, imageUrl, viewBind.iv4);
+
+        EasyLoadImage.loadRoundCornerImage(this, imageUrl, viewBind.iv5);
+
+        EasyLoadImage.loadGrayImage(this, imageUrl, viewBind.iv6);
+
+        EasyLoadImage.loadResizeXYImage(this, imageUrl, 800, 200, viewBind.iv7);
+        viewBind.iv7.setOnClickListener(view -> ToastUtils.showShort("点击了"));
+
+        EasyLoadImage.loadImageWithTransformation(this, imageUrl, viewBind.iv8, new GrayscaleTransformation(), new RoundedCornersTransform(50, 0));
+
+        EasyLoadImage.loadCircleWithBorderImage(this, imageUrl, viewBind.iv9);
+
+        EasyLoadImage.loadImageWithTransformation(this, imageUrl, viewBind.iv10, new BlurTransformation(this, 20), new GrayscaleTransformation(), new CircleCrop());
+
+        EasyLoadImage.loadImage(this, R.drawable.test_imag, viewBind.iv11);
+
+        EasyLoadImage.loadImage(this, "", viewBind.iv12);
+
+        EasyLoadImage.loadBorderImage(this, imageUrl, viewBind.iv13);
     }
 }

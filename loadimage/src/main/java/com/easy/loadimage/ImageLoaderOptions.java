@@ -1,303 +1,307 @@
 package com.easy.loadimage;
 
-import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
-import androidx.annotation.DrawableRes;
-
-import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.request.RequestListener;
+import com.easy.loadimage.progress.GlideOptions;
+import com.easy.loadimage.progress.ImageLoadProgressListener;
 
 /**
  * 描述:图片库参数构建类
  */
-public class ImageLoaderOptions {
-
-    //设置占位图
-    private int mHolderDrawableId = -1;
-    //设置占位图
-    private Drawable mHolderDrawable;
-
-    //展示加载错误的图片
-    private int mErrorDrawableId = -1;
-
-    //展示加载错误的图片
-    private Drawable mErrorDrawable;
-    /**
-     * 是否获取bitmap展示
-     */
-    private boolean mIsAsBitmap = false;
-
-    private MultiTransformation transformations;
-    /**
-     * 是否淡入淡出，默认为false
-     */
-    private boolean mIsCrossFade = false;
+public class ImageLoaderOptions extends ImageConfig{
 
     /**
-     * 提前显示一个缩略图的比例
+     * 0 对应DiskCacheStrategy.all
+     * 1 对应DiskCacheStrategy.NONE
+     * 2 对应DiskCacheStrategy.SOURCE
+     * 3 对应DiskCacheStrategy.RESULT
      */
-    private float mThumbnail = 1f;
-    private boolean mIsCenterCrop = false;
-    private boolean mfitCenter = false;
-    private boolean mcircleCrop = false;
-    private boolean mCenterInside = false;
-    /**
-     * 是否跳过内存缓存
-     */
-    private boolean mIsSkipMemoryCache = false;
 
-    /**
-     * 是否跳过磁盘缓存
-     */
-    private boolean mIsSkipDiskCacheCache = false;
+    private int cacheStrategy;
+    private int fallback;
+    private BitmapTransformation[] transformation;
+    private ImageView[] imageViews;
+    private boolean isClearMemory;
+    private boolean isClearDiskCache;
+    private Drawable placeholderDrawable;
+    private int resizeX;
+    private boolean isCropCenter;
+    private boolean isCropCircle;
+    private boolean isFitCenter;
+    private DecodeFormat formatType;
+    private int resizeY;
+    private int imageRadius;
+    private int blurValue;
+    private boolean isCrossFade;
+    private ImageLoadProgressListener onProgressListener;
+    private RequestListener requestListener;
 
-    /**
-     * 是否加载圆形
-     */
-    private boolean mIsCircle = false;
-
-    /**
-     * 设置加载目标的大小 x = width ，y = height
-     */
-    private Point mOverridePoint = new Point();
-
-    /**
-     * 私有构造
-     */
-    private ImageLoaderOptions() {
-
+    private ImageLoaderOptions(Builder builder) {
+        this.url = builder.url;
+        this.drawableId = builder.drawableId;
+        this.imageView = builder.imageView;
+        this.placeholder = builder.placeholder;
+        this.placeholderDrawable = builder.placeholderDrawable;
+        this.errorPic = builder.errorPic;
+        this.fallback = builder.fallback;
+        this.cacheStrategy = builder.cacheStrategy;
+        this.transformation = builder.transformation;
+        this.imageViews = builder.imageViews;
+        this.isClearMemory = builder.isClearMemory;
+        this.isClearDiskCache = builder.isClearDiskCache;
+        this.resizeX = builder.resizeX;
+        this.resizeY = builder.resizeY;
+        this.isCropCenter = builder.isCropCenter;
+        this.isCropCircle = builder.isCropCircle;
+        this.formatType = builder.formatType;
+        this.isFitCenter = builder.isFitCenter;
+        this.isCrossFade = builder.isCrossFade;
+        this.imageRadius = builder.imageRadius;
+        this.blurValue = builder.blurValue;
+        this.onProgressListener = builder.onProgressListener;
+        this.requestListener = builder.requestListener;
     }
 
-    public boolean isCircle() {
-        return mIsCircle;
+    public int getCacheStrategy() {
+        return cacheStrategy;
     }
 
+    public BitmapTransformation[] getTransformation() {
+        return transformation;
+    }
 
-    public MultiTransformation<Bitmap> getTransformations() {
-        return transformations;
+    public ImageView[] getImageViews() {
+        return imageViews;
+    }
+
+    public boolean isClearMemory() {
+        return isClearMemory;
+    }
+
+    public boolean isClearDiskCache() {
+        return isClearDiskCache;
+    }
+
+    public int getFallback() {
+        return fallback;
+    }
+
+    public Drawable getPlaceHolderDrawable() {
+        return placeholderDrawable;
+    }
+
+    public int getResizeX() {
+        return resizeX;
+    }
+
+    public int getResizeY() {
+        return resizeY;
+    }
+
+    public boolean isCropCenter() {
+        return isCropCenter;
+    }
+
+    public boolean isCropCircle() {
+        return isCropCircle;
+    }
+
+    public DecodeFormat decodeFormate() {
+        return formatType;
     }
 
     public boolean isFitCenter() {
-        return mfitCenter;
-    }
-
-    public boolean isCircleCrop() {
-        return mcircleCrop;
-    }
-
-    public boolean isCenterInside() {
-        return mCenterInside;
-    }
-
-    public boolean isCenterCrop() {
-        return mIsCenterCrop;
-    }
-
-    public int getHolderDrawableId() {
-        return mHolderDrawableId;
-    }
-
-    public Drawable getmErrorDrawable() {
-        return mErrorDrawable;
-    }
-
-    public void setmErrorDrawable(Drawable mErrorDrawable) {
-        this.mErrorDrawable = mErrorDrawable;
-    }
-
-    public int getErrorDrawableId() {
-        return mErrorDrawableId;
-    }
-
-    public boolean isAsBitmap() {
-        return mIsAsBitmap;
+        return isFitCenter;
     }
 
     public boolean isCrossFade() {
-        return mIsCrossFade;
+        return isCrossFade;
     }
 
-    public float getThumbnail() {
-        return mThumbnail;
+    public int getBlurValue() {
+        return blurValue;
     }
 
-    public Drawable getHolderDrawable() {
-        return mHolderDrawable;
+    public boolean isBlurImage() {
+        return blurValue > 0;
     }
 
-    public boolean isSkipMemoryCache() {
-        return mIsSkipMemoryCache;
+    public int getImageRadius() {
+        return imageRadius;
     }
 
-    public boolean isSkipDiskCacheCache() {
-        return mIsSkipDiskCacheCache;
+    public boolean isImageRadius() {
+        return imageRadius > 0;
     }
 
-    public Point getOverridePoint() {
-        return mOverridePoint;
+    public ImageLoadProgressListener getOnProgressListener() {
+        return onProgressListener;
     }
 
-    /**
-     * 建造者
-     */
-    public final static class Builder {
+    public void setOnProgressListener(ImageLoadProgressListener onProgressListener) {
+        this.onProgressListener = onProgressListener;
+    }
 
-        private final ImageLoaderOptions mLoaderOptions;
 
-        public Builder() {
-            mLoaderOptions = new ImageLoaderOptions();
+    public RequestListener getRequestListener() {
+        return requestListener;
+    }
+
+    public void setRequestListener(RequestListener requestListener) {
+        this.requestListener = requestListener;
+    }
+
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static final class Builder {
+        private int resizeX;
+        private String url;
+        private int drawableId;
+        private ImageView imageView;
+        private int placeholder;
+        private Drawable placeholderDrawable;
+        private int errorPic;
+        private int fallback;
+        private int cacheStrategy;
+        private int imageRadius;
+        private int blurValue;
+        private BitmapTransformation[] transformation;
+        private ImageView[] imageViews;
+        private boolean isClearMemory;
+        private boolean isClearDiskCache;
+        private boolean isCropCenter;
+        private boolean isCropCircle;
+        private boolean isCrossFade;
+        private DecodeFormat formatType;
+        private boolean isFitCenter;
+        private int resizeY;
+        private ImageLoadProgressListener onProgressListener;
+        private RequestListener requestListener;
+
+        private Builder() {
         }
 
-        public Builder placeholder(@DrawableRes int drawableId) {
-            mLoaderOptions.mHolderDrawableId = drawableId;
+        public Builder url(String url) {
+            this.url = url;
             return this;
         }
 
-        public Builder placeholder(Drawable drawable) {
-            mLoaderOptions.mHolderDrawable = drawable;
+        public Builder drawableId(int drawableId) {
+            this.drawableId = drawableId;
             return this;
         }
 
-        public Builder transformation(Transformation... transformation) {
-            mLoaderOptions.transformations = new MultiTransformation<Bitmap>(transformation);
+        public Builder placeholder(int placeholder) {
+            this.placeholder = placeholder;
             return this;
         }
 
-        /**
-         * 淡入淡出
-         *
-         * @return Builder
-         */
-        public Builder crossFade() {
-            mLoaderOptions.mIsCrossFade = true;
+        public Builder errorPic(int errorPic) {
+            this.errorPic = errorPic;
             return this;
         }
 
-        /**
-         * centerCrop
-         *
-         * @return Builder
-         */
-        public Builder centerCrop() {
-            mLoaderOptions.mIsCenterCrop = true;
+        public Builder fallback(int fallback) {
+            this.fallback = fallback;
             return this;
         }
 
-        public Builder circleCrop() {
-            mLoaderOptions.mcircleCrop = true;
+        public Builder imageView(ImageView imageView) {
+            this.imageView = imageView;
             return this;
         }
 
-        public Builder centerInside() {
-            mLoaderOptions.mCenterInside = true;
+        public Builder cacheStrategy(int cacheStrategy) {
+            this.cacheStrategy = cacheStrategy;
             return this;
         }
 
-        public Builder fitCenter() {
-            mLoaderOptions.mfitCenter = true;
+        public Builder imageRadius(int imageRadius) {
+            this.imageRadius = imageRadius;
             return this;
         }
 
-        /**
-         * 加载圆形
-         *
-         * @return Builder
-         */
-        public Builder circle() {
-            mLoaderOptions.mIsCircle = true;
+        public Builder blurValue(int blurValue) { //blurValue 建议设置为 15
+            this.blurValue = blurValue;
             return this;
         }
 
-        /**
-         * Glide 的 thumbnail() API 允许你指定一个 RequestBuilder 以与你的主请求并行启动。
-         * thumbnail() 会在主请求加载过程中展示。如果主请求在缩略图请求之前完成，则缩略图请求中的图像将不会被展示。
-         * thumbnail() API 允许你简单快速地加载图像的低分辨率版本，并且同时加载图像的无损版本，
-         * 这可以减少用户盯着加载指示器 【例如进度条–译者注】 的时间。
-         * <p>
-         * 此方法就适配glide的简化版本，它只需要一个 sizeMultiplier 参数。如果你只是想为你的加载相同的图片，
-         * 但尺寸为 View 或 Target 的某个百分比的话特别有用：
-         *
-         * @param sizeMultiplier 原图的比列
-         * @return Builder
-         */
-        public Builder thumbnail(float sizeMultiplier) {
-            mLoaderOptions.mThumbnail = sizeMultiplier;
+        public Builder isCrossFade(boolean isCrossFade) {
+            this.isCrossFade = isCrossFade;
             return this;
         }
 
-        /**
-         * RequestBuilders 是特定于它们将要加载的资源类型的。默认情况下你会得到一个 Drawable RequestBuilder ，
-         * 但你可以使用 as... 系列方法来改变请求类型。例如，如果你调用了 asBitmap() ，你就将获得一个 BitmapRequestBuilder 对象，
-         * 而不是默认的 Drawable RequestBuilder。
-         *
-         * @return Builder
-         */
-        public Builder asBitmap() {
-            mLoaderOptions.mIsAsBitmap = true;
+        public Builder transformation(BitmapTransformation... transformation) {
+            this.transformation = transformation;
             return this;
         }
 
-        /**
-         * 错误占位图
-         *
-         * @param mErrorDrawableId 资源id
-         * @return Builder
-         */
-        public Builder error(@DrawableRes int mErrorDrawableId) {
-            mLoaderOptions.mErrorDrawableId = mErrorDrawableId;
+        public Builder imageViews(ImageView... imageViews) {
+            this.imageViews = imageViews;
             return this;
         }
 
-        public Builder error(Drawable mErrorDrawable) {
-            mLoaderOptions.mErrorDrawable = mErrorDrawable;
+        public Builder isClearMemory(boolean isClearMemory) {
+            this.isClearMemory = isClearMemory;
             return this;
         }
 
-        /**
-         * 指定图片大小
-         *
-         * @param width  加载图片的width
-         * @param height 加载图片的height
-         * @return Builder
-         */
-        public Builder override(int width, int height) {
-            mLoaderOptions.mOverridePoint.x = width;
-            mLoaderOptions.mOverridePoint.y = height;
+        public Builder isClearDiskCache(boolean isClearDiskCache) {
+            this.isClearDiskCache = isClearDiskCache;
             return this;
         }
 
-        /**
-         * 跳过硬盘缓存
-         *
-         * @return Builder
-         */
-        public Builder skipDiskCacheCache() {
-            mLoaderOptions.mIsSkipDiskCacheCache = true;
+        public Builder placeholderDrawble(Drawable placeholderDrawble) {
+            this.placeholderDrawable = placeholderDrawble;
             return this;
         }
 
-        /**
-         * 跳过内存缓存
-         *
-         * @return Builder
-         */
-        public Builder skipMemoryCache() {
-            mLoaderOptions.mIsSkipMemoryCache = true;
+        public Builder resize(int resizeX, int resizeY) {
+            this.resizeX = resizeX;
+            this.resizeY = resizeY;
             return this;
-
         }
 
-        /**
-         * 获取构建的ImageLoaderOptions对象
-         *
-         * @return mLoaderOptions
-         */
+        public Builder isCropCenter(boolean isCropCenter) {
+            this.isCropCenter = isCropCenter;
+            return this;
+        }
+
+        public Builder isCropCircle(boolean isCropCircle) {
+            this.isCropCircle = isCropCircle;
+            return this;
+        }
+
+        public Builder setDecodeFormate(DecodeFormat decodeFormat) {
+            formatType = decodeFormat;
+            return this;
+        }
+
+        public Builder isFitCenter(boolean isFitCenter) {
+            this.isFitCenter = isFitCenter;
+            return this;
+        }
+
+        public Builder progressListener(ImageLoadProgressListener onProgressListener) {
+            this.onProgressListener = onProgressListener;
+            return this;
+        }
+
+        public Builder requestListener(RequestListener requestListener) {
+            this.requestListener = requestListener;
+            return this;
+        }
+
         public ImageLoaderOptions build() {
-            return mLoaderOptions;
+            return new ImageLoaderOptions(this);
         }
-
     }
-
 }

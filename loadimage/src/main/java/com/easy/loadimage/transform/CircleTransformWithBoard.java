@@ -16,7 +16,7 @@ import java.security.MessageDigest;
 /**
  * 圆行加描边
  */
-public class GlideCircleTransformWithBoard extends BitmapTransformation {
+public class CircleTransformWithBoard extends BitmapTransformation {
 
     private Paint mBorderPaint;
     private float mBorderWidth;
@@ -27,7 +27,7 @@ public class GlideCircleTransformWithBoard extends BitmapTransformation {
         return (int) (dpValue * scale + 0.5f);
     }
 
-    public GlideCircleTransformWithBoard(Context context, float borderWidth, int borderColor) {
+    public CircleTransformWithBoard(Context context, float borderWidth, int borderColor) {
 
         mBorderWidth =dp2px(context, borderWidth);
 
