@@ -4,9 +4,9 @@ import com.easy.framework.base.BasePresenter;
 
 import javax.inject.Inject;
 
-public class LoadImagePresenter extends BasePresenter<LoadImageView> {
+public class TestLoadImagePresenter extends BasePresenter<TestLoadImageView> {
     @Inject
-    public LoadImagePresenter() {
+    public TestLoadImagePresenter() {
 
     }
 

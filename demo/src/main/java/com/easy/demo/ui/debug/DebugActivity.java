@@ -56,7 +56,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     }
 
     public void testLoadImage(View view) {
-        ARouter.getInstance().build("/demo/LoadImageActivity").navigation();
+        ARouter.getInstance().build("/demo/TestLoadImageActivity").navigation();
     }
 
     public void goTransparent(View view) {

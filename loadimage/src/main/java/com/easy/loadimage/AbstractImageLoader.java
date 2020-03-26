@@ -31,7 +31,7 @@ public abstract class AbstractImageLoader {
 
     public abstract AbstractImageLoader loadImage(@NonNull Context context, @NonNull String url);
 
-    public abstract AbstractImageLoader loadImage(@NonNull Context context, @NonNull int resId);
+    public abstract AbstractImageLoader loadImage(@NonNull Context context, int resId);
 
     public abstract AbstractImageLoader loadImage(@NonNull Context context, @NonNull String url, @NonNull ImageLoaderOptions loaderOptions);
 

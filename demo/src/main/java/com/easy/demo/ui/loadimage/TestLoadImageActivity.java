@@ -17,8 +17,8 @@ import com.easy.net.event.ActivityEvent;
 import com.easy.utils.DimensUtils;
 
 @ActivityInject
-@Route(path = "/demo/LoadImageActivity", name = "图片加载")
-public class LoadImageActivity extends BaseActivity<LoadImagePresenter, TestLoadImageBinding> implements LoadImageView<ActivityEvent> {
+@Route(path = "/demo/TestLoadImageActivity", name = "图片加载")
+public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, TestLoadImageBinding> implements TestLoadImageView<ActivityEvent> {
 
     public String imageUrl = "http://img2.imgtn.bdimg.com/it/u=3137891603,2800618441&fm=26&gp=0.jpg";
 
@@ -33,15 +33,11 @@ public class LoadImageActivity extends BaseActivity<LoadImagePresenter, TestLoad
     }
 
     public void loadResource(View view) {
-        ImageLoadFactory.create()
-                .loadImage(this, R.drawable.testimg)
-                .into(viewBind.tvImage);
+        ImageLoadFactory.create().loadImage(this, R.drawable.testimg).into(viewBind.tvImage);
     }
 
     public void loadUrl(View view) {
-        ImageLoadFactory.create()
-                .loadImage(this, imageUrl)
-                .into(viewBind.tvImage);
+        ImageLoadFactory.create().loadImage(this, imageUrl).into(viewBind.tvImage);
     }
 
     public void loadUrl2(View view) {
