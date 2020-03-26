@@ -63,7 +63,7 @@ public class EasyLoadImage {
         loadImage(context, url, imageView, placeHolderImageView, null, null);
     }
 
-    public static void loadImage(Context context, String url, int resizeX, int resizeY, ImageView imageView) {
+    public static void loadResizeXYImage(Context context, String url, int resizeX, int resizeY, ImageView imageView) {
         loadResizeXYImage(context, url, resizeX, resizeY, imageView, placeHolderImageView);
     }
 
