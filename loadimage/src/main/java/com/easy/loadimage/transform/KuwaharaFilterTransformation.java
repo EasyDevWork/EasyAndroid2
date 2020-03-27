@@ -39,7 +39,7 @@ public class KuwaharaFilterTransformation extends GPUFilterTransformation {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof jp.wasabeef.glide.transformations.gpu.KuwaharaFilterTransformation;
+        return o instanceof KuwaharaFilterTransformation;
     }
 
     @Override
