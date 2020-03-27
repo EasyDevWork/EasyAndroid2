@@ -1,12 +1,12 @@
 package com.easy.loadimage;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -14,21 +14,15 @@ import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.RawRes;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
-import com.bumptech.glide.util.Preconditions;
+import com.bumptech.glide.request.target.Target;
 import com.easy.loadimage.progress.EasyGlideApp;
-import com.easy.loadimage.progress.GlideImageViewTarget;
-import com.easy.loadimage.progress.GlideRequest;
-import com.easy.loadimage.progress.GlideRequests;
 import com.easy.loadimage.progress.ImageLoadProgressListener;
-import com.easy.loadimage.progress.ProgressManager;
 import com.easy.loadimage.transform.BlurTransformation;
 import com.easy.loadimage.transform.BorderTransformation;
 import com.easy.loadimage.transform.CircleTransformWithBoard;
@@ -43,387 +37,248 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.Nullable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class EasyLoadImage {
 
-    public static int placeHolderImageView = R.color.transparent;
-    public static int circlePlaceholderImageView = R.color.transparent;
+    public static int placeImage = R.color.color_757575;//占位图
+    public static int errorImage = R.color.color_757575;//错误图
+    public static int circlePlaceImage = R.color.color_757575;//圆形占位图
+    public static int circleErrorImage = R.color.color_757575;//错误图
 
-    public ImageLoaderOptions.Builder loadImage() {
-        return ImageLoaderOptions
-                .builder()
-                .errorPic(placeHolderImageView)
-                .placeholder(circlePlaceholderImageView);
+    public static ImageConfig loadImage(Context context) {
+        return ImageConfig.create(context);
     }
 
-    public static void loadImage(Context context, String url, ImageView imageView) {
-        loadImage(context, url, imageView, placeHolderImageView, null, null);
+    public static ImageConfig loadImage(Activity activity) {
+        return ImageConfig.create(activity);
     }
 
-    public static void loadResizeXYImage(Context context, String url, int resizeX, int resizeY, ImageView imageView) {
-        loadResizeXYImage(context, url, resizeX, resizeY, imageView, placeHolderImageView);
+    public static ImageConfig loadImage(Fragment fragment) {
+        return ImageConfig.create(fragment);
     }
 
-    public static void loadImage(Context context, String url, ImageView imageView, RequestListener requestListener) {
-        loadImage(context, url, imageView, placeHolderImageView, null, requestListener);
+    public static ImageConfig loadImage(Object object) {
+        ImageConfig imageConfig = null;
+        if (object instanceof Activity) {
+            imageConfig = loadImage((Activity) object);
+        } else if (object instanceof Fragment) {
+            imageConfig = loadImage((Fragment) object);
+        } else if (object instanceof Context) {
+            imageConfig = loadImage((Context) object);
+        }
+        return imageConfig;
     }
 
-    public static void loadImage(Context context, String url, ImageView imageView, ImageLoadProgressListener onProgressListener) {
-        loadImage(context, url, imageView, placeHolderImageView, onProgressListener, null);
-    }
-
-    public static void loadImage(Context context, String url, ImageView imageView, ImageLoadProgressListener onProgressListener, RequestListener requestListener) {
-        loadImage(context, url, imageView, placeHolderImageView, onProgressListener, requestListener);
-    }
-
-    public static void loadImage(Context context, String url, ImageView imageView, @DrawableRes int placeHolder) {
-        loadImage(context, url, imageView, placeHolder, null, null);
-    }
-
-    public static void loadImage(Context context, String url, ImageView imageView, @DrawableRes int placeHolder, ImageLoadProgressListener onProgressListener, RequestListener requestListener) {
-        loadImage(context,
-                ImageLoaderOptions
-                        .builder()
-                        .url(url)
-                        .isCropCenter(true)
-                        .isCrossFade(true)
-                        .errorPic(placeHolder)
-                        .placeholder(placeHolder)
-                        .imageView(imageView)
-                        .progressListener(onProgressListener)
-                        .requestListener(requestListener)
-                        .build());
+    /**
+     * 加载网络图片
+     */
+    public static void loadImage(Object object, String url, ImageView imageView) {
+        ImageConfig imageConfig = loadImage(object);
+        if (imageConfig != null) {
+            imageConfig.url(url)
+                    .isCrossFade(true)
+                    .fallback(errorImage)
+                    .placeholder(placeImage)
+                    .errorPic(errorImage)
+                    .imageView(imageView)
+                    .end();
+        }
     }
 
     /**
      * 加载本地图片
-     *
-     * @param context
-     * @param drawableId
-     * @param resizeX
-     * @param resizeY
-     * @param imageView
      */
-    public static void loadResizeXYImage(Context context, @RawRes @DrawableRes @Nullable Integer drawableId, int resizeX, int resizeY, ImageView imageView) {
-        loadImage(context,
-                ImageLoaderOptions
-                        .builder()
-                        .drawableId(drawableId)
-                        .isCropCenter(true)
-                        .resize(resizeX, resizeY)
-                        .imageView(imageView)
-                        .build());
-    }
-
-    public static void loadResizeXYImage(Context context, String url, int resizeX, int resizeY, ImageView imageView, @DrawableRes int placeHolder) {
-        loadImage(context,
-                ImageLoaderOptions
-                        .builder()
-                        .url(url)
-                        .isCropCenter(true)
-                        .isCrossFade(true)
-                        .resize(resizeX, resizeY)
-                        .errorPic(placeHolder)
-                        .placeholder(placeHolder)
-                        .imageView(imageView)
-                        .build());
-    }
-
-
-    public static void loadCircleImage(Context context, String url, ImageView imageView) {
-        loadCircleImage(context, url, imageView, circlePlaceholderImageView);
-    }
-
-    public static void loadCircleImage(Context context, String url, ImageView imageView, @DrawableRes int placeHolder) {
-        loadImage(context,
-                ImageLoaderOptions
-                        .builder()
-                        .url(url)
-                        .isCropCircle(true)
-                        .isCrossFade(true)
-                        .errorPic(placeHolder)
-                        .placeholder(placeHolder)
-                        .imageView(imageView)
-                        .build());
-    }
-
-    public static void loadGrayImage(Context context, String url, ImageView imageView) {
-        loadGrayImage(context, url, imageView, placeHolderImageView);
-    }
-
-    public static void loadGrayImage(Context context, String url, ImageView imageView, @DrawableRes int placeHolder) {
-        loadImage(context,
-                ImageLoaderOptions
-                        .builder()
-                        .url(url)
-                        .transformation(new CenterCrop(), new GrayscaleTransformation())
-                        .isCrossFade(true)
-                        .errorPic(placeHolder)
-                        .placeholder(placeHolder)
-                        .imageView(imageView)
-                        .build());
-    }
-
-
-    public static void loadBlurImage(Context context, String url, ImageView imageView) {
-        loadBlurImage(context, url, 10, imageView, placeHolderImageView);
-    }
-
-    public static void loadBlurImage(Context context, String url, int radius, ImageView imageView) {
-        loadBlurImage(context, url, radius, imageView, placeHolderImageView);
-    }
-
-    public static void loadBlurImage(Context context, String url, int radius, ImageView imageView, @DrawableRes int placeHolder) {
-        loadImage(context,
-                ImageLoaderOptions
-                        .builder()
-                        .url(url)
-                        .transformation(new CenterCrop(), new BlurTransformation(context, radius))
-                        .isCrossFade(true)
-                        .errorPic(placeHolder)
-                        .placeholder(placeHolder)
-                        .imageView(imageView)
-                        .build());
-    }
-
-
-    public static void loadRoundCornerImage(Context context, String url, ImageView imageView) {
-        loadRoundCornerImage(context, url, 40, 0, imageView, placeHolderImageView);
-    }
-
-    public static void loadRoundCornerImage(Context context, String url, int radius, int margin, ImageView imageView) {
-        loadRoundCornerImage(context, url, radius, margin, imageView, placeHolderImageView);
-    }
-
-    public static void loadRoundCornerImage(Context context, String url, int radius, int margin, ImageView imageView, @DrawableRes int placeHolder) {
-        loadImage(context,
-                ImageLoaderOptions
-                        .builder()
-                        .url(url)
-                        .transformation(new CenterCrop(), new RoundedCornersTransform(radius, margin))
-                        .isCrossFade(true)
-                        .errorPic(placeHolder)
-                        .placeholder(placeHolder)
-                        .imageView(imageView)
-                        .build());
-    }
-
-    public static void loadCircleWithBorderImage(Context context, String url, ImageView imageView) {
-        loadCircleWithBorderImage(context, url, 2, Color.parseColor("#ACACAC"), imageView, placeHolderImageView);
-    }
-
-    public static void loadCircleWithBorderImage(Context context, String url, int borderWidth, @ColorInt int borderColor, ImageView imageView) {
-        loadCircleWithBorderImage(context, url, borderWidth, borderColor, imageView, placeHolderImageView);
-    }
-
-    public static void loadCircleWithBorderImage(Context context, String url, int borderWidth, @ColorInt int borderColor, ImageView imageView, @DrawableRes int placeHolder) {
-        loadImage(context,
-                ImageLoaderOptions
-                        .builder()
-                        .url(url)
-                        .transformation(new CircleTransformWithBoard(context, borderWidth, borderColor))
-                        .isCrossFade(true)
-                        .errorPic(placeHolder)
-                        .placeholder(placeHolder)
-                        .imageView(imageView)
-                        .build());
-    }
-
-
-    public static void loadBorderImage(Context context, String url, ImageView imageView) {
-        loadBorderImage(context, url, 2, Color.parseColor("#ACACAC"), imageView, placeHolderImageView);
-    }
-
-    public static void loadBorderImage(Context context, String url, int borderWidth, @ColorInt int borderColor, ImageView imageView) {
-        loadBorderImage(context, url, borderWidth, borderColor, imageView, placeHolderImageView);
-    }
-
-    public static void loadBorderImage(Context context, String url, int borderWidth, @ColorInt int borderColor, ImageView imageView, @DrawableRes int placeHolder) {
-        loadImage(context,
-                ImageLoaderOptions
-                        .builder()
-                        .url(url)
-                        .transformation(new BorderTransformation(borderWidth, borderColor))
-                        .isCrossFade(true)
-                        .errorPic(placeHolder)
-                        .placeholder(placeHolder)
-                        .imageView(imageView)
-                        .build());
+    public static void loadImage(Object object, @RawRes @DrawableRes Integer drawableId, ImageView imageView) {
+        ImageConfig imageConfig = loadImage(object);
+        if (imageConfig != null) {
+            imageConfig.drawableId(drawableId)
+                    .isCrossFade(true)
+                    .placeholder(placeImage)
+                    .errorPic(errorImage)
+                    .imageView(imageView)
+                    .end();
+        }
     }
 
     /**
-     * 提供了一下如下变形类，支持叠加使用
-     * BlurTransformation
-     * GrayScaleTransformation
-     * RoundedCornersTransformation
-     * CircleCrop
-     * CenterCrop
+     * 圆形图片
      */
-    public static void loadImageWithTransformation(Context context, String url, ImageView imageView, BitmapTransformation... bitmapTransformations) {
-        loadImageWithTransformation(context, url, imageView, R.color.transparent, bitmapTransformations);
+    public static void loadCircleImage(Object object, String url, ImageView imageView) {
+        ImageConfig imageConfig = loadImage(object);
+        if (imageConfig != null) {
+            imageConfig.url(url)
+                    .isCropCircle(true)
+                    .isCrossFade(true)
+                    .placeholder(circlePlaceImage)
+                    .errorPic(circleErrorImage)
+                    .imageView(imageView)
+                    .end();
+        }
     }
-
-    public static void loadImageWithTransformation(Context context, String url, ImageView imageView, @DrawableRes int placeHolder, BitmapTransformation... bitmapTransformations) {
-        loadImage(context,
-                ImageLoaderOptions
-                        .builder()
-                        .url(url)
-                        .transformation(bitmapTransformations)
-                        .isCrossFade(true)
-                        .errorPic(placeHolder)
-                        .placeholder(placeHolder)
-                        .imageView(imageView)
-                        .build());
-    }
-
 
     /**
-     * 加载本地图片
-     *
-     * @param context
-     * @param drawableId
-     * @param imageView
+     * 图片加载监
      */
-    public static void loadImage(Context context, @RawRes @DrawableRes @Nullable Integer drawableId, ImageView imageView) {
-        loadImage(context, ImageLoaderOptions
-                .builder()
-                .drawableId(drawableId)
-                .isCropCenter(true)
-                .imageView(imageView)
-                .build());
+    public static void loadImage(Object object, String url, ImageView imageView, ImageLoadProgressListener onProgressListener, RequestListener requestListener) {
+        ImageConfig imageConfig = loadImage(object);
+        if (imageConfig != null) {
+            imageConfig.url(url)
+                    .isCrossFade(true)
+                    .imageView(imageView)
+                    .placeholder(placeImage)
+                    .errorPic(errorImage)
+                    .progressListener(onProgressListener)
+                    .requestListener(requestListener)
+                    .end();
+        }
+    }
+
+    /**
+     * 重制图片大小
+     */
+    public static void loadResizeXYImage(Object object, String url, int resizeX, int resizeY, ImageView imageView) {
+        ImageConfig imageConfig = loadImage(object);
+        if (imageConfig != null) {
+            imageConfig.url(url)
+                    .isCrossFade(true)
+                    .resizeX(resizeX, resizeY)
+                    .placeholder(placeImage)
+                    .errorPic(errorImage)
+                    .imageView(imageView)
+                    .end();
+        }
+    }
+
+    /**
+     * 图片变黑白
+     */
+    public static void loadGrayImage(Object object, String url, ImageView imageView) {
+        ImageConfig imageConfig = loadImage(object);
+        if (imageConfig != null) {
+            imageConfig.url(url)
+                    .isCrossFade(true)
+                    .transformation(new CenterCrop(), new GrayscaleTransformation())
+                    .placeholder(placeImage)
+                    .errorPic(errorImage)
+                    .imageView(imageView)
+                    .end();
+        }
+    }
+
+    private static Context getContext(Object object) {
+        Context context = null;
+        if (object instanceof Fragment) {
+            context = ((Fragment) object).getContext();
+        } else if (object instanceof Activity) {
+            context = (Activity) object;
+        } else if (object instanceof Context) {
+            context = (Context) object;
+        }
+        return context;
+    }
+
+    /**
+     * 高斯模糊
+     */
+    public static void loadBlurImage(Object object, String url, ImageView imageView, int radius) {
+        ImageConfig imageConfig = loadImage(object);
+        Context context = getContext(object);
+        if (imageConfig != null && context != null) {
+            imageConfig.url(url)
+                    .isCrossFade(true)
+                    .transformation(new CenterCrop(), new BlurTransformation(context, radius))
+                    .placeholder(placeImage)
+                    .errorPic(errorImage)
+                    .imageView(imageView)
+                    .end();
+        }
+    }
+
+    /**
+     * 距行圆角图
+     */
+    public static void loadRoundCornerImage(Object object, String url, ImageView imageView, int radius, int margin) {
+        ImageConfig imageConfig = loadImage(object);
+        if (imageConfig != null) {
+            imageConfig.url(url)
+                    .isCrossFade(true)
+                    .transformation(new CenterCrop(), new RoundedCornersTransform(radius, margin))
+                    .placeholder(placeImage)
+                    .errorPic(errorImage)
+                    .imageView(imageView)
+                    .end();
+        }
+    }
+
+    /**
+     * 圆形带边框
+     */
+    public static void loadCircleWithBorderImage(Object object, String url, ImageView imageView, int borderWidth, @ColorInt int borderColor) {
+        ImageConfig imageConfig = loadImage(object);
+        Context context = getContext(object);
+        if (imageConfig != null && context != null) {
+            imageConfig.url(url)
+                    .isCrossFade(true)
+                    .transformation(new CircleTransformWithBoard(context, borderWidth, borderColor))
+                    .placeholder(placeImage)
+                    .errorPic(errorImage)
+                    .imageView(imageView)
+                    .end();
+        }
+    }
+
+    public static void loadBorderImage(Object object, String url, ImageView imageView, int borderWidth, @ColorInt int borderColor) {
+        ImageConfig imageConfig = loadImage(object);
+        if (imageConfig != null) {
+            imageConfig.url(url)
+                    .isCrossFade(true)
+                    .transformation(new BorderTransformation(borderWidth, borderColor))
+                    .placeholder(placeImage)
+                    .errorPic(errorImage)
+                    .imageView(imageView)
+                    .end();
+        }
     }
 
     /**
      * 预加载
-     *
-     * @param context
-     * @param url
      */
-    public static void preloadImage(Context context, String url) {
-        Glide.with(context).load(url).preload();
+    public static Target preloadImage(Context context, String url) {
+        return Glide.with(context).load(url).preload();
     }
-
-    public static void loadImage(Context context, ImageLoaderOptions config) {
-        Preconditions.checkNotNull(context, "Context is required");
-        Preconditions.checkNotNull(config, "ImageConfigImpl is required");
-
-        Preconditions.checkNotNull(config.getImageView(), "ImageView is required");
-        GlideRequests requests;
-        requests = EasyGlideApp.with(context);
-        GlideRequest<Drawable> glideRequest = null;
-        if (config.getDrawableId() != 0) {
-            glideRequest = requests.load(config.getDrawableId());
-        } else {
-            glideRequest = requests.load(config.getUrl());
-        }
-
-
-        //缓存策略
-        switch (config.getCacheStrategy()) {
-            case 0:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL);
-                break;
-            case 1:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.NONE);
-                break;
-            case 2:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.RESOURCE);
-                break;
-            case 3:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.DATA);
-                break;
-            case 4:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-                break;
-            default:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL);
-                break;
-        }
-        if (config.isCrossFade()) {
-            DrawableCrossFadeFactory factory = new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
-            glideRequest.transition(withCrossFade(factory));
-        }
-
-        if (config.isImageRadius()) {
-            glideRequest.transform(new RoundedCorners(config.getImageRadius()));
-        }
-
-        if (config.isBlurImage()) {
-            glideRequest.transform(new BlurTransformation(context, config.getBlurValue()));
-        }
-        //glide用它来改变图形的形状
-        if (config.getTransformation() != null) {
-            glideRequest.transform(config.getTransformation());
-        }
-
-        if (config.getPlaceHolderDrawable() != null) {
-            glideRequest.placeholder(config.getPlaceHolderDrawable());
-        }
-        //设置占位符
-        if (config.getPlaceholder() != 0) {
-            glideRequest.placeholder(config.getPlaceholder());
-        }
-        //设置错误的图片
-        if (config.getErrorPic() != 0) {
-            glideRequest.error(config.getErrorPic());
-        }
-        //设置请求 url 为空图片
-        if (config.getFallback() != 0) {
-            glideRequest.fallback(config.getFallback());
-        }
-
-        if (config.getResizeX() != 0 && config.getResizeY() != 0) {
-            glideRequest.override(config.getResizeX(), config.getResizeY());
-        }
-
-        if (config.isCropCenter()) {
-            glideRequest.centerCrop();
-        }
-
-        if (config.isCropCircle()) {
-            glideRequest.circleCrop();
-        }
-
-        if (config.decodeFormate() != null) {
-            glideRequest.format(config.decodeFormate());
-        }
-
-        if (config.isFitCenter()) {
-            glideRequest.fitCenter();
-        }
-
-        if (config.getRequestListener() != null) {
-            glideRequest.addListener(config.getRequestListener());
-        }
-
-        if (config.getOnProgressListener() != null) {
-            ProgressManager.addListener(config.getUrl(), config.getOnProgressListener());
-        }
-
-        glideRequest.into(new GlideImageViewTarget(config.getImageView(), config.getUrl()));
-
-    }
-
 
     /**
      * 清除本地缓存
      */
-    public static void clearDiskCache(final Context context) {
-        Observable.just(0)
-                .observeOn(Schedulers.io())
-                .subscribe(integer -> Glide.get(context).clearDiskCache());
+    public static Observable clearDiskCache(final Context context) {
+        return Observable.just(0)
+                .map(integer -> {
+                    try {
+                        Glide.get(context).clearDiskCache();
+                        return true;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                });
     }
 
     /**
      * 清除内存缓存
      */
-    public static void clearMemory(final Context context) {
-        Observable.just(0)
-                .observeOn(Schedulers.io())
-                .subscribe(integer -> Glide.get(context).clearDiskCache());
+    public static Observable clearMemory(final Context context) {
+        return Observable.just(0)
+                .map(integer -> {
+                    try {
+                        Glide.get(context).clearMemory();
+                        return true;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                });
     }
 
     /**
@@ -436,18 +291,14 @@ public class EasyLoadImage {
 
     /**
      * 下载图片，并在媒体库中显示
-     *
-     * @param context
-     * @param imgUrl
      */
-    @SuppressLint("CheckResult")
     public static void downloadImageToGallery(final Context context, final String imgUrl) {
         String extension = MimeTypeMap.getFileExtensionFromUrl(imgUrl);
         if (TextUtils.isEmpty(extension)) {
             extension = "png";
         }
         String finalExtension = extension;
-        Observable.create((ObservableOnSubscribe<File>)
+        Disposable disposable = Observable.create((ObservableOnSubscribe<File>)
                 emitter -> {
                     // Glide提供了一个download() 接口来获取缓存的图片文件，
                     // 但是前提必须要设置diskCacheStrategy方法的缓存策略为
@@ -457,7 +308,8 @@ public class EasyLoadImage {
                     String fileParentPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/easyGlide/Image";
                     File appDir = new File(fileParentPath);
                     if (!appDir.exists()) {
-                        appDir.mkdirs();
+                        boolean mk = appDir.mkdirs();
+                        Log.d("downloadImageToGallery", "mkdirs:" + mk);
                     } //获得原文件流
                     FileInputStream fis = new FileInputStream(file);
                     //保存的文件名

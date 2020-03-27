@@ -12,11 +12,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.easy.aliplayer.R;
 import com.easy.loadimage.EasyLoadImage;
-import com.easy.loadimage.ImageLoaderOptions;
+import com.easy.loadimage.transform.BlurTransformation;
 import com.easy.loadimage.transform.GrayscaleTransformation;
 
 import java.lang.ref.WeakReference;
@@ -106,14 +106,14 @@ public class AdvPictureView extends RelativeLayout {
 
     private void initPicture() {
         if (mAdvImageView != null) {
-            EasyLoadImage.loadImage(getContext(), ImageLoaderOptions
-                    .builder()
+            EasyLoadImage.loadImage(this)
                     .url(mAdvPictureUrl)
-                    .transformation(new CenterCrop(), new GrayscaleTransformation())
-                    .isCrossFade(true)
-                    .errorPic(R.drawable.alivc_player_adv_picture)
                     .imageView(mAdvImageView)
-                    .build());
+                    .isCrossFade(true)
+                    .transformation(new CenterCrop(), new GrayscaleTransformation())
+                    .placeholder(R.drawable.alivc_player_adv_picture)
+                    .errorPic(R.drawable.alivc_player_adv_picture)
+                    .end();
         }
     }
 

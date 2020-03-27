@@ -18,6 +18,9 @@ import java.security.MessageDigest;
 
 import jp.wasabeef.glide.transformations.internal.FastBlur;
 
+/**
+ * 高斯模糊
+ */
 public class BlurTransformation extends BitmapTransformation {
     private final String ID = getClass().getName();
 

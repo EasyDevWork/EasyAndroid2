@@ -1,10 +1,10 @@
 package com.easy.demo.ui.loadimage;
 
 import android.animation.ValueAnimator;
-import android.util.Log;
-import android.view.View;
+import android.graphics.Color;
 import android.view.animation.LinearInterpolator;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.load.DataSource;
@@ -17,14 +17,11 @@ import com.easy.demo.R;
 import com.easy.demo.databinding.TestLoadImageBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.loadimage.EasyLoadImage;
-import com.easy.loadimage.progress.ImageLoadProgressListener;
 import com.easy.loadimage.transform.BlurTransformation;
 import com.easy.loadimage.transform.GrayscaleTransformation;
-import com.easy.loadimage.transform.RoundedCornersTransform;
 import com.easy.net.event.ActivityEvent;
+import com.easy.utils.DimensUtils;
 import com.easy.utils.ToastUtils;
-
-import io.reactivex.annotations.Nullable;
 
 @ActivityInject
 @Route(path = "/demo/TestLoadImageActivity", name = "图片加载")
@@ -39,12 +36,9 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
 
     @Override
     public void initView() {
-        EasyLoadImage.placeHolderImageView = R.color.alivc_player_theme_green;
-        EasyLoadImage.circlePlaceholderImageView = R.color.alivc_player_theme_green;
 
-
-        viewBind.loadingImageView.setSize(200,200);
-        viewBind.loadingImageView.loadImage(imageUrl);
+        int width = DimensUtils.dp2px(this, 200);
+        viewBind.loadingImageView.loadImage(width, width, imageUrl);
 
         ValueAnimator animator = ValueAnimator.ofInt(0, 100);
         animator.setDuration(2000);
@@ -53,46 +47,50 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
         animator.addUpdateListener(animation -> viewBind.progressView2.setProgress((Integer) animator.getAnimatedValue()));
         animator.start();
 
-        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv1);
+        EasyLoadImage.loadImage(this, "http://img5.imgtn.bdimg.com/it/u=1706446022,2591052907&fm=26&gp=0.jpg", viewBind.iv1);
         viewBind.iv1.setOnClickListener(v ->
                 EasyLoadImage.downloadImageToGallery(this, imageUrl)
         );
-        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv2, new RequestListener() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
-//                        Toast.makeText(getApplication(), R.string.load_failed, Toast.LENGTH_LONG).show();
-                        return false;
-                    }
 
-                    @Override
-                    public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
-//                        Toast.makeText(getApplication(), R.string.load_success, Toast.LENGTH_LONG).show();
-                        return false;
-                    }
-                }
-        );
-
-        EasyLoadImage.loadBlurImage(this, imageUrl, viewBind.iv3);
+        EasyLoadImage.loadBlurImage(this, imageUrl, viewBind.iv3, 10);
 
         EasyLoadImage.loadCircleImage(this, imageUrl, viewBind.iv4);
 
-        EasyLoadImage.loadRoundCornerImage(this, imageUrl, viewBind.iv5);
+        EasyLoadImage.loadRoundCornerImage(this, imageUrl, viewBind.iv5, 40, 0);
 
         EasyLoadImage.loadGrayImage(this, imageUrl, viewBind.iv6);
 
         EasyLoadImage.loadResizeXYImage(this, imageUrl, 800, 200, viewBind.iv7);
         viewBind.iv7.setOnClickListener(view -> ToastUtils.showShort("点击了"));
 
-        EasyLoadImage.loadImageWithTransformation(this, imageUrl, viewBind.iv8, new GrayscaleTransformation(), new RoundedCornersTransform(50, 0));
+        EasyLoadImage.loadImage(this, "http://img2.imgtn.bdimg.com/it/u=927695547,1051830077&fm=26&gp=0.jpg", viewBind.iv8, (isComplete, percentage, bytesRead, totalBytes) -> {
 
-        EasyLoadImage.loadCircleWithBorderImage(this, imageUrl, viewBind.iv9);
+        }, new RequestListener() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+                return false;
+            }
 
-        EasyLoadImage.loadImageWithTransformation(this, imageUrl, viewBind.iv10, new BlurTransformation(this, 20), new GrayscaleTransformation(), new CircleCrop());
+            @Override
+            public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
+                return false;
+            }
+        });
+
+        EasyLoadImage.loadCircleWithBorderImage(this, imageUrl, viewBind.iv9, 5, Color.parseColor("#ACACAC"));
+
+        EasyLoadImage.loadImage(this)
+                .url(imageUrl)
+                .imageView(viewBind.iv10)
+                .placeholder(EasyLoadImage.placeImage)
+                .errorPic(EasyLoadImage.errorImage)
+                .transformation(new BlurTransformation(this, 20), new GrayscaleTransformation(), new CircleCrop())
+                .end();
 
         EasyLoadImage.loadImage(this, R.drawable.test_imag, viewBind.iv11);
 
         EasyLoadImage.loadImage(this, "", viewBind.iv12);
 
-        EasyLoadImage.loadBorderImage(this, imageUrl, viewBind.iv13);
+        EasyLoadImage.loadBorderImage(this, imageUrl, viewBind.iv13, 5, Color.parseColor("#ACACAC"));
     }
 }

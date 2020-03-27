@@ -18,22 +18,15 @@
                 android:layout_gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <com.easy.loadimage.view.SelectImageView
-                    android:id="@+id/iv_7"
+                <com.easy.loadimage.view.LoadingImageView
+                    android:id="@+id/loadingImageView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="wrap_content" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp">
-
-                    <com.easy.loadimage.view.LoadingImageView
-                        android:id="@+id/loadingImageView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </RelativeLayout>
+                    android:text="有加载动画" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -60,12 +53,16 @@
                         app:cpv_progressTextVisible="false" />
                 </RelativeLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="点击下载图片" />
 
-                <ImageView
-                    android:id="@+id/iv_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/iv_2"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="200dp"-->
+                <!--                    android:layout_marginBottom="15dp" />-->
 
                 <ImageView
                     android:id="@+id/iv_3"
@@ -73,6 +70,10 @@
                     android:layout_height="200dp"
                     android:layout_marginBottom="15dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="高斯模糊" />
 
                 <ImageView
                     android:id="@+id/iv_4"
@@ -80,6 +81,10 @@
                     android:layout_height="200dp"
                     android:layout_marginBottom="15dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="圆形图" />
 
                 <ImageView
                     android:id="@+id/iv_5"
@@ -87,11 +92,32 @@
                     android:layout_height="200dp"
                     android:layout_marginBottom="15dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="距行圆角" />
+
                 <ImageView
                     android:id="@+id/iv_6"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginBottom="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="黑白图" />
+
+                <com.easy.loadimage.view.SelectImageView
+                    android:id="@+id/iv_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="选中透明度变化" />
 
                 <ImageView
                     android:id="@+id/iv_8"
@@ -99,11 +125,21 @@
                     android:layout_height="200dp"
                     android:layout_marginBottom="15dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="加载进度监听" />
+
                 <ImageView
                     android:id="@+id/iv_9"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginBottom="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="圆形带边框" />
 
                 <ImageView
                     android:id="@+id/iv_10"
@@ -111,11 +147,21 @@
                     android:layout_height="200dp"
                     android:layout_marginBottom="15dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="组合效果" />
+
                 <ImageView
                     android:id="@+id/iv_11"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_marginBottom="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="加载本地图片" />
 
                 <ImageView
                     android:id="@+id/iv_12"
@@ -123,11 +169,21 @@
                     android:layout_height="200dp"
                     android:layout_marginBottom="15dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="加载失败" />
+
                 <ImageView
                     android:id="@+id/iv_13"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_marginBottom="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="距行有边框" />
             </LinearLayout>
 
         </ScrollView>
