@@ -292,30 +292,18 @@ public class EasyLoadImage {
     /**
      * 下载图片，并在媒体库中显示
      */
-    public static void downloadImageToGallery(final Context context, final String imgUrl) {
-        String extension = MimeTypeMap.getFileExtensionFromUrl(imgUrl);
-        if (TextUtils.isEmpty(extension)) {
-            extension = "png";
-        }
-        String finalExtension = extension;
-        Disposable disposable = Observable.create((ObservableOnSubscribe<File>)
+    public static Observable<File> downloadImageToGallery(final Context context, final String imgUrl, String saveFile) {
+        return Observable.create((ObservableOnSubscribe<File>)
                 emitter -> {
                     // Glide提供了一个download() 接口来获取缓存的图片文件，
                     // 但是前提必须要设置diskCacheStrategy方法的缓存策略为
                     // DiskCacheStrategy.ALL或者DiskCacheStrategy.SOURCE，
                     // 还有download()方法需要在子线程里进行
                     File file = Glide.with(context).download(imgUrl).submit().get();
-                    String fileParentPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/easyGlide/Image";
-                    File appDir = new File(fileParentPath);
-                    if (!appDir.exists()) {
-                        boolean mk = appDir.mkdirs();
-                        Log.d("downloadImageToGallery", "mkdirs:" + mk);
-                    } //获得原文件流
+                    //获得原文件流
                     FileInputStream fis = new FileInputStream(file);
-                    //保存的文件名
-                    String fileName = "easyGlide_" + System.currentTimeMillis() + "." + finalExtension;
                     //目标文件
-                    File targetFile = new File(appDir, fileName);
+                    File targetFile = new File(saveFile);
                     //输出文件流
                     FileOutputStream fos = new FileOutputStream(targetFile);
                     // 缓冲数组
@@ -326,16 +314,14 @@ public class EasyLoadImage {
                     fos.flush();
                     fis.close();
                     fos.close();
+                    String fileExtension = saveFile.substring(saveFile.indexOf("."));
+                    if (TextUtils.isEmpty(fileExtension)) {
+                        fileExtension = "png";
+                    }
                     //扫描媒体库
-                    String mimeTypes = MimeTypeMap.getSingleton().getMimeTypeFromExtension(finalExtension);
-                    MediaScannerConnection.scanFile(context, new String[]{targetFile.getAbsolutePath()},
-                            new String[]{mimeTypes}, null);
+                    String mimeTypes = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension);
+                    MediaScannerConnection.scanFile(context, new String[]{targetFile.getAbsolutePath()}, new String[]{mimeTypes}, null);
                     emitter.onNext(targetFile);
-                }).subscribeOn(Schedulers.io())
-                //发送事件在io线程
-                .observeOn(AndroidSchedulers.mainThread())
-                //最后切换主线程提示结果
-                .subscribe(file -> Toast.makeText(context, R.string.easy_glide_save_succss, Toast.LENGTH_SHORT).show(),
-                        throwable -> Toast.makeText(context, R.string.easy_glide_save_failed, Toast.LENGTH_SHORT).show());
+                }).subscribeOn(Schedulers.io());//发送事件在io线程
     }
 }

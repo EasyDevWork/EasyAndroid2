@@ -3,6 +3,7 @@ package com.easy.demo.ui.loadimage;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -22,6 +23,12 @@ import com.easy.loadimage.transform.GrayscaleTransformation;
 import com.easy.net.event.ActivityEvent;
 import com.easy.utils.DimensUtils;
 import com.easy.utils.ToastUtils;
+
+import java.io.File;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 @ActivityInject
 @Route(path = "/demo/TestLoadImageActivity", name = "图片加载")
@@ -49,7 +56,7 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
 
         EasyLoadImage.loadImage(this, "http://img5.imgtn.bdimg.com/it/u=1706446022,2591052907&fm=26&gp=0.jpg", viewBind.iv1);
         viewBind.iv1.setOnClickListener(v ->
-                EasyLoadImage.downloadImageToGallery(this, imageUrl)
+                presenter.requestPermission(getRxPermissions())
         );
 
         EasyLoadImage.loadBlurImage(this, imageUrl, viewBind.iv3, 10);
@@ -92,5 +99,23 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
         EasyLoadImage.loadImage(this, "", viewBind.iv12);
 
         EasyLoadImage.loadBorderImage(this, imageUrl, viewBind.iv13, 5, Color.parseColor("#ACACAC"));
+    }
+
+    @Override
+    public void permissionCallback(Boolean granted, Object o) {
+        if (granted) {
+            presenter.downloadImage(imageUrl);
+        } else {
+            ToastUtils.showShort("权限不允许");
+        }
+    }
+
+    @Override
+    public void downloadCallback(File file, Throwable e) {
+        if (e != null) {
+            ToastUtils.showShort(e.getMessage());
+        } else {
+            ToastUtils.showShort(R.string.easy_glide_save_succss);
+        }
     }
 }

@@ -2,12 +2,15 @@ package com.easy.utils;
 
 import android.content.Context;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import com.easy.utils.base.FileConstant;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -51,10 +54,24 @@ public class FileUtils {
      *
      * @return
      */
-    public static String getFilePath(Context context, String type) {
+    public static String getSystemFilePath(Context context, String type) {
         //Environment.DIRECTORY_PICTURES : /mnt/sdcard/pictures
         File file = context.getExternalFilesDir(type);
         return file.getAbsolutePath();
+    }
+
+    /**
+     * 从URL中获取扩张名
+     *
+     * @param url
+     * @return
+     */
+    public static String getFileExtension(String url, String defaultStr) {
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (Utils.isEmpty(extension)) {
+            extension = defaultStr;
+        }
+        return extension;
     }
 
     /**
@@ -126,7 +143,7 @@ public class FileUtils {
     public static String getRootFilePath(Context context) {
         String strPathHead;
         if (isCanUseSD()) {
-            strPathHead = Environment.getExternalStorageDirectory().toString() + File.separator;
+            strPathHead = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
         } else {
             strPathHead = context.getFilesDir().getPath() + File.separator;
         }
@@ -137,7 +154,7 @@ public class FileUtils {
         try {
             return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
         } catch (Exception e) {
-            Log.e("isCanUseSD","sdcard不可用");
+            Log.e("isCanUseSD", "sdcard不可用");
         }
         return false;
     }
@@ -163,6 +180,11 @@ public class FileUtils {
         return size;
     }
 
+    /**
+     * 删除文件夹/文件
+     * @param dir
+     * @return
+     */
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
@@ -246,5 +268,31 @@ public class FileUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 写文件
+     *
+     * @param saveFile
+     * @param content
+     * @return
+     */
+    public static boolean writeStringToFile(String saveFile, String content) {
+        try {
+            boolean createFile = createOrExistsFile(saveFile);
+            if (createFile) {
+                File file = new File(saveFile);
+                FileOutputStream output = new FileOutputStream(file);
+                output.write(content.getBytes());
+                output.flush();
+                output.close();
+            } else {
+                return false;
+            }
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 }
