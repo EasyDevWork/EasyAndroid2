@@ -20,6 +20,7 @@ import com.easy.framework.base.BaseActivity;
 import com.easy.loadimage.EasyLoadImage;
 import com.easy.loadimage.transform.BlurTransformation;
 import com.easy.loadimage.transform.GrayscaleTransformation;
+import com.easy.loadimage.transform.RoundedCornersTransform;
 import com.easy.net.event.ActivityEvent;
 import com.easy.utils.DimensUtils;
 import com.easy.utils.ToastUtils;
@@ -29,6 +30,9 @@ import java.io.File;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+
+import static com.easy.loadimage.transform.RoundedCornersTransform.CornerType.OTHER_TOP_LEFT;
+import static com.easy.loadimage.transform.RoundedCornersTransform.CornerType.TOP;
 
 @ActivityInject
 @Route(path = "/demo/TestLoadImageActivity", name = "图片加载")
@@ -58,6 +62,15 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
         viewBind.iv1.setOnClickListener(v ->
                 presenter.requestPermission(getRxPermissions())
         );
+
+
+        EasyLoadImage.loadImage(this)
+                .url(imageUrl)
+                .imageView(viewBind.iv2)
+                .placeholder(EasyLoadImage.placeImage)
+                .errorPic(EasyLoadImage.errorImage)
+                .transformation(new RoundedCornersTransform(40, 0, TOP))
+                .end();
 
         EasyLoadImage.loadBlurImage(this, imageUrl, viewBind.iv3, 10);
 

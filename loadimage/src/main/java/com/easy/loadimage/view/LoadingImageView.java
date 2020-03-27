@@ -2,6 +2,7 @@ package com.easy.loadimage.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import com.easy.loadimage.progress.ImageLoadCircleProgressView;
 public class LoadingImageView extends RelativeLayout {
     ImageView imageView;
     ImageLoadCircleProgressView progressView;
+    boolean isLoadOk;
 
     public LoadingImageView(Context context) {
         super(context);
@@ -47,32 +49,33 @@ public class LoadingImageView extends RelativeLayout {
         progressView = findViewById(R.id.progressView);
     }
 
-//    public void setSize(int width, int height) {
-//        RelativeLayout.LayoutParams layoutParams = (LayoutParams) imageView.getLayoutParams();
-//        layoutParams.height = height;
-//        layoutParams.width = width;
-//        imageView.setLayoutParams(layoutParams);
-//    }
-
-    public void loadImage(int width, int height,String url) {
+    public void loadImage(int width, int height, String url) {
         ImageConfig.create(getContext())
-                .resizeX(width,height)
+                .resizeX(width, height)
                 .url(url)
                 .imageView(imageView)
                 .progressListener((isComplete, percentage, bytesRead, totalBytes) -> {
-                    progressView.setVisibility(View.VISIBLE);
-                    progressView.setProgress(percentage);
+                    Log.d("loadImage", "progressListener");
+                    if (!isLoadOk) {
+                        progressView.setVisibility(View.VISIBLE);
+                        progressView.setProgress(percentage);
+                    } else {
+                        progressView.setVisibility(View.GONE);
+                    }
                 })
                 .requestListener(new RequestListener() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
                         progressView.setVisibility(View.GONE);
+                        isLoadOk = true;
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
                         progressView.setVisibility(View.GONE);
+                        isLoadOk = true;
+                        Log.d("loadImage", "onResourceReady");
                         return false;
                     }
                 }).end();
