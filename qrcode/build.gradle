@@ -55,6 +55,6 @@ dependencies {
     annotationProcessor lib.arouter_compiler
 //    annotationProcessor project(':AptProcessor')
     annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
-    api project(':Framework')
+    implementation project(':Framework')
 //    api 'com.github.EasyDevWork:EasyAndroid2:1.0.4'
 }
