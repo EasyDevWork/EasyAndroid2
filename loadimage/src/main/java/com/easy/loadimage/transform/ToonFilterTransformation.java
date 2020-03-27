@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import java.security.MessageDigest;
 
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageToonFilter;
-import jp.wasabeef.glide.transformations.gpu.GPUFilterTransformation;
 
 /**
  * 卡通效果

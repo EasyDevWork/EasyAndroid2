@@ -15,13 +15,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <com.easy.loadimage.view.LoadingImageView
                     android:id="@+id/loadingImageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="200dp"
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -29,13 +29,13 @@
                     android:text="有加载动画" />
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <ImageView
                         android:id="@+id/iv_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp" />
+                        android:layout_width="200dp"
+                        android:layout_height="100dp" />
 
                     <com.easy.loadimage.progress.ImageLoadCircleProgressView
                         android:id="@+id/progressView2"
@@ -59,8 +59,8 @@
 
                 <ImageView
                     android:id="@+id/iv_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_width="200dp"
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -69,8 +69,8 @@
 
                 <ImageView
                     android:id="@+id/iv_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_width="200dp"
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -79,8 +79,8 @@
 
                 <ImageView
                     android:id="@+id/iv_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_width="200dp"
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -89,8 +89,8 @@
 
                 <ImageView
                     android:id="@+id/iv_5"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_width="200dp"
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -99,8 +99,8 @@
 
                 <ImageView
                     android:id="@+id/iv_6"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_width="200dp"
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,8 +109,8 @@
 
                 <com.easy.loadimage.view.SelectImageView
                     android:id="@+id/iv_7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="200dp"
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -119,8 +119,8 @@
 
                 <ImageView
                     android:id="@+id/iv_8"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_width="200dp"
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -129,8 +129,8 @@
 
                 <ImageView
                     android:id="@+id/iv_9"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_width="200dp"
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -140,7 +140,7 @@
                 <ImageView
                     android:id="@+id/iv_10"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -150,7 +150,7 @@
                 <ImageView
                     android:id="@+id/iv_11"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
                 <ImageView
                     android:id="@+id/iv_12"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -170,7 +170,7 @@
                 <ImageView
                     android:id="@+id/iv_13"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -180,7 +180,7 @@
                 <ImageView
                     android:id="@+id/iv_14"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -190,7 +190,7 @@
                 <ImageView
                     android:id="@+id/iv_15"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -200,7 +200,7 @@
                 <ImageView
                     android:id="@+id/iv_16"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -210,7 +210,7 @@
                 <ImageView
                     android:id="@+id/iv_17"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -220,7 +220,7 @@
                 <ImageView
                     android:id="@+id/iv_18"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -230,7 +230,7 @@
                 <ImageView
                     android:id="@+id/iv_19"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -241,7 +241,7 @@
                 <ImageView
                     android:id="@+id/iv_20"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -251,7 +251,7 @@
                 <ImageView
                     android:id="@+id/iv_21"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -261,8 +261,8 @@
 
                 <ImageView
                     android:id="@+id/iv_22"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="200dp"
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -272,7 +272,7 @@
                 <ImageView
                     android:id="@+id/iv_23"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -282,7 +282,7 @@
                 <ImageView
                     android:id="@+id/iv_24"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -292,7 +292,7 @@
                 <ImageView
                     android:id="@+id/iv_25"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -302,7 +302,7 @@
                 <ImageView
                     android:id="@+id/iv_26"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -312,7 +312,7 @@
                 <ImageView
                     android:id="@+id/iv_27"
                     android:layout_width="200dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:layout_width="wrap_content"

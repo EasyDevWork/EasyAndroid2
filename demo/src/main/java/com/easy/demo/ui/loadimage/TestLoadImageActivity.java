@@ -18,6 +18,7 @@ import com.easy.demo.databinding.TestLoadImageBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.loadimage.EasyLoadImage;
 import com.easy.loadimage.transform.BlurTransformation;
+import com.easy.loadimage.transform.BrightnessFilterTransformation;
 import com.easy.loadimage.transform.ColorFilterTransformation;
 import com.easy.loadimage.transform.ContrastFilterTransformation;
 import com.easy.loadimage.transform.CropSquareTransformation;
@@ -39,9 +40,6 @@ import com.easy.utils.ToastUtils;
 
 import java.io.File;
 
-import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation;
-import jp.wasabeef.glide.transformations.gpu.GPUFilterTransformation;
-
 import static com.easy.loadimage.transform.RoundedCornersTransform.CornerType.TOP;
 
 @ActivityInject
@@ -59,7 +57,7 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
     public void initView() {
 
         int width = DimensUtils.dp2px(this, 200);
-        viewBind.loadingImageView.loadImage(width, width, imageUrl);
+        viewBind.loadingImageView.loadImage(width, width / 2, imageUrl);
 
         ValueAnimator animator = ValueAnimator.ofInt(0, 100);
         animator.setDuration(2000);
@@ -116,7 +114,7 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
 
         EasyLoadImage.loadImage(this, imageUrl, viewBind.iv16, new CropSquareTransformation());
 
-        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv17, new CropTransformation(200, 200, CropTransformation.CropType.TOP));
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv17, new CropTransformation(200, 100, CropTransformation.CropType.BOTTOM));
 
         EasyLoadImage.loadImage(this, imageUrl, viewBind.iv18, new MaskTransformation(R.drawable.alivc_screen_unlock));
 

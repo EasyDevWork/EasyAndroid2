@@ -48,7 +48,7 @@ dependencies {
 
     api lib.glide
     annotationProcessor lib.glide_compiler
-    api lib.glide_transformations
+//    api lib.glide_transformations
     implementation lib.glide_transformations_gpu
 
 

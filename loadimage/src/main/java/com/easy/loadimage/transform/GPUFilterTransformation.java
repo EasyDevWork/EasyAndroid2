@@ -47,7 +47,7 @@ public class GPUFilterTransformation extends BitmapTransformation {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof jp.wasabeef.glide.transformations.gpu.GPUFilterTransformation;
+        return o instanceof GPUFilterTransformation;
     }
 
     @Override
