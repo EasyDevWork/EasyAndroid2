@@ -14,7 +14,9 @@ import java.security.MessageDigest;
 
 import io.reactivex.annotations.NonNull;
 
-
+/**
+ * 自定义圆角位置
+ */
 public class RoundedCornersTransform extends BitmapTransformation {
 
     private static final int VERSION = 1;
@@ -109,9 +111,6 @@ public class RoundedCornersTransform extends BitmapTransformation {
                 break;
             case DIAGONAL_FROM_TOP_RIGHT:
                 drawDiagonalFromTopRightRoundRect(canvas, paint, right, bottom);
-                break;
-            default:
-                canvas.drawRoundRect(new RectF(margin, margin, right, bottom), radius, radius, paint);
                 break;
         }
     }

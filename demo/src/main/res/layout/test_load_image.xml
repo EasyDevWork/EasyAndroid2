@@ -35,8 +35,7 @@
                     <ImageView
                         android:id="@+id/iv_1"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_marginBottom="15dp" />
+                        android:layout_height="200dp" />
 
                     <com.easy.loadimage.progress.ImageLoadCircleProgressView
                         android:id="@+id/progressView2"
@@ -61,8 +60,7 @@
                 <ImageView
                     android:id="@+id/iv_2"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -72,8 +70,7 @@
                 <ImageView
                     android:id="@+id/iv_3"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -83,8 +80,7 @@
                 <ImageView
                     android:id="@+id/iv_4"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -94,8 +90,7 @@
                 <ImageView
                     android:id="@+id/iv_5"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -105,8 +100,7 @@
                 <ImageView
                     android:id="@+id/iv_6"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -116,8 +110,7 @@
                 <com.easy.loadimage.view.SelectImageView
                     android:id="@+id/iv_7"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -127,8 +120,7 @@
                 <ImageView
                     android:id="@+id/iv_8"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -138,8 +130,7 @@
                 <ImageView
                     android:id="@+id/iv_9"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -149,8 +140,7 @@
                 <ImageView
                     android:id="@+id/iv_10"
                     android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -160,8 +150,7 @@
                 <ImageView
                     android:id="@+id/iv_11"
                     android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -171,8 +160,7 @@
                 <ImageView
                     android:id="@+id/iv_12"
                     android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -182,13 +170,155 @@
                 <ImageView
                     android:id="@+id/iv_13"
                     android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="距行有边框" />
+
+                <ImageView
+                    android:id="@+id/iv_14"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="指定颜色滤镜" />
+
+                <ImageView
+                    android:id="@+id/iv_15"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="卡通效果" />
+
+                <ImageView
+                    android:id="@+id/iv_16"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="裁剪距行" />
+
+                <ImageView
+                    android:id="@+id/iv_17"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="指定位置裁剪" />
+
+                <ImageView
+                    android:id="@+id/iv_18"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="覆盖" />
+
+                <ImageView
+                    android:id="@+id/iv_19"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="高亮" />
+
+
+                <ImageView
+                    android:id="@+id/iv_20"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lomo风格" />
+
+                <ImageView
+                    android:id="@+id/iv_21"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="差异对比" />
+
+
+                <ImageView
+                    android:id="@+id/iv_22"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="反色差" />
+
+                <ImageView
+                    android:id="@+id/iv_23"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kuwahara" />
+
+                <ImageView
+                    android:id="@+id/iv_24"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="像素" />
+
+                <ImageView
+                    android:id="@+id/iv_25"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="深褐色" />
+
+                <ImageView
+                    android:id="@+id/iv_26"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="素描" />
+
+                <ImageView
+                    android:id="@+id/iv_27"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="螺旋形" />
+
             </LinearLayout>
 
         </ScrollView>

@@ -14,13 +14,12 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import java.security.MessageDigest;
 
 /**
- * 黑白
+ * 灰度级转换
  */
 public class GrayscaleTransformation extends BitmapTransformation {
 
     private static final int VERSION = 1;
-    private static final String ID =
-            "jp.wasabeef.glide.transformations.GrayscaleTransformation." + VERSION;
+    private static final String ID = "com.easy.loadimage.transform.GrayscaleTransformation." + VERSION;
 
     @Override
     protected Bitmap transform(@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
@@ -59,6 +58,5 @@ public class GrayscaleTransformation extends BitmapTransformation {
     public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
         messageDigest.update((ID).getBytes(CHARSET));
     }
-
 
 }

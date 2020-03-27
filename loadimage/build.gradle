@@ -47,8 +47,10 @@ dependencies {
     implementation lib.androidx_appcompat
 
     api lib.glide
-    api lib.glide_transformations
     annotationProcessor lib.glide_compiler
+    api lib.glide_transformations
+    implementation lib.glide_transformations_gpu
+
 
     implementation lib.rxjava
     implementation lib.rxandroid

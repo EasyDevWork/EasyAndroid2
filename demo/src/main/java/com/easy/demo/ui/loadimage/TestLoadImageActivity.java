@@ -3,7 +3,6 @@ package com.easy.demo.ui.loadimage;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.view.animation.LinearInterpolator;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -19,19 +18,30 @@ import com.easy.demo.databinding.TestLoadImageBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.loadimage.EasyLoadImage;
 import com.easy.loadimage.transform.BlurTransformation;
+import com.easy.loadimage.transform.ColorFilterTransformation;
+import com.easy.loadimage.transform.ContrastFilterTransformation;
+import com.easy.loadimage.transform.CropSquareTransformation;
+import com.easy.loadimage.transform.CropTransformation;
 import com.easy.loadimage.transform.GrayscaleTransformation;
+import com.easy.loadimage.transform.InvertFilterTransformation;
+import com.easy.loadimage.transform.KuwaharaFilterTransformation;
+import com.easy.loadimage.transform.MaskTransformation;
+import com.easy.loadimage.transform.PixelationFilterTransformation;
 import com.easy.loadimage.transform.RoundedCornersTransform;
+import com.easy.loadimage.transform.SepiaFilterTransformation;
+import com.easy.loadimage.transform.SketchFilterTransformation;
+import com.easy.loadimage.transform.SwirlFilterTransformation;
+import com.easy.loadimage.transform.ToonFilterTransformation;
+import com.easy.loadimage.transform.VignetteFilterTransformation;
 import com.easy.net.event.ActivityEvent;
 import com.easy.utils.DimensUtils;
 import com.easy.utils.ToastUtils;
 
 import java.io.File;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.GPUFilterTransformation;
 
-import static com.easy.loadimage.transform.RoundedCornersTransform.CornerType.OTHER_TOP_LEFT;
 import static com.easy.loadimage.transform.RoundedCornersTransform.CornerType.TOP;
 
 @ActivityInject
@@ -58,19 +68,12 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
         animator.addUpdateListener(animation -> viewBind.progressView2.setProgress((Integer) animator.getAnimatedValue()));
         animator.start();
 
-        EasyLoadImage.loadImage(this, "http://img5.imgtn.bdimg.com/it/u=1706446022,2591052907&fm=26&gp=0.jpg", viewBind.iv1);
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv1);
         viewBind.iv1.setOnClickListener(v ->
                 presenter.requestPermission(getRxPermissions())
         );
 
-
-        EasyLoadImage.loadImage(this)
-                .url(imageUrl)
-                .imageView(viewBind.iv2)
-                .placeholder(EasyLoadImage.placeImage)
-                .errorPic(EasyLoadImage.errorImage)
-                .transformation(new RoundedCornersTransform(40, 0, TOP))
-                .end();
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv2, new RoundedCornersTransform(40, 0, TOP));
 
         EasyLoadImage.loadBlurImage(this, imageUrl, viewBind.iv3, 10);
 
@@ -83,7 +86,7 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
         EasyLoadImage.loadResizeXYImage(this, imageUrl, 800, 200, viewBind.iv7);
         viewBind.iv7.setOnClickListener(view -> ToastUtils.showShort("点击了"));
 
-        EasyLoadImage.loadImage(this, "http://img2.imgtn.bdimg.com/it/u=927695547,1051830077&fm=26&gp=0.jpg", viewBind.iv8, (isComplete, percentage, bytesRead, totalBytes) -> {
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv8, (isComplete, percentage, bytesRead, totalBytes) -> {
 
         }, new RequestListener() {
             @Override
@@ -99,19 +102,42 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
 
         EasyLoadImage.loadCircleWithBorderImage(this, imageUrl, viewBind.iv9, 5, Color.parseColor("#ACACAC"));
 
-        EasyLoadImage.loadImage(this)
-                .url(imageUrl)
-                .imageView(viewBind.iv10)
-                .placeholder(EasyLoadImage.placeImage)
-                .errorPic(EasyLoadImage.errorImage)
-                .transformation(new BlurTransformation(this, 20), new GrayscaleTransformation(), new CircleCrop())
-                .end();
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv10, new BlurTransformation(20), new GrayscaleTransformation(), new CircleCrop());
 
         EasyLoadImage.loadImage(this, R.drawable.test_imag, viewBind.iv11);
 
         EasyLoadImage.loadImage(this, "", viewBind.iv12);
 
         EasyLoadImage.loadBorderImage(this, imageUrl, viewBind.iv13, 5, Color.parseColor("#ACACAC"));
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv14, new ColorFilterTransformation(0x7900CCCC));
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv15, new ToonFilterTransformation(0.2F, 10F));
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv16, new CropSquareTransformation());
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv17, new CropTransformation(200, 200, CropTransformation.CropType.TOP));
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv18, new MaskTransformation(R.drawable.alivc_screen_unlock));
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv19, new BrightnessFilterTransformation(0.5f));
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv20, new VignetteFilterTransformation());
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv21, new ContrastFilterTransformation(2.0f));
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv22, new InvertFilterTransformation());
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv23, new KuwaharaFilterTransformation());
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv24, new PixelationFilterTransformation());
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv25, new SepiaFilterTransformation());
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv26, new SketchFilterTransformation());
+
+        EasyLoadImage.loadImage(this, imageUrl, viewBind.iv27, new SwirlFilterTransformation());
+
     }
 
     @Override

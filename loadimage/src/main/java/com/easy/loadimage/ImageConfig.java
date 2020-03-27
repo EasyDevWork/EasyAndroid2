@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
@@ -42,7 +42,7 @@ public class ImageConfig {
      */
     private int cacheStrategy;
     private int fallback;
-    private BitmapTransformation[] transformation;
+    private Transformation[] transformation;
     private Drawable placeholderDrawable;
     private int resizeX;
     private boolean isCropCenter;
@@ -120,7 +120,7 @@ public class ImageConfig {
         return this;
     }
 
-    public ImageConfig transformation(BitmapTransformation... val) {
+    public ImageConfig transformation(Transformation... val) {
         transformation = val;
         return this;
     }
@@ -220,10 +220,10 @@ public class ImageConfig {
         }
 
         if (blurValue != 0) {
-            glideRequest.transform(new BlurTransformation(context, blurValue));
+            glideRequest.transform(new BlurTransformation(blurValue));
         }
-        //glide用它来改变图形的形状
-        if (transformation != null) {
+
+        if (transformation != null ) {
             glideRequest.transform(transformation);
         }
 

@@ -2,14 +2,10 @@ package com.easy.loadimage;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.media.MediaScannerConnection;
-import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
@@ -17,7 +13,7 @@ import androidx.annotation.RawRes;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -35,9 +31,6 @@ import java.io.FileOutputStream;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.Nullable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class EasyLoadImage {
@@ -184,11 +177,10 @@ public class EasyLoadImage {
      */
     public static void loadBlurImage(Object object, String url, ImageView imageView, int radius) {
         ImageConfig imageConfig = loadImage(object);
-        Context context = getContext(object);
-        if (imageConfig != null && context != null) {
+        if (imageConfig != null) {
             imageConfig.url(url)
                     .isCrossFade(true)
-                    .transformation(new CenterCrop(), new BlurTransformation(context, radius))
+                    .transformation(new CenterCrop(), new BlurTransformation(radius))
                     .placeholder(placeImage)
                     .errorPic(errorImage)
                     .imageView(imageView)
@@ -241,7 +233,19 @@ public class EasyLoadImage {
                     .end();
         }
     }
-
+    public static void loadImage(Object object, String url, ImageView imageView, Transformation... val) {
+        ImageConfig imageConfig = loadImage(object);
+        if (imageConfig != null) {
+            imageConfig.url(url)
+                    .isCrossFade(true)
+                    .fallback(errorImage)
+                    .placeholder(placeImage)
+                    .transformation(val)
+                    .errorPic(errorImage)
+                    .imageView(imageView)
+                    .end();
+        }
+    }
     /**
      * 预加载
      */
