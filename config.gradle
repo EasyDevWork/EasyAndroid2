@@ -36,7 +36,7 @@ ext {
 
             //aRouter
             "arouter_api"              : "com.alibaba:arouter-api:1.5.0",
-            "arouter_compiler"         : "com.alibaba:arouter-compiler:1.2.2",
+            "arouter_compiler"         : "com.alibaba:arouter-compiler:1.1.4",
 
             //dagger
             "dagger"                   : "com.google.dagger:dagger:2.10",

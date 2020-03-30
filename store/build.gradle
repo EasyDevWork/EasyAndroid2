@@ -37,8 +37,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-//    implementation lib.dagger
-//    annotationProcessor lib.dagger_compiler
+    implementation lib.dagger
+    annotationProcessor lib.dagger_compiler
 
 //    implementation lib.arouter_api
 //    annotationProcessor lib.arouter_compiler
