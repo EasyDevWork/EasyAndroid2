@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000">
+
+        <ImageView
+            android:id="@+id/preImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
+
+        <com.easy.loadimage.progress.ImageLoadCircleProgressView
+            android:id="@+id/progressView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="10dp"
+            android:progress="0"
+            android:visibility="gone"
+            app:cpv_progressNormalColor="@color/transparent10"
+            app:cpv_progressReachColor="@color/transparent90_white"
+            app:cpv_progressStyle="FillInnerArc"
+            app:cpv_progressTextColor="#d01716"
+            app:cpv_progressTextSize="13sp"
+            app:cpv_progressTextVisible="false" />
+    </RelativeLayout>
+
+</layout>
+
+

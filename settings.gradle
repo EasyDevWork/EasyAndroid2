@@ -1,7 +1,7 @@
 rootProject.name = 'EasyAndroid2'
 include ':app'
 include ':store'
-include ':qrcode'
+
 include ':Framework'
 include ':AptLib'
 include ':loadimage'
@@ -10,12 +10,11 @@ include ':widget'
 include ':utils'
 
 include ':demo'
+include ':imagezoom'
+include ':qrcode'
+include(':wechat')
 
 //include ':AptProcessor'
-    include(':wechat')
-    project(':wechat').projectDir = new File('./wechat')
 include ':aliplayer', ':eoschain', ':btcchain', ':tv', ':libtv',':demo','lottie'
-//
-//if (wechat_aar.equals("0")) {
 
-//}
+

@@ -12,6 +12,7 @@ import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.easy.loadimage.progress.EasyGlideApp;
 import com.easy.loadimage.progress.GlideImageViewTarget;
@@ -33,6 +34,7 @@ public class ImageConfig {
     private ImageView imageView;
     private int placeholder;
     private int errorPic;
+    private Target target;
 
     /**
      * 0 对应DiskCacheStrategy.all
@@ -112,6 +114,11 @@ public class ImageConfig {
 
     public ImageConfig cacheStrategy(int val) {
         cacheStrategy = val;
+        return this;
+    }
+
+    public ImageConfig target(Target target) {
+        this.target = target;
         return this;
     }
 
@@ -223,7 +230,7 @@ public class ImageConfig {
             glideRequest.transform(new BlurTransformation(blurValue));
         }
 
-        if (transformation != null ) {
+        if (transformation != null) {
             glideRequest.transform(transformation);
         }
 
@@ -271,7 +278,12 @@ public class ImageConfig {
         if (onProgressListener != null) {
             ProgressManager.addListener(url, onProgressListener);
         }
+        if(target!=null){
+            glideRequest.into(target);
+        }else{
+            glideRequest.into(new GlideImageViewTarget(imageView, url));
+        }
 
-        glideRequest.into(new GlideImageViewTarget(imageView, url));
+
     }
 }

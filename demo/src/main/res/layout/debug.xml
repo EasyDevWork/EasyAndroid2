@@ -6,7 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/black"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:background="@color/color_ffffff">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -104,8 +105,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="testLoadImage"
-                        android:text="图片加载" />
+                        android:onClick="testRouter"
+                        android:text="路由测试" />
 
                 </LinearLayout>
 
@@ -113,6 +114,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="testLoadImage"
+                        android:text="图片加载" />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="imageZoom"
+                        android:text="图片缩放" />
 
                     <Button
                         android:layout_width="0dp"

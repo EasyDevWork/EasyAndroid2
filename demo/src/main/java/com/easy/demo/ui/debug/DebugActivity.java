@@ -16,6 +16,8 @@ import com.easy.utils.LanguageUtil;
 import com.easy.utils.WebCacheUtils;
 import com.easy.widget.TitleView;
 
+import java.util.ArrayList;
+
 @ActivityInject
 @Route(path = "/demo/DebugActivity", name = "测试页面")
 public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> implements DebugView<ActivityEvent> {
@@ -40,13 +42,23 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         ARouter.getInstance().build("/demo/TestLottieActivity").navigation();
     }
 
+    public void testRouter(View view) {
+        ARouter.getInstance().build("/demo/TestArouterActivity").navigation();
+    }
+
     public void testActivity(View view) {
         ARouter.getInstance().build("/demo/TestFragmentActivity").navigation();
-//        FragmentManager manager = getSupportFragmentManager();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("type", "CCCCC");
-//        Fragment testFragment = Fragment.instantiate(this, TestFragment.class.getName(), bundle);
-//        manager.beginTransaction().replace(R.id.flScreen, testFragment).commit();
+    }
+
+    public void imageZoom(View view) {
+        ArrayList<String> imageUrl= new ArrayList<>();
+        imageUrl.add("http://t9.baidu.com/it/u=2268908537,2815455140&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=f2bdac1c78a13b038896170ee6ce4694");
+        imageUrl.add("http://t9.baidu.com/it/u=1761131378,1355750940&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=bd8de5251ebb6167e29391b9a92da860");
+        imageUrl.add("http://t9.baidu.com/it/u=4169540006,4220376401&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=5641e3d175af91a852433d57afb75be9");
+
+        ARouter.getInstance().build("/imagezoom/ImageZoomActivity")
+                .withObject("images",imageUrl)
+                .withInt("position",1).navigation();
     }
 
     public void tesSharePreference(View view) {
