@@ -136,7 +136,7 @@ public abstract class WebBaseActivity<P extends BasePresenter, V extends ViewDat
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (null == uploadMessage && null == uploadMessageAboveL) return;
         try {

@@ -120,7 +120,7 @@ public class QrScanActivity extends BaseActivity<QrScanPresenter, QrScanBinding>
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CODE_SELECT_IMAGE:
