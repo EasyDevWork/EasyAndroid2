@@ -12,9 +12,9 @@ include ':utils'
 include ':demo'
 include ':imagezoom'
 include ':qrcode'
-include(':wechat')
+include ':wechat'
 
-//include ':AptProcessor'
+include ':AptProcessor'
 include ':aliplayer', ':eoschain', ':btcchain', ':tv', ':libtv',':demo','lottie'
 
 

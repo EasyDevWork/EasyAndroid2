@@ -97,8 +97,8 @@ dependencies {
     api project(':loadimage')
     api project(':widget')
     api project(':utils')
-//   annotationProcessor project(':AptProcessor')
-    annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
+   annotationProcessor project(':AptProcessor')
+//    annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
 
 //    api project(':wechat')
 }

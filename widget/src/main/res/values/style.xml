@@ -10,4 +10,19 @@
         <item name="android:windowEnterAnimation">@anim/dialog_bottom_popup_in</item>
         <item name="android:windowExitAnimation">@anim/dialog_bottom_popup_out</item>
     </style>
+    <style name="button">
+        <item name="android:layout_height">44dp</item>
+        <item name="android:background">@drawable/button_bg</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:enabled">false</item>
+        <item name="android:textColor">@color/color_ffffff</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="progressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_horizontal</item>
+        <item name="android:minHeight">8dip</item>
+        <item name="android:maxHeight">8dip</item>
+    </style>
 </resources>

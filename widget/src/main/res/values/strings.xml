@@ -5,4 +5,6 @@
     <string name="album">相册</string>
     <string name="video">录像</string>
     <string name="photograph">拍照</string>
+    <string name="update_remind">更新提醒</string>
+    <string name="update_now">现在更新</string>
 </resources>
