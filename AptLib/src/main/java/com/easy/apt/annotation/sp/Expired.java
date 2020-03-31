@@ -10,6 +10,9 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 
 @Retention(CLASS)
 @Target({METHOD, PARAMETER})
+/**
+ * 设置有效时间
+ */
 public @interface Expired {
 
     int UNIT_MILLISECONDS = 1;

@@ -84,7 +84,6 @@ public class PreferenceGenerator extends ElementGenerator {
 
                 PreferenceMethod preferenceMethod = new PreferenceMethod(methodElement, defaultEditMethod);
                 preferenceMethods.add(preferenceMethod);
-
             }
         }
 
@@ -106,6 +105,10 @@ public class PreferenceGenerator extends ElementGenerator {
                 .addParameter(ClassName.get("com.easy.apt.lib.Converter","Factory"), "converterFactory")
                 .addStatement("mPreferences = context.getSharedPreferences($S, Context.MODE_PRIVATE)", fileName)
                 .addStatement("mConverterFactory = converterFactory");
+        if (supportExpired) {
+            constructor.addStatement("mConfigPreferences = context.getSharedPreferences($S, Context.MODE_PRIVATE)", fileName + "_config");
+        }
+        builder.addMethod(constructor.build());
 
         MethodSpec constructor2 = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
@@ -115,18 +118,11 @@ public class PreferenceGenerator extends ElementGenerator {
                 .addStatement("mConverterFactory = converterFactory")
                 .addStatement("mPreferences = context.getSharedPreferences($S + \"_\" + id, Context.MODE_PRIVATE)", fileName)
                 .build();
-
-        if (supportExpired) {
-            constructor.addStatement("mConfigPreferences = context.getSharedPreferences($S, Context.MODE_PRIVATE)", fileName + "_config");
-        }
-
-        builder.addMethod(constructor.build());
         builder.addMethod(constructor2);
 
         for (PreferenceMethod method : preferenceMethods) {
             builder.addMethod(method.build());
         }
-
         return builder.build();
     }
 
@@ -151,14 +147,11 @@ public class PreferenceGenerator extends ElementGenerator {
         String mExpiredTime;
 
         public PreferenceMethod(ExecutableElement methodElement, String editMethod) {
-
             mMethodElement = methodElement;
+            mMethodName = mMethodElement.getSimpleName().toString();
+            mReturnType = mMethodElement.getReturnType();
 
             mEditMethod = editMethod;
-
-            mMethodName = mMethodElement.getSimpleName().toString();
-
-            mReturnType = mMethodElement.getReturnType();
 
             final Prototype prototype = methodElement.getAnnotation(Prototype.class);
             if (prototype != null) {
@@ -201,9 +194,7 @@ public class PreferenceGenerator extends ElementGenerator {
             if (methodElement.getAnnotation(Remove.class) != null) {
                 mType = TYPE_REMOVE;
             } else {
-
                 List<? extends VariableElement> parameters = methodElement.getParameters();
-
                 if (mReturnType.getKind().equals(VOID) || (mReturnType.getKind().equals(BOOLEAN) && parameters != null && parameters.size() > 0)) {
                     // setter
                     mType = TYPE_SETTER;
@@ -212,7 +203,6 @@ public class PreferenceGenerator extends ElementGenerator {
                     mType = TYPE_GETTER;
                 }
             }
-
         }
 
         public MethodSpec build() {

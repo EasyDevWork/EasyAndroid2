@@ -9,6 +9,9 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 
 @Retention(CLASS)
 @Target(METHOD)
+/**
+ * 设置默认值
+ */
 public @interface Default {
 
     String[] value();

@@ -9,5 +9,8 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 
 @Retention(CLASS)
 @Target(METHOD)
+/**
+ * 获取SharedPreferences 对象
+ */
 public @interface Prototype {
 }
