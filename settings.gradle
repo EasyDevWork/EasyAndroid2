@@ -15,6 +15,7 @@ include ':qrcode'
 include ':wechat'
 
 include ':AptProcessor'
-include ':aliplayer', ':eoschain', ':btcchain', ':tv', ':libtv',':demo','lottie'
+include ':aliplayer', ':eoschain', ':btcchain',  ':libtv',':demo','lottie'
+//include ':tv'
 
 

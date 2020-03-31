@@ -30,6 +30,8 @@ public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeBindi
         setBackground(R.color.colorPrimary);
         closeSwipeBackLayout();
         if (BuildConfig.DEBUG) {
+            AppSharePreferences appShare = SharePreference.get(this, AppSharePreferences.class);
+            appShare.setGoGuide(false);
             ARouter.getInstance().build("/demo/DebugActivity").navigation();
         } else {
             presenter.countDown(1);

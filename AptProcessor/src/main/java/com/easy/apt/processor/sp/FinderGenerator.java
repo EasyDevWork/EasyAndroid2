@@ -1,6 +1,5 @@
 
 package com.easy.apt.processor.sp;
-import com.easy.apt.processor.TypeUtil;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;

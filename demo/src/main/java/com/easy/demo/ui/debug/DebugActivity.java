@@ -51,20 +51,23 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     }
 
     public void imageZoom(View view) {
-        ArrayList<String> imageUrl= new ArrayList<>();
+        ArrayList<String> imageUrl = new ArrayList<>();
         imageUrl.add("http://t9.baidu.com/it/u=2268908537,2815455140&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=f2bdac1c78a13b038896170ee6ce4694");
         imageUrl.add("http://t9.baidu.com/it/u=1761131378,1355750940&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=bd8de5251ebb6167e29391b9a92da860");
         imageUrl.add("http://t9.baidu.com/it/u=4169540006,4220376401&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=5641e3d175af91a852433d57afb75be9");
 
         ARouter.getInstance().build("/imagezoom/ImageZoomActivity")
-                .withObject("images",imageUrl)
-                .withInt("position",1).navigation();
+                .withObject("images", imageUrl)
+                .withInt("position", 1).navigation();
     }
 
     public void tesSharePreference(View view) {
         i++;
         SharePreference.get(this, DemoSharePreferences.class).setNum(i + "");
-        show(SharePreference.get(this, DemoSharePreferences.class).getNum());
+        StringBuilder builder = new StringBuilder();
+        builder.append("num:").append(SharePreference.get(this, DemoSharePreferences.class).getNum());
+        builder.append("guide:").append(SharePreference.get(this, DemoSharePreferences.class).isGoGuide());
+        show(builder.toString());
     }
 
     public void testLoadImage(View view) {

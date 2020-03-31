@@ -5,6 +5,7 @@ package com.easy.apt.processor;
 import com.easy.apt.annotation.sp.Preferences;
 import com.easy.apt.processor.sp.FinderGenerator;
 import com.easy.apt.processor.sp.PreferenceGenerator;
+import com.google.auto.service.AutoService;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -13,27 +14,21 @@ import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 
-
-//@AutoService(Processor.class)
-
-/**
- * 现在没用--留着借鉴
- */
-public class TreasureProcessor extends AbstractProcessor {
+@AutoService(Processor.class)
+public class SharePreferencesProcessor extends AbstractProcessor {
 
     private Filer mFiler;
 
     @Override
     public synchronized void init(ProcessingEnvironment env) {
         super.init(env);
-
         mFiler = env.getFiler();
     }
-
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
@@ -53,8 +48,8 @@ public class TreasureProcessor extends AbstractProcessor {
                     generator.generate();
                 }
             }
-            FinderGenerator finderGenerator = new FinderGenerator(mFiler, set);
-            finderGenerator.generate();
+//            FinderGenerator finderGenerator = new FinderGenerator(mFiler, set);
+//            finderGenerator.generate();
         } catch (Exception e) {
             e.printStackTrace();
         }

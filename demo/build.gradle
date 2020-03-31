@@ -63,5 +63,5 @@ dependencies {
     implementation project(':aliplayer')
     //implementation project(':tv')
     implementation project(':lottie')
-    implementation project(':Framework')
+    api project(':Framework')
 }

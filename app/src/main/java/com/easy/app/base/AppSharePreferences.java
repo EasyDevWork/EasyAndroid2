@@ -8,7 +8,7 @@ import com.easy.apt.annotation.sp.Default;
 import com.easy.apt.annotation.sp.Preferences;
 import com.easy.apt.annotation.sp.Remove;
 
-@Preferences
+@Preferences(name = "defaultSp")
 @Keep//keep 避免混淆
 public interface AppSharePreferences{
 
