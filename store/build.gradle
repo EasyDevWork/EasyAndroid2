@@ -37,15 +37,17 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    api lib.androidx_appcompat
+
     implementation lib.dagger
     annotationProcessor lib.dagger_compiler
-
-//    implementation lib.arouter_api
-//    annotationProcessor lib.arouter_compiler
 
     implementation lib.fastjson
 
     implementation project(':net')
+
+//    implementation project(':AptLib')
+//    annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
 
     debugImplementation lib.objectbox_browser
     releaseImplementation lib.objectbox_android
