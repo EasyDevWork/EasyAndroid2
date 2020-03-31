@@ -20,6 +20,12 @@ public class SharePreference {
         sConverterFactory = new SimpleConverterFactory();
     }
 
+    /**
+     * 自定义转化方式 {@link JsonConverterFactory}
+     * 默认是 {@link SimpleConverterFactory}
+     *
+     * @param factory
+     */
     public static void setConverterFactory(Converter.Factory factory) {
         sConverterFactory = factory;
     }

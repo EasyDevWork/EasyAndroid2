@@ -1,5 +1,6 @@
 package com.easy.demo.ui.debug;
 
+import android.accounts.Account;
 import android.util.Log;
 import android.view.View;
 
@@ -12,6 +13,7 @@ import com.easy.demo.base.DemoSharePreferences;
 import com.easy.demo.databinding.DebugBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.net.event.ActivityEvent;
+import com.easy.store.bean.Accounts;
 import com.easy.utils.LanguageUtil;
 import com.easy.utils.WebCacheUtils;
 import com.easy.widget.TitleView;
@@ -63,10 +65,16 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
 
     public void tesSharePreference(View view) {
         i++;
-        SharePreference.get(this, DemoSharePreferences.class).setNum(i + "");
+        DemoSharePreferences sharePreferences = SharePreference.get(this, DemoSharePreferences.class);
+        sharePreferences.setNum(i + "");
+        Accounts account = new Accounts();
+        account.age = 11;
+        account.name = "sss";
+        sharePreferences.setUserInfo(account);
         StringBuilder builder = new StringBuilder();
-        builder.append("num:").append(SharePreference.get(this, DemoSharePreferences.class).getNum());
-        builder.append("guide:").append(SharePreference.get(this, DemoSharePreferences.class).isGoGuide());
+        builder.append("num:").append(sharePreferences.getNum());
+        builder.append("guide:").append(sharePreferences.isGoGuide());
+        builder.append("account:").append(sharePreferences.getUserInfo());
         show(builder.toString());
     }
 

@@ -1,7 +1,9 @@
 package com.easy.app.base;
 
-import com.easy.framework.base.web.protocol.WebProtocolManager;
+import com.easy.apt.lib.JsonConverterFactory;
+import com.easy.apt.lib.SharePreference;
 import com.easy.framework.base.BaseApplication;
+import com.easy.framework.base.web.protocol.WebProtocolManager;
 import com.easy.net.RetrofitConfig;
 
 public class App extends BaseApplication {
@@ -18,6 +20,6 @@ public class App extends BaseApplication {
 
     @Override
     public void initOnMainThread() {
-
+        SharePreference.setConverterFactory(new JsonConverterFactory());
     }
 }

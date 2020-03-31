@@ -42,4 +42,5 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation lib.androidx_appcompat
+    implementation lib.fastjson
 }
