@@ -76,7 +76,7 @@ public abstract class BaseApplication extends Application {
         //路由初始化--用于页面跳转
         initARouter();
 
-        //Dagger初始化--用于注入对象
+       //Dagger初始化--用于注入对象
         appcomponent = DaggerAppcomponent.builder().appModule(new AppModule(this)).build();
         appcomponent.inject(this);
 

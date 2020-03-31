@@ -17,8 +17,7 @@ import com.easy.net.event.ActivityEvent;
 @Route(path = "/demo/TestArouterActivity", name = "路由测试")
 public class TestArouterActivity extends BaseActivity<TestAroterPresenter, TestArouterBinding> implements TestArouterView<ActivityEvent> {
 
-    private String intercepterPath = "/demo/TestLottieActivity";
-    private String replacePath = "/demo/TestLoadImageActivity";
+    private String intercepterPath = "/demo/TestLottieActivity2";
 
     @Autowired(name = "/framework/FrameWork2AppProvider")
     FrameWork2AppProvider provider;
@@ -51,13 +50,5 @@ public class TestArouterActivity extends BaseActivity<TestAroterPresenter, TestA
 
     public void testProvider2(View view) {
         provider.showToast("testProvider2");
-    }
-
-    public void testReplace(View view) {
-        RouterInterceptorManager.getInstance().setReplacePath(intercepterPath, replacePath);
-    }
-
-    public void testCancelReplace(View view) {
-        RouterInterceptorManager.getInstance().removeReplacePath(intercepterPath);
     }
 }

@@ -57,10 +57,11 @@ dependencies {
     annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
     implementation project(':qrcode')
     implementation project(':imagezoom')
-    api project(':eoschain')
-    api project(':btcchain')
+    implementation project(':eoschain')
+    implementation project(':btcchain')
     implementation project(':wechat')
-    api project(':aliplayer')
-
+    implementation project(':aliplayer')
+    //implementation project(':tv')
     implementation project(':lottie')
+    implementation project(':Framework')
 }

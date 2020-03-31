@@ -34,33 +34,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="testProvider1"
-                android:text="provider1" />
+                android:text="跨模块获取数据1" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="testProvider2"
-                android:text="provider2" />
+                android:text="跨模块获取数据2" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="testReplace"
-                android:text="设置重定向" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="testCancelReplace"
-                android:text="取消重定向" />
         </LinearLayout>
 
         <Button
