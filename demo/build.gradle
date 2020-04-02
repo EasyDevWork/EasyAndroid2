@@ -61,7 +61,6 @@ dependencies {
     implementation project(':qrcode')
     implementation project(':imagezoom')
     implementation project(':eoschain')
-    implementation project(':btcchain')
     implementation project(':wechat')
     implementation project(':aliplayer')
     implementation project(':tv')

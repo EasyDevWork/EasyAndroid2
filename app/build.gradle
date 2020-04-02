@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-android-extensions'
 
 def config = rootProject.ext.android
 def lib = rootProject.ext.dependencies
@@ -110,11 +108,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version
-
-
-//    annotationProcessor lib.arouter_compiler
-//    annotationProcessor project(':AptProcessor')
     implementation 'com.github.EasyDevWork:AptProcessor:3.0.1'
     annotationProcessor 'com.github.EasyDevWork:AptProcessor:compiler-3.0.2'
 

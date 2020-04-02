@@ -53,5 +53,6 @@ dependencies {
 
     annotationProcessor lib.dagger_compiler
     implementation project(':libtv')
+    implementation 'androidx.leanback:leanback:1.0.0'
     api project(':Framework')
 }

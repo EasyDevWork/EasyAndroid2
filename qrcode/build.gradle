@@ -1,5 +1,11 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'com.github.dcendents.android-maven'
+repositories {
+    maven { url "https://jitpack.io" }
+    mavenCentral()
+    google()
+    jcenter()
+}
 
 def config = rootProject.ext.android
 def lib = rootProject.ext.dependencies
@@ -52,9 +58,6 @@ dependencies {
     }
     api files('libs/zxing.jar')
 
-
-//    annotationProcessor lib.arouter_compiler
-//    annotationProcessor project(':AptProcessor')
     implementation 'com.github.EasyDevWork:AptProcessor:3.0.1'
     annotationProcessor 'com.github.EasyDevWork:AptProcessor:compiler-3.0.2'
 

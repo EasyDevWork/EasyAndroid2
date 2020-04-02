@@ -2,6 +2,7 @@ package com.easy.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Build;
@@ -113,5 +114,34 @@ public class SystemUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    /**
+     * 应用是否存在
+     *
+     * @param context
+     * @param packageName
+     * @return
+     */
+    public static boolean isAppExist(Context context, String packageName) {
+        try {
+            PackageManager mPackageManager = context.getPackageManager();
+            mPackageManager.getApplicationInfo(packageName, PackageManager.MATCH_UNINSTALLED_PACKAGES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 根据包名打开应用
+     *
+     * @param context     上下文
+     * @param packageName 将要打开的应用包名
+     */
+    public static void openApp(Context context, String packageName) {
+        PackageManager mPackageManager = context.getPackageManager();
+        Intent intent = mPackageManager.getLaunchIntentForPackage(packageName);
+        context.startActivity(intent);
     }
 }

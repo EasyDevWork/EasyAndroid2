@@ -1,5 +1,6 @@
 package com.easy.tv.base;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -17,7 +18,7 @@ public abstract class TvBaseActivity<P extends BasePresenter, V extends ViewData
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         super.onCreate(savedInstanceState);
     }
 

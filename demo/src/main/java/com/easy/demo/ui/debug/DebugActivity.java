@@ -136,6 +136,10 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         Log.d("Language", "current1:" + LanguageUtil.getSystemLanguage());
     }
 
+    public void goTv(View view){
+        ARouter.getInstance().build("/tv/LauncherActivity").navigation();
+    }
+
 
     public void testCache(View view) {
         i++;
