@@ -1,4 +1,4 @@
-package com.easy.libtv;
+package com.easy.tv;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -257,9 +257,7 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
     
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        final long startMillis = System.currentTimeMillis();
         mHasFocusWithPrevious = mHasFocusWithPrevious || hasFocus();
-        Loger.i("onLayout...start hasFocus()="+mHasFocusWithPrevious + " changed="+changed + " ,mShouldReverseLayout="+ mShouldReverseLayout);
 
         final boolean requestLayout = !mOptimizeLayout || (changed || mShouldReverseLayout);
         final boolean layoutAfterFocus;
@@ -285,15 +283,6 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
         }
         
         mHasFocusWithPrevious = false;
-        Loger.i("onLayout...end layoutAfterFocus="+layoutAfterFocus+". used time " + (System.currentTimeMillis() - startMillis) / 1000f + "s");
-    }
-    
-    @Override
-    protected void onMeasure(int widthSpec, int heightSpec) {
-        long startMillis = System.currentTimeMillis();
-        Loger.i("onMeasure...start");
-        super.onMeasure(widthSpec, heightSpec);
-        Loger.i("onMeasure...end. used time " + (System.currentTimeMillis() - startMillis) / 1000f + "s");
     }
 
     @Override
@@ -494,7 +483,6 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
         int[] scrollAmount = getChildRectangleOnScreenScrollAmount2(child, rect, mSelectedItemOffsetStart, mSelectedItemOffsetEnd);
         int dx = scrollAmount[0];
         int dy = scrollAmount[1];
-        Loger.i("dx="+dx+" dy="+dy);
 
         smoothScrollBy(dx, dy);
 
@@ -523,7 +511,6 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
 
             getDecoratedBoundsWithMargins(focusView, mTempRect);
 
-            Loger.i("zsq mTempRect=" + mTempRect);
 
             if (getLayoutManager().canScrollHorizontally()) {
                 final int right =
@@ -533,7 +520,6 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
                 final int left =
                         mTempRect.left
                                 - getPaddingLeft();
-                Loger.i("zsq left=" + left + " right=" + right);
                 dx = computeScrollOffset(left, right, offsetStart, offsetEnd);
             }
 
@@ -546,20 +532,15 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
                 final int top =
                         mTempRect.top
                                 - getPaddingTop();
-                Loger.i("zsq top=" + top + " bottom=" + bottom);
                 dy = computeScrollOffset(top, bottom, offsetStart, offsetEnd);
             }
 
         }
 
-        Loger.i("zsq dx="+dx+" dy="+dy);
-
         return new int[]{dx, dy};
     }
     
     private int computeScrollOffset(int start, int end, int offsetStart, int offsetEnd) {
-        Loger.i("zsq start="+start+" end="+end+" offsetStart="+offsetStart+" offsetEnd="+offsetEnd);
-        Loger.i("zsq canScrollHorizontally( -1)="+canScrollHorizontally( -1)+" canScrollVertically( -1)="+canScrollVertically( -1));
 
         // focusView超出下/右边界
         if (end > 0) {
@@ -712,7 +693,6 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
      * 请求默认焦点
      */
     public void requestDefaultFocus() {
-        Loger.i("zqq requestDefaultFocus");
         if(mIsMenu || mIsMemoryFocus) {
             if(mSelectedPosition < 0) {
                 mSelectedPosition = getFirstVisibleAndFocusablePosition();
@@ -864,7 +844,6 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
                     if(null != focused) {
                         int offset = Math.abs(getHeight() - focused.getBottom()
                                 - ((ViewGroup.MarginLayoutParams)(focused.getLayoutParams())).bottomMargin - getPaddingBottom());
-                        Loger.i("zsq offset="+offset);
                         return offset <= 2;
                     }
                     return false;
@@ -889,7 +868,6 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
                     if(null != focused) {
                         int offset = Math.abs(getWidth() - focused.getRight()
                                 - ((ViewGroup.MarginLayoutParams)(focused.getLayoutParams())).rightMargin - getPaddingRight());
-                        Loger.i("zsq offset="+offset);
                         return offset <= 2;
                     }
                     return false;
@@ -1071,7 +1049,6 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
     private class IRecyclerViewDataObserver extends AdapterDataObserver {
         @Override
         public void onChanged() {
-            Loger.i("RecyclerView Data Changed!!!");
             mShouldReverseLayout = true;
         }
     }
@@ -1106,15 +1083,12 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
 
         @Override
         public int calculateDtToFit(int viewStart, int viewEnd, int boxStart, int boxEnd, int snapPreference) {
-            Loger.i("zsq viewStart="+viewStart+" boxStart="+boxStart + " mOffset="+mOffset);
             int dt = boxStart - viewStart + mOffset;
-            Loger.i("zsq dt="+dt);
             return dt;
         }
 
         @Override
         protected void onStop() {
-            Loger.i("zzssqq SmoothScroller onStop");
             if(mRequestFocus) {
                 final int position = getTargetPosition();
                 postDelayed(new Runnable() {
@@ -1122,13 +1096,11 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
                     public void run() {
                         final View itemView = TvRecyclerView.this.getLayoutManager().findViewByPosition(position);
                         if (null != itemView) {
-                            Loger.i("zzssqq position="+position);
                             if (!hasFocus()) {
                                 onFocusChanged(true, FOCUS_DOWN, null);
                             }
                             itemView.requestFocus();
                         } else {
-                            Loger.i("zzssqq itemView is null position="+position);
                         }
                     }
                 }, mIsSmooth ? 400 : 100);

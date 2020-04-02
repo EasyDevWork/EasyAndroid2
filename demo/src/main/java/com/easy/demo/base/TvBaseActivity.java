@@ -10,7 +10,7 @@ import androidx.databinding.ViewDataBinding;
 import com.easy.demo.R;
 import com.easy.framework.base.BaseActivity;
 import com.easy.framework.base.BasePresenter;
-import com.easy.libtv.focusBorder.FocusBorder;
+import com.easy.tv.focusBorder.FocusBorder;
 
 public abstract class TvBaseActivity<P extends BasePresenter, V extends ViewDataBinding> extends BaseActivity<P, V> {
     public FocusBorder mFocusBorder;

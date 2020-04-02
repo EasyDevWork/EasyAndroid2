@@ -9,8 +9,8 @@ import com.easy.demo.R;
 import com.easy.demo.base.TvBaseActivity;
 import com.easy.demo.bean.Album;
 import com.easy.demo.databinding.TestAlbumBinding;
-import com.easy.libtv.SimpleOnItemListener;
-import com.easy.libtv.TvRecyclerView;
+import com.easy.tv.SimpleOnItemListener;
+import com.easy.tv.TvRecyclerView;
 import com.easy.net.event.ActivityEvent;
 import com.easy.utils.ToastUtils;
 

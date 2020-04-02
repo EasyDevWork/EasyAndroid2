@@ -1,4 +1,4 @@
-package com.easy.libtv;
+package com.easy.tv;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -480,7 +480,6 @@ public abstract class BaseLayoutManager extends TwoWayLayoutManager {
                     getLaneSpanForChild(child), direction);
         }
 
-        Loger.i("child position "+position+" childFrame="+mChildFrame);
     }
 
     @Override

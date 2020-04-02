@@ -1,4 +1,4 @@
-package com.easy.libtv;
+package com.easy.tv;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -64,8 +64,6 @@ public class MetroTitleItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         mTempItemLp = (MetroGridLayoutManager.LayoutParams) view.getLayoutParams();
-        Loger.i("ViewAdapterPosition="+mTempItemLp.getViewAdapterPosition()+" isSectionStart="+mTempItemLp.isSectionStart 
-                + " Decorated Top="+parent.getLayoutManager().getTopDecorationHeight(view));
         if(mTempItemLp.isSectionStart) {
             mTempTitleView = mTitleViews.get(mTempItemLp.sectionIndex);
             if(null == mTempTitleView) {
@@ -97,7 +95,6 @@ public class MetroTitleItemDecoration extends RecyclerView.ItemDecoration {
                     c.translate(left, top);
                     mTempTitleView.draw(c);
                     c.restore();
-                    Loger.i("mTitleView.draw ... sectionIndex="+mTempItemLp.sectionIndex);
                 }
                 mTempSectionIndex = mTempItemLp.sectionIndex;
             }

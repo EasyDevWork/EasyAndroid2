@@ -1,5 +1,5 @@
 
-package com.easy.libtv;
+package com.easy.tv;
 
 import android.graphics.Rect;
 

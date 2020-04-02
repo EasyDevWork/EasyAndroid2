@@ -1,6 +1,6 @@
 
 
-package com.easy.libtv;
+package com.easy.tv;
 
 import android.content.Context;
 import android.content.res.TypedArray;

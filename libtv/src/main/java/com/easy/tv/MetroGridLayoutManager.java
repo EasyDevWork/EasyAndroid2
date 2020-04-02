@@ -1,4 +1,4 @@
-package com.easy.libtv;
+package com.easy.tv;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,6 +7,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -68,7 +69,6 @@ public class MetroGridLayoutManager extends GridLayoutManager {
         final int multiple = MathUtil.commonMultiple(laneCounts);
         setNumColumns(multiple);
         setNumRows(multiple);
-        Loger.i("multiple="+multiple);
     }
 
     public void setIntelligentScroll(boolean intelligentScroll) {
@@ -222,7 +222,6 @@ public class MetroGridLayoutManager extends GridLayoutManager {
         final LayoutParams lp = (LayoutParams) child.getLayoutParams();
         
         if (entry == null) {
-            Loger.i("cacheChildLaneAndSpan position="+position + " direction="+direction);
             int itemSpanUsed = 0;
             for(int i = getFirstVisiblePosition(); i < position; i++) {
                 entry = (MetroItemEntry) getItemEntryForPosition(i);
@@ -247,8 +246,6 @@ public class MetroGridLayoutManager extends GridLayoutManager {
             entry.setLane(mTempLaneInfo);
             lp.isSectionStart = entry.isSectionStart;
         }
-        
-        Loger.i("cacheChildLaneAndSpan position="+position + " lp.isSectionStart="+lp.isSectionStart + " TopDecorationHeight="+getTopDecorationHeight(child));
 
         return entry;
     }
@@ -273,7 +270,6 @@ public class MetroGridLayoutManager extends GridLayoutManager {
                 final int dx = !isVertical() && ViewCompat.canScrollHorizontally(parent, offset) ? offset : 0;
                 final int dy = isVertical() && ViewCompat.canScrollVertically(parent, offset) ? offset : 0;
                 
-                Loger.d("dx=" + dx + " dy=" + dy);
                 recyclerView.smoothScrollBy(dx, dy);
                 resutl = true;
             }

@@ -1,4 +1,4 @@
-package com.easy.libtv;
+package com.easy.tv;
 
 import android.view.View;
 

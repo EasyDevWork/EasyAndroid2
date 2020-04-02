@@ -1,4 +1,4 @@
-package com.easy.libtv.focusBorder;
+package com.easy.tv.focusBorder;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
