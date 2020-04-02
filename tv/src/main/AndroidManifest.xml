@@ -12,7 +12,7 @@
     <application>
         <activity
             android:name=".ui.launcher.LauncherActivity"
-            android:theme="@style/Theme.Leanback"
+            android:theme="@style/FullScreenTheme"
             android:screenOrientation="fullSensor">
             <!--设置为桌面应用时打开/>-->
             <!--            <intent-filter>-->

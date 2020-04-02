@@ -26,13 +26,12 @@ public class AlbumPresenter extends BasePresenter<AlbumView> {
         int size = width < height ? width : height;
 
         List<Album> albums = new ArrayList<>();
-        String packageName = context.getPackageName();
         for (int i = 0; i < 13; i++) {
             Album album = new Album();
-            int pic = getContext().getResources().getIdentifier("pic_" + i, "drawable", packageName);
             album.setWidth(size);
+            album.setName("name_" + i);
             album.setHeight(size);
-            album.setUrl(pic);
+            album.setUrl("http://img2.imgtn.bdimg.com/it/u=3137891603,2800618441&fm=26&gp=0.jpg");
             albums.add(album);
         }
         CommonRespond respond = new CommonRespond();

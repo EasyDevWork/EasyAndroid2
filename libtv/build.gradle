@@ -39,5 +39,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api 'com.owen:tv-focusborder:1.0.8'
+    implementation lib.androidx_appcompat
+    implementation lib.recyclerview
 }

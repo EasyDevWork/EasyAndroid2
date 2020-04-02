@@ -51,6 +51,7 @@ dependencies {
     implementation 'com.github.EasyDevWork:AptProcessor:3.0.1'
     annotationProcessor 'com.github.EasyDevWork:AptProcessor:compiler-3.0.2'
 
+    implementation lib.recyclerViewAdapter
     annotationProcessor lib.dagger_compiler
     implementation project(':libtv')
     implementation 'androidx.leanback:leanback:1.0.0'

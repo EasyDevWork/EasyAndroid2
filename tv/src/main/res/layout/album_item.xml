@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/itemContain"
+    android:id="@+id/llContain"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_margin="20dp"
     android:clickable="true"
-    android:focusable="true"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingStart="15dp"
-    android:paddingTop="15dp"
-    android:paddingEnd="15dp"
-    android:paddingBottom="15dp">
+    android:background="@color/lb_grey"
+    android:focusable="true">
 
     <ImageView
-        android:id="@+id/ivImage"
+        android:id="@+id/ivIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        tools:background="@android:drawable/ic_media_rew" />
+        android:layout_centerInParent="true" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        tools:text="爱就对了" />
+
+</RelativeLayout>

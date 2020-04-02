@@ -2,7 +2,7 @@ package com.easy.tv.bean;
 
 public class Album {
     private String name;
-    private int url;
+    private String url;
     private int width;
     private int height;
 
@@ -14,11 +14,11 @@ public class Album {
         this.name = name;
     }
 
-    public int getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public void setUrl(int url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
@@ -37,4 +37,5 @@ public class Album {
     public void setHeight(int height) {
         this.height = height;
     }
+
 }

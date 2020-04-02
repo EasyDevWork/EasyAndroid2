@@ -52,6 +52,7 @@ public class LauncherActivity extends TvBaseActivity<LauncherPresenter, Launcher
             Intent intent = new Intent(Settings.ACTION_SETTINGS);
             startActivity(intent);
         });
-        onMoveFocusBorder(viewBind.rlVideo, 1.1f);
+
+        viewBind.rlVideo.requestFocus();
     }
 }

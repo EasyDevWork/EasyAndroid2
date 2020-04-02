@@ -1,21 +1,20 @@
 package com.easy.tv.ui.album;
 
-import android.view.View;
 
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.tv.base.CommonRespond;
 import com.easy.libtv.SimpleOnItemListener;
 import com.easy.libtv.TvRecyclerView;
 import com.easy.net.event.ActivityEvent;
 import com.easy.tv.R;
+import com.easy.tv.base.CommonRespond;
 import com.easy.tv.base.TvBaseActivity;
 import com.easy.tv.bean.Album;
 import com.easy.tv.databinding.AlbumBinding;
 import com.easy.utils.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @ActivityInject
@@ -23,8 +22,6 @@ import java.util.List;
 public class AlbumActivity extends TvBaseActivity<AlbumPresenter, AlbumBinding> implements AlbumView<ActivityEvent> {
 
     AlbumAdapter adapter;
-    List<Album> datas = new ArrayList<>();
-
 
     @Override
     public int getLayoutId() {
@@ -35,9 +32,9 @@ public class AlbumActivity extends TvBaseActivity<AlbumPresenter, AlbumBinding> 
     public void initView() {
         super.initView();
 
-        adapter = new AlbumAdapter(datas);
-        viewBind.recyclerView.setSpacingWithMargins(10, 3);
+        adapter = new AlbumAdapter(this);
         viewBind.recyclerView.setAdapter(adapter);
+        viewBind.recyclerView.setSpacingWithMargins(30, 35);
         viewBind.recyclerView.setOnFocusChangeListener((v, hasFocus) -> mFocusBorder.setVisible(hasFocus));
         viewBind.recyclerView.setOnItemListener(new SimpleOnItemListener() {
             @Override
@@ -47,7 +44,7 @@ public class AlbumActivity extends TvBaseActivity<AlbumPresenter, AlbumBinding> 
 
             @Override
             public void onItemClick(TvRecyclerView parent, View itemView, int position) {
-                Album album = datas.get(position);
+                Album album = adapter.getItem(position);
                 ToastUtils.showShort(album.getName());
             }
         });
@@ -57,8 +54,7 @@ public class AlbumActivity extends TvBaseActivity<AlbumPresenter, AlbumBinding> 
     @Override
     public void albumCallback(CommonRespond<List<Album>> respond) {
         if (respond.getCode() == 0 && respond.getObj() != null) {
-            datas.clear();
-            datas.addAll(respond.getObj());
+            adapter.setNewData(respond.getObj());
             adapter.notifyDataSetChanged();
             viewBind.recyclerView.getNextFocusDownId();
         }

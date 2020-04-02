@@ -14,6 +14,7 @@ import com.easy.framework.base.BaseActivity;
 import com.easy.net.event.ActivityEvent;
 import com.easy.store.bean.Accounts;
 import com.easy.utils.LanguageUtil;
+import com.easy.utils.ToastUtils;
 import com.easy.utils.WebCacheUtils;
 import com.easy.widget.TitleView;
 
@@ -85,10 +86,6 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         ARouter.getInstance().build("/demo/TransparentActivity").navigation();
     }
 
-    public void goEosChain(View view) {
-        ARouter.getInstance().build("/demo/EosChainActivity").navigation();
-    }
-
     public void testDialog(View view) {
         ARouter.getInstance().build("/demo/DialogActivity").navigation();
     }
@@ -110,9 +107,6 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
                 .withString("url", "file:///android_asset/testjs.html").navigation();
     }
 
-    public void goBtcChain(View view) {
-        ARouter.getInstance().build("/demo/BtcChainActivity").navigation();
-    }
 
     public void goPlayer(View view) {
         ARouter.getInstance().build("/demo/PlayerActivity").navigation();
@@ -136,8 +130,35 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         Log.d("Language", "current1:" + LanguageUtil.getSystemLanguage());
     }
 
-    public void goTv(View view){
+    public void goTv(View view) {
         ARouter.getInstance().build("/tv/LauncherActivity").navigation();
+    }
+
+    public void goEosChain(View view) {
+        ARouter.getInstance().build("/demo/EosChainActivity").navigation();
+    }
+
+    public void goBtcChain(View view) {
+        ToastUtils.showShort("未补充");
+    }
+
+    public void goBnbChain(View view) {
+        ToastUtils.showShort("未补充");
+    }
+    public void goEthChain(View view) {
+        ToastUtils.showShort("未补充");
+    }
+
+    public void goCosmosChain(View view) {
+        ToastUtils.showShort("未补充");
+    }
+
+    public void goUuosChain(View view) {
+        ToastUtils.showShort("未补充");
+    }
+
+    public void goTelosChain(View view) {
+        ToastUtils.showShort("未补充");
     }
 
 
