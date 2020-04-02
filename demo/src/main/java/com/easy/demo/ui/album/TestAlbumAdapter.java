@@ -1,4 +1,4 @@
-package com.easy.tv.ui.album;
+package com.easy.demo.ui.album;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -7,17 +7,17 @@ import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.easy.demo.R;
 import com.easy.loadimage.ImageConfig;
-import com.easy.tv.R;
-import com.easy.tv.bean.Album;
+import com.easy.demo.bean.Album;
 
 import java.util.ArrayList;
 
-public class AlbumAdapter extends BaseQuickAdapter<Album, BaseViewHolder> {
+public class TestAlbumAdapter extends BaseQuickAdapter<Album, BaseViewHolder> {
 
     Context context;
-    public AlbumAdapter(Context context) {
-        super(R.layout.album_item, new ArrayList<>());
+    public TestAlbumAdapter(Context context) {
+        super(R.layout.test_album_item, new ArrayList<>());
         this.context = context;
     }
 

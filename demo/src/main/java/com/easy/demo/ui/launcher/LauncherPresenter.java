@@ -1,4 +1,4 @@
-package com.easy.tv.ui.launcher;
+package com.easy.demo.ui.launcher;
 
 import com.easy.framework.base.BasePresenter;
 

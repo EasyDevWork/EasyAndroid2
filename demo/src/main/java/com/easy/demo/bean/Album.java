@@ -1,4 +1,4 @@
-package com.easy.tv.bean;
+package com.easy.demo.bean;
 
 public class Album {
     private String name;

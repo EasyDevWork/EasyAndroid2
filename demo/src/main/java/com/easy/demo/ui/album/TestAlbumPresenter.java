@@ -1,10 +1,9 @@
-package com.easy.tv.ui.album;
+package com.easy.demo.ui.album;
 
 import android.content.Context;
 
-import com.easy.tv.base.CommonRespond;
 import com.easy.framework.base.BasePresenter;
-import com.easy.tv.bean.Album;
+import com.easy.demo.bean.Album;
 import com.easy.utils.DimensUtils;
 
 import java.util.ArrayList;
@@ -12,9 +11,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class AlbumPresenter extends BasePresenter<AlbumView> {
+public class TestAlbumPresenter extends BasePresenter<TestAlbumView> {
     @Inject
-    public AlbumPresenter() {
+    public TestAlbumPresenter() {
 
     }
 
@@ -34,9 +33,6 @@ public class AlbumPresenter extends BasePresenter<AlbumView> {
             album.setUrl("http://img2.imgtn.bdimg.com/it/u=3137891603,2800618441&fm=26&gp=0.jpg");
             albums.add(album);
         }
-        CommonRespond respond = new CommonRespond();
-        respond.setCode(0);
-        respond.setObj(albums);
-        mvpView.albumCallback(respond);
+        mvpView.albumCallback(albums);
     }
 }

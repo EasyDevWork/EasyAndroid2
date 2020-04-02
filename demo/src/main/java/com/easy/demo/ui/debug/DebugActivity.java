@@ -131,7 +131,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     }
 
     public void goTv(View view) {
-        ARouter.getInstance().build("/tv/LauncherActivity").navigation();
+        ARouter.getInstance().build("/demo/LauncherActivity").navigation();
     }
 
     public void goEosChain(View view) {

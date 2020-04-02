@@ -1,4 +1,4 @@
-package com.easy.tv.ui.launcher;
+package com.easy.demo.ui.launcher;
 
 import android.content.Intent;
 import android.provider.Settings;
@@ -6,20 +6,20 @@ import android.provider.Settings;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.apt.annotation.ActivityInject;
+import com.easy.demo.R;
+import com.easy.demo.base.TvBaseActivity;
+import com.easy.demo.databinding.TestLauncherBinding;
 import com.easy.net.event.ActivityEvent;
-import com.easy.tv.R;
-import com.easy.tv.base.TvBaseActivity;
-import com.easy.tv.databinding.LauncherBinding;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.ToastUtils;
 
 @ActivityInject
-@Route(path = "/tv/LauncherActivity", name = "桌面页面")
-public class LauncherActivity extends TvBaseActivity<LauncherPresenter, LauncherBinding> implements LauncherView<ActivityEvent> {
+@Route(path = "/demo/LauncherActivity", name = "桌面页面")
+public class LauncherActivity extends TvBaseActivity<LauncherPresenter, TestLauncherBinding> implements LauncherView<ActivityEvent> {
 
     @Override
     public int getLayoutId() {
-        return R.layout.launcher;
+        return R.layout.test_launcher;
     }
 
     @Override
@@ -31,11 +31,11 @@ public class LauncherActivity extends TvBaseActivity<LauncherPresenter, Launcher
         viewBind.rlSet.setOnFocusChangeListener((v, hasFocus) -> onMoveFocusBorder(v, 1.1f));
 
         viewBind.rlVideo.setOnClickListener(v -> {
-            ARouter.getInstance().build("/tv/VideoActivity").navigation();
+            ARouter.getInstance().build("/demo/VideoActivity").navigation();
         });
 
         viewBind.rlAlbum.setOnClickListener(v -> {
-            ARouter.getInstance().build("/tv/AlbumActivity").navigation();
+            ARouter.getInstance().build("/demo/AlbumActivity").navigation();
         });
 
         viewBind.rlApp.setOnClickListener(v -> {

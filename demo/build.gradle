@@ -61,7 +61,9 @@ dependencies {
     implementation project(':eoschain')
     implementation project(':wechat')
     implementation project(':aliplayer')
-    implementation project(':tv')
     implementation project(':lottie')
     api project(':Framework')
+
+    implementation project(':libtv')
+    implementation 'androidx.leanback:leanback:1.0.0'
 }
