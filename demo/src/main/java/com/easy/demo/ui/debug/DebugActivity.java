@@ -1,6 +1,5 @@
 package com.easy.demo.ui.debug;
 
-import android.accounts.Account;
 import android.util.Log;
 import android.view.View;
 
@@ -70,11 +69,11 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         Accounts account = new Accounts();
         account.age = 11;
         account.name = "sss";
-        sharePreferences.setUserInfo(account);
+//        sharePreferences.setUserInfo(account);
         StringBuilder builder = new StringBuilder();
         builder.append("num:").append(sharePreferences.getNum());
         builder.append("guide:").append(sharePreferences.isGoGuide());
-        builder.append("account:").append(sharePreferences.getUserInfo());
+//        builder.append("account:").append(sharePreferences.getUserInfo());
         show(builder.toString());
     }
 

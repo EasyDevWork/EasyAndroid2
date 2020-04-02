@@ -11,11 +11,11 @@ android {
         versionCode config.versionCode
         versionName config.versionName
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [moduleName: project.getName()]
-            }
-        }
+//        javaCompileOptions {
+//            annotationProcessorOptions {
+//                arguments = [moduleName: project.getName()]
+//            }
+//        }
     }
 
     dataBinding {
@@ -43,12 +43,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    annotationProcessor lib.dagger_compiler
-    annotationProcessor lib.arouter_compiler
-    annotationProcessor project(':AptProcessor')
-//    annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
-    implementation project(':Framework')
 
     implementation 'org.bitcoinj:bitcoinj-core:0.15'
 }

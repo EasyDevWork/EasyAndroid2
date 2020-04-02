@@ -3,7 +3,9 @@ package com.easy.tv.ui.albumdetail;
 import android.view.View;
 
 import com.easy.apt.annotation.FragmentInject;
-import com.easy.net.rxlifecycle.FragmentEvent;
+import com.easy.net.event.FragmentEvent;
+import com.easy.net.rxlifecycle.LifecycleProvider;
+import com.easy.net.rxlifecycle.LifecycleTransformer;
 import com.easy.tv.R;
 import com.easy.tv.base.TvBaseDialogFragment;
 import com.easy.tv.databinding.AlbumBinding;
@@ -18,11 +20,13 @@ public class AlbumDetailFragment extends TvBaseDialogFragment<AlbumDetailPresent
 
     }
 
-
     @Override
     public int getLayoutId() {
         return R.layout.album_detail;
     }
 
-
+    @Override
+    public LifecycleProvider getRxLifecycle() {
+        return null;
+    }
 }

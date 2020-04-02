@@ -15,8 +15,6 @@ import com.easy.apt.annotation.sp.Prototype;
 import com.easy.apt.annotation.sp.Remove;
 import com.easy.store.bean.Accounts;
 
-import java.util.Set;
-
 @Preferences(name = "defaultSp")
 @Keep//keep 避免混淆
 public interface DemoSharePreferences {
@@ -32,9 +30,9 @@ public interface DemoSharePreferences {
     @Expired(value = 5, unit = Expired.UNIT_SECONDS)
     boolean isGoGuide();
 
-    void setUserInfo(Accounts account);
-
-    Accounts getUserInfo();
+//    void setUserInfo(Accounts account);
+//
+//    Accounts getUserInfo();
 
     @Clear
     void clear();
@@ -49,9 +47,9 @@ public interface DemoSharePreferences {
     @Prototype
     SharedPreferences getSp();
 
-    @Default({"hello", "world", "!"})
-    Set<String> getStringSet();
+//    @Default({"hello", "world", "!"})
+//    Set<String> getStringSet();
 
-    @Commit
-    void setToken();
+//    @Commit
+//    void setToken();
 }

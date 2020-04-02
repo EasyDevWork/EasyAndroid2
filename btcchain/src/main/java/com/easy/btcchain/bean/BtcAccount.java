@@ -1,11 +1,7 @@
-package com.easy.store.bean;
+package com.easy.btcchain.bean;
 
-import io.objectbox.annotation.Entity;
-import io.objectbox.annotation.Id;
-
-@Entity
 public class BtcAccount {
-    @Id
+
     private long id;
     private String publicKey;
     private String privateKey;

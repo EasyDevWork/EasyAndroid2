@@ -17,7 +17,7 @@ import com.easy.net.event.ActivityEvent;
 @Route(path = "/demo/TestArouterActivity", name = "路由测试")
 public class TestArouterActivity extends BaseActivity<TestAroterPresenter, TestArouterBinding> implements TestArouterView<ActivityEvent> {
 
-    private String intercepterPath = "/demo/TestLottieActivity2";
+    private String intercepterPath = "/demo/TestLottieActivity";
 
     @Autowired(name = "/framework/FrameWork2AppProvider")
     FrameWork2AppProvider provider;

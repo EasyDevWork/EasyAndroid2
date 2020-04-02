@@ -23,6 +23,7 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [moduleName: project.getName()]
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
     }
@@ -87,18 +88,18 @@ dependencies {
     api lib.dagger
     annotationProcessor lib.dagger_compiler
 
-    api lib.arouter_api
-    annotationProcessor lib.arouter_compiler
+
+//    api project(':AptLib')
+//    annotationProcessor project(':AptProcessor')
+//    api lib.arouter_api
+//    annotationProcessor lib.arouter_compiler
+    api 'com.github.EasyDevWork:AptProcessor:3.0.1'
+    annotationProcessor 'com.github.EasyDevWork:AptProcessor:compiler-3.0.2'
 
 
-    api project(':AptLib')
     api project(':net')
     api project(':store')
     api project(':loadimage')
     api project(':widget')
     api project(':utils')
-   annotationProcessor project(':AptProcessor')
-//    annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
-
-//    api project(':wechat')
 }

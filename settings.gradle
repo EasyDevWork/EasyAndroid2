@@ -2,8 +2,10 @@ rootProject.name = 'EasyAndroid2'
 include ':app'
 include ':store'
 
+//include ':AptLib'
+//include ':AptProcessor'
+
 include ':Framework'
-include ':AptLib'
 include ':loadimage'
 include ':net'
 include ':widget'
@@ -13,9 +15,11 @@ include ':demo'
 include ':imagezoom'
 include ':qrcode'
 include ':wechat'
-
-include ':AptProcessor'
-include ':aliplayer', ':eoschain', ':btcchain',  ':libtv',':demo','lottie'
-//include ':tv'
+include ':lottie'
+include ':aliplayer'
+include ':eoschain'
+include ':btcchain'
+include ':libtv'
+include ':tv'
 
 

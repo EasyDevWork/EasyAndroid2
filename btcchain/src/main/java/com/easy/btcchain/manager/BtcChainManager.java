@@ -1,6 +1,7 @@
 package com.easy.btcchain.manager;
 
-import com.easy.store.bean.BtcAccount;
+
+import com.easy.btcchain.bean.BtcAccount;
 
 import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.LegacyAddress;

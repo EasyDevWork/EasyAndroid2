@@ -20,6 +20,7 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [moduleName: project.getName()]
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
     }
@@ -48,9 +49,7 @@ dependencies {
 
     api lib.glide
     annotationProcessor lib.glide_compiler
-//    api lib.glide_transformations
     implementation lib.glide_transformations_gpu
-
 
     implementation lib.rxjava
     implementation lib.rxandroid

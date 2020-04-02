@@ -15,6 +15,7 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [moduleName: project.getName()]
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
     }
@@ -50,18 +51,20 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     annotationProcessor lib.dagger_compiler
-    annotationProcessor lib.arouter_compiler
-    annotationProcessor project(':AptProcessor')
-//    annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
+
+//    annotationProcessor lib.arouter_compiler
+//    annotationProcessor project(':AptProcessor')
+    implementation 'com.github.EasyDevWork:AptProcessor:3.0.1'
+    annotationProcessor 'com.github.EasyDevWork:AptProcessor:compiler-3.0.2'
+
     implementation project(':qrcode')
     implementation project(':imagezoom')
     implementation project(':eoschain')
     implementation project(':btcchain')
     implementation project(':wechat')
     implementation project(':aliplayer')
-    //implementation project(':tv')
+    implementation project(':tv')
     implementation project(':lottie')
     api project(':Framework')
 }

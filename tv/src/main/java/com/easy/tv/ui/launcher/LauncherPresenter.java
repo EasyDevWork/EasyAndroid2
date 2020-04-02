@@ -1,10 +1,10 @@
 package com.easy.tv.ui.launcher;
 
-import com.easy.qrcode.base.CommonPresenter;
+import com.easy.framework.base.BasePresenter;
 
 import javax.inject.Inject;
 
-public class LauncherPresenter extends CommonPresenter<LauncherView> {
+public class LauncherPresenter extends BasePresenter<LauncherView> {
     @Inject
     public LauncherPresenter() {
 

@@ -40,6 +40,5 @@ dependencies {
     annotationProcessor lib.dagger_compiler
     annotationProcessor lib.arouter_compiler
     annotationProcessor project(':AptProcessor')
-//    annotationProcessor 'com.github.EasyDevWork:AptProcessor:1.0.0'
     implementation project(':Common')
 }

@@ -5,12 +5,12 @@ import android.view.View;
 
 import androidx.databinding.ViewDataBinding;
 
-import com.easy.qrcode.base.CommonDialogFragment;
-import com.easy.qrcode.base.CommonPresenter;
+import com.easy.framework.base.BaseDialogFragment;
+import com.easy.framework.base.BasePresenter;
 import com.easy.tv.R;
 import com.owen.focus.FocusBorder;
 
-public abstract class TvBaseDialogFragment<P extends CommonPresenter, V extends ViewDataBinding> extends CommonDialogFragment<P, V> {
+public abstract class TvBaseDialogFragment<P extends BasePresenter, V extends ViewDataBinding> extends BaseDialogFragment<P, V> {
     public FocusBorder mFocusBorder;
 
     public void onMoveFocusBorder(View focusedView, float scale) {

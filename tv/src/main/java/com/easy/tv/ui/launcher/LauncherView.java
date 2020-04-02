@@ -1,7 +1,7 @@
 package com.easy.tv.ui.launcher;
 
-import com.easy.qrcode.base.CommonView;
-import com.easy.net.rxlifecycle.LifecycleEvent;
+import com.easy.framework.base.BaseView;
+import com.easy.net.event.LifecycleEvent;
 
-public interface LauncherView<E extends LifecycleEvent> extends CommonView<E> {
+public interface LauncherView<E extends LifecycleEvent> extends BaseView<E> {
 }

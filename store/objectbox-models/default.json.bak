@@ -4,38 +4,6 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:1422392174253573389",
-      "lastPropertyId": "6:7046953164465016795",
-      "name": "DownloadInfo",
-      "properties": [
-        {
-          "id": "1:7317464757142450310",
-          "name": "id"
-        },
-        {
-          "id": "2:1200003032165506035",
-          "name": "localUrl"
-        },
-        {
-          "id": "3:6334583877300093162",
-          "name": "serverUrl"
-        },
-        {
-          "id": "4:3659928530624080703",
-          "name": "totalSize"
-        },
-        {
-          "id": "5:7279280324703669108",
-          "name": "currentSize"
-        },
-        {
-          "id": "6:7046953164465016795",
-          "name": "state"
-        }
-      ],
-      "relations": []
-    },
-    {
       "id": "3:1920986873079097276",
       "lastPropertyId": "2:5385141696114301008",
       "name": "GlobalConfig",
@@ -198,22 +166,65 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "7:6175517774173923304",
+      "lastPropertyId": "7:2273630480251576581",
+      "name": "DownloadDo",
+      "properties": [
+        {
+          "id": "1:796061047373164064",
+          "name": "id"
+        },
+        {
+          "id": "2:7719576733415009741",
+          "name": "downloadTag"
+        },
+        {
+          "id": "3:1338033955368903183",
+          "name": "localUrl"
+        },
+        {
+          "id": "4:1045404131524044624",
+          "name": "serverUrl"
+        },
+        {
+          "id": "5:14182219933192430",
+          "name": "totalSize"
+        },
+        {
+          "id": "6:1624406555689067521",
+          "name": "currentSize"
+        },
+        {
+          "id": "7:2273630480251576581",
+          "name": "state"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "6:9009237096823456125",
+  "lastEntityId": "7:6175517774173923304",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
   "retiredEntityUids": [
-    7317298895336172088
+    7317298895336172088,
+    1422392174253573389
   ],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
     6427515260956328824,
     6402877291689553997,
-    3134502980193291372
+    3134502980193291372,
+    7317464757142450310,
+    1200003032165506035,
+    6334583877300093162,
+    3659928530624080703,
+    7279280324703669108,
+    7046953164465016795
   ],
   "retiredRelationUids": [],
   "version": 1

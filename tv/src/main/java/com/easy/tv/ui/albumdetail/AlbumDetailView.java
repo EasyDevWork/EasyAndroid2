@@ -1,8 +1,8 @@
 package com.easy.tv.ui.albumdetail;
 
-import com.easy.qrcode.base.CommonView;
-import com.easy.net.rxlifecycle.LifecycleEvent;
+import com.easy.framework.base.BaseView;
+import com.easy.net.event.LifecycleEvent;
 
-public interface AlbumDetailView<E extends LifecycleEvent> extends CommonView<E> {
+public interface AlbumDetailView<E extends LifecycleEvent> extends BaseView<E> {
 
 }
