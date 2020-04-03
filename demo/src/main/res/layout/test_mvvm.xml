@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="testMvvm"
+            type="com.easy.demo.bean.TestMvvm" />
+
+        <variable
+            name="testM2"
+            type="com.easy.demo.bean.TestMvvm2" />
+
+        <variable
+            name="testVm"
+            type="com.easy.demo.ui.mvvm.TestViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:onClickCommand="@{testVm.imageUrl}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{testMvvm.name}"
+            android:textSize="@{testMvvm.size}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{testM2.name}"
+            android:textSize="@{testM2.size}" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{testVm::clickChangeNameBtn}"
+            android:text="changeName" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view)->testVm.clickChangeSizeBtn()}"
+            android:text="changeSize" />
+    </LinearLayout>
+</layout>

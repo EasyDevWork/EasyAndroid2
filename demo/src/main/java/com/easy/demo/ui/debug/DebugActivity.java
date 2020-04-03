@@ -134,6 +134,10 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         ARouter.getInstance().build("/demo/LauncherActivity").navigation();
     }
 
+    public void goMvvm(View view) {
+        ARouter.getInstance().build("/demo/TestMvvmActivity").navigation();
+    }
+
     public void goEosChain(View view) {
         ARouter.getInstance().build("/demo/EosChainActivity").navigation();
     }
@@ -145,6 +149,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     public void goBnbChain(View view) {
         ToastUtils.showShort("未补充");
     }
+
     public void goEthChain(View view) {
         ToastUtils.showShort("未补充");
     }

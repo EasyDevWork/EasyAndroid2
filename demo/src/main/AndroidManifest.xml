@@ -12,10 +12,10 @@
         <activity android:name=".ui.wechat.TestWeChatActivity" />
         <activity android:name=".ui.eoschain.EosChainActivity" />
         <activity android:name=".ui.fragment.TestActivity" />
-        <activity android:name=".ui.testweb.TestWebActivity"/>
-        <activity android:name=".ui.qrcode.TestQrCodeActivity"/>
-        <activity android:name=".ui.lottie.TestLottieActivity"/>
-        <activity android:name=".ui.arouter.TestArouterActivity"/>
+        <activity android:name=".ui.testweb.TestWebActivity" />
+        <activity android:name=".ui.qrcode.TestQrCodeActivity" />
+        <activity android:name=".ui.lottie.TestLottieActivity" />
+        <activity android:name=".ui.arouter.TestArouterActivity" />
         <activity
             android:name=".ui.player.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -23,8 +23,8 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".ui.launcher.LauncherActivity"
-            android:theme="@style/FullScreenTheme"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="fullSensor"
+            android:theme="@style/FullScreenTheme">
             <!--设置为桌面应用时打开/>-->
             <!--            <intent-filter>-->
             <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -36,5 +36,6 @@
         <activity
             android:name=".ui.album.TestAlbumActivity"
             android:screenOrientation="fullSensor" />
+        <activity android:name=".ui.mvvm.TestMvvmActivity" />
     </application>
 </manifest>
