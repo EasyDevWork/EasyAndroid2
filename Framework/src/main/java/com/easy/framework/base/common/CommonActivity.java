@@ -29,7 +29,6 @@ public abstract class CommonActivity  extends BaseLifecycleActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        initStateBar();
         setBackground(R.color.color_ffffff);
         initSwipeBackLayout();
     }

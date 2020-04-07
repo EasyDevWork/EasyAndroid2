@@ -37,5 +37,6 @@
             android:name=".ui.album.TestAlbumActivity"
             android:screenOrientation="fullSensor" />
         <activity android:name=".ui.mvvm.TestMvvmActivity" />
+        <activity android:name=".ui.lifecycle.TestLifeCycleActivity"/>
     </application>
 </manifest>

@@ -20,6 +20,7 @@ public abstract class BaseActivity<P extends BasePresenter, V extends ViewDataBi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewBind = DataBindingUtil.setContentView(this, getLayoutId());
+        initStateBar();
         InjectActivity.inject(this);
         if (presenter != null) {
             presenter.attachView(this, context);

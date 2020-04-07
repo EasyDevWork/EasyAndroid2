@@ -39,6 +39,10 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         }
     }
 
+    public void goLifeCycle(View view) {
+        ARouter.getInstance().build("/demo/TestLifeCycleActivity").navigation();
+    }
+
     public void testLottie(View view) {
         ARouter.getInstance().build("/demo/TestLottieActivity").navigation();
     }
@@ -79,10 +83,6 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
 
     public void testLoadImage(View view) {
         ARouter.getInstance().build("/demo/TestLoadImageActivity").navigation();
-    }
-
-    public void goTransparent(View view) {
-        ARouter.getInstance().build("/demo/TransparentActivity").navigation();
     }
 
     public void testDialog(View view) {
