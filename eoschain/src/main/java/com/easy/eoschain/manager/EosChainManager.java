@@ -20,8 +20,8 @@ import com.easy.net.RetrofitConfig;
 import com.easy.net.RxHttp;
 import com.easy.net.callback.HttpCallback;
 import com.easy.net.retrofit.RetrofitUtils;
-import com.easy.net.rxlifecycle.LifecycleProvider;
 import com.easy.utils.Utils;
+import com.trello.rxlifecycle3.LifecycleProvider;
 
 import java.util.ArrayList;
 import java.util.List;

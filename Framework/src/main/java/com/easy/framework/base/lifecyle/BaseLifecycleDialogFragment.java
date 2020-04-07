@@ -8,11 +8,13 @@ import androidx.annotation.CheckResult;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import com.easy.net.event.FragmentEvent;
-import com.easy.net.rxlifecycle.LifecycleProvider;
-import com.easy.net.rxlifecycle.LifecycleTransformer;
-import com.easy.net.rxlifecycle.RxLifecycle;
-import com.easy.net.rxlifecycle.RxLifecycleAndroid;
+import com.trello.rxlifecycle3.LifecycleProvider;
+import com.trello.rxlifecycle3.LifecycleTransformer;
+import com.trello.rxlifecycle3.RxLifecycle;
+import com.trello.rxlifecycle3.android.FragmentEvent;
+import com.trello.rxlifecycle3.android.RxLifecycleAndroid;
+
+import javax.annotation.Nonnull;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
@@ -31,7 +33,7 @@ public class BaseLifecycleDialogFragment extends AppCompatDialogFragment impleme
     @Override
     @NonNull
     @CheckResult
-    public final <T> LifecycleTransformer<T> bindToLifecycle(@NonNull FragmentEvent event) {
+    public final <T> LifecycleTransformer<T> bindUntilEvent(@NonNull FragmentEvent event) {
         return RxLifecycle.bindUntilEvent(lifecycleSubject, event);
     }
 

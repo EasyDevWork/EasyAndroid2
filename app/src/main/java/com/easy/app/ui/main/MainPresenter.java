@@ -11,8 +11,8 @@ import com.easy.net.RxHttp;
 import com.easy.net.beans.Response;
 import com.easy.net.callback.RHttpCallback;
 import com.easy.net.exception.ApiException;
-import com.easy.net.event.ActivityEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;

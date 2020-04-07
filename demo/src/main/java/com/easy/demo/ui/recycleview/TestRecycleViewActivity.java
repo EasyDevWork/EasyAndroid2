@@ -12,7 +12,6 @@ import com.easy.demo.bean.TestDo;
 import com.easy.demo.databinding.TestRecycleViewBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.net.beans.Response;
-import com.easy.net.event.ActivityEvent;
 import com.easy.utils.DimensUtils;
 import com.easy.utils.ToastUtils;
 import com.easy.utils.Utils;
@@ -27,7 +26,7 @@ import java.util.List;
 
 @ActivityInject
 @Route(path = "/demo/TestRecycleViewActivity", name = "RecycleView测试")
-public class TestRecycleViewActivity extends BaseActivity<TestRecycleViewPresenter, TestRecycleViewBinding> implements TestRecycleView<ActivityEvent> {
+public class TestRecycleViewActivity extends BaseActivity<TestRecycleViewPresenter, TestRecycleViewBinding> implements TestRecycleView {
 //    TestRecycleViewAdapter adapter;
     TestRecycleViewMultipleAdapter adapter;
     StateView emptyView;

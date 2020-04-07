@@ -12,11 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.easy.net.event.FragmentEvent;
-import com.easy.net.rxlifecycle.LifecycleProvider;
-import com.easy.net.rxlifecycle.LifecycleTransformer;
-import com.easy.net.rxlifecycle.RxLifecycle;
-import com.easy.net.rxlifecycle.RxLifecycleAndroid;
+import com.trello.rxlifecycle3.LifecycleProvider;
+import com.trello.rxlifecycle3.LifecycleTransformer;
+import com.trello.rxlifecycle3.RxLifecycle;
+import com.trello.rxlifecycle3.android.FragmentEvent;
+import com.trello.rxlifecycle3.android.RxLifecycleAndroid;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
@@ -144,7 +144,7 @@ public class BaseLifecycleFragment extends Fragment implements LifecycleProvider
     @Override
     @NonNull
     @CheckResult
-    public final <T> LifecycleTransformer<T> bindToLifecycle(@NonNull FragmentEvent event) {
+    public final <T> LifecycleTransformer<T> bindUntilEvent(@NonNull FragmentEvent event) {
         return RxLifecycle.bindUntilEvent(lifecycleSubject, event);
     }
 

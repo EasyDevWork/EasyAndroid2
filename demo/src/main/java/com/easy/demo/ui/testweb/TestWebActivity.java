@@ -9,16 +9,14 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestWebBinding;
 import com.easy.framework.base.WebBaseActivity;
-import com.easy.framework.base.WebBaseFragment;
 import com.easy.framework.base.web.IWebCallback;
 import com.easy.framework.base.web.JsToAndroid;
-import com.easy.net.event.ActivityEvent;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.Utils;
 
 @ActivityInject
 @Route(path = "/demo/TestWebActivity", name = "测试web")
-public class TestWebActivity extends WebBaseActivity<TestWebPresenter, TestWebBinding> implements TestWebView<ActivityEvent>, IWebCallback {
+public class TestWebActivity extends WebBaseActivity<TestWebPresenter, TestWebBinding> implements TestWebView, IWebCallback {
 
     @Override
     public int getLayoutId() {

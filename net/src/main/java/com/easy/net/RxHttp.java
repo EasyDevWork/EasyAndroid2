@@ -12,10 +12,10 @@ import com.easy.net.download.UploadRequestBody;
 import com.easy.net.observer.HttpObservable;
 import com.easy.net.retrofit.Method;
 import com.easy.net.retrofit.RetrofitUtils;
-import com.easy.net.rxlifecycle.LifecycleProvider;
 import com.easy.net.tools.RequestUtils;
-import com.easy.net.event.ActivityEvent;
-import com.easy.net.event.FragmentEvent;
+import com.trello.rxlifecycle3.LifecycleProvider;
+import com.trello.rxlifecycle3.android.ActivityEvent;
+import com.trello.rxlifecycle3.android.FragmentEvent;
 
 import java.io.File;
 import java.util.ArrayList;

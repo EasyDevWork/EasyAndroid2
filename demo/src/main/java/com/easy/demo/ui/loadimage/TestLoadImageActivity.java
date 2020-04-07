@@ -34,7 +34,6 @@ import com.easy.loadimage.transform.SketchFilterTransformation;
 import com.easy.loadimage.transform.SwirlFilterTransformation;
 import com.easy.loadimage.transform.ToonFilterTransformation;
 import com.easy.loadimage.transform.VignetteFilterTransformation;
-import com.easy.net.event.ActivityEvent;
 import com.easy.utils.DimensUtils;
 import com.easy.utils.ToastUtils;
 
@@ -44,7 +43,7 @@ import static com.easy.loadimage.transform.RoundedCornersTransform.CornerType.TO
 
 @ActivityInject
 @Route(path = "/demo/TestLoadImageActivity", name = "图片加载")
-public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, TestLoadImageBinding> implements TestLoadImageView<ActivityEvent> {
+public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, TestLoadImageBinding> implements TestLoadImageView {
 
     public String imageUrl = "http://img2.imgtn.bdimg.com/it/u=3137891603,2800618441&fm=26&gp=0.jpg";
 

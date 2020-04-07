@@ -10,14 +10,13 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.framework.base.BaseActivity;
 import com.easy.imagezoom.databinding.ImageZoomBinding;
-import com.easy.net.event.ActivityEvent;
 
 import java.util.List;
 
 
 @ActivityInject
 @Route(path = "/imagezoom/ImageZoomActivity", name = "图片预览")
-public class ImageZoomActivity extends BaseActivity<ImageZoomPresenter, ImageZoomBinding> implements ImageZoomView<ActivityEvent>{
+public class ImageZoomActivity extends BaseActivity<ImageZoomPresenter, ImageZoomBinding> implements ImageZoomView{
     private static final String STATE_POSITION = "STATE_POSITION";
 
     @Autowired(name = "position")

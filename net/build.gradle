@@ -52,4 +52,7 @@ dependencies {
     implementation lib.objectbox_rxjava
 
     implementation lib.logger
+
+    implementation lib.rxlifecycle3
+    implementation lib.rxlifecycle3_android
 }

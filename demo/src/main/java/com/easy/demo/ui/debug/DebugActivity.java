@@ -11,7 +11,6 @@ import com.easy.demo.R;
 import com.easy.demo.base.DemoSharePreferences;
 import com.easy.demo.databinding.DebugBinding;
 import com.easy.framework.base.BaseActivity;
-import com.easy.net.event.ActivityEvent;
 import com.easy.store.bean.Accounts;
 import com.easy.utils.LanguageUtil;
 import com.easy.utils.ToastUtils;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 
 @ActivityInject
 @Route(path = "/demo/DebugActivity", name = "测试页面")
-public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> implements DebugView<ActivityEvent> {
+public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> implements DebugView {
 
     int i = 0;
     TitleView titleView;

@@ -2,10 +2,11 @@ package com.easy.net.observer;
 
 import com.easy.net.function.HttpResultFunction;
 import com.easy.net.function.ServerResultFunction;
-import com.easy.net.event.ActivityEvent;
-import com.easy.net.event.FragmentEvent;
-import com.easy.net.rxlifecycle.LifecycleProvider;
+
 import com.google.gson.JsonElement;
+import com.trello.rxlifecycle3.LifecycleProvider;
+import com.trello.rxlifecycle3.android.ActivityEvent;
+import com.trello.rxlifecycle3.android.FragmentEvent;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -45,10 +46,10 @@ public class HttpObservable {
     private Observable compose() {
         if (lifecycle != null) {
             if (activityEvent != null) {
-                return map().compose(lifecycle.bindToLifecycle(activityEvent));
+                return map().compose(lifecycle.bindUntilEvent(activityEvent));
             }
             if (fragmentEvent != null) {
-                return map().compose(lifecycle.bindToLifecycle(fragmentEvent));
+                return map().compose(lifecycle.bindUntilEvent(fragmentEvent));
             }
             return map().compose(lifecycle.bindToLifecycle());
         }

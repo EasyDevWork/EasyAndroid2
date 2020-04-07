@@ -1,14 +1,9 @@
 package com.easy.framework.base;
 
-import com.easy.net.event.LifecycleEvent;
-import com.easy.net.rxlifecycle.LifecycleProvider;
-import com.easy.net.rxlifecycle.LifecycleTransformer;
 
-public interface BaseView<E extends LifecycleEvent> {
+import com.trello.rxlifecycle3.LifecycleProvider;
 
-    <T> LifecycleTransformer<T> bindToLifecycle(E event);
-
-    <T> LifecycleTransformer<T> bindToLifecycle();
+public interface BaseView{
 
     LifecycleProvider getRxLifecycle();
 }

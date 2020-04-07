@@ -13,12 +13,11 @@ import com.easy.app.databinding.WelcomeBinding;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.apt.lib.SharePreference;
 import com.easy.framework.base.BaseActivity;
-import com.easy.net.event.ActivityEvent;
 import com.easy.utils.ToastUtils;
 
 @ActivityInject
 @Route(path = "/app/WelcomeActivity", name = "闪屏页")
-public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeBinding> implements WelcomeView<ActivityEvent> {
+public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeBinding> implements WelcomeView {
 
     @Override
     public int getLayoutId() {

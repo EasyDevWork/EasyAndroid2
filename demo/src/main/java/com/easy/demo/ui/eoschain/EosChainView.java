@@ -9,7 +9,6 @@ import com.easy.eoschain.bean.response.ChainResponse;
 import com.easy.eoschain.bean.response.TransactionCommitted;
 import com.easy.framework.base.BaseView;
 import com.easy.net.beans.Response;
-import com.easy.net.event.LifecycleEvent;
 import com.easy.store.bean.EosAccount;
 import com.easy.store.bean.eoschain.Eos2UsdtPrice;
 import com.easy.store.bean.eoschain.RexBean;
@@ -19,7 +18,7 @@ import com.easy.store.bean.eoschain.Token;
 
 import java.util.List;
 
-public interface EosChainView<E extends LifecycleEvent> extends BaseView<E> {
+public interface EosChainView extends BaseView {
 
     void chainInfoCallback(Response<ChainInfo> response);
 

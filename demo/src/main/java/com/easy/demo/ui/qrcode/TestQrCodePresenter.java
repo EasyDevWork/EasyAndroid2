@@ -5,10 +5,10 @@ import android.graphics.Bitmap;
 import com.easy.framework.base.BasePresenter;
 import com.easy.framework.base.DataObservable;
 import com.easy.framework.base.DataObserver;
-import com.easy.net.event.ActivityEvent;
 import com.easy.qrcode.ui.qr_code.qrcode.BarCodeCreate;
 import com.easy.qrcode.ui.qr_code.qrcode.QRCodeCreate;
 import com.easy.utils.DimensUtils;
+import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import javax.inject.Inject;
 

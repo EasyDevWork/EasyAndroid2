@@ -9,12 +9,11 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestQrcodeBinding;
 import com.easy.framework.base.BaseActivity;
-import com.easy.net.event.ActivityEvent;
 import com.easy.utils.DimensUtils;
 
 @ActivityInject
 @Route(path = "/demo/TestQrCodeActivity", name = "二维码测试")
-public class TestQrCodeActivity extends BaseActivity<TestQrCodePresenter, TestQrcodeBinding> implements TestQrCodeView<ActivityEvent> {
+public class TestQrCodeActivity extends BaseActivity<TestQrCodePresenter, TestQrcodeBinding> implements TestQrCodeView {
 
     @Override
     public int getLayoutId() {

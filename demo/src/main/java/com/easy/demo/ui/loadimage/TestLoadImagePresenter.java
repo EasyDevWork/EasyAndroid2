@@ -1,29 +1,22 @@
 package com.easy.demo.ui.loadimage;
 
 import android.Manifest;
-import android.os.Environment;
-import android.util.Log;
 
-import com.bumptech.glide.Glide;
-import com.easy.demo.R;
 import com.easy.framework.base.BasePresenter;
 import com.easy.framework.base.DataObservable;
 import com.easy.framework.base.DataObserver;
 import com.easy.loadimage.EasyLoadImage;
-import com.easy.net.event.ActivityEvent;
 import com.easy.utils.FileUtils;
-import com.easy.utils.ToastUtils;
 import com.easy.utils.Utils;
 import com.easy.utils.base.FileConstant;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import java.io.File;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 
 public class TestLoadImagePresenter extends BasePresenter<TestLoadImageView> {
     @Inject

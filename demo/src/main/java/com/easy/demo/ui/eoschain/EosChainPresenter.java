@@ -29,7 +29,6 @@ import com.easy.net.beans.Response;
 import com.easy.net.callback.HttpCallback;
 import com.easy.net.callback.RHttpCallback;
 import com.easy.net.exception.ApiException;
-import com.easy.net.rxlifecycle.LifecycleProvider;
 import com.easy.store.bean.EosAccount;
 import com.easy.store.bean.eoschain.Eos2UsdtPrice;
 import com.easy.store.bean.eoschain.RamPrice;
@@ -43,6 +42,7 @@ import com.easy.store.bean.eoschain.TokenShow;
 import com.easy.store.dao.EosAccountDao;
 import com.easy.utils.ToastUtils;
 import com.easy.utils.Utils;
+import com.trello.rxlifecycle3.LifecycleProvider;
 
 import java.util.ArrayList;
 import java.util.List;

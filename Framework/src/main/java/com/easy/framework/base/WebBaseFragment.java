@@ -23,12 +23,11 @@ import com.easy.framework.base.web.WebViewClientBase;
 import com.easy.framework.base.web.protocol.IProtocolCallback;
 import com.easy.framework.base.web.protocol.WebProtocolManager;
 import com.easy.framework.databinding.WebVewFragmentBinding;
-import com.easy.net.event.FragmentEvent;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.Utils;
 import com.easy.widget.ScrollWebView;
 @FragmentInject
-public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragmentBinding> implements WebBaseView<FragmentEvent>, View.OnTouchListener {
+public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragmentBinding> implements WebBaseView, View.OnTouchListener {
 
     public static final String KEY_RUL = "URL";
     public static final String HTML_DATA = "htmlData";

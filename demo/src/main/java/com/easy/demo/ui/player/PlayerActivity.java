@@ -14,7 +14,6 @@ import com.easy.demo.R;
 import com.easy.demo.databinding.TestPlayerBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.framework.watch.NetStatusWatch;
-import com.easy.net.event.ActivityEvent;
 import com.easy.utils.BrightnessUtils;
 
 import java.text.SimpleDateFormat;
@@ -22,7 +21,7 @@ import java.util.Date;
 
 @ActivityInject
 @Route(path = "/demo/PlayerActivity", name = "播放器页面")
-public class PlayerActivity extends BaseActivity<PlayerPresenter, TestPlayerBinding> implements PlayerView<ActivityEvent> {
+public class PlayerActivity extends BaseActivity<PlayerPresenter, TestPlayerBinding> implements PlayerView {
     private final static String TAG = "PlayerActivity";
 
     @Override

@@ -19,10 +19,10 @@ import com.easy.framework.base.BaseFragment;
 import com.easy.imagezoom.databinding.ImagePreviewBinding;
 import com.easy.imagezoom.widget.PhotoViewAttacher;
 import com.easy.loadimage.ImageConfig;
-import com.easy.net.event.FragmentEvent;
+import com.trello.rxlifecycle3.android.FragmentEvent;
 
 @FragmentInject
-public class ImageZoomDetailFragment extends BaseFragment<ImageZoomDetailPresenter, ImagePreviewBinding> implements ImageZoomDetailView<FragmentEvent> {
+public class ImageZoomDetailFragment extends BaseFragment<ImageZoomDetailPresenter, ImagePreviewBinding> implements ImageZoomDetailView {
     private String imageUrl;
 
     private PhotoViewAttacher photoViewAttacher;

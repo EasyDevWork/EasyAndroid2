@@ -12,14 +12,13 @@ import androidx.databinding.ViewDataBinding;
 
 import com.easy.apt.lib.InjectFragment;
 import com.easy.framework.base.lifecyle.BaseLifecycleDialogFragment;
-import com.easy.net.event.FragmentEvent;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
 
-public abstract class BaseDialogFragment<P extends BasePresenter,V extends ViewDataBinding> extends BaseLifecycleDialogFragment implements BaseView<FragmentEvent> {
+public abstract class BaseDialogFragment<P extends BasePresenter,V extends ViewDataBinding> extends BaseLifecycleDialogFragment implements BaseView {
     public V viewBind;
     public Context context;
     View rootView;

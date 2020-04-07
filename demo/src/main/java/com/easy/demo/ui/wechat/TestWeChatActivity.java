@@ -11,14 +11,13 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestWechatBinding;
 import com.easy.framework.base.BaseActivity;
-import com.easy.net.event.ActivityEvent;
 import com.easy.wechat.base.Constants;
 import com.easy.wechat.manager.EasyWeChat;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 
 @ActivityInject
 @Route(path = "/demo/WeChatActivity", name = "微信测试")
-public class TestWeChatActivity extends BaseActivity<TestWeChatPresenter, TestWechatBinding> implements TestWeChatView<ActivityEvent> {
+public class TestWeChatActivity extends BaseActivity<TestWeChatPresenter, TestWechatBinding> implements TestWeChatView {
     private static final int THUMB_SIZE = 150;
 
     @Override

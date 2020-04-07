@@ -5,11 +5,10 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.EmptyBinding;
 import com.easy.framework.base.BaseActivity;
-import com.easy.net.event.ActivityEvent;
 
 @ActivityInject
 @Route(path = "/demo/EmptyActivity", name = "空页面")
-public class EmptyActivity extends BaseActivity<EmptyPresenter, EmptyBinding> implements EmptyView<ActivityEvent> {
+public class EmptyActivity extends BaseActivity<EmptyPresenter, EmptyBinding> implements EmptyView {
 
     @Override
     public int getLayoutId() {

@@ -13,14 +13,14 @@ import androidx.databinding.ViewDataBinding;
 
 import com.easy.apt.lib.InjectFragment;
 import com.easy.framework.base.lifecyle.BaseLifecycleFragment;
-import com.easy.net.event.FragmentEvent;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.trello.rxlifecycle3.android.FragmentEvent;
 
 import javax.inject.Inject;
 
-public abstract class BaseFragment<P extends BasePresenter, V extends ViewDataBinding> extends BaseLifecycleFragment implements BaseView<FragmentEvent> {
+public abstract class BaseFragment<P extends BasePresenter, V extends ViewDataBinding> extends BaseLifecycleFragment implements BaseView {
     public V viewBind;
     public Context context;
     View rootView;

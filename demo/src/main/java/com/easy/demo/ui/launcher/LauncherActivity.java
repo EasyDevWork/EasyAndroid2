@@ -9,13 +9,13 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.base.TvBaseActivity;
 import com.easy.demo.databinding.TestLauncherBinding;
-import com.easy.net.event.ActivityEvent;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.ToastUtils;
+import com.trello.rxlifecycle3.android.ActivityEvent;
 
 @ActivityInject
 @Route(path = "/demo/LauncherActivity", name = "桌面页面")
-public class LauncherActivity extends TvBaseActivity<LauncherPresenter, TestLauncherBinding> implements LauncherView<ActivityEvent> {
+public class LauncherActivity extends TvBaseActivity<LauncherPresenter, TestLauncherBinding> implements LauncherView {
 
     @Override
     public int getLayoutId() {

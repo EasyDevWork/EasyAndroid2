@@ -12,14 +12,13 @@ import com.easy.demo.R;
 import com.easy.demo.databinding.TestFragmentActivityBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.framework.statusbar.StatusBarUtil;
-import com.easy.net.event.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ActivityInject
 @Route(path = "/demo/TestFragmentActivity", name = "测试fragment的页面")
-public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragmentActivityBinding> implements TestActivityView<ActivityEvent> {
+public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragmentActivityBinding> implements TestActivityView {
     int i = 0;
 
     @Override

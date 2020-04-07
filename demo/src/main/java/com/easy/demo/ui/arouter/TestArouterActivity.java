@@ -11,11 +11,10 @@ import com.easy.demo.databinding.TestArouterBinding;
 import com.easy.framework.arouter.FrameWork2AppProvider;
 import com.easy.framework.arouter.RouterInterceptorManager;
 import com.easy.framework.base.BaseActivity;
-import com.easy.net.event.ActivityEvent;
 
 @ActivityInject
 @Route(path = "/demo/TestArouterActivity", name = "路由测试")
-public class TestArouterActivity extends BaseActivity<TestAroterPresenter, TestArouterBinding> implements TestArouterView<ActivityEvent> {
+public class TestArouterActivity extends BaseActivity<TestAroterPresenter, TestArouterBinding> implements TestArouterView {
 
     private String intercepterPath = "/demo/TestLottieActivity";
 

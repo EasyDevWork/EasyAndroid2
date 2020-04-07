@@ -10,12 +10,11 @@ import com.easy.demo.R;
 import com.easy.demo.databinding.TestMvvmBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.loadimage.ImageConfig;
-import com.easy.net.event.ActivityEvent;
 import com.easy.utils.ToastUtils;
 
 @ActivityInject
 @Route(path = "/demo/TestMvvmActivity", name = "mvvm")
-public class TestMvvmActivity extends BaseActivity<TestMvvmPresenter, TestMvvmBinding> implements TestMvvmView<ActivityEvent> {
+public class TestMvvmActivity extends BaseActivity<TestMvvmPresenter, TestMvvmBinding> implements TestMvvmView {
 
     TestViewModel testViewModel;
 

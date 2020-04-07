@@ -18,7 +18,6 @@ import com.easy.eoschain.bean.response.TransactionCommitted;
 import com.easy.eoschain.manager.EosChainManager;
 import com.easy.framework.base.BaseActivity;
 import com.easy.net.beans.Response;
-import com.easy.net.event.ActivityEvent;
 import com.easy.store.bean.EosAccount;
 import com.easy.store.bean.eoschain.Eos2UsdtPrice;
 import com.easy.store.bean.eoschain.KeysBean;
@@ -36,7 +35,7 @@ import java.util.List;
 
 @ActivityInject
 @Route(path = "/demo/EosChainActivity", name = "eos相关")
-public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosChainBinding> implements EosChainView<ActivityEvent> {
+public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosChainBinding> implements EosChainView {
 
     private String domain = "https://mainnet.meet.one";
     private String netType = "EOS";

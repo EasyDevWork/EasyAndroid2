@@ -11,14 +11,13 @@ import com.easy.demo.bean.Album;
 import com.easy.demo.databinding.TestAlbumBinding;
 import com.easy.tv.SimpleOnItemListener;
 import com.easy.tv.TvRecyclerView;
-import com.easy.net.event.ActivityEvent;
 import com.easy.utils.ToastUtils;
 
 import java.util.List;
 
 @ActivityInject
 @Route(path = "/demo/AlbumActivity", name = "相册列表")
-public class TestAlbumActivity extends TvBaseActivity<TestAlbumPresenter, TestAlbumBinding> implements TestAlbumView<ActivityEvent> {
+public class TestAlbumActivity extends TvBaseActivity<TestAlbumPresenter, TestAlbumBinding> implements TestAlbumView {
 
     TestAlbumAdapter adapter;
 

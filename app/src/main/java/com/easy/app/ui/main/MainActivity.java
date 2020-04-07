@@ -7,18 +7,17 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.app.R;
 import com.easy.app.databinding.MainBinding;
 import com.easy.apt.annotation.ActivityInject;
-import com.easy.framework.bean.AppVersion;
-import com.easy.framework.manager.AppUpdateManager;
 import com.easy.framework.base.BaseActivity;
+import com.easy.framework.bean.AppVersion;
 import com.easy.framework.manager.AppQuitManager;
+import com.easy.framework.manager.AppUpdateManager;
 import com.easy.net.beans.Response;
-import com.easy.net.event.ActivityEvent;
 import com.easy.utils.ToastUtils;
 
 
 @ActivityInject
 @Route(path = "/app/MainActivity", name = "主页面")
-public class MainActivity extends BaseActivity<MainPresenter, MainBinding> implements MainView<ActivityEvent> {
+public class MainActivity extends BaseActivity<MainPresenter, MainBinding> implements MainView {
 
     AppQuitManager manager;
     boolean isAllow;

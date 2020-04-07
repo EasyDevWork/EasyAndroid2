@@ -8,11 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.easy.net.event.ActivityEvent;
-import com.easy.net.rxlifecycle.LifecycleProvider;
-import com.easy.net.rxlifecycle.LifecycleTransformer;
-import com.easy.net.rxlifecycle.RxLifecycle;
-import com.easy.net.rxlifecycle.RxLifecycleAndroid;
+import com.trello.rxlifecycle3.LifecycleProvider;
+import com.trello.rxlifecycle3.LifecycleTransformer;
+import com.trello.rxlifecycle3.RxLifecycle;
+import com.trello.rxlifecycle3.android.ActivityEvent;
+import com.trello.rxlifecycle3.android.RxLifecycleAndroid;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
@@ -31,7 +31,7 @@ public abstract class BaseLifecycleActivity extends AppCompatActivity implements
     @Override
     @NonNull
     @CheckResult
-    public <T> LifecycleTransformer<T> bindToLifecycle(ActivityEvent event) {
+    public <T> LifecycleTransformer<T> bindUntilEvent(ActivityEvent event) {
         return RxLifecycle.bindUntilEvent(lifecycleSubject, event);
     }
 

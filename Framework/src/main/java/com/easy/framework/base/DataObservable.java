@@ -1,8 +1,8 @@
 package com.easy.framework.base;
 
-import com.easy.net.event.ActivityEvent;
-import com.easy.net.event.FragmentEvent;
-import com.easy.net.rxlifecycle.LifecycleProvider;
+import com.trello.rxlifecycle3.LifecycleProvider;
+import com.trello.rxlifecycle3.android.ActivityEvent;
+import com.trello.rxlifecycle3.android.FragmentEvent;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,10 +31,10 @@ public class DataObservable {
     private Observable compose() {
         if (lifecycle != null) {
             if (activityEvent != null) {
-                return dataObservable.compose(lifecycle.bindToLifecycle(activityEvent));
+                return dataObservable.compose(lifecycle.bindUntilEvent(activityEvent));
             }
             if (fragmentEvent != null) {
-                return dataObservable.compose(lifecycle.bindToLifecycle(fragmentEvent));
+                return dataObservable.compose(lifecycle.bindUntilEvent(fragmentEvent));
             }
             return dataObservable.compose(lifecycle.bindToLifecycle());
         }

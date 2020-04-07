@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentActivity;
 import com.easy.framework.base.BasePresenter;
 import com.easy.framework.base.DataObservable;
 import com.easy.framework.base.DataObserver;
-import com.easy.net.event.ActivityEvent;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.LuminanceSource;
@@ -20,6 +19,7 @@ import com.google.zxing.Result;
 import com.google.zxing.common.GlobalHistogramBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import java.util.EnumMap;
 import java.util.Map;

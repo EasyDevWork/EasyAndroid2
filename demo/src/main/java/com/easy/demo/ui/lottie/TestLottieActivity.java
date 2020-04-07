@@ -5,14 +5,12 @@ import android.view.View;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
-import com.easy.demo.databinding.TestLoadImageBinding;
 import com.easy.demo.databinding.TestLottieBinding;
 import com.easy.framework.base.BaseActivity;
-import com.easy.net.event.ActivityEvent;
 
 @ActivityInject
 @Route(path = "/demo/TestLottieActivity", name = "Lottie动画")
-public class TestLottieActivity extends BaseActivity<TestLottiePresenter, TestLottieBinding> implements TestLottieView<ActivityEvent> {
+public class TestLottieActivity extends BaseActivity<TestLottiePresenter, TestLottieBinding> implements TestLottieView {
 
     @Override
     public int getLayoutId() {
