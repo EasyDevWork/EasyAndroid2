@@ -44,12 +44,13 @@ public class DataObservable {
 
     /*线程设置*/
     public void observe() {
+        Observable observable = compose()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
         if (dataObserver != null) {
-             dataObservable.doOnDispose(() -> dataObserver.onCanceled());
+            observable.doOnDispose(() -> dataObserver.onCanceled());
         }
-        compose().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(dataObserver);
+        observable.subscribe(dataObserver);
     }
 
     public Observable observable() {

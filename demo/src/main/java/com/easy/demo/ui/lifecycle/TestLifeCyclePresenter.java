@@ -24,10 +24,10 @@ public class TestLifeCyclePresenter extends BasePresenter<TestLifeCycleView> {
 
     public void bindLifeCycle2() {
         Observable.interval(1, TimeUnit.SECONDS)
+                .compose(getRxLifecycle().bindUntilEvent(ActivityEvent.DESTROY))
                 .doOnDispose(() -> {
                     Log.i(TAG, "bindLifeCycle==> Dispose");
                 })
-                .compose(getRxLifecycle().bindToLifecycle())
                 .subscribe((Consumer<Long>) num -> Log.i(TAG, "bindLifeCycle==>  num:" + num), throwable -> Log.i(TAG, "bindLifeCycle==>  error"));
     }
 
