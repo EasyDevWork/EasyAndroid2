@@ -23,7 +23,7 @@ public abstract class BaseActivity<P extends BasePresenter, V extends ViewDataBi
         initStateBar();
         InjectActivity.inject(this);
         if (presenter != null) {
-            presenter.attachView(this, context);
+            presenter.attachView(context, this, getRxLifecycle());
         }
         initView();
     }
@@ -39,9 +39,6 @@ public abstract class BaseActivity<P extends BasePresenter, V extends ViewDataBi
     public abstract int getLayoutId();
 
     public abstract void initView();
-
-
-
 
 
 }

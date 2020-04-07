@@ -3,8 +3,7 @@ package com.easy.demo.ui.loadimage;
 import android.Manifest;
 
 import com.easy.framework.base.BasePresenter;
-import com.easy.framework.base.DataObservable;
-import com.easy.framework.base.DataObserver;
+import com.easy.framework.observable.DataObserver;
 import com.easy.loadimage.EasyLoadImage;
 import com.easy.utils.FileUtils;
 import com.easy.utils.Utils;
@@ -30,11 +29,11 @@ public class TestLoadImagePresenter extends BasePresenter<TestLoadImageView> {
      * @param permissions
      */
     public void requestPermission(RxPermissions permissions) {
-        DataObservable.builder(permissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        bindObservable(permissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE))
-                .lifecycleProvider(mvpView.getRxLifecycle())
+                .lifecycleProvider(getRxLifecycle())
                 .activityEvent(ActivityEvent.DESTROY)
-                .dataObserver(new DataObserver<Boolean>() {
+                .observe(new DataObserver<Boolean>() {
                     @Override
                     protected void onSuccess(Boolean granted) {
                         mvpView.permissionCallback(granted, null);
@@ -52,10 +51,10 @@ public class TestLoadImagePresenter extends BasePresenter<TestLoadImageView> {
         String fileName = Utils.buildString("img_", System.currentTimeMillis(), ".", fileExtension);
         String saveFile = FileUtils.getFilePath(FileConstant.TYPE_PHOTO, getContext()) + fileName;
         Observable<File> observable = EasyLoadImage.downloadImageToGallery(getContext(), imageUrl, saveFile);
-        DataObservable.builder(observable)
-                .lifecycleProvider(mvpView.getRxLifecycle())
+
+        bindObservable(observable).lifecycleProvider(getRxLifecycle())
                 .activityEvent(ActivityEvent.DESTROY)
-                .dataObserver(new DataObserver<File>() {
+                .observe(new DataObserver<File>() {
                     @Override
                     protected void onSuccess(File file) {
                         mvpView.downloadCallback(file, null);

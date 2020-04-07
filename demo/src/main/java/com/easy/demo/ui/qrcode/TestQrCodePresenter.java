@@ -3,8 +3,7 @@ package com.easy.demo.ui.qrcode;
 import android.graphics.Bitmap;
 
 import com.easy.framework.base.BasePresenter;
-import com.easy.framework.base.DataObservable;
-import com.easy.framework.base.DataObserver;
+import com.easy.framework.observable.DataObserver;
 import com.easy.qrcode.ui.qr_code.qrcode.BarCodeCreate;
 import com.easy.qrcode.ui.qr_code.qrcode.QRCodeCreate;
 import com.easy.utils.DimensUtils;
@@ -22,7 +21,7 @@ public class TestQrCodePresenter extends BasePresenter<TestQrCodeView> {
     }
 
     public void createQrCode(final String content, int size, int type) {
-        DataObservable.builder(Observable.create((ObservableOnSubscribe<Bitmap>) e -> {
+        bindObservable(Observable.create((ObservableOnSubscribe<Bitmap>) e -> {
             int width = DimensUtils.dp2px(getContext(), size);
             Bitmap bitmap;
             if (type == 1) {
@@ -35,9 +34,9 @@ public class TestQrCodePresenter extends BasePresenter<TestQrCodeView> {
             } else {
                 e.onNext(bitmap);
             }
-        })).lifecycleProvider(mvpView.getRxLifecycle())
+        })).lifecycleProvider(getRxLifecycle())
                 .activityEvent(ActivityEvent.DESTROY)
-                .dataObserver(new DataObserver<Bitmap>() {
+                .observe(new DataObserver<Bitmap>() {
                     @Override
                     protected void onSuccess(Bitmap bitmap) {
                         mvpView.qRCodeCallback(bitmap);

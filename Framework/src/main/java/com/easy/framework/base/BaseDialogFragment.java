@@ -18,7 +18,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
 
-public abstract class BaseDialogFragment<P extends BasePresenter,V extends ViewDataBinding> extends BaseLifecycleDialogFragment implements BaseView {
+public abstract class BaseDialogFragment<P extends BasePresenter, V extends ViewDataBinding> extends BaseLifecycleDialogFragment implements BaseView {
     public V viewBind;
     public Context context;
     View rootView;
@@ -32,7 +32,7 @@ public abstract class BaseDialogFragment<P extends BasePresenter,V extends ViewD
         context = getContext();
         InjectFragment.inject(this);
         if (presenter != null)
-            presenter.attachView(this, context);
+            presenter.attachView(context, this, getRxLifecycle());
     }
 
     @Override
@@ -70,11 +70,16 @@ public abstract class BaseDialogFragment<P extends BasePresenter,V extends ViewD
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         hideLoading();
-        super.onDestroy();
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach() {
         if (presenter != null) {
             presenter.detachView();
         }
+        super.onDetach();
     }
 }

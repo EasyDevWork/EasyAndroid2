@@ -21,8 +21,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="bindLifeCycle2"
+            android:text="原始请求" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:onClick="goActivity"
             android:text="goActivity" />
-        
+
     </LinearLayout>
 </layout>

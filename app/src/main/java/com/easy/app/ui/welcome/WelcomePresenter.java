@@ -1,8 +1,7 @@
 package com.easy.app.ui.welcome;
 
 import com.easy.app.base.AppPresenter;
-import com.easy.framework.base.DataObservable;
-import com.easy.framework.base.DataObserver;
+import com.easy.framework.observable.DataObserver;
 import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import java.util.concurrent.TimeUnit;
@@ -17,10 +16,10 @@ public class WelcomePresenter extends AppPresenter<WelcomeView> {
     }
 
     public void countDown(int i) {
-        DataObservable.builder(Observable.interval(0, i, TimeUnit.SECONDS).take(i + 1))
-                .lifecycleProvider(mvpView.getRxLifecycle())
+        bindObservable(Observable.interval(0, i, TimeUnit.SECONDS).take(i + 1))
+                .lifecycleProvider(getRxLifecycle())
                 .activityEvent(ActivityEvent.DESTROY)
-                .dataObserver(new DataObserver<Long>() {
+                .observe(new DataObserver<Long>() {
                     @Override
                     protected void onSuccess(Long value) {
                         mvpView.countDownCallback(i - value);

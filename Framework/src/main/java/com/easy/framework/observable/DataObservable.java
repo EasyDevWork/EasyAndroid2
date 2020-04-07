@@ -1,4 +1,4 @@
-package com.easy.framework.base;
+package com.easy.framework.observable;
 
 import com.trello.rxlifecycle3.LifecycleProvider;
 import com.trello.rxlifecycle3.android.ActivityEvent;
@@ -48,6 +48,11 @@ public class DataObservable {
                 .subscribe(dataObserver);
     }
 
+    public Observable observable() {
+        return compose().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     public static DataObservable.Builder builder(Observable dataObservable) {
         return new DataObservable.Builder(dataObservable);
     }
@@ -88,9 +93,13 @@ public class DataObservable {
             return this;
         }
 
-        public void dataObserver(DataObserver dataObserver) {
+        public void observe(DataObserver dataObserver) {
             this.dataObserver = dataObserver;
             new DataObservable(this).observe();
+        }
+
+        public Observable observe() {
+            return new DataObservable(this).observable();
         }
     }
 }

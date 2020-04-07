@@ -8,8 +8,7 @@ import android.provider.MediaStore;
 import androidx.fragment.app.FragmentActivity;
 
 import com.easy.framework.base.BasePresenter;
-import com.easy.framework.base.DataObservable;
-import com.easy.framework.base.DataObserver;
+import com.easy.framework.observable.DataObserver;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.LuminanceSource;
@@ -39,10 +38,10 @@ public class QrScanPresenter extends BasePresenter<QrScanView> {
      * @param permissions
      */
     public void requestPermission(RxPermissions rxPermission, int type, String... permissions) {
-        DataObservable.builder(rxPermission.request(permissions))
-                .lifecycleProvider(mvpView.getRxLifecycle())
+        bindObservable(rxPermission.request(permissions))
+                .lifecycleProvider(getRxLifecycle())
                 .activityEvent(ActivityEvent.DESTROY)
-                .dataObserver(new DataObserver<Boolean>() {
+                .observe(new DataObserver<Boolean>() {
                     @Override
                     protected void onSuccess(Boolean granted) {
                         mvpView.permissionCallback(granted, type, null);
@@ -82,10 +81,10 @@ public class QrScanPresenter extends BasePresenter<QrScanView> {
             }
         });
 
-        DataObservable.builder(dataObservable)
-                .lifecycleProvider(mvpView.getRxLifecycle())
+        bindObservable(dataObservable)
+                .lifecycleProvider(getRxLifecycle())
                 .activityEvent(ActivityEvent.DESTROY)
-                .dataObserver(new DataObserver<String>() {
+                .observe(new DataObserver<String>() {
                     @Override
                     protected void onSuccess(String result) {
                         mvpView.scanAlbumCallBack(result, 1);

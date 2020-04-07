@@ -1,4 +1,4 @@
-package com.easy.framework.base;
+package com.easy.framework.observable;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;

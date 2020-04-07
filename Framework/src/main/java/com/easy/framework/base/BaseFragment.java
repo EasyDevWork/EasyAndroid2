@@ -34,7 +34,7 @@ public abstract class BaseFragment<P extends BasePresenter, V extends ViewDataBi
         context = getContext();
         InjectFragment.inject(this);
         if (presenter != null)
-            presenter.attachView(this, context);
+            presenter.attachView(context, this, getRxLifecycle());
     }
 
     @Override
@@ -97,12 +97,16 @@ public abstract class BaseFragment<P extends BasePresenter, V extends ViewDataBi
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         hideLoading();
-        super.onDestroy();
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach() {
         if (presenter != null) {
             presenter.detachView();
         }
-
+        super.onDetach();
     }
 }
