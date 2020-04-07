@@ -66,4 +66,5 @@ dependencies {
 
     implementation project(':libtv')
     implementation 'androidx.leanback:leanback:1.0.0'
+
 }

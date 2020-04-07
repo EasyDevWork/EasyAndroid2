@@ -11,6 +11,7 @@ import com.easy.demo.databinding.TestMvvmBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.loadimage.ImageConfig;
 import com.easy.net.event.ActivityEvent;
+import com.easy.utils.ToastUtils;
 
 @ActivityInject
 @Route(path = "/demo/TestMvvmActivity", name = "mvvm")
@@ -28,8 +29,9 @@ public class TestMvvmActivity extends BaseActivity<TestMvvmPresenter, TestMvvmBi
         testViewModel = new TestViewModel(viewBind);
     }
 
-    @BindingAdapter({"onClickCommand"})
-    public static void loadImage(ImageView imageView, String url) {
+    @BindingAdapter({"onClickCommand", "isThrottleFirst"})
+    public static void loadImage(ImageView imageView, String url, boolean isThrottleFirst) {
         ImageConfig.create(imageView.getContext()).imageView(imageView).url(url).end();
+        ToastUtils.showShort("isThrottleFirst:" + isThrottleFirst);
     }
 }

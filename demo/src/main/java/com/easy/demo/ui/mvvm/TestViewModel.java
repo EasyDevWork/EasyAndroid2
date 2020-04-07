@@ -52,4 +52,8 @@ public class TestViewModel {
     public String imageUrl() {
         return "http://img2.imgtn.bdimg.com/it/u=3137891603,2800618441&fm=26&gp=0.jpg";
     }
+
+    public boolean isThrottleFirst() {
+        return true;
+    }
 }

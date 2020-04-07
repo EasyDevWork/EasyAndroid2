@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="onClickCommand" format="reference" />
-    <declare-styleable name="customAttr">
-        <attr name="resetName" format="string" />
-        <attr name="resetSize" format="dimension" />
-    </declare-styleable>
+    <attr name="isThrottleFirst" format="boolean" />
 </resources>
