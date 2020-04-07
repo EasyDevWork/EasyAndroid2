@@ -21,5 +21,13 @@ public abstract class DataObserver<T> implements Observer<T> {
 
     }
 
+    /**
+     * 被取消
+     */
+    public void onCanceled(){
+
+    }
+
+
     protected abstract void onSuccess(T value);
 }

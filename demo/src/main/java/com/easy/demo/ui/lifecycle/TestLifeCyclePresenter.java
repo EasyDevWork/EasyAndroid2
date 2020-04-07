@@ -34,16 +34,21 @@ public class TestLifeCyclePresenter extends BasePresenter<TestLifeCycleView> {
     public void clickBindLifeCycle() {
         bindObservable(Observable.interval(1, TimeUnit.SECONDS))
                 .observe(new DataObserver<Long>() {
-            @Override
-            protected void onSuccess(Long num) {
-                Log.i(TAG, "bindLifeCycle==>  num:" + num);
-            }
+                    @Override
+                    protected void onSuccess(Long num) {
+                        Log.i(TAG, "bindLifeCycle==>  num:" + num);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.i(TAG, "bindLifeCycle==>  error");
-            }
-        });
+                    @Override
+                    public void onCanceled() {
+                        Log.i(TAG, "bindLifeCycle==> Dispose");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG, "bindLifeCycle==>  error");
+                    }
+                });
     }
 
     @SuppressLint("CheckResult")
@@ -57,5 +62,4 @@ public class TestLifeCyclePresenter extends BasePresenter<TestLifeCycleView> {
                 .subscribe((Consumer<Long>) num -> Log.i(TAG, "bindLifeCycle==>  num:" + num), throwable -> Log.i(TAG, "bindLifeCycle==>  error"));
 
     }
-
 }
