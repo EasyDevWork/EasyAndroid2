@@ -19,7 +19,7 @@ import io.reactivex.Observable;
 @ActivityInject
 @Route(path = "/demo/TestLifeCycleActivity", name = "测试业务生命周期")
 public class TestLifeCycleActivity extends BaseActivity<TestLifeCyclePresenter, EmptyBinding> implements TestLifeCycleView {
-    String TAG = "LifeCycleActivity";
+    String TAG = "ActivityLifecycle";
 
     @Override
     public int getLayoutId() {
@@ -50,6 +50,4 @@ public class TestLifeCycleActivity extends BaseActivity<TestLifeCyclePresenter, 
     public void goActivity(View view){
         ARouter.getInstance().build("/demo/TransparentActivity").navigation();
     }
-
-
 }

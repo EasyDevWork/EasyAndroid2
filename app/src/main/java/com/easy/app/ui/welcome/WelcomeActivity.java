@@ -32,6 +32,7 @@ public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeBindi
             AppSharePreferences appShare = SharePreference.get(this, AppSharePreferences.class);
             appShare.setGoGuide(false);
             ARouter.getInstance().build("/demo/DebugActivity").navigation();
+            finish();
         } else {
             presenter.countDown(1);
         }

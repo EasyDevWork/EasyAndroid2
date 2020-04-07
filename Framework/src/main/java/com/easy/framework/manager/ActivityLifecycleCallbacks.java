@@ -23,16 +23,19 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
     private int started;
     private int stopped;
     private boolean isForeground = true;//是否在前台；
+    private final String tag = "ActivityLifecycle";
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
         WeakReference<Activity> weakActivity = new WeakReference<>(activity);
         store.add(weakActivity);
+        Log.d(tag, getSimpleName(activity) + "<<Create>>");
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
         ++started;
+        Log.d(tag, getSimpleName(activity) + "<<Start>>");
     }
 
     @Override
@@ -42,28 +45,35 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
             isForeground = true;
             EventBus.getDefault().post(new ActivityWakeUpEvent());
         }
-        Logger.d("CurrentActivity=>" + activity.getClass().getSimpleName());
+        Log.d(tag, getSimpleName(activity) + "<<Resumed>>");
+    }
+
+    public String getSimpleName(Activity activity) {
+        return activity.getClass().getSimpleName();
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
         ++paused;
+        Log.d(tag, getSimpleName(activity) + "<<Paused>>");
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
         ++stopped;
         isForeground = isApplicationVisible();
+        Log.d(tag, getSimpleName(activity) + "<<Stopped>>");
     }
 
     @Override
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
-
+        Log.d(tag, getSimpleName(activity) + "<<SaveInstanceState>>");
     }
 
     @Override
     public void onActivityDestroyed(Activity activity) {
         store.remove(activity);
+        Log.d(tag, getSimpleName(activity) + "<<Destroyed>>");
     }
 
     public boolean isApplicationVisible() {
