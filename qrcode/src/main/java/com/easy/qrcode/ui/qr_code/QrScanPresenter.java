@@ -41,7 +41,7 @@ public class QrScanPresenter extends BasePresenter<QrScanView> {
      */
     public void requestPermission(RxPermissions rxPermission, int type, String... permissions) {
         rxPermission.request(permissions)
-                .as(getAutoDispose())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(granted -> mvpView.permissionCallback(granted, type, null));
     }
 

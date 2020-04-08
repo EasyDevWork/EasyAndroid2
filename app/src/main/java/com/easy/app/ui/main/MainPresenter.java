@@ -65,7 +65,7 @@ public class MainPresenter extends AppPresenter<MainView> {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA,
                 Manifest.permission.VIBRATE)
-                .as(getAutoDispose())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(granted -> mvpView.permissionCallback(granted, null), throwable -> mvpView.permissionCallback(null, throwable));
     }
 }

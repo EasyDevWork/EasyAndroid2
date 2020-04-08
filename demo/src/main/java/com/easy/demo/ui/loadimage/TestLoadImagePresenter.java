@@ -35,7 +35,7 @@ public class TestLoadImagePresenter extends BasePresenter<TestLoadImageView> {
     public void requestPermission(RxPermissions permissions) {
         permissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
-                .as(getAutoDispose())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(granted -> mvpView.permissionCallback(granted, null));
     }
 
