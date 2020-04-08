@@ -3,9 +3,10 @@ package com.easy.loadimage.progress;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 
-import io.reactivex.annotations.NonNull;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import okio.Buffer;

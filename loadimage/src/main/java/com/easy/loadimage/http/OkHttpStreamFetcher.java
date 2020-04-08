@@ -2,6 +2,8 @@ package com.easy.loadimage.http;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.HttpException;
@@ -14,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import io.reactivex.annotations.NonNull;
 import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;

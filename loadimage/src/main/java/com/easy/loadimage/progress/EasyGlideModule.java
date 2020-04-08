@@ -2,6 +2,8 @@ package com.easy.loadimage.progress;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.Registry;
@@ -16,7 +18,6 @@ import com.easy.loadimage.http.OkHttpUrlLoader;
 
 import java.io.InputStream;
 
-import io.reactivex.annotations.NonNull;
 
 @GlideModule(glideName = "EasyGlideApp")
 public class EasyGlideModule extends AppGlideModule {
