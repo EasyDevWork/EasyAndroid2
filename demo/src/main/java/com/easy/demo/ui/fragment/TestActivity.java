@@ -1,10 +1,12 @@
 package com.easy.demo.ui.fragment;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
@@ -12,9 +14,13 @@ import com.easy.demo.R;
 import com.easy.demo.databinding.TestFragmentActivityBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.framework.statusbar.StatusBarUtil;
+import com.easy.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 @ActivityInject
 @Route(path = "/demo/TestFragmentActivity", name = "测试fragment的页面")
@@ -55,6 +61,25 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
 
     public void btn3(View view) {
         showLoading();
+    }
+
+    public void btn4(View view) {
+        getRxPermissions().request(Manifest.permission.CAMERA)
+                .doOnDispose(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        ToastUtils.showShort("被取消：");
+                    }
+                })
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(aBoolean -> {
+                    ToastUtils.showShort("是否允许：" + aBoolean);
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        ToastUtils.showShort("异常：");
+                    }
+                });
     }
 
     @Override

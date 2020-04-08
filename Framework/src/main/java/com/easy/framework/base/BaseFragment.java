@@ -1,6 +1,5 @@
 package com.easy.framework.base;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,27 +9,26 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.Lifecycle;
 
 import com.easy.apt.lib.InjectFragment;
-import com.easy.framework.base.lifecyle.BaseLifecycleFragment;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.core.BasePopupView;
+import com.easy.framework.base.common.CommonFragment;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.AutoDisposeConverter;
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
 import javax.inject.Inject;
 
-public abstract class BaseFragment<P extends BasePresenter, V extends ViewDataBinding> extends BaseLifecycleFragment implements BaseView {
+public abstract class BaseFragment<P extends BasePresenter, V extends ViewDataBinding> extends CommonFragment implements BaseView {
     public V viewBind;
-    public Context context;
     View rootView;
     @Inject
     protected P presenter;
-    BasePopupView loadingDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getContext();
         InjectFragment.inject(this);
         if (presenter != null)
             presenter.attachView(context, this,this);
@@ -73,39 +71,25 @@ public abstract class BaseFragment<P extends BasePresenter, V extends ViewDataBi
 
     public abstract void initView(View view);
 
-    public RxPermissions getRxPermissions() {
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.setLogging(true);
-        return rxPermissions;
-    }
-
-    private void hideLoading() {
-        if (loadingDialog != null && loadingDialog.isShow()) {
-            loadingDialog.dismiss();
-        }
-    }
-
-    private void showLoading() {
-        if (loadingDialog == null) {
-            loadingDialog = new XPopup.Builder(context).autoDismiss(false)
-                    .asLoading("正在加载中")
-                    .show();
-        } else if (!loadingDialog.isShow()) {
-            loadingDialog.show();
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        hideLoading();
-        super.onDestroyView();
-    }
-
     @Override
     public void onDetach() {
         if (presenter != null) {
             presenter.detachView();
         }
         super.onDetach();
+    }
+
+    public RxPermissions getRxPermissions() {
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.setLogging(true);
+        return rxPermissions;
+    }
+
+    public <T> AutoDisposeConverter<T> getAutoDispose() {
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this));
+    }
+
+    public <T> AutoDisposeConverter<T> getAutoDispose(Lifecycle.Event untilEvent) {
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this, untilEvent));
     }
 }

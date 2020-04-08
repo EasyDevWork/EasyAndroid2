@@ -1,4 +1,4 @@
-package com.easy.framework.base.lifecyle;
+package com.easy.framework.base.common;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,19 +10,42 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class BaseLifecycleFragment extends Fragment {
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 
+public class CommonFragment extends Fragment {
+    public Context context;
     public boolean isShow;
     protected boolean isCreateView, isLazyLoaded;
     public String tag = "LifecycleFragment";
+    BasePopupView loadingDialog;
 
-    public BaseLifecycleFragment() {
+    public CommonFragment() {
         super();
     }
 
     @ContentView
-    public BaseLifecycleFragment(@LayoutRes int contentLayoutId) {
+    public CommonFragment(@LayoutRes int contentLayoutId) {
         super(contentLayoutId);
+    }
+
+    public void hideLoading() {
+        if (loadingDialog != null && loadingDialog.isShow()) {
+            loadingDialog.dismiss();
+        }
+    }
+
+    public synchronized void showLoading() {
+        if (context == null) {
+            return;
+        }
+        if (loadingDialog == null) {
+            loadingDialog = new XPopup.Builder(context).autoDismiss(false)
+                    .asLoading("正在加载中")
+                    .show();
+        } else if (!loadingDialog.isShow()) {
+            loadingDialog.show();
+        }
     }
 
     @Override
@@ -42,14 +65,13 @@ public class BaseLifecycleFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
+        this.context = context;
         Log.d("LifecycleFragment", tag + "===>onAttach==>" + isShow);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Log.d("LifecycleFragment", tag + "===>onCreate==>" + isShow);
     }
 
@@ -89,6 +111,7 @@ public class BaseLifecycleFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        hideLoading();
         super.onDestroyView();
         isShow = false;
         isCreateView = false;

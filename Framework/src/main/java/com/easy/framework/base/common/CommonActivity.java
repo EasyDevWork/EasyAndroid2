@@ -17,8 +17,10 @@ import com.easy.widget.swipeback.SwipeBackActivityHelper;
 import com.easy.widget.swipeback.SwipeBackLayout;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
+/**
+ * 添加通用的Ui
+ */
 public abstract class CommonActivity  extends AppCompatActivity {
     public Context context;
     //右滑退出
@@ -61,12 +63,6 @@ public abstract class CommonActivity  extends AppCompatActivity {
         if (rootView != null) {
             rootView.setBackgroundResource(id);
         }
-    }
-
-    public RxPermissions getRxPermissions() {
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.setLogging(true);
-        return rxPermissions;
     }
 
     /**

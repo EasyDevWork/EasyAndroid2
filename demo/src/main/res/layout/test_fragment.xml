@@ -16,6 +16,18 @@
             android:text="i am TestFragment"
             android:padding="10dp"
             android:textColor="@color/color_ffffff" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btn3"
+            android:text="加载对话框" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btn4"
+            android:text="权限测试" />
     </LinearLayout>
 
 </layout>
