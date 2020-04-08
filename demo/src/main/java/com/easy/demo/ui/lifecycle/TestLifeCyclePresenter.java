@@ -22,6 +22,7 @@ public class TestLifeCyclePresenter extends BasePresenter<TestLifeCycleView> {
 
     }
 
+    @SuppressLint("CheckResult")
     public void bindLifeCycle2() {
         Observable.interval(1, TimeUnit.SECONDS)
                 .compose(getRxLifecycle().bindUntilEvent(ActivityEvent.DESTROY))
@@ -29,6 +30,7 @@ public class TestLifeCyclePresenter extends BasePresenter<TestLifeCycleView> {
                     Log.i(TAG, "bindLifeCycle==> Dispose");
                 })
                 .subscribe((Consumer<Long>) num -> Log.i(TAG, "bindLifeCycle==>  num:" + num), throwable -> Log.i(TAG, "bindLifeCycle==>  error"));
+
     }
 
     public void clickBindLifeCycle() {
