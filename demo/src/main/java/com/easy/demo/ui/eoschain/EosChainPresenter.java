@@ -1,5 +1,7 @@
 package com.easy.demo.ui.eoschain;
 
+import androidx.lifecycle.Lifecycle;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.easy.eoschain.action.args.AuthArg;
@@ -42,7 +44,6 @@ import com.easy.store.bean.eoschain.TokenShow;
 import com.easy.store.dao.EosAccountDao;
 import com.easy.utils.ToastUtils;
 import com.easy.utils.Utils;
-import com.trello.rxlifecycle3.LifecycleProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,10 +122,9 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 请求链信息
      *
-     * @param rxLifecycle
      */
-    public void requestChainInfo(LifecycleProvider rxLifecycle) {
-        EosChainManager.getInstance().requestChainInfo(rxLifecycle,
+    public void requestChainInfo() {
+        EosChainManager.getInstance().requestChainInfo(getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<ChainInfo>(ChainInfo.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -148,10 +148,9 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 查询合约账号信息
      *
-     * @param rxLifecycle
      */
-    public void requestContract(String accountName, LifecycleProvider rxLifecycle) {
-        EosChainManager.getInstance().requestContract(accountName, rxLifecycle,
+    public void requestContract(String accountName) {
+        EosChainManager.getInstance().requestContract(accountName, getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<AbiContract>(AbiContract.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -174,11 +173,9 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 查询投票列表
-     *
-     * @param rxLifecycle
      */
-    public void requestVoteList(LifecycleProvider rxLifecycle) {
-        EosChainManager.getInstance().requestVoteList(rxLifecycle,
+    public void requestVoteList() {
+        EosChainManager.getInstance().requestVoteList(getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<ProducerInfo>(ProducerInfo.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -199,8 +196,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                 });
     }
 
-    public void requestCurrencyListBalance(List<CurrencyInfo> currencyList, LifecycleProvider rxLifecycle) {
-        Disposable disposable = EosChainManager.getInstance()
+    public void requestCurrencyListBalance(List<CurrencyInfo> currencyList) {
+         EosChainManager.getInstance()
                 .requestCurrencyListBalance(currencyList)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(currencyInfos -> mvpView.currencyListBalanceCallback(currencyInfos),
@@ -210,10 +207,9 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 获取货币数量
      *
-     * @param rxLifecycle
      */
-    public void requestCurrencyBalance(CurrencyInfo balance, LifecycleProvider rxLifecycle) {
-        EosChainManager.getInstance().requestCurrencyBalance(balance, rxLifecycle,
+    public void requestCurrencyBalance(CurrencyInfo balance) {
+        EosChainManager.getInstance().requestCurrencyBalance(balance, getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new HttpCallback<String>() {
                     @Override
                     public Response onConvert(String data) {
@@ -251,14 +247,13 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 请求USDT价格
      *
-     * @param rxLifecycle
      */
-    public void requestUsdtPrice(LifecycleProvider rxLifecycle) {
+    public void requestUsdtPrice() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestUsdtPrice(rxLifecycle,
+        EosChainManager.getInstance().requestUsdtPrice(getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<String>(String.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -291,14 +286,13 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 获取RexFund数据
      *
-     * @param rxLifecycle
      */
-    public void requestRexFundData(LifecycleProvider rxLifecycle) {
+    public void requestRexFundData() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestRexFundData(eosAccount.getName(), rxLifecycle,
+        EosChainManager.getInstance().requestRexFundData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<RexFund>(RexFund.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -327,14 +321,13 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 获取rex数据
      *
-     * @param rxLifecycle
      */
-    public void requestRexData(LifecycleProvider rxLifecycle) {
+    public void requestRexData() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestRexData(eosAccount.getName(), rxLifecycle,
+        EosChainManager.getInstance().requestRexData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<RexBean>(RexBean.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -363,14 +356,13 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 获取REX价格
      *
-     * @param rxLifecycle
      */
-    public void requestRexPrice(LifecycleProvider rxLifecycle) {
+    public void requestRexPrice() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestRexPriceData(rxLifecycle,
+        EosChainManager.getInstance().requestRexPriceData(getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<RexPrice>(RexPrice.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -399,14 +391,13 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 获取Ram价格
      *
-     * @param rxLifecycle
      */
-    public void requestRamPrice(LifecycleProvider rxLifecycle) {
+    public void requestRamPrice() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestRamPrice(rxLifecycle,
+        EosChainManager.getInstance().requestRamPrice(getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<RamPrice>(RamPrice.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -435,14 +426,13 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 获取抵押数据
      *
-     * @param rxLifecycle
      */
-    public void requestStakeData(LifecycleProvider rxLifecycle) {
+    public void requestStakeData() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestStakeData(eosAccount.getName(), rxLifecycle,
+        EosChainManager.getInstance().requestStakeData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<StakeBean>(StakeBean.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -480,14 +470,13 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 请求账号信息
      *
-     * @param rxLifecycle
      */
-    public void requestAccountInfo(LifecycleProvider rxLifecycle) {
+    public void requestAccountInfo() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestAccountInfo(eosAccount.getName(), rxLifecycle,
+        EosChainManager.getInstance().requestAccountInfo(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<ChainAccount>(ChainAccount.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -523,12 +512,12 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                 });
     }
 
-    public void requestCurrencyPrice(LifecycleProvider rxLifecycle) {
+    public void requestCurrencyPrice() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestTokenPrice(rxLifecycle,
+        EosChainManager.getInstance().requestTokenPrice(getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<String>(String.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -561,12 +550,12 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         return EosChainManager.getInstance().createPrivateAndPublicKey();
     }
 
-    public void requestCurrencyList(LifecycleProvider rxLifecycle) {
+    public void requestCurrencyList() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestTokenData(eosAccount.getName(), rxLifecycle,
+        EosChainManager.getInstance().requestTokenData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new RHttpCallback<String>(String.class) {
                     @Override
                     public void handleSuccess(Response response) {
@@ -674,9 +663,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 退还-- 有时申请赎回3天后不一定自动到账，需要手动在触发这个动作
      *
-     * @param rxLifecycle
      */
-    public void refund(LifecycleProvider rxLifecycle) {
+    public void refund() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -692,9 +680,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 投票
      *
-     * @param rxLifecycle
      */
-    public void vote(LifecycleProvider rxLifecycle) {
+    public void vote() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -733,7 +720,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     }
 
-    public void voteProxy(LifecycleProvider rxLifecycle) {
+    public void voteProxy() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -752,9 +739,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      *
      * @param cpu         0.0001 EOS
      * @param net         0.0001 EOS
-     * @param rxLifecycle
      */
-    public void rexRent(String cpu, String net, LifecycleProvider rxLifecycle) {
+    public void rexRent(String cpu, String net) {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -773,9 +759,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      * @param cpu
      * @param net
      * @param receiver
-     * @param rxLifecycle
      */
-    public void unStakeToRex(String cpu, String net, String receiver, LifecycleProvider rxLifecycle) {
+    public void unStakeToRex(String cpu, String net, String receiver) {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -792,9 +777,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      * 买Rex
      *
      * @param quant
-     * @param rxLifecycle
      */
-    public void buyRex(String quant, LifecycleProvider rxLifecycle) {
+    public void buyRex(String quant) {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -811,9 +795,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      * 卖Rex
      *
      * @param quant
-     * @param rxLifecycle
      */
-    public void sellRex(String quant, LifecycleProvider rxLifecycle) {
+    public void sellRex(String quant) {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -830,9 +813,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      * 提现Rex
      *
      * @param quant
-     * @param rxLifecycle
      */
-    public void withdrawRex(String quant, LifecycleProvider rxLifecycle) {
+    public void withdrawRex(String quant) {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -851,9 +833,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      * @param cpu
      * @param net
      * @param receiver
-     * @param rxLifecycle
      */
-    public void stake(String cpu, String net, String receiver, int transfer, LifecycleProvider rxLifecycle) {
+    public void stake(String cpu, String net, String receiver, int transfer) {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -872,9 +853,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      * @param cpu
      * @param net
      * @param receiver
-     * @param rxLifecycle
      */
-    public void unStake(String cpu, String net, String receiver, LifecycleProvider rxLifecycle) {
+    public void unStake(String cpu, String net, String receiver) {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -890,9 +870,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 买Ram
      *
-     * @param rxLifecycle
      */
-    public void buyRam(String quant, LifecycleProvider rxLifecycle) {
+    public void buyRam(String quant) {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -908,9 +887,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 卖Ram
      *
-     * @param rxLifecycle
      */
-    public void sellRam(float quant, LifecycleProvider rxLifecycle) {
+    public void sellRam(float quant) {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -926,9 +904,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 更新权限
      *
-     * @param rxLifecycle
      */
-    public void updateAuth(AuthArg authArg, LifecycleProvider rxLifecycle) {
+    public void updateAuth(AuthArg authArg) {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -945,9 +922,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 强制刷新CPU资源等，将会消耗资源
      *
-     * @param rxLifecycle
      */
-    public void openChain(LifecycleProvider rxLifecycle) {
+    public void openChain() {
         EosAccount eosAccount = queryAccount();
         if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
             return;
@@ -960,7 +936,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     }
 
-    public void signProvider(LifecycleProvider rxLifecycle) {
+    public void signProvider() {
         
     }
 }

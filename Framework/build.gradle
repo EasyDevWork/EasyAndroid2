@@ -89,8 +89,13 @@ dependencies {
     annotationProcessor lib.dagger_compiler
 
 
-    api lib.rxlifecycle3
-    api lib.rxlifecycle3_android
+//    api lib.rxlifecycle3
+//    api lib.rxlifecycle3_android
+
+    api lib.autodispose
+    api lib.autodispose_lifecycle
+    api lib.autodispose_android
+    api lib.autodispose_android_lifecycle
 
 //    api project(':AptLib')
 //    annotationProcessor project(':AptProcessor')

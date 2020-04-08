@@ -77,7 +77,7 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
     }
 
     public void requestChainInfo(View v) {
-        presenter.requestChainInfo(getRxLifecycle());
+        presenter.requestChainInfo( );
     }
 
     public void requestCurrencyBalance(View v) {
@@ -85,7 +85,7 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
         balance.setAccount("johntrump123");
         balance.setCode("eosio.token");
         balance.setSymbol("eos");
-        presenter.requestCurrencyBalance(balance, getRxLifecycle());
+        presenter.requestCurrencyBalance(balance);
     }
 
     public void requestCurrencyListBalance(View v) {
@@ -102,59 +102,59 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
         meetone.setSymbol("meetone");
         currencyInfos.add(meetone);
 
-        presenter.requestCurrencyListBalance(currencyInfos, getRxLifecycle());
+        presenter.requestCurrencyListBalance(currencyInfos );
     }
 
     public void queryContract(View v) {
-        presenter.requestContract("whaleextrust", getRxLifecycle());
+        presenter.requestContract("whaleextrust");
     }
 
     public void queryVoteInfo(View v) {
-        presenter.requestVoteList(getRxLifecycle());
+        presenter.requestVoteList( );
     }
 
     public void requestUsdtPrice(View v) {
-        presenter.requestUsdtPrice(getRxLifecycle());
+        presenter.requestUsdtPrice( );
     }
 
     public void requestRamPrice(View v) {
-        presenter.requestRamPrice(getRxLifecycle());
+        presenter.requestRamPrice( );
     }
 
     public void requestAccountInfo(View v) {
-        presenter.requestAccountInfo(getRxLifecycle());
+        presenter.requestAccountInfo( );
     }
 
     public void requestCurrencyList(View v) {
-        presenter.requestCurrencyList(getRxLifecycle());
+        presenter.requestCurrencyList( );
     }
 
     public void requestCurrencyPrice(View v) {
-        presenter.requestCurrencyPrice(getRxLifecycle());
+        presenter.requestCurrencyPrice( );
     }
 
     public void requestStakeData(View v) {
-        presenter.requestStakeData(getRxLifecycle());
+        presenter.requestStakeData( );
     }
 
     public void requestRexData(View v) {
-        presenter.requestRexData(getRxLifecycle());
+        presenter.requestRexData( );
     }
 
     public void requestRexPrice(View v) {
-        presenter.requestRexPrice(getRxLifecycle());
+        presenter.requestRexPrice( );
     }
 
     public void requestRexFund(View v) {
-        presenter.requestRexFundData(getRxLifecycle());
+        presenter.requestRexFundData( );
     }
 
     public void buyRam(View v) {
-        presenter.buyRam("0.0001 EOS", getRxLifecycle());
+        presenter.buyRam("0.0001 EOS" );
     }
 
     public void sellRam(View v) {
-        presenter.sellRam(1, getRxLifecycle());
+        presenter.sellRam(1);
     }
 
     public void parseAccountInfo(View v) {
@@ -162,23 +162,23 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
     }
 
     public void openChain(View v) {
-        presenter.openChain(getRxLifecycle());
+        presenter.openChain( );
     }
 
     public void refund(View v) {
-        presenter.refund(getRxLifecycle());
+        presenter.refund( );
     }
 
     public void vote(View v) {
-        presenter.vote(getRxLifecycle());
+        presenter.vote( );
     }
 
     public void voteProxy(View v) {
-        presenter.voteProxy(getRxLifecycle());
+        presenter.voteProxy( );
     }
 
     public void signProvider(View v) {
-        presenter.signProvider(getRxLifecycle());
+        presenter.signProvider( );
     }
 
     public void updateAuth(View v) {
@@ -188,7 +188,7 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
         keys.add(key);
         RequiredAuth auth = new RequiredAuth(1, keys, new ArrayList<>(), new ArrayList<>());
         AuthArg authArg = new AuthArg("johntrump123", "active", "owner", auth);
-        presenter.updateAuth(authArg, getRxLifecycle());
+        presenter.updateAuth(authArg);
     }
 
     public void inputPrivateKey(View v) {
@@ -201,37 +201,37 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
 
     public void rexRent(View v) {
         showLoading();
-        presenter.rexRent("0.0001 EOS", "0.0001 EOS", getRxLifecycle());
+        presenter.rexRent("0.0001 EOS", "0.0001 EOS");
     }
 
     public void buyRexWithStake(View v) {
         showLoading();
-        presenter.unStakeToRex("0.0001 EOS", "0.0001 EOS", "johntrump123", getRxLifecycle());
+        presenter.unStakeToRex("0.0001 EOS", "0.0001 EOS", "johntrump123");
     }
 
     public void stake(View v) {
         showLoading();
-        presenter.stake("0.0001 EOS", "0.0000 EOS", "googlehenlan", 0, getRxLifecycle());
+        presenter.stake("0.0001 EOS", "0.0000 EOS", "googlehenlan", 0 );
     }
 
     public void unstake(View v) {
         showLoading();
-        presenter.unStake("0.0001 EOS", "0.0000 EOS", "googlehenlan", getRxLifecycle());
+        presenter.unStake("0.0001 EOS", "0.0000 EOS", "googlehenlan");
     }
 
     public void buyRex(View v) {
         showLoading();
-        presenter.buyRex("0.0001 EOS", getRxLifecycle());
+        presenter.buyRex("0.0001 EOS");
     }
 
     public void sellRex(View v) {
         showLoading();
-        presenter.sellRex("0.0001 EOS", getRxLifecycle());
+        presenter.sellRex("0.0001 EOS");
     }
 
     public void withdrawRex(View v) {
         showLoading();
-        presenter.withdrawRex("0.0001 EOS", getRxLifecycle());
+        presenter.withdrawRex("0.0001 EOS");
     }
 
     @Override

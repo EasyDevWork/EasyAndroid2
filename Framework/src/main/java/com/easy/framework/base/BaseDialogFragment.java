@@ -7,18 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 import com.easy.apt.lib.InjectFragment;
-import com.easy.framework.base.lifecyle.BaseLifecycleDialogFragment;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
 
-public abstract class BaseDialogFragment<P extends BasePresenter, V extends ViewDataBinding> extends BaseLifecycleDialogFragment implements BaseView {
+public abstract class BaseDialogFragment<P extends BasePresenter, V extends ViewDataBinding> extends AppCompatDialogFragment implements BaseView {
     public V viewBind;
     public Context context;
     View rootView;
@@ -32,7 +32,7 @@ public abstract class BaseDialogFragment<P extends BasePresenter, V extends View
         context = getContext();
         InjectFragment.inject(this);
         if (presenter != null)
-            presenter.attachView(context, this, getRxLifecycle());
+            presenter.attachView(context, this,this);
     }
 
     @Override

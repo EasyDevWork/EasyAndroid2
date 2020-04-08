@@ -2,17 +2,19 @@ package com.easy.demo.ui.qrcode;
 
 import android.graphics.Bitmap;
 
+import androidx.lifecycle.Lifecycle;
+
 import com.easy.framework.base.BasePresenter;
-import com.easy.framework.observable.DataObserver;
 import com.easy.qrcode.ui.qr_code.qrcode.BarCodeCreate;
 import com.easy.qrcode.ui.qr_code.qrcode.QRCodeCreate;
 import com.easy.utils.DimensUtils;
-import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class TestQrCodePresenter extends BasePresenter<TestQrCodeView> {
     @Inject
@@ -21,7 +23,7 @@ public class TestQrCodePresenter extends BasePresenter<TestQrCodeView> {
     }
 
     public void createQrCode(final String content, int size, int type) {
-        bindObservable(Observable.create((ObservableOnSubscribe<Bitmap>) e -> {
+        Observable.create((ObservableOnSubscribe<Bitmap>) e -> {
             int width = DimensUtils.dp2px(getContext(), size);
             Bitmap bitmap;
             if (type == 1) {
@@ -34,18 +36,9 @@ public class TestQrCodePresenter extends BasePresenter<TestQrCodeView> {
             } else {
                 e.onNext(bitmap);
             }
-        })).lifecycleProvider(getRxLifecycle())
-                .activityEvent(ActivityEvent.DESTROY)
-                .observe(new DataObserver<Bitmap>() {
-                    @Override
-                    protected void onSuccess(Bitmap bitmap) {
-                        mvpView.qRCodeCallback(bitmap);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mvpView.qRCodeCallback(null);
-                    }
-                });
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(bitmap -> mvpView.qRCodeCallback(bitmap), throwable -> mvpView.qRCodeCallback(null));
     }
 }

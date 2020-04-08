@@ -15,13 +15,12 @@ import com.easy.eoschain.bean.response.TransactionCommitted;
 import com.easy.eoschain.encrypt.abi.ActionAbi;
 import com.easy.eoschain.encrypt.crypto.signature.PrivateKeySigning;
 import com.easy.eoschain.utils.EosUtils;
-
 import com.easy.net.RetrofitConfig;
 import com.easy.net.RxHttp;
 import com.easy.net.callback.HttpCallback;
 import com.easy.net.retrofit.RetrofitUtils;
 import com.easy.utils.Utils;
-import com.trello.rxlifecycle3.LifecycleProvider;
+import com.uber.autodispose.AutoDisposeConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,35 +57,35 @@ public class EosChainManager {
     /**
      * 获取链信息
      */
-    public void requestChainInfo(LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestChainInfo(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         RxHttp.get("v1/chain/get_info")
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
     /**
      * 查询合约账号信息
      */
-    public void requestContract(String accountName, LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestContract(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("account_name", accountName);
         RxHttp.post("v1/chain/get_abi")
                 .setBodyJson(JSON.toJSONString(jsonObject))
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
     /**
      * 查询投票列表
      */
-    public void requestVoteList(LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestVoteList(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("json", true);
         jsonObject.put("lower_bound", "");
         jsonObject.put("limit", 999);
         RxHttp.post("v1/chain/get_producers")
                 .setBodyJson(JSON.toJSONString(jsonObject))
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
@@ -106,22 +105,21 @@ public class EosChainManager {
     /**
      * 获取USDT价格
      */
-    public void requestUsdtPrice(LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestUsdtPrice(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         RxHttp.get("https://www.ethte.com/eos_price/eos_usd")
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
     /**
      * 获取单个货币数量
      *
-     * @param lifecycleProvider
      * @param httpCallback
      */
-    public void requestCurrencyBalance(CurrencyInfo balance, LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestCurrencyBalance(CurrencyInfo balance, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         RxHttp.post("v1/chain/get_currency_balance")
                 .setBodyJson(JSON.toJSONString(balance))
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
@@ -165,7 +163,7 @@ public class EosChainManager {
     /**
      * 获取Ram价格
      */
-    public void requestRamPrice(LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestRamPrice(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         TableRows tableRows = new TableRows();
         tableRows.setScope("eosio");
         tableRows.setCode("eosio");
@@ -180,40 +178,40 @@ public class EosChainManager {
         tableRows.setEncode_type("dec");
         RxHttp.post("v1/chain/get_table_rows")
                 .setBodyJson(JSON.toJSONString(tableRows))
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
     /**
      * 获取账号信息
      */
-    public void requestAccountInfo(String accountName, LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestAccountInfo(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("account_name", accountName);
         RxHttp.post("v1/chain/get_account")
                 .setBodyJson(jsonObject.toJSONString())
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
     /**
      * 获取账号下有金额的货币列表
      */
-    public void requestTokenData(String accountName, LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestTokenData(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("account", accountName);
         RxHttp.post("https://www.ethte.com/account_info/v1/get_account")
                 .setBodyJson(jsonObject.toJSONString())
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
     /**
      * 获取token当前价格
      */
-    public void requestTokenPrice(LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestTokenPrice(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         RxHttp.get("https://www.ethte.com/eos_price/tokens_eos")
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
@@ -221,10 +219,9 @@ public class EosChainManager {
      * 请求抵押列表
      *
      * @param accountName
-     * @param lifecycleProvider
      * @param httpCallback
      */
-    public void requestStakeData(String accountName, LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestStakeData(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         TableRows tableRows = new TableRows();
         tableRows.setScope(accountName);
         tableRows.setCode("eosio");
@@ -239,7 +236,7 @@ public class EosChainManager {
         tableRows.setEncode_type("dec");
         RxHttp.post("v1/chain/get_table_rows")
                 .setBodyJson(JSON.toJSONString(tableRows))
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
@@ -247,10 +244,9 @@ public class EosChainManager {
      * 获取RexFund数据
      *
      * @param accountName
-     * @param lifecycleProvider
      * @param httpCallback
      */
-    public void requestRexFundData(String accountName, LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestRexFundData(String accountName,  AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         TableRows tableRows = new TableRows();
         tableRows.setScope("eosio");
         tableRows.setCode("eosio");
@@ -265,7 +261,7 @@ public class EosChainManager {
         tableRows.setEncode_type("");
         RxHttp.post("v1/chain/get_table_rows")
                 .setBodyJson(JSON.toJSONString(tableRows))
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
@@ -273,10 +269,9 @@ public class EosChainManager {
      * 获取Rex数据
      *
      * @param accountName
-     * @param lifecycleProvider
      * @param httpCallback
      */
-    public void requestRexData(String accountName, LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestRexData(String accountName,  AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         TableRows tableRows = new TableRows();
         tableRows.setScope("eosio");
         tableRows.setCode("eosio");
@@ -291,17 +286,16 @@ public class EosChainManager {
         tableRows.setEncode_type("");
         RxHttp.post("v1/chain/get_table_rows")
                 .setBodyJson(JSON.toJSONString(tableRows))
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 
     /**
      * 获取Rex价值
      *
-     * @param lifecycleProvider
      * @param httpCallback
      */
-    public void requestRexPriceData(LifecycleProvider lifecycleProvider, HttpCallback httpCallback) {
+    public void requestRexPriceData(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         TableRows tableRows = new TableRows();
         tableRows.setScope("eosio");
         tableRows.setCode("eosio");
@@ -316,7 +310,7 @@ public class EosChainManager {
         tableRows.setEncode_type("");
         RxHttp.post("v1/chain/get_table_rows")
                 .setBodyJson(JSON.toJSONString(tableRows))
-                .lifecycle(lifecycleProvider)
+                .addAutoDispose(autoDisposeConverter)
                 .request(retrofit, httpCallback);
     }
 

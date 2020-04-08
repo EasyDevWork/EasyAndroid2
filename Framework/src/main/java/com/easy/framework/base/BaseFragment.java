@@ -16,7 +16,6 @@ import com.easy.framework.base.lifecyle.BaseLifecycleFragment;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.trello.rxlifecycle3.android.FragmentEvent;
 
 import javax.inject.Inject;
 
@@ -34,7 +33,7 @@ public abstract class BaseFragment<P extends BasePresenter, V extends ViewDataBi
         context = getContext();
         InjectFragment.inject(this);
         if (presenter != null)
-            presenter.attachView(context, this, getRxLifecycle());
+            presenter.attachView(context, this,this);
     }
 
     @Override

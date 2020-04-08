@@ -2,20 +2,24 @@ package com.easy.demo.ui.loadimage;
 
 import android.Manifest;
 
+import androidx.lifecycle.Lifecycle;
+
 import com.easy.framework.base.BasePresenter;
-import com.easy.framework.observable.DataObserver;
 import com.easy.loadimage.EasyLoadImage;
 import com.easy.utils.FileUtils;
 import com.easy.utils.Utils;
 import com.easy.utils.base.FileConstant;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import java.io.File;
 
 import javax.inject.Inject;
 
+import io.objectbox.reactive.DataObserver;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class TestLoadImagePresenter extends BasePresenter<TestLoadImageView> {
     @Inject
@@ -29,21 +33,10 @@ public class TestLoadImagePresenter extends BasePresenter<TestLoadImageView> {
      * @param permissions
      */
     public void requestPermission(RxPermissions permissions) {
-        bindObservable(permissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE))
-                .lifecycleProvider(getRxLifecycle())
-                .activityEvent(ActivityEvent.DESTROY)
-                .observe(new DataObserver<Boolean>() {
-                    @Override
-                    protected void onSuccess(Boolean granted) {
-                        mvpView.permissionCallback(granted, null);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mvpView.permissionCallback(null, e);
-                    }
-                });
+        permissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                .as(getAutoDispose())
+                .subscribe(granted -> mvpView.permissionCallback(granted, null));
     }
 
     public void downloadImage(String imageUrl) {
@@ -51,19 +44,9 @@ public class TestLoadImagePresenter extends BasePresenter<TestLoadImageView> {
         String fileName = Utils.buildString("img_", System.currentTimeMillis(), ".", fileExtension);
         String saveFile = FileUtils.getFilePath(FileConstant.TYPE_PHOTO, getContext()) + fileName;
         Observable<File> observable = EasyLoadImage.downloadImageToGallery(getContext(), imageUrl, saveFile);
-
-        bindObservable(observable).lifecycleProvider(getRxLifecycle())
-                .activityEvent(ActivityEvent.DESTROY)
-                .observe(new DataObserver<File>() {
-                    @Override
-                    protected void onSuccess(File file) {
-                        mvpView.downloadCallback(file, null);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mvpView.downloadCallback(null, e);
-                    }
-                });
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(file -> mvpView.downloadCallback(file, null), throwable -> mvpView.downloadCallback(null, throwable));
     }
 }

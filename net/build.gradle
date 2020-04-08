@@ -53,6 +53,11 @@ dependencies {
 
     implementation lib.logger
 
-    implementation lib.rxlifecycle3
-    implementation lib.rxlifecycle3_android
+//    implementation lib.rxlifecycle3
+//    implementation lib.rxlifecycle3_android
+
+    implementation lib.autodispose
+    implementation lib.autodispose_lifecycle
+    implementation lib.autodispose_android
+    implementation lib.autodispose_android_lifecycle
 }

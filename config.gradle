@@ -47,8 +47,13 @@ ext {
             "rxandroid"                    : "io.reactivex.rxjava2:rxandroid:2.1.0",
             "rxbinding"                    : "com.jakewharton.rxbinding3:rxbinding:3.0.0",
             "rxpermissions"                : "com.github.tbruyelle:rxpermissions:0.10.2",
-            "rxlifecycle"                  : "com.trello.rxlifecycle2:rxlifecycle:2.2.2",
-            "rxlifecycle_components"       : "com.trello.rxlifecycle2:rxlifecycle-components:2.2.2",
+//            "rxlifecycle"                  : "com.trello.rxlifecycle2:rxlifecycle:2.2.2",
+//            "rxlifecycle_components"       : "com.trello.rxlifecycle2:rxlifecycle-components:2.2.2",
+
+            "autodispose"                  : "com.uber.autodispose:autodispose:1.4.0",
+            "autodispose_lifecycle"        : "com.uber.autodispose:autodispose-lifecycle:1.4.0",
+            "autodispose_android"          : "com.uber.autodispose:autodispose-android:1.4.0",
+            "autodispose_android_lifecycle": "com.uber.autodispose:autodispose-android-archcomponents:1.4.0",
 
             //objectbox
             "objectbox_rxjava"             : "io.objectbox:objectbox-rxjava:2.3.4",
@@ -79,12 +84,5 @@ ext {
             "tencent_opensdk"              : "com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.3.1",
             "okio"                         : "com.squareup.okio:okio:1.17.4",
 
-            "rxlifecycle3"                 : "com.trello.rxlifecycle3:rxlifecycle:3.1.0",
-            "rxlifecycle3_android"         : "com.trello.rxlifecycle3:rxlifecycle-android:3.1.0",
-
-            "autodispose"                  : "com.uber.autodispose:autodispose:1.4.0",
-            "autodispose_lifecycle"        : "com.uber.autodispose:autodispose-lifecycle:1.4.0",
-            "autodispose_android"          : "com.uber.autodispose:autodispose-android:1.4.0",
-            "autodispose_android_lifecycle": "com.uber.autodispose:autodispose-android-archcomponents:1.4.0",
     ]
 }

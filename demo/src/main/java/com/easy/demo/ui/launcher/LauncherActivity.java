@@ -11,7 +11,6 @@ import com.easy.demo.base.TvBaseActivity;
 import com.easy.demo.databinding.TestLauncherBinding;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.ToastUtils;
-import com.trello.rxlifecycle3.android.ActivityEvent;
 
 @ActivityInject
 @Route(path = "/demo/LauncherActivity", name = "桌面页面")

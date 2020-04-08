@@ -13,9 +13,7 @@ import com.easy.net.observer.HttpObservable;
 import com.easy.net.retrofit.Method;
 import com.easy.net.retrofit.RetrofitUtils;
 import com.easy.net.tools.RequestUtils;
-import com.trello.rxlifecycle3.LifecycleProvider;
-import com.trello.rxlifecycle3.android.ActivityEvent;
-import com.trello.rxlifecycle3.android.FragmentEvent;
+import com.uber.autodispose.AutoDisposeConverter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,12 +40,6 @@ public class RxHttp {
     private Map<String, Object> parameter;
     /*header*/
     private Map<String, Object> header;
-    /*LifecycleProvider*/
-    private LifecycleProvider lifecycle;
-    /*ActivityEvent*/
-    private ActivityEvent activityEvent;
-    /*FragmentEvent*/
-    private FragmentEvent fragmentEvent;
     /*HttpCallback*/
     private HttpCallback httpCallback;
     /*标识请求的TAG*/
@@ -62,21 +54,20 @@ public class RxHttp {
     String bodyString;
     /*是否强制JSON格式*/
     boolean isJson;
+    private AutoDisposeConverter autoDisposeConverter;
 
 
     /*构造函数*/
     private RxHttp(Builder builder) {
         this.parameter = builder.parameter;
         this.header = builder.header;
-        this.lifecycle = builder.lifecycle;
-        this.activityEvent = builder.activityEvent;
-        this.fragmentEvent = builder.fragmentEvent;
         this.tag = builder.tag;
         this.fileMap = builder.fileMap;
         this.apiUrl = builder.apiUrl;
         this.isJson = builder.isJson;
         this.bodyString = builder.bodyString;
         this.method = builder.method;
+        this.autoDisposeConverter = builder.autoDisposeConverter;
     }
 
     public boolean isEmpty(String value) {
@@ -204,13 +195,14 @@ public class RxHttp {
         /* 被观察者 httpObservable */
         HttpObservable httpObservable = new HttpObservable.Builder(apiObservable)
                 .httpObserver(httpCallback)
-                .lifecycleProvider(lifecycle)
-                .activityEvent(activityEvent)
-                .fragmentEvent(fragmentEvent)
                 .build();
         /* 观察者  httpObserver */
         /*设置监听*/
-        httpObservable.observe().subscribe(httpCallback);
+        Observable observable = httpObservable.observe();
+        if (autoDisposeConverter != null) {
+            observable.as(autoDisposeConverter);
+        }
+        observable.subscribe(httpCallback);
     }
 
     /*执行文件上传*/
@@ -242,9 +234,6 @@ public class RxHttp {
         /* 被观察者 httpObservable */
         HttpObservable httpObservable = new HttpObservable.Builder(apiObservable)
                 .httpObserver(uploadCallback)
-                .lifecycleProvider(lifecycle)
-                .activityEvent(activityEvent)
-                .fragmentEvent(fragmentEvent)
                 .build();
         /* 观察者  uploadCallback */
         /*设置监听*/
@@ -299,12 +288,6 @@ public class RxHttp {
         private Map<String, Object> parameter = new TreeMap<>();
         /*header*/
         private Map<String, Object> header = new TreeMap<>();
-        /*LifecycleProvider*/
-        private LifecycleProvider lifecycle;
-        /*ActivityEvent*/
-        private ActivityEvent activityEvent;
-        /*FragmentEvent*/
-        private FragmentEvent fragmentEvent;
         /*标识请求的TAG*/
         private String tag;
         /*文件map*/
@@ -315,6 +298,8 @@ public class RxHttp {
         private String bodyString;
         /*是否强制JSON格式*/
         private boolean isJson = true;
+        /*自动取消*/
+        private AutoDisposeConverter autoDisposeConverter;
 
         public Builder() {
         }
@@ -347,6 +332,12 @@ public class RxHttp {
             return this;
         }
 
+        /*AutoDisposeConverter*/
+        public RxHttp.Builder addAutoDispose(@NonNull AutoDisposeConverter autoDispose) {
+            this.autoDisposeConverter = autoDispose;
+            return this;
+        }
+
         public RxHttp.Builder addHeader(@NonNull Map<String, Object> header) {
             this.header = header;
             return this;
@@ -367,24 +358,6 @@ public class RxHttp {
         public RxHttp.Builder setBodyString(@NonNull String bodyString) {
             this.isJson = false;
             this.bodyString = bodyString;
-            return this;
-        }
-
-        /*LifecycleProvider*/
-        public RxHttp.Builder lifecycle(@NonNull LifecycleProvider lifecycle) {
-            this.lifecycle = lifecycle;
-            return this;
-        }
-
-        /*ActivityEvent*/
-        public RxHttp.Builder activityEvent(@NonNull ActivityEvent activityEvent) {
-            this.activityEvent = activityEvent;
-            return this;
-        }
-
-        /*FragmentEvent*/
-        public RxHttp.Builder fragmentEvent(@NonNull FragmentEvent fragmentEvent) {
-            this.fragmentEvent = fragmentEvent;
             return this;
         }
 

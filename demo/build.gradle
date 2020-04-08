@@ -71,8 +71,4 @@ dependencies {
     implementation project(':libtv')
     implementation 'androidx.leanback:leanback:1.0.0'
 
-    implementation lib.autodispose
-    implementation lib.autodispose_lifecycle
-    implementation lib.autodispose_android
-    implementation lib.autodispose_android_lifecycle
 }

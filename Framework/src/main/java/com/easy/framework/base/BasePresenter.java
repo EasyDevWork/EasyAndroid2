@@ -2,36 +2,38 @@ package com.easy.framework.base;
 
 import android.content.Context;
 
-import com.easy.framework.observable.DataObservable;
-import com.trello.rxlifecycle3.LifecycleProvider;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+
+import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.AutoDisposeConverter;
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 
 import javax.annotation.Nullable;
 
-import io.reactivex.Observable;
-
 public abstract class BasePresenter<V extends BaseView> {
 
     Reference<V> mvpViewRef;
     Reference<Context> contentRef;
     public V mvpView;
-    LifecycleProvider lifecycleProvider;
+    public LifecycleOwner lifecycleOwner;
 
-    public void attachView(Context context, V view, LifecycleProvider lifecycleProvider) {
+    public <T> AutoDisposeConverter<T> getAutoDispose() {
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner));
+    }
+
+    public <T> AutoDisposeConverter<T> getAutoDispose(Lifecycle.Event untilEvent) {
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent));
+    }
+
+    public void attachView(Context context, V view, LifecycleOwner owner) {
         mvpViewRef = new WeakReference<>(view);
         contentRef = new WeakReference<>(context);
         mvpView = mvpViewRef.get();
-        this.lifecycleProvider = lifecycleProvider;
-    }
-
-    public LifecycleProvider getRxLifecycle() {
-        return lifecycleProvider;
-    }
-
-    public DataObservable.Builder bindObservable(Observable dataObservable) {
-        return DataObservable.builder(dataObservable).lifecycleProvider(lifecycleProvider);
+        lifecycleOwner = owner;
     }
 
     public void detachView() {
@@ -43,6 +45,7 @@ public abstract class BasePresenter<V extends BaseView> {
             contentRef.clear();
             contentRef = null;
         }
+        lifecycleOwner = null;
     }
 
     @Nullable

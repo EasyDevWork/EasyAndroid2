@@ -7,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.easy.framework.R;
-import com.easy.framework.base.lifecyle.BaseLifecycleActivity;
 import com.easy.framework.statusbar.StatusBarUtil;
 import com.easy.utils.KeyBoardUtils;
 import com.easy.widget.TitleView;
@@ -18,7 +19,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-public abstract class CommonActivity  extends BaseLifecycleActivity {
+public abstract class CommonActivity  extends AppCompatActivity {
     public Context context;
     //右滑退出
     public SwipeBackActivityHelper mHelper;

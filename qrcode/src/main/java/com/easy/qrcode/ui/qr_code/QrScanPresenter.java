@@ -6,9 +6,9 @@ import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
 
 import com.easy.framework.base.BasePresenter;
-import com.easy.framework.observable.DataObserver;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.LuminanceSource;
@@ -18,14 +18,16 @@ import com.google.zxing.Result;
 import com.google.zxing.common.GlobalHistogramBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.SingleOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class QrScanPresenter extends BasePresenter<QrScanView> {
     @Inject
@@ -38,20 +40,9 @@ public class QrScanPresenter extends BasePresenter<QrScanView> {
      * @param permissions
      */
     public void requestPermission(RxPermissions rxPermission, int type, String... permissions) {
-        bindObservable(rxPermission.request(permissions))
-                .lifecycleProvider(getRxLifecycle())
-                .activityEvent(ActivityEvent.DESTROY)
-                .observe(new DataObserver<Boolean>() {
-                    @Override
-                    protected void onSuccess(Boolean granted) {
-                        mvpView.permissionCallback(granted, type, null);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mvpView.permissionCallback(null, type, e);
-                    }
-                });
+        rxPermission.request(permissions)
+                .as(getAutoDispose())
+                .subscribe(granted -> mvpView.permissionCallback(granted, type, null));
     }
 
     public void selectAlbum(final FragmentActivity activity, final int code) {
@@ -60,40 +51,24 @@ public class QrScanPresenter extends BasePresenter<QrScanView> {
     }
 
     public void scanAlbum(final String picturePath) {
-        Observable<String> dataObservable = Observable.create(e -> {
+        Single.create((SingleOnSubscribe<String>) emitter -> {
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
             int[] intArray = new int[bitmap.getWidth() * bitmap.getHeight()];
             bitmap.getPixels(intArray, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
             LuminanceSource source = new RGBLuminanceSource(bitmap.getWidth(), bitmap.getHeight(), intArray);
             BinaryBitmap binaryBitmap = new BinaryBitmap(new GlobalHistogramBinarizer(source));
             Reader reader = new QRCodeReader();
-            Map<DecodeHintType, Object> hints = new EnumMap<>(DecodeHintType.class);
+            Map<DecodeHintType, String> hints = new EnumMap<>(DecodeHintType.class);
             try {
                 Result result = reader.decode(binaryBitmap, hints);
-                e.onNext(result.getText());
+                emitter.onSuccess(result.getText());
             } catch (Exception e1) {
+                emitter.onError(e1);
                 e1.printStackTrace();
-                if (e1.getMessage() != null) {
-                    e.onNext(e1.getMessage());
-                } else {
-                    e.onNext("error");
-                }
             }
-        });
-
-        bindObservable(dataObservable)
-                .lifecycleProvider(getRxLifecycle())
-                .activityEvent(ActivityEvent.DESTROY)
-                .observe(new DataObserver<String>() {
-                    @Override
-                    protected void onSuccess(String result) {
-                        mvpView.scanAlbumCallBack(result, 1);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mvpView.scanAlbumCallBack(e.getMessage(), 2);
-                    }
-                });
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(resultBack -> mvpView.scanAlbumCallBack(resultBack, 1), throwable -> mvpView.scanAlbumCallBack(throwable.getMessage(), 2));
     }
 }
