@@ -6,12 +6,12 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
-import com.easy.demo.databinding.EmptyBinding;
+import com.easy.demo.databinding.TestLifecycleBinding;
 import com.easy.framework.base.BaseActivity;
 
 @ActivityInject
 @Route(path = "/demo/TestLifeCycleActivity", name = "测试业务生命周期")
-public class TestLifeCycleActivity extends BaseActivity<TestLifeCyclePresenter, EmptyBinding> implements TestLifeCycleView {
+public class TestLifeCycleActivity extends BaseActivity<TestLifeCyclePresenter, TestLifecycleBinding> implements TestLifeCycleView {
 
     @Override
     public int getLayoutId() {
@@ -41,5 +41,10 @@ public class TestLifeCycleActivity extends BaseActivity<TestLifeCyclePresenter, 
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void callback(String result) {
+        viewBind.tvTips.setText(result);
     }
 }

@@ -6,23 +6,29 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tvTips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="21sp" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="bindLifeCycle"
-            android:text="bindLifeCycle" />
+            android:text="默认销毁" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="bindUntilEvent"
-            android:text="bindUntilEvent" />
+            android:text="PAUSE时销毁" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="bindLifeCycle2"
-            android:text="原始请求" />
+            android:text="destroy时销毁" />
 
         <Button
             android:layout_width="wrap_content"
