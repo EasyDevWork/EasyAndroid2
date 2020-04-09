@@ -9,4 +9,9 @@
     <color name="color_3c92ff">#3c92ff</color>
     <color name="color_b5b5b5">#b5b5b5</color>
     <color name="color_3e688f">#3e688f</color>
+    <color name="ys_eeeeee">#eeeeee</color>
+    <color name="color_3E688F">#3E688F</color>
+    <color name="phone_code_text_color">#323232</color>
+    <color name="phone_code_divider_color">#999999</color>
+    <color name="phone_code_divider_focus_color">#3F8EED</color>
 </resources>

@@ -18,6 +18,55 @@
         <item name="android:textColor">@color/color_ffffff</item>
         <item name="android:gravity">center</item>
     </style>
+    <declare-styleable name="NumberRollingView">
+        <!--帧数-->
+        <attr name="frameNum" format="integer"></attr>
+        <!--内容的格式-->
+        <attr name="textType">
+            <enum name="money" value="0"></enum>
+            <enum name="num" value="1"></enum>
+        </attr>
+        <!--是否设置每三位数字一个逗号-->
+        <attr name="useCommaFormat" format="boolean"></attr>
+        <!--是否当内容改变的时候使用动画，反之则不使用动画-->
+        <attr name="runWhenChange" format="boolean"></attr>
+    </declare-styleable>
+    <declare-styleable name="ReadMoreTextView">
+        <attr name="etv_MaxLinesOnShrink" format="reference|integer" />
+        <attr name="etv_EllipsisHint" format="reference|string" /><!--default is ..-->
+        <attr name="etv_ToExpandHint" format="reference|string" /><!--"to expand" hint string, default is "Expand"-->
+        <attr name="etv_ToShrinkHint" format="reference|string" /><!--"to shrink" hint string, default is "Shrink"-->
+        <attr name="etv_GapToExpandHint" format="reference|string" /><!--gap between "toExpandHint" and "trimmed text"-->
+        <attr name="etv_GapToShrinkHint" format="reference|string" /><!--gap between "toShrinkHint" and "trimmed text"-->
+        <attr name="etv_EnableToggle" format="reference|boolean" /><!--if toggle the state when click ExpandTextView-->
+        <attr name="etv_ToExpandHintShow" format="reference|boolean" /><!--if show "toExpandHint"-->
+        <attr name="etv_ToShrinkHintShow" format="reference|boolean" /><!--if show "toShrinkHint"-->
+        <attr name="etv_ToExpandHintColor" format="reference|color" /><!--text color of "toExpandHint"-->
+        <attr name="etv_ToShrinkHintColor" format="reference|color" /><!--text color of "toShrinkHint"-->
+        <attr name="etv_ToExpandHintColorBgPressed" format="reference|color" /><!--background color if "toExpandHint" pressed-->
+        <attr name="etv_ToShrinkHintColorBgPressed" format="reference|color" /><!--background color if "toShrinkHint" pressed-->
+        <attr name="etv_InitState" format="enum"><!--init state, default is shrink-->
+            <enum name="shrink" value="0" />
+            <enum name="expand" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="EditAttrs">
+        <attr name="showSearch" format="boolean" />
+        <attr name="showDelete" format="boolean" />
+        <attr name="showPaste" format="boolean" />
+        <attr name="greyDeleteIcon" format="boolean" />
+        <attr name="isPassword" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="AutofitTextView">
+        <!-- Minimum size of the text. -->
+        <attr name="minTextSize" format="dimension" />
+        <!-- Amount of precision used to calculate the correct text size to fit within its
+        bounds. Lower precision is more precise and takes more time. -->
+        <attr name="precision" format="float" />
+        <!-- Defines whether to automatically resize text to fit to the view's bounds. -->
+        <attr name="sizeToFit" format="boolean" />
+    </declare-styleable>
 
     <style name="progressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:indeterminateOnly">false</item>
@@ -25,4 +74,15 @@
         <item name="android:minHeight">8dip</item>
         <item name="android:maxHeight">8dip</item>
     </style>
+
+    <declare-styleable name="MarqueeLinearLayout">
+        <attr name="marquee_speed" format="integer" />
+        <attr name="marquee_interval" format="integer" />
+        <attr name="direction">
+            <enum name="up" value="0" />
+            <enum name="left" value="1" />
+            <enum name="down" value="2" />
+            <enum name="right" value="3" />
+        </attr>
+    </declare-styleable>
 </resources>
