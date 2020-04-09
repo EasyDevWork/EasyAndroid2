@@ -139,6 +139,17 @@ public class ValidatorUtil {
     }
 
     /**
+     * 判断网址是否有效
+     */
+    public static boolean isLinkAvailable(String link) {
+        Pattern pattern = Pattern.compile("^(http://|https://)?((?:[A-Za-z0-9]+-[A-Za-z0-9]+|[A-Za-z0-9]+)\\.)+([A-Za-z]+)[/\\?\\:]?.*$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(link);
+        if (matcher.matches()) {
+            return true;
+        }
+        return false;
+    }
+    /**
      * 校验IP地址
      *
      * @param ipAddr

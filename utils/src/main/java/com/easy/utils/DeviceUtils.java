@@ -170,63 +170,6 @@ public class DeviceUtils {
 
     }
 
-
-    /**
-     * 获取屏幕宽度
-     *
-     * @return
-     */
-    public static int getScreenWidth(Context context) {
-        try {
-            return context.getResources().getDisplayMetrics().widthPixels;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return 480;
-    }
-
-    /**
-     * 获取屏幕高度
-     */
-    public static int getScreenHeight(Context context) {
-        try {
-            return context.getResources().getDisplayMetrics().heightPixels;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return 800;
-
-    }
-
-    public static float getDeviceDensity(Context context) {
-        try {
-            float scale = context.getResources().getDisplayMetrics().density;
-            return scale;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return 480;
-
-    }
-
-    public static int getDeviceDensityValue(Context context) {
-        //   Display display = context.getWindowManager().getDefaultDisplay();
-        //   return display.getHeight();
-        try {
-            int scale = context.getResources().getDisplayMetrics().densityDpi;
-            return scale;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return 480;
-
-    }
-
-    public static int getMarginTopWithoutWave(Context context) {
-        return DimensUtils.dp2px(context, 20);
-    }
-
-
     public static String getMNC(Context context) {
         try {
             String imsi = DeviceUtils.getProvidersIMSI(context);
@@ -277,35 +220,6 @@ public class DeviceUtils {
 
     }
 
-    /**
-     * 获取手机唯一码 mac_deviceid_easy
-     *
-     * @param context
-     * @return
-     */
-    public static String getPhoneOnlyKey(Context context) {
-        try {
-            String macAddress;
-            WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            WifiInfo info = wifi.getConnectionInfo();
-            macAddress = info.getMacAddress();
-            if (macAddress == null)
-                macAddress = "";
-
-            String deviceId = getImei(context);
-            if (deviceId == null)
-                deviceId = "";
-            String result = macAddress + "_" + deviceId + "_easy";
-            if (result.length() > 32) {
-                result = result.substring(0, 31);
-            }
-            return result.toLowerCase();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return "";
-    }
-
     public static String getTimeZoneName() {
         try {
             TimeZone tz = TimeZone.getDefault();
@@ -320,48 +234,9 @@ public class DeviceUtils {
         return "";
     }
 
-    public static boolean isInstall(Context context, String packagename) {
-        boolean isInstall = false;
-        try {
-            PackageInfo packageInfo;
-            try {
-                packageInfo = context.getPackageManager().getPackageInfo(
-                        packagename, PackageManager.GET_META_DATA);
-            } catch (PackageManager.NameNotFoundException e) {
-                packageInfo = null;
-                e.printStackTrace();
-            }
-            if (packageInfo == null) {
-                isInstall = false;
-            } else {
-                isInstall = true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return isInstall;
-    }
 
     public static int getMarginTopWithWave(Context context) {
         return DimensUtils.dp2px(context, 4);
-    }
-
-    /**
-     * 获取状态栏高度
-     *
-     * @param activity
-     * @return
-     */
-    public static int getStatusBarHeight(Activity activity) {
-        try {
-            Rect frame = new Rect();
-            activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-            int statusBarHeight = frame.top;
-            return statusBarHeight;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return 20;
     }
 
     public static String getIpAddress(Context context) {
@@ -387,7 +262,7 @@ public class DeviceUtils {
             } else if (info.getType() == ConnectivityManager.TYPE_WIFI) {
                 //  wifi网络
                 WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-                WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                @SuppressLint("MissingPermission") WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                 String ipAddress = intIP2StringIP(wifiInfo.getIpAddress());
                 return ipAddress;
             } else if (info.getType() == ConnectivityManager.TYPE_ETHERNET) {

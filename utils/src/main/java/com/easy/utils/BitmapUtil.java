@@ -22,6 +22,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -199,6 +201,15 @@ public class BitmapUtil {
         return degree;
     }
 
+    public static Bitmap convertViewToBitmap(View view) {
+        view.setDrawingCacheEnabled(true);
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
+    }
+
     //旋将旋转后的图片翻转
     public static Bitmap toturn(byte[] datas, int degree) {
         Bitmap img = BitmapFactory.decodeByteArray(datas, 0, datas.length);
@@ -237,6 +248,32 @@ public class BitmapUtil {
         }
         return file;
     }
+    /**
+     * 图片压缩
+     *
+     * @param image
+     * @param size  压缩的图片大小 单位m
+     * @return
+     */
+    public static Bitmap compressImage(Bitmap image, float size) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > size * 1024) { //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            options -= 10;//每次都减少10
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+        return bitmap;
+    }
+
+    public static int getImageSize(Bitmap image) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        return baos.toByteArray().length / 1024;
+    }
 
     public static class Data {
         File file;
@@ -263,4 +300,5 @@ public class BitmapUtil {
             this.bitmap = bitmap;
         }
     }
+
 }

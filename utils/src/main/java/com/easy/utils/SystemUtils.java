@@ -3,14 +3,17 @@ package com.easy.utils;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.Window;
@@ -140,7 +143,115 @@ public class SystemUtils {
         }
         return content;
     }
+    /**
+     * 打开手机摄像头拍照
+     *
+     * @param activity
+     * @param filePath
+     * @param requestCode
+     * @return
+     */
+    public static boolean takePhoto(Activity activity, final String filePath, final int requestCode) {
 
+        final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (!TextUtils.isEmpty(filePath)) {
+            File file = new File(filePath);
+            if (file.exists()) { //如果已经存在，则先删除,这里应该是上传到服务器，然后再删除本地的，没服务器，只能这样了
+                file.delete();
+            }
+
+            Uri outputFileUri;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                outputFileUri = FileProvider.getUriForFile(activity, getAuthority(activity), file);
+            } else {
+                outputFileUri = Uri.fromFile(file);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
+            //将照片路径存放到指定的文件路径下
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        }
+        try {
+            activity.startActivityForResult(intent, requestCode);
+        } catch (final ActivityNotFoundException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static void choosePhoto(Activity activity, int requestCode) {
+        Intent intentToPickPic = new Intent(Intent.ACTION_PICK, null);
+        // 如果限制上传到服务器的图片类型时可以直接写如："image/jpeg 、 image/png等的类型" 所有类型则写 "image/*"
+        intentToPickPic.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        activity.startActivityForResult(intentToPickPic, requestCode);
+    }
+
+    /**
+     * 图片裁剪
+     *
+     * @param activity
+     * @param filePath
+     */
+    public static String startCorpImage(Activity activity, String filePath, String cutPhotoPath,int requestCode) {
+        //设置裁剪之后的图片路径文件
+        File cutFile = new File(cutPhotoPath); //随便命名一个
+        if (cutFile.exists()) {
+            cutFile.delete();
+        }
+        try {
+            cutFile.createNewFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        File file = new File(filePath);
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            uri = FileProvider.getUriForFile(activity, getAuthority(activity), file);
+        } else {
+            uri = Uri.fromFile(file);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        if (uri != null)
+            intent.setDataAndType(uri, "image/*");
+        else
+            return null;
+
+        Uri outputUri = Uri.fromFile(cutFile);
+        if (outputUri != null)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+        else
+            return null;
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true); // no face detection
+        activity.startActivityForResult(intent, requestCode);
+        return cutFile.getAbsolutePath();
+    }
+    public static void creatShortCut(Context context, String appName, int shortcutIconResource, Class<?> goActivity) {
+        Intent shortcut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+        // 快捷方式的名称
+        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, appName);
+        shortcut.putExtra("duplicate", false); // 不允许重复创建
+
+        // 快捷方式的图标
+        Intent.ShortcutIconResource iconRes = Intent.ShortcutIconResource.fromContext(context, shortcutIconResource);
+        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconRes);
+        Intent intent = new Intent(context, goActivity);
+        intent.setAction("android.intent.action.MAIN");// 桌面图标和应用绑定，卸载应用后系统会同时自动删除图标
+        intent.addCategory("android.intent.category.LAUNCHER");// 桌面图标和应用绑定，卸载应用后系统会同时自动删除图标
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
+        context.sendBroadcast(shortcut);
+    }
     /**
      * 打开系统浏览器
      *

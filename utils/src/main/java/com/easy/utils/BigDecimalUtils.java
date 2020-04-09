@@ -98,4 +98,19 @@ public class BigDecimalUtils {
         }
         return true;
     }
+
+    public static boolean isZero(String data) {
+        try {
+            if (EmptyUtils.isEmpty(data)) {
+                return true;
+            }
+            BigDecimal bigDecimal = new BigDecimal(data);
+            int i = bigDecimal.compareTo(BigDecimal.ZERO);
+            return i == 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
 }

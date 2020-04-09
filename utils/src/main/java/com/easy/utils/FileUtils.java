@@ -13,8 +13,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class FileUtils {
 
@@ -293,5 +296,26 @@ public class FileUtils {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    public static void writeExtractedFileToDisk(InputStream in, OutputStream outs) throws Exception {
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = in.read(buffer))>0){
+            outs.write(buffer, 0, length);
+        }
+        outs.flush();
+        outs.close();
+        in.close();
+    }
+
+    public static ZipInputStream getFileFromZip(InputStream zipFileStream) throws Exception {
+        ZipInputStream zis = new ZipInputStream(zipFileStream);
+        ZipEntry ze;
+        while ((ze = zis.getNextEntry()) != null) {
+            Log.w("AssetUtil", "extracting file: '" + ze.getName() + "'...");
+            return zis;
+        }
+        return null;
     }
 }
