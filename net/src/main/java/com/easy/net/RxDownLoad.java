@@ -5,6 +5,8 @@ import android.os.Looper;
 
 import com.easy.net.api.HttpApi;
 import com.easy.net.download.Download;
+import com.easy.net.download.DownloadCallback;
+import com.easy.net.download.DownloadInfo;
 import com.easy.net.download.IDownload;
 import com.easy.net.download.DownloadInterceptor;
 import com.easy.net.download.DownloadObserver;
@@ -66,23 +68,29 @@ public class RxDownLoad {
     /**
      * 开始下载
      *
-     * @param download
+     * @param info
      */
-    public void startDownload(final Download download) {
-        if (download == null) return;
+    public Download startDownload(DownloadInfo info, DownloadCallback downloadCallback) {
+        if (info == null) return null;
+        Download download = new Download();
+        download.setDownloadInfo(info);
+        download.setCallback(downloadCallback);
 
         /*正在下载不处理*/
-        if (callbackMap.get(download.getDownloadInfo().getTag()) != null) {
-            callbackMap.get(download.getDownloadInfo().getTag()).setDownload(download);
-            return;
+        DownloadObserver downloadObserver = callbackMap.get(download.getDownloadInfo().getTag());
+        if (downloadObserver != null) {
+            downloadObserver.setDownload(download);
+            return download;
         }
 
         /*已完成下载*/
         if (download.getDownloadInfo().getCurrentSize() == download.getDownloadInfo().getTotalSize()
                 && (download.getDownloadInfo().getTotalSize() != 0)) {
-            return;
+            return download;
         }
+
         Logger.d("RHttp startDownload:" + download.getDownloadInfo().getServerUrl());
+
         /*判断本地文件是否存在*/
         boolean isFileExists = ComputeUtils.isFileExists(download.getDownloadInfo().getLocalUrl());
         if (!isFileExists && download.getDownloadInfo().getCurrentSize() > 0) {
@@ -91,24 +99,30 @@ public class RxDownLoad {
 
         DownloadObserver observer = new DownloadObserver(download, handler, iDownload);
         callbackMap.put(download.getDownloadInfo().getTag(), observer);
-        HttpApi httpApi;
         if (downloadSet.contains(download)) {
-            httpApi = download.getApi();
+            HttpApi httpApi = download.getApi();
         } else {
             //下载拦截器
             DownloadInterceptor downloadInterceptor = new DownloadInterceptor(observer);
             //Retrofit
             Retrofit retrofit = RetrofitUtils.get().getRetrofitDownload(RequestUtils.getBasUrl(download.getDownloadInfo().getServerUrl()), downloadInterceptor);
-            httpApi = retrofit.create(HttpApi.class);
+            HttpApi httpApi = retrofit.create(HttpApi.class);
             download.setApi(httpApi);
             downloadSet.add(download);
         }
+        httpDownload(download, observer);
+        return download;
+    }
 
+    private void httpDownload(Download download, DownloadObserver observer) {
+        if (download == null || observer == null) {
+            return;
+        }
         /*下载时添加 headerMap 暂时只获取 baseHeader 可扩展 startDownload() 参数形式，或者添加 Download 属性 记得添加到 headerMap*/
         Map<String, Object> headerMap = new HashMap<>();
         /* RANGE 断点续传下载 */
         //数据变换
-        httpApi.download("bytes=" + download.getDownloadInfo().getCurrentSize() + "-", download.getDownloadInfo().getServerUrl(), headerMap)
+        download.getApi().download("bytes=" + download.getDownloadInfo().getCurrentSize() + "-", download.getDownloadInfo().getServerUrl(), headerMap)
                 .subscribeOn(Schedulers.io())
                 .map((Function<ResponseBody, Object>) responseBody -> {
                             download.getDownloadInfo().setState(2);//下载中状态
@@ -120,7 +134,27 @@ public class RxDownLoad {
                 )
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
+    }
 
+    /**
+     * 继续下载
+     * @param download
+     */
+    public void continueDownload(Download download) {
+        if (download == null) return;
+        DownloadObserver downloadObserver = callbackMap.get(download.getDownloadInfo().getTag());
+        if (downloadObserver == null) {
+            downloadObserver = new DownloadObserver(download, handler, iDownload);
+            callbackMap.put(download.getDownloadInfo().getTag(), downloadObserver);
+        }
+        if (!downloadSet.contains(download)) {
+            DownloadInterceptor downloadInterceptor = new DownloadInterceptor(downloadObserver);
+            Retrofit retrofit = RetrofitUtils.get().getRetrofitDownload(RequestUtils.getBasUrl(download.getDownloadInfo().getServerUrl()), downloadInterceptor);
+            HttpApi httpApi = retrofit.create(HttpApi.class);
+            download.setApi(httpApi);
+            downloadSet.add(download);
+        }
+        httpDownload(download, downloadObserver);
     }
 
     /**

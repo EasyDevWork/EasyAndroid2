@@ -29,6 +29,10 @@
             android:onClick="clickDownload1"
             android:text="下载1" />
 
+        <TextView
+            android:id="@+id/tvLocalPath"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <ProgressBar
             android:id="@+id/progressBar2"
@@ -39,10 +43,34 @@
             android:max="100"
             android:progressDrawable="@drawable/web_view_progressbar" />
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="clickDownload2"
-            android:text="下载2" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnDownload2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clickDownload2"
+                android:text="下载2" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clickPause"
+                android:text="暂停" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clickContinue"
+                android:text="继续" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clickInstall"
+                android:text="安装" />
+        </LinearLayout>
+
     </LinearLayout>
 </layout>

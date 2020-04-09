@@ -1,6 +1,7 @@
 package com.easy.demo.ui.download;
 
 import android.Manifest;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -17,6 +18,7 @@ import com.easy.net.download.Download;
 import com.easy.net.download.DownloadCallback;
 import com.easy.net.download.DownloadInfo;
 import com.easy.utils.FileUtils;
+import com.easy.utils.SystemUtils;
 import com.easy.utils.ToastUtils;
 import com.easy.utils.Utils;
 import com.easy.utils.base.FileConstant;
@@ -66,13 +68,10 @@ public class TestDownloadActivity extends BaseActivity<EmptyPresenter, TestDownl
         };
         String fileName = Utils.buildString("app_112.apk");
         String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, context) + fileName;
-        Download download = new Download();
         DownloadInfo info = new DownloadInfo();
         info.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.2.2.apk");
         info.setLocalUrl(downloadPath);
-        download.setDownloadInfo(info);
-        download.setCallback(downloadCallback);
-        RxDownLoad.get().startDownload(download);
+        RxDownLoad.get().startDownload(info, downloadCallback);
     }
 
     public void clickDownload2(View view) {
@@ -90,18 +89,40 @@ public class TestDownloadActivity extends BaseActivity<EmptyPresenter, TestDownl
             }
 
             @Override
-            public void onSuccess(Download object) {
+            public void onSuccess(Download download) {
                 ToastUtils.showShort("下载完成");
+                viewBind.tvLocalPath.setText(download.getDownloadInfo().getLocalUrl());
             }
         };
         String fileName = Utils.buildString("app_111.apk");
         String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, context) + fileName;
-        Download download = new Download();
         DownloadInfo info = new DownloadInfo();
         info.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.2.2.apk");
         info.setLocalUrl(downloadPath);
-        download.setDownloadInfo(info);
-        download.setCallback(downloadCallback);
-        RxDownLoad.get().startDownload(download);
+        Download download = RxDownLoad.get().startDownload(info, downloadCallback);
+        viewBind.btnDownload2.setTag(download);
+    }
+
+    public void clickPause(View view) {
+        Object tag = viewBind.btnDownload2.getTag();
+        if (tag instanceof Download) {
+            Download download = (Download) tag;
+            RxDownLoad.get().stopDownload(download);
+        }
+    }
+
+    public void clickContinue(View view) {
+        Object tag = viewBind.btnDownload2.getTag();
+        if (tag instanceof Download) {
+            Download download = (Download) tag;
+            RxDownLoad.get().continueDownload(download);
+        }
+    }
+
+    public void clickInstall(View view) {
+        String localPath = viewBind.tvLocalPath.getText().toString();
+        if (!TextUtils.isEmpty(localPath)) {
+            SystemUtils.install(TestDownloadActivity.this, localPath);
+        }
     }
 }

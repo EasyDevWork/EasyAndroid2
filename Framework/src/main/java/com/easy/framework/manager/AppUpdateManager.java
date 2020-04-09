@@ -108,13 +108,10 @@ public class AppUpdateManager {
     private void download(AppVersion appVersion, DownloadCallback downloadCallback) {
         String fileName = Utils.buildString("app_" + appVersion.getVersion() + ".apk");
         String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, context) + fileName;
-        Download download = new Download();
         DownloadInfo info = new DownloadInfo();
         info.setTag(System.currentTimeMillis() + "");
         info.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.2.2.apk");
         info.setLocalUrl(downloadPath);
-        download.setDownloadInfo(info);
-        download.setCallback(downloadCallback);
-        RxDownLoad.get().startDownload(download);
+        RxDownLoad.get().startDownload(info, downloadCallback);
     }
 }

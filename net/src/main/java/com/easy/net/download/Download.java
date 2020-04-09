@@ -1,10 +1,6 @@
 package com.easy.net.download;
 
-import android.text.TextUtils;
-
 import com.easy.net.api.HttpApi;
-
-import io.objectbox.annotation.Transient;
 
 /**
  * 下载实体类
@@ -14,11 +10,8 @@ import io.objectbox.annotation.Transient;
 public class Download {
 
     DownloadInfo downloadInfo;
-    @Transient
     private HttpApi api;//接口service
-    @Transient
     private DownloadCallback callback;//回调接口
-
     public DownloadInfo getDownloadInfo() {
         return downloadInfo;
     }
