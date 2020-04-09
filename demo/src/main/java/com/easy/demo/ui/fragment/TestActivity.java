@@ -2,6 +2,7 @@ package com.easy.demo.ui.fragment;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -14,6 +15,9 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestFragmentActivityBinding;
 import com.easy.framework.base.BaseActivity;
+import com.easy.framework.network.INetStateChange;
+import com.easy.framework.network.NetworkManager;
+import com.easy.framework.network.NetworkType;
 import com.easy.framework.statusbar.StatusBarUtil;
 import com.easy.utils.ToastUtils;
 
@@ -73,25 +77,21 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
 
     public void btn4(View view) {
         getRxPermissions().request(Manifest.permission.CAMERA)
-                .doOnDispose(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        ToastUtils.showShort("被取消：");
-                    }
-                })
+                .doOnDispose(() -> ToastUtils.showShort("被取消："))
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(aBoolean -> {
                     ToastUtils.showShort("是否允许：" + aBoolean);
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        ToastUtils.showShort("异常：");
-                    }
-                });
+                }, throwable -> ToastUtils.showShort("异常："));
+    }
+
+    public void btn5(View view) {
+        ToastUtils.showShort(NetworkManager.getNetworkType().name());
     }
 
     @Override
     public void initView() {
+        NetworkManager.registerObserver(this);
+
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) viewBind.statusBarSpace.getLayoutParams();
         layoutParams.height = StatusBarUtil.getStatusBarHeight(this);
         viewBind.statusBarSpace.setLayoutParams(layoutParams);
@@ -121,5 +121,21 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
         TestActivityAdapter activityAdapter = new TestActivityAdapter(getSupportFragmentManager(), fragments);
         viewBind.pagerView.setAdapter(activityAdapter);
         viewBind.pagerView.setOffscreenPageLimit(fragments.size());
+    }
+
+    @Override
+    public void onNetDisconnected() {
+        ToastUtils.showShort("无网络");
+    }
+
+    @Override
+    public void onNetConnected(NetworkType networkType) {
+        ToastUtils.showShort("有网络：" + networkType.name());
+    }
+
+    @Override
+    public void onDestroy() {
+        NetworkManager.unRegisterObserver(this);
+        super.onDestroy();
     }
 }

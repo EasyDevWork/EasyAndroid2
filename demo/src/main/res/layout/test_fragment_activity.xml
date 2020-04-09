@@ -11,9 +11,9 @@
             android:id="@+id/statusBarSpace"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            tools:layout_height="20dp"
             android:background="@color/alivc_common_bg_red"
             android:visibility="gone"
+            tools:layout_height="20dp"
             tools:visibility="visible" />
 
         <TextView
@@ -57,6 +57,21 @@
                 android:layout_height="wrap_content"
                 android:onClick="btn4"
                 android:text="权限测试" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="btn5"
+                android:text="获取当前网络" />
+
         </LinearLayout>
 
         <LinearLayout

@@ -11,6 +11,8 @@ import com.easy.framework.component.Appcomponent;
 import com.easy.framework.component.DaggerAppcomponent;
 import com.easy.framework.manager.ActivityManager;
 import com.easy.framework.module.AppModule;
+import com.easy.framework.network.NetStateChangeReceiver;
+import com.easy.framework.network.NetworkManager;
 import com.easy.net.EasyNet;
 import com.easy.net.RetrofitConfig;
 import com.easy.store.base.EasyStore;
@@ -73,6 +75,9 @@ public abstract class BaseApplication extends Application {
      * 初始化重要
      */
     private void initImportant() {
+        //注册生命周期监听
+        registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
+        registerNetworkChangeBroadcast();
         //路由初始化--用于页面跳转
         initARouter();
 
@@ -91,8 +96,14 @@ public abstract class BaseApplication extends Application {
         //工具初始化--用于吐司，奔溃信息
         EasyUtils.init(this);
 
-        //注册生命周期监听
-        registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
+    }
+
+    /**
+     * 注册网络广播
+     */
+    private void registerNetworkChangeBroadcast() {
+        NetStateChangeReceiver changeReceiver = new NetStateChangeReceiver();
+        NetworkManager.registerReceiver(changeReceiver,this);
     }
 
     private void initARouter() {
@@ -131,4 +142,5 @@ public abstract class BaseApplication extends Application {
                     }
                 });
     }
+
 }
