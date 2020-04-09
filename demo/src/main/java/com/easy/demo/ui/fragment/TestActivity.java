@@ -3,6 +3,7 @@ package com.easy.demo.ui.fragment;
 import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,21 +33,28 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
         return R.layout.test_fragment_activity;
     }
 
+    /**
+     * //沉浸式重新该方法
+     */
     @Override
     public void initStateBar() {
-        //沉浸式重新该方法
         StatusBarUtil.setTranslucentStatus(this);
         StatusBarUtil.setRootViewFitsSystemWindows(this, false);
     }
 
+    /**
+     * 要控制页面沉浸式与非沉浸式切换，可通过控制占位UI显隐来实现
+     *
+     * @param view
+     */
     public void btn1(View view) {
         i++;
         if (i % 2 == 0) {
-            StatusBarUtil.setTranslucentStatus(this);
-            StatusBarUtil.setRootViewFitsSystemWindows(this, false);
+            ToastUtils.showShort("沉浸式");
+            viewBind.statusBarSpace.setVisibility(View.GONE);
         } else {
-            StatusBarUtil.setRootViewFitsSystemWindows(this, true);
-            StatusBarUtil.setStatusBarColor(this, getResources().getColor(R.color.color_c83c3c));
+            ToastUtils.showShort("非沉浸式");
+            viewBind.statusBarSpace.setVisibility(View.VISIBLE);
         }
     }
 
@@ -84,6 +92,10 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
 
     @Override
     public void initView() {
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) viewBind.statusBarSpace.getLayoutParams();
+        layoutParams.height = StatusBarUtil.getStatusBarHeight(this);
+        viewBind.statusBarSpace.setLayoutParams(layoutParams);
+
         TestFragment ccccc = new TestFragment();
         Bundle bundlec = new Bundle();
         bundlec.putString("type", "CCCC");

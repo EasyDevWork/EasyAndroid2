@@ -284,6 +284,11 @@ public class StatusBarUtil {
         return view;
     }
 
+    /**
+     * 导航栏高度
+     * @param context
+     * @return
+     */
     public static int getNavigationBarHeight(Context context) {
         int height = 0;
         int id = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
