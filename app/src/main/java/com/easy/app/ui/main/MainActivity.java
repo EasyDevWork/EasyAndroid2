@@ -10,7 +10,7 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.framework.base.BaseActivity;
 import com.easy.framework.bean.AppVersion;
 import com.easy.framework.manager.AppQuitManager;
-import com.easy.framework.manager.AppUpdateManager;
+import com.easy.framework.manager.update.AppUpdateManager;
 import com.easy.net.beans.Response;
 import com.easy.utils.ToastUtils;
 

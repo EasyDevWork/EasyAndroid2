@@ -18,9 +18,10 @@ import com.easy.net.download.Download;
 import com.easy.net.download.DownloadCallback;
 import com.easy.net.download.DownloadInfo;
 import com.easy.utils.FileUtils;
+import com.easy.utils.StringUtils;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.ToastUtils;
-import com.easy.utils.Utils;
+import com.easy.utils.EmptyUtils;
 import com.easy.utils.base.FileConstant;
 
 @ActivityInject
@@ -66,7 +67,7 @@ public class TestDownloadActivity extends BaseActivity<EmptyPresenter, TestDownl
                 ToastUtils.showShort("下载完成");
             }
         };
-        String fileName = Utils.buildString("app_112.apk");
+        String fileName = "app_112.apk";
         String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, context) + fileName;
         DownloadInfo info = new DownloadInfo();
         info.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.2.2.apk");
@@ -94,7 +95,7 @@ public class TestDownloadActivity extends BaseActivity<EmptyPresenter, TestDownl
                 viewBind.tvLocalPath.setText(download.getDownloadInfo().getLocalUrl());
             }
         };
-        String fileName = Utils.buildString("app_111.apk");
+        String fileName = "app_111.apk";
         String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, context) + fileName;
         DownloadInfo info = new DownloadInfo();
         info.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.2.2.apk");

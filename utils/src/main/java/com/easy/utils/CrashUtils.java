@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
@@ -99,7 +98,7 @@ public class CrashUtils {
     }
 
     public static void init(Context context, final String crashDirPath, final OnCrashListener onCrashListener) {
-        if (Utils.isSpace(crashDirPath)) {
+        if (EmptyUtils.isSpace(crashDirPath)) {
             dir = null;
         } else {
             dir = crashDirPath.endsWith(FILE_SEP) ? crashDirPath : crashDirPath + FILE_SEP;

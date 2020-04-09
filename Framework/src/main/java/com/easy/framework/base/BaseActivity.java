@@ -9,9 +9,12 @@ import androidx.lifecycle.Lifecycle;
 
 import com.easy.apt.lib.InjectActivity;
 import com.easy.framework.base.common.CommonActivity;
-import com.easy.framework.network.INetStateChange;
-import com.easy.framework.network.NetworkType;
-import com.easy.utils.ToastUtils;
+import com.easy.framework.manager.network.INetStateChange;
+import com.easy.framework.manager.network.NetworkManager;
+import com.easy.framework.manager.network.NetworkType;
+import com.easy.framework.manager.screen.IScreenStateChange;
+import com.easy.framework.manager.screen.ScreenManager;
+import com.easy.framework.manager.screen.ScreenStateType;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.AutoDisposeConverter;
@@ -25,7 +28,7 @@ import javax.inject.Inject;
  * @param <P>
  * @param <V>
  */
-public abstract class BaseActivity<P extends BasePresenter, V extends ViewDataBinding> extends CommonActivity implements BaseView, INetStateChange {
+public abstract class BaseActivity<P extends BasePresenter, V extends ViewDataBinding> extends CommonActivity implements BaseView, INetStateChange, IScreenStateChange {
 
     public V viewBind;
     @Inject
@@ -40,11 +43,15 @@ public abstract class BaseActivity<P extends BasePresenter, V extends ViewDataBi
         if (presenter != null) {
             presenter.attachView(context, this, this);
         }
+        NetworkManager.registerObserver(this);
+        ScreenManager.registerObserver(this);
         initView();
     }
 
     @Override
     public void onDestroy() {
+        NetworkManager.unRegisterObserver(this);
+        ScreenManager.unRegisterObserver(this);
         super.onDestroy();
         if (presenter != null) {
             presenter.detachView();
@@ -63,6 +70,11 @@ public abstract class BaseActivity<P extends BasePresenter, V extends ViewDataBi
     @Override
     public void onNetConnected(NetworkType networkType) {
         Log.d("onNetDisconnected", "有网络：" + networkType.name());
+    }
+
+    @Override
+    public void onScreenState(ScreenStateType type) {
+        Log.d("onScreenState", "屏幕状态：" + type.name());
     }
 
     public RxPermissions getRxPermissions() {

@@ -1,4 +1,4 @@
-package com.easy.framework.network;
+package com.easy.framework.manager.network;
 
 public interface INetStateChange {
 

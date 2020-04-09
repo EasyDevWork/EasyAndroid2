@@ -3,6 +3,7 @@ package com.easy.framework.manager;
 import android.app.Activity;
 
 import com.easy.framework.R;
+import com.easy.framework.manager.activity.ActivityManager;
 import com.easy.utils.ToastUtils;
 
 public class AppQuitManager {

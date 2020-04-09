@@ -20,7 +20,9 @@ import com.easy.store.bean.eoschain.Token;
 import com.easy.store.bean.eoschain.TokenPrice;
 import com.easy.store.bean.eoschain.TokenShow;
 import com.easy.store.bean.eoschain.TotalResources;
-import com.easy.utils.Utils;
+import com.easy.utils.BigDecimalUtils;
+import com.easy.utils.EmptyUtils;
+import com.easy.utils.FormatUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +37,7 @@ public class EosParseManager {
      * @return
      */
     public static String privateKeyToPublicKey(String privateKey) {
-        if (Utils.isNotEmpty(privateKey)) {
+        if (EmptyUtils.isNotEmpty(privateKey)) {
             EosPrivateKey eosPrivateKey = new EosPrivateKey(privateKey);
             return eosPrivateKey.getPublicKey().toString();
         }
@@ -52,9 +54,9 @@ public class EosParseManager {
         List<Permissions> have = new ArrayList<>();
         if (eosAccount != null) {
             String publicKey = eosAccount.getPublicKey();
-            if (Utils.isNotEmpty(publicKey)) {
+            if (EmptyUtils.isNotEmpty(publicKey)) {
                 List<Permissions> permissions = eosAccount.getPermissions();
-                if (Utils.isNotEmpty(permissions)) {
+                if (EmptyUtils.isNotEmpty(permissions)) {
                     for (Permissions permission : permissions) {
                         RequiredAuth requiredAuth = permission.getRequired_auth();
                         if (requiredAuth != null) {
@@ -82,7 +84,7 @@ public class EosParseManager {
      */
     public static List<String> getPermission(EosAccount eosAccount) {
         List<String> temp = new ArrayList<>();
-        if (eosAccount != null && Utils.isNotEmpty(eosAccount.getOwnPermissions())) {
+        if (eosAccount != null && EmptyUtils.isNotEmpty(eosAccount.getOwnPermissions())) {
             List<Permissions> permissions = eosAccount.getOwnPermissions();
             for (Permissions permission : permissions) {
                 temp.add(permission.getPerm_name());
@@ -100,11 +102,11 @@ public class EosParseManager {
     public static String[] parseRam(EosAccount eosAccount) {
         String[] ram = new String[]{"0", "0"};
         if (eosAccount != null) {
-            if (Utils.isNotEmpty(eosAccount.getRamUsage())) {
+            if (EmptyUtils.isNotEmpty(eosAccount.getRamUsage())) {
                 //已用
                 ram[0] = String.valueOf(Double.valueOf(eosAccount.getRamUsage()) / 1024);
             }
-            if (Utils.isNotEmpty(eosAccount.getRamQuota())) {
+            if (EmptyUtils.isNotEmpty(eosAccount.getRamQuota())) {
                 //总量
                 ram[1] = String.valueOf(Double.valueOf(eosAccount.getRamQuota()) / 1024);
             }
@@ -123,18 +125,18 @@ public class EosParseManager {
         if (eosAccount != null && eosAccount.getRamPrice() != null) {
             RamPrice ramPrice = eosAccount.getRamPrice();
             List<RamPrice.RowsBean> rowsBeans = ramPrice.getRows();
-            if (Utils.isNotEmpty(rowsBeans)) {
+            if (EmptyUtils.isNotEmpty(rowsBeans)) {
                 RamPrice.RowsBean rowsBean = rowsBeans.get(0);
-                if (Utils.isNotEmpty(rowsBean.getQuote())
-                        && Utils.isNotEmpty(rowsBean.getBase())
-                        && Utils.isNotEmpty(rowsBean.getQuote().getBalance())
-                        && Utils.isNotEmpty(rowsBean.getQuote().getBalance())
+                if (EmptyUtils.isNotEmpty(rowsBean.getQuote())
+                        && EmptyUtils.isNotEmpty(rowsBean.getBase())
+                        && EmptyUtils.isNotEmpty(rowsBean.getQuote().getBalance())
+                        && EmptyUtils.isNotEmpty(rowsBean.getQuote().getBalance())
                 ) {
                     String quoteBalance = EosUtils.getNumOfData(rowsBean.getQuote().getBalance());
                     String baseBalance = EosUtils.getNumOfData(rowsBean.getBase().getBalance());
-                    double baseBalanceDouble = Utils.formatDouble(baseBalance);
+                    double baseBalanceDouble = FormatUtils.formatDouble(baseBalance);
                     if (baseBalanceDouble != 0) {
-                        price = String.valueOf(Utils.formatDouble(quoteBalance) / baseBalanceDouble * 1024);
+                        price = String.valueOf(FormatUtils.formatDouble(quoteBalance) / baseBalanceDouble * 1024);
                     }
                 }
             }
@@ -150,7 +152,7 @@ public class EosParseManager {
     public static String refundCpu(EosAccount eosAccount) {
         if (eosAccount != null && eosAccount.getRefund_request() != null) {
             RefundRequest refundRequest = eosAccount.getRefund_request();
-            if (Utils.isNotEmpty(refundRequest.getCpu_amount())) {
+            if (EmptyUtils.isNotEmpty(refundRequest.getCpu_amount())) {
                 return EosUtils.getNumOfData(refundRequest.getCpu_amount());
             }
         }
@@ -167,7 +169,7 @@ public class EosParseManager {
         if (eosAccount != null && eosAccount.getStakeBean() != null) {
             StakeBean stakeBean = eosAccount.getStakeBean();
             List<StakeBean.RowsBean> stakeRows = stakeBean.getRows();
-            if (Utils.isNotEmpty(stakeRows)) {
+            if (EmptyUtils.isNotEmpty(stakeRows)) {
                 Double netTotal = 0d;
                 for (StakeBean.RowsBean stakeRow : stakeRows) {
                     if (!stakeRow.getTo().equals(eosAccount.getName())) {
@@ -200,7 +202,7 @@ public class EosParseManager {
     public static String selfCpu(EosAccount eosAccount) {
         if (eosAccount != null && eosAccount.getSelf_delegated_bandwidth() != null) {
             SelfDelegatedBandwidthBean selfDelegatedBandwidth = eosAccount.getSelf_delegated_bandwidth();
-            if (Utils.isNotEmpty(selfDelegatedBandwidth.getCpu_weight())) {
+            if (EmptyUtils.isNotEmpty(selfDelegatedBandwidth.getCpu_weight())) {
                 return EosUtils.getNumOfData(selfDelegatedBandwidth.getCpu_weight());
             }
         }
@@ -216,7 +218,7 @@ public class EosParseManager {
     public static String totalCpu(EosAccount eosAccount) {
         if (eosAccount != null && eosAccount.getTotal_resources() != null) {
             TotalResources totalResources = eosAccount.getTotal_resources();
-            if (Utils.isNotEmpty(totalResources.getCpu_weight())) {
+            if (EmptyUtils.isNotEmpty(totalResources.getCpu_weight())) {
                 return EosUtils.getNumOfData(totalResources.getCpu_weight());
             }
         }
@@ -233,9 +235,9 @@ public class EosParseManager {
         String[] results = new String[]{"0", "0", "0"};
         if (eosAccount != null && eosAccount.getCpuLimit() != null) {
             CpuLimit cpuLimit = eosAccount.getCpuLimit();
-            results[0] = Utils.div(cpuLimit.getUsed(), "1000", 4);//毫秒 已用CPU
-            results[1] = Utils.div(cpuLimit.getMax(), "1000", 4);//毫秒 总量CPU
-            results[2] = Utils.div(results[0], results[1], 4);//毫秒 百分比
+            results[0] = BigDecimalUtils.div(cpuLimit.getUsed(), "1000", 4);//毫秒 已用CPU
+            results[1] = BigDecimalUtils.div(cpuLimit.getMax(), "1000", 4);//毫秒 总量CPU
+            results[2] = BigDecimalUtils.div(results[0], results[1], 4);//毫秒 百分比
         }
         return results;
     }
@@ -248,7 +250,7 @@ public class EosParseManager {
     public static String refundNet(EosAccount eosAccount) {
         if (eosAccount != null && eosAccount.getRefund_request() != null) {
             RefundRequest refundRequest = eosAccount.getRefund_request();
-            if (Utils.isNotEmpty(refundRequest.getNet_amount())) {
+            if (EmptyUtils.isNotEmpty(refundRequest.getNet_amount())) {
                 return EosUtils.getNumOfData(refundRequest.getNet_amount());
             }
         }
@@ -263,7 +265,7 @@ public class EosParseManager {
     public static String selfNet(EosAccount eosAccount) {
         if (eosAccount != null && eosAccount.getSelf_delegated_bandwidth() != null) {
             SelfDelegatedBandwidthBean selfDelegatedBandwidth = eosAccount.getSelf_delegated_bandwidth();
-            if (Utils.isNotEmpty(selfDelegatedBandwidth.getNet_weight())) {
+            if (EmptyUtils.isNotEmpty(selfDelegatedBandwidth.getNet_weight())) {
                 return EosUtils.getNumOfData(selfDelegatedBandwidth.getNet_weight());
             }
         }
@@ -292,7 +294,7 @@ public class EosParseManager {
         if (eosAccount != null && eosAccount.getStakeBean() != null) {
             StakeBean stakeBean = eosAccount.getStakeBean();
             List<StakeBean.RowsBean> stakeRows = stakeBean.getRows();
-            if (Utils.isNotEmpty(stakeRows)) {
+            if (EmptyUtils.isNotEmpty(stakeRows)) {
                 Double netTotal = 0d;
                 for (StakeBean.RowsBean stakeRow : stakeRows) {
                     if (!stakeRow.getTo().equals(eosAccount.getName())) {
@@ -314,7 +316,7 @@ public class EosParseManager {
     public static String totalNet(EosAccount eosAccount) {
         if (eosAccount != null && eosAccount.getTotal_resources() != null) {
             TotalResources totalResources = eosAccount.getTotal_resources();
-            if (Utils.isNotEmpty(totalResources.getNet_weight())) {
+            if (EmptyUtils.isNotEmpty(totalResources.getNet_weight())) {
                 return EosUtils.getNumOfData(totalResources.getNet_weight());
             }
         }
@@ -341,13 +343,13 @@ public class EosParseManager {
                 tokenShow.setBalance(token.getBalance());
                 map.put(token.getSymbol() + "_" + token.getContract(), tokenShow);
             }
-            if (Utils.isNotEmpty(eosAccount.getTokenPriceList())) {
+            if (EmptyUtils.isNotEmpty(eosAccount.getTokenPriceList())) {
                 for (TokenPrice tokenPrice : eosAccount.getTokenPriceList()) {
                     TokenShow tokenShow = map.get(tokenPrice.getCurrency() + "_" + tokenPrice.getContract());
                     if (tokenShow != null) {
                         tokenShow.setChange(tokenPrice.getChange());
                         tokenShow.setPrice(tokenPrice.getLast());
-                        tokenShow.setTotalPrice(Utils.mul(tokenShow.getBalance(), tokenShow.getPrice(), 8));
+                        tokenShow.setTotalPrice(BigDecimalUtils.mul(tokenShow.getBalance(), tokenShow.getPrice(), 8));
                     }
                 }
             }
@@ -365,9 +367,9 @@ public class EosParseManager {
         String[] results = new String[]{"0", "0", "0"};
         if (eosAccount != null && eosAccount.getNetLimit() != null) {
             NetLimit netLimit = eosAccount.getNetLimit();
-            results[0] = Utils.div(netLimit.getUsed(), "1024", 4);//毫秒 已用CPU
-            results[1] = Utils.div(netLimit.getMax(), "1024", 4);//毫秒 总量CPU
-            results[2] = Utils.div(results[0], results[1], 4);//毫秒 百分比
+            results[0] = BigDecimalUtils.div(netLimit.getUsed(), "1024", 4);//毫秒 已用CPU
+            results[1] = BigDecimalUtils.div(netLimit.getMax(), "1024", 4);//毫秒 总量CPU
+            results[2] = BigDecimalUtils.div(results[0], results[1], 4);//毫秒 百分比
         }
         return results;
     }
@@ -382,7 +384,7 @@ public class EosParseManager {
         if (eosAccount != null && eosAccount.getRexBean() != null) {
             RexBean rexBean = eosAccount.getRexBean();
             List<RexBean.RowsBean> rows = rexBean.getRows();
-            if (Utils.isNotEmpty(rows)) {
+            if (EmptyUtils.isNotEmpty(rows)) {
                 RexBean.RowsBean rowsBean = rows.get(0);
                 return EosUtils.getNumOfData(rowsBean.getRex_balance());
             }
@@ -408,7 +410,7 @@ public class EosParseManager {
             String rexFund = rexFund(eosAccount);
             String rexPrice = rexPrice(eosAccount)[0];
             String rexNum = totalRexNum(eosAccount);
-            return Utils.add(rexFund, Utils.mul(rexNum, rexPrice, 8), 8);
+            return BigDecimalUtils.add(rexFund, BigDecimalUtils.mul(rexNum, rexPrice, 8), 8);
         }
         return "0";
     }
@@ -423,7 +425,7 @@ public class EosParseManager {
         if (eosAccount != null && eosAccount.getRexFund() != null) {
             RexFund rexFund = eosAccount.getRexFund();
             List<RexFund.RowsBean> rowsBeans = rexFund.getRows();
-            if (Utils.isNotEmpty(rowsBeans)) {
+            if (EmptyUtils.isNotEmpty(rowsBeans)) {
                 RexFund.RowsBean rowsBean = rowsBeans.get(0);
                 return EosUtils.getNumOfData(rowsBean.getBalance());
             }
@@ -442,17 +444,17 @@ public class EosParseManager {
         if (eosAccount != null && eosAccount.getRexPrice() != null) {
             RexPrice rexPrice = eosAccount.getRexPrice();
             List<RexPrice.RowsBean> rowsBeans = rexPrice.getRows();
-            if (Utils.isNotEmpty(rowsBeans)) {
+            if (EmptyUtils.isNotEmpty(rowsBeans)) {
                 RexPrice.RowsBean rowsBean = rowsBeans.get(0);
                 JSONObject rexPriceJson = parseRexPrice(rowsBean);
                 String totalUnlent = rexPriceJson.getString("total_unlent");
                 String rental = rexPriceJson.getString("rental");
                 price[0] = rexPriceJson.getString("price");//购买REX单价：EOS/REX
                 price[1] = rental;//租赁单价 rex/eos
-                if (Utils.isNotEmpty(rental)) {
-                    price[2] = Utils.div("1.0", rental, 8);//租赁单价 eos/rex
-                    String coreLiquidBalance = Utils.mul(eosAccount.getCoreLiquidBalance(), rental, 8);
-                    if (Utils.compare(coreLiquidBalance, totalUnlent)) {
+                if (EmptyUtils.isNotEmpty(rental)) {
+                    price[2] = BigDecimalUtils.div("1.0", rental, 8);//租赁单价 eos/rex
+                    String coreLiquidBalance = BigDecimalUtils.mul(eosAccount.getCoreLiquidBalance(), rental, 8);
+                    if (BigDecimalUtils.compare(coreLiquidBalance, totalUnlent)) {
                         price[3] = totalUnlent;
                     } else {
                         price[3] = coreLiquidBalance;
@@ -468,8 +470,8 @@ public class EosParseManager {
         String totalLendable = EosUtils.getNumOfData(rowsBean.getTotal_lendable());
         String totalUnlent = EosUtils.getNumOfData(rowsBean.getTotal_unlent());
         String totalRent = EosUtils.getNumOfData(rowsBean.getTotal_rent());
-        String price = Utils.div(totalLendable, totolRex, 8);
-        String rental = Utils.div(totalUnlent, Utils.add("1", totalRent, 8), 8);
+        String price = BigDecimalUtils.div(totalLendable, totolRex, 8);
+        String rental = BigDecimalUtils.div(totalUnlent, BigDecimalUtils.add("1", totalRent, 8), 8);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("price", price);

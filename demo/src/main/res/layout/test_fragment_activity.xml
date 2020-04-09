@@ -72,6 +72,18 @@
                 android:onClick="btn5"
                 android:text="获取当前网络" />
 
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="btn6"
+                android:text="获取屏幕亮度" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="btn7"
+                android:text="设置屏幕亮度" />
         </LinearLayout>
 
         <LinearLayout

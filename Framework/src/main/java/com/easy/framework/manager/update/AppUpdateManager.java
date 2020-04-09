@@ -1,4 +1,4 @@
-package com.easy.framework.manager;
+package com.easy.framework.manager.update;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -11,8 +11,9 @@ import com.easy.net.download.Download;
 import com.easy.net.download.DownloadCallback;
 import com.easy.net.download.DownloadInfo;
 import com.easy.utils.FileUtils;
+import com.easy.utils.StringUtils;
 import com.easy.utils.SystemUtils;
-import com.easy.utils.Utils;
+import com.easy.utils.EmptyUtils;
 import com.easy.utils.base.FileConstant;
 import com.easy.widget.AppUpdateDialog;
 
@@ -106,7 +107,7 @@ public class AppUpdateManager {
      * @param downloadCallback
      */
     private void download(AppVersion appVersion, DownloadCallback downloadCallback) {
-        String fileName = Utils.buildString("app_" + appVersion.getVersion() + ".apk");
+        String fileName = StringUtils.buildString("app_" + appVersion.getVersion() + ".apk");
         String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, context) + fileName;
         DownloadInfo info = new DownloadInfo();
         info.setTag(System.currentTimeMillis() + "");

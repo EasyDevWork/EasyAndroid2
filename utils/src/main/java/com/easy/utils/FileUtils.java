@@ -2,7 +2,6 @@ package com.easy.utils;
 
 import android.content.Context;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
@@ -68,7 +67,7 @@ public class FileUtils {
      */
     public static String getFileExtension(String url, String defaultStr) {
         String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        if (Utils.isEmpty(extension)) {
+        if (EmptyUtils.isEmpty(extension)) {
             extension = defaultStr;
         }
         return extension;
@@ -124,7 +123,7 @@ public class FileUtils {
      * @return
      */
     public static boolean fileIsExist(String filePath) {
-        if (Utils.isEmpty(filePath)) {
+        if (EmptyUtils.isEmpty(filePath)) {
             return false;
         }
         File file = new File(filePath);

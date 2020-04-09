@@ -2,7 +2,6 @@ package com.easy.demo.ui.fragment;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -15,17 +14,15 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestFragmentActivityBinding;
 import com.easy.framework.base.BaseActivity;
-import com.easy.framework.network.INetStateChange;
-import com.easy.framework.network.NetworkManager;
-import com.easy.framework.network.NetworkType;
+import com.easy.framework.manager.network.NetworkManager;
+import com.easy.framework.manager.network.NetworkType;
+import com.easy.framework.manager.screen.ScreenStateType;
 import com.easy.framework.statusbar.StatusBarUtil;
+import com.easy.utils.SystemUtils;
 import com.easy.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 
 @ActivityInject
 @Route(path = "/demo/TestFragmentActivity", name = "测试fragment的页面")
@@ -88,9 +85,17 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
         ToastUtils.showShort(NetworkManager.getNetworkType().name());
     }
 
+    public void btn6(View view) {
+        ToastUtils.showShort("屏幕亮度：" + SystemUtils.getScreenBrightness(this));
+    }
+
+    public void btn7(View view) {
+        i++;
+        SystemUtils.setScreenBrightness(this, i % 2 == 0 ? 0 : 255);
+    }
+
     @Override
     public void initView() {
-        NetworkManager.registerObserver(this);
 
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) viewBind.statusBarSpace.getLayoutParams();
         layoutParams.height = StatusBarUtil.getStatusBarHeight(this);
@@ -130,12 +135,14 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
 
     @Override
     public void onNetConnected(NetworkType networkType) {
+        super.onNetConnected(networkType);
         ToastUtils.showShort("有网络：" + networkType.name());
     }
 
+
     @Override
-    public void onDestroy() {
-        NetworkManager.unRegisterObserver(this);
-        super.onDestroy();
+    public void onScreenState(ScreenStateType type) {
+        super.onScreenState(type);
+        ToastUtils.showShort("屏幕状态：" + type.name());
     }
 }

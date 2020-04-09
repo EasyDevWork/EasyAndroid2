@@ -1,4 +1,4 @@
-package com.easy.framework.manager;
+package com.easy.framework.manager.activity;
 
 import android.app.Activity;
 

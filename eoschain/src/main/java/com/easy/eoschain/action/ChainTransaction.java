@@ -15,7 +15,7 @@ import com.easy.eoschain.encrypt.info.Info;
 import com.easy.eoschain.encrypt.signing.PushTransaction;
 import com.easy.eoschain.encrypt.write.TransactionWriter;
 import com.easy.eoschain.manager.EosPrivateKey;
-import com.easy.utils.Utils;
+import com.easy.utils.EmptyUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ public class ChainTransaction {
         ChainError chainError = null;
         try {
             String errorBody = response.errorBody().string();
-            if (Utils.isNotEmpty(errorBody)) {
+            if (EmptyUtils.isNotEmpty(errorBody)) {
                 chainError = JSON.parseObject(errorBody, ChainError.class);
             }
         } catch (IOException e) {

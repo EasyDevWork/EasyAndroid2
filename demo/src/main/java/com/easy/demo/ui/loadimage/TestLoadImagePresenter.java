@@ -7,7 +7,8 @@ import androidx.lifecycle.Lifecycle;
 import com.easy.framework.base.BasePresenter;
 import com.easy.loadimage.EasyLoadImage;
 import com.easy.utils.FileUtils;
-import com.easy.utils.Utils;
+import com.easy.utils.EmptyUtils;
+import com.easy.utils.StringUtils;
 import com.easy.utils.base.FileConstant;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -15,10 +16,8 @@ import java.io.File;
 
 import javax.inject.Inject;
 
-import io.objectbox.reactive.DataObserver;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class TestLoadImagePresenter extends BasePresenter<TestLoadImageView> {
@@ -41,7 +40,7 @@ public class TestLoadImagePresenter extends BasePresenter<TestLoadImageView> {
 
     public void downloadImage(String imageUrl) {
         String fileExtension = FileUtils.getFileExtension(imageUrl, "png");
-        String fileName = Utils.buildString("img_", System.currentTimeMillis(), ".", fileExtension);
+        String fileName = StringUtils.buildString("img_", System.currentTimeMillis(), ".", fileExtension);
         String saveFile = FileUtils.getFilePath(FileConstant.TYPE_PHOTO, getContext()) + fileName;
         Observable<File> observable = EasyLoadImage.downloadImageToGallery(getContext(), imageUrl, saveFile);
         observable.subscribeOn(Schedulers.io())

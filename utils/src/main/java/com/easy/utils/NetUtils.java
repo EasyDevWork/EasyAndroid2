@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 
 public class NetUtils {
 
@@ -57,5 +59,19 @@ public class NetUtils {
         }
 
         return true;
+    }
+
+    public static String getIp(Context context) {
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        //判断wifi是否开启
+//        wifiManager.setWifiEnabled(true);
+        @SuppressLint("MissingPermission")
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        int ipAddress = wifiInfo.getIpAddress();
+
+        return (ipAddress & 0xFF) + "." +
+                ((ipAddress >> 8) & 0xFF) + "." +
+                ((ipAddress >> 16) & 0xFF) + "." +
+                (ipAddress >> 24 & 0xFF);
     }
 }

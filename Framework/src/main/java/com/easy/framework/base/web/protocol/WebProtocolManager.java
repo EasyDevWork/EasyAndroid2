@@ -3,7 +3,7 @@ package com.easy.framework.base.web.protocol;
 import android.content.Context;
 import android.net.Uri;
 
-import com.easy.utils.Utils;
+import com.easy.utils.EmptyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class WebProtocolManager {
     }
 
     public void handleProtocol(Context context, String message, IProtocolCallback callback) {
-        if (Utils.isNotEmpty(message)) {
+        if (EmptyUtils.isNotEmpty(message)) {
             try {
                 Uri uri = Uri.parse(message);
                 handleProtocol(context, uri, callback);
@@ -47,7 +47,7 @@ public class WebProtocolManager {
      * @return
      */
     public boolean handleProtocol(Context context, Uri uri, IProtocolCallback callback) {
-        if (uri == null || Utils.isEmpty(uri.getHost())) {
+        if (uri == null || EmptyUtils.isEmpty(uri.getHost())) {
             return false;
         }
         String scheme = uri.getScheme();

@@ -1,12 +1,10 @@
-package com.easy.framework.network;
+package com.easy.framework.manager.network;
 
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
-
-import androidx.annotation.RequiresPermission;
 
 import com.easy.framework.base.BaseApplication;
 

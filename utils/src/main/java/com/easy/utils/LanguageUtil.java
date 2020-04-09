@@ -43,7 +43,7 @@ public class LanguageUtil {
     }
 
     private static Locale getLanguageLocale(String languageCode) {
-        if (Utils.isNotEmpty(languageCode)) {
+        if (EmptyUtils.isNotEmpty(languageCode)) {
             if (languageCode.equals("zh")) {
                 return Locale.CHINA; // 简体中文
             } else if (languageCode.equals("en")) {

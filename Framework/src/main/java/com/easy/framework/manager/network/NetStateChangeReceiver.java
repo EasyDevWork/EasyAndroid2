@@ -1,4 +1,4 @@
-package com.easy.framework.network;
+package com.easy.framework.manager.network;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

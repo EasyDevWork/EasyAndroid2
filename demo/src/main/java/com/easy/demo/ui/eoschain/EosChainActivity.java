@@ -28,7 +28,7 @@ import com.easy.store.bean.eoschain.RexPrice;
 import com.easy.store.bean.eoschain.StakeBean;
 import com.easy.store.bean.eoschain.Token;
 import com.easy.utils.ClipBoardUtils;
-import com.easy.utils.Utils;
+import com.easy.utils.EmptyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
 
     public void createWallet(View v) {
         String accountName = viewBind.editName.getText().toString();
-        if (Utils.isEmpty(accountName)) {
+        if (EmptyUtils.isEmpty(accountName)) {
             accountName = viewBind.editName.getHint().toString();
         }
         presenter.createWallet(accountName, netType);
@@ -65,7 +65,7 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
 
     public void deleteWallet(View v) {
         String accountName = viewBind.editName.getText().toString();
-        if (Utils.isEmpty(accountName)) {
+        if (EmptyUtils.isEmpty(accountName)) {
             accountName = viewBind.editName.getHint().toString();
         }
         presenter.deleteWallet(accountName, netType);
@@ -193,7 +193,7 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
 
     public void inputPrivateKey(View v) {
         String privateKey = viewBind.editPrivateKey.getText().toString();
-        if (Utils.isEmpty(privateKey)) {
+        if (EmptyUtils.isEmpty(privateKey)) {
             privateKey = testPrivateKey;
         }
         presenter.setPrivateKey(privateKey);

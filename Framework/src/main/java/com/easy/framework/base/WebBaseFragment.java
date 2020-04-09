@@ -23,8 +23,9 @@ import com.easy.framework.base.web.WebViewClientBase;
 import com.easy.framework.base.web.protocol.IProtocolCallback;
 import com.easy.framework.base.web.protocol.WebProtocolManager;
 import com.easy.framework.databinding.WebVewFragmentBinding;
+import com.easy.utils.StringUtils;
 import com.easy.utils.SystemUtils;
-import com.easy.utils.Utils;
+import com.easy.utils.EmptyUtils;
 import com.easy.widget.ScrollWebView;
 @FragmentInject
 public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragmentBinding> implements WebBaseView, View.OnTouchListener {
@@ -147,9 +148,9 @@ public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragme
     }
 
     private void loadUrl() {
-        if (Utils.isNotEmpty(url)) {
+        if (EmptyUtils.isNotEmpty(url)) {
             viewBind.webView.loadUrl(url);
-        } else if (Utils.isNotEmpty(htmlData)) {
+        } else if (EmptyUtils.isNotEmpty(htmlData)) {
             viewBind.webView.loadDataWithBaseURL(null, htmlData, "text/html", "utf-8", null);
         }
     }
@@ -204,7 +205,7 @@ public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragme
         }
         //设置UserAgent
         String userAgent = webSettings.getUserAgentString();
-        webSettings.setUserAgentString(Utils.buildString(userAgent, "; app/", getContext().getPackageName(), ";"));
+        webSettings.setUserAgentString(StringUtils.buildString(userAgent, "; app/", getContext().getPackageName(), ";"));
     }
 
     public void setOnScrollChangeListener(ScrollWebView.OnScrollChangeListener listener) {
@@ -278,7 +279,7 @@ public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragme
      * @return
      */
     public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-        if (Utils.isNotEmpty(url)) {
+        if (EmptyUtils.isNotEmpty(url)) {
             Uri uri = Uri.parse(url);
             if (uri != null && uri.getScheme() != null) {
                 if (uri.getScheme().equalsIgnoreCase("http") || uri.getScheme().equalsIgnoreCase("https")) {

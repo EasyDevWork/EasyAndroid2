@@ -7,4 +7,5 @@
     <string name="photograph">拍照</string>
     <string name="update_remind">更新提醒</string>
     <string name="update_now">现在更新</string>
+    <string name="get_phone_code">获取验证码</string>
 </resources>

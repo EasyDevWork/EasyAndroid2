@@ -19,7 +19,7 @@ import com.easy.net.RetrofitConfig;
 import com.easy.net.RxHttp;
 import com.easy.net.callback.HttpCallback;
 import com.easy.net.retrofit.RetrofitUtils;
-import com.easy.utils.Utils;
+import com.easy.utils.EmptyUtils;
 import com.uber.autodispose.AutoDisposeConverter;
 
 import java.util.ArrayList;
@@ -151,7 +151,7 @@ public class EosChainManager {
     public Single<CurrencyInfo> getCurrencyBalance(CurrencyInfo currencyInfo) {
         return retrofit.create(ChainApi.class).getCurrencyBalance(currencyInfo).map(listResponse -> {
             List<String> list = listResponse.body();
-            if (!Utils.isEmpty(list)) {
+            if (!EmptyUtils.isEmpty(list)) {
                 currencyInfo.setBalance(EosUtils.getNumOfData(list.get(0)));
             } else {
                 currencyInfo.setBalance("0.0000");

@@ -14,7 +14,7 @@ import com.easy.framework.base.BaseActivity;
 import com.easy.net.beans.Response;
 import com.easy.utils.DimensUtils;
 import com.easy.utils.ToastUtils;
-import com.easy.utils.Utils;
+import com.easy.utils.EmptyUtils;
 import com.easy.widget.FootView;
 import com.easy.widget.HeadView;
 import com.easy.widget.StateView;
@@ -130,12 +130,12 @@ public class TestRecycleViewActivity extends BaseActivity<TestRecycleViewPresent
                     adapter.addData(response.getResultObj());
                 }
             }
-            if (Utils.isEmpty(adapter.getData())) {
+            if (EmptyUtils.isEmpty(adapter.getData())) {
                 emptyView.setTips(getString(R.string.no_date));
                 adapter.setEmptyView(emptyView);
             }
         } else {//错误的时候
-            if (Utils.isEmpty(adapter.getData())) {
+            if (EmptyUtils.isEmpty(adapter.getData())) {
                 //没数据显示错误信息
                 emptyView.setTips(response.getMsg());
                 adapter.setEmptyView(emptyView);

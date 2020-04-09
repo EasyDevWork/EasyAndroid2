@@ -3,7 +3,9 @@ package com.easy.eoschain.action.args;
 import com.easy.eoschain.action.Writer;
 import com.easy.eoschain.encrypt.abi.ActionAbi;
 import com.easy.eoschain.utils.EosUtils;
-import com.easy.utils.Utils;
+import com.easy.utils.BigDecimalUtils;
+import com.easy.utils.EmptyUtils;
+import com.easy.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +45,12 @@ public class RexRentArg extends BaseArg {
         Double cpuNum = EosUtils.getDoubleNumOfData(cpu);
         Double netNum = EosUtils.getDoubleNumOfData(net);
         if (cpuNum > 0 || netNum > 0) {
-            String totalNum = Utils.add(cpuNum.toString(), netNum.toString(), 4);
+            String totalNum = BigDecimalUtils.add(cpuNum.toString(), netNum.toString(), 4);
             String unit = EosUtils.getUnit(cpu);
-            String deposit = new Writer().deposit(actor, Utils.buildString(totalNum, " ", unit)).toHex();
+            String deposit = new Writer().deposit(actor, StringUtils.buildString(totalNum, " ", unit)).toHex();
             actionAbis.add(new ActionAbi("eosio", "deposit", getTransactionAuthorizationAbi(), deposit));
 
-            String unit0 = Utils.buildString("0.0000 ", unit);
+            String unit0 = StringUtils.buildString("0.0000 ", unit);
             if (cpuNum > 0) {
                 String rentCpu = new Writer().rent(actor, cpu, unit0, unit0).toHex();
                 actionAbis.add(new ActionAbi("eosio", "rentcpu", getTransactionAuthorizationAbi(), rentCpu));

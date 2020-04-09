@@ -42,8 +42,9 @@ import com.easy.store.bean.eoschain.Token;
 import com.easy.store.bean.eoschain.TokenPrice;
 import com.easy.store.bean.eoschain.TokenShow;
 import com.easy.store.dao.EosAccountDao;
+import com.easy.utils.BigDecimalUtils;
 import com.easy.utils.ToastUtils;
-import com.easy.utils.Utils;
+import com.easy.utils.EmptyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -215,9 +216,9 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                     public Response onConvert(String data) {
                         Response<String> response = new Response<>();
                         response.setOriData(data);
-                        if (Utils.isNotEmpty(data)) {
+                        if (EmptyUtils.isNotEmpty(data)) {
                             List<String> currencys = JSON.parseArray(data, String.class);
-                            if (Utils.isNotEmpty(currencys)) {
+                            if (EmptyUtils.isNotEmpty(currencys)) {
                                 response.setResultObj(currencys.get(0));
                                 response.setCode(Response.SUCCESS_STATE);
                             }
@@ -611,7 +612,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         String[] cpuUseInfo = EosParseManager.cpuUseInfo(account);
         builder.append("cpu 已用：").append(cpuUseInfo[0]).append(" ms").append(" \n");
         builder.append("cpu 总量：").append(cpuUseInfo[1]).append(" ms").append(" \n");
-        builder.append("cpu 百分比：").append(Utils.mul(cpuUseInfo[2], "100", 2)).append(" %").append(" \n");
+        builder.append("cpu 百分比：").append(BigDecimalUtils.mul(cpuUseInfo[2], "100", 2)).append(" %").append(" \n");
         String refundCpu = EosParseManager.refundCpu(account);
         builder.append("cpu 赎回：").append(refundCpu).append(" EOS").append(" \n");
         String selfCpu = EosParseManager.selfCpu(account);
@@ -625,7 +626,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         String[] netUseInfo = EosParseManager.netUseInfo(account);
         builder.append("net 已用：").append(netUseInfo[0]).append(" KB").append(" \n");
         builder.append("net 总量：").append(netUseInfo[1]).append(" KB").append(" \n");
-        builder.append("net 百分比：").append(Utils.mul(netUseInfo[2], "100", 2)).append(" %").append(" \n");
+        builder.append("net 百分比：").append(BigDecimalUtils.mul(netUseInfo[2], "100", 2)).append(" %").append(" \n");
         String refundNet = EosParseManager.refundNet(account);
         builder.append("net 赎回：").append(refundNet).append(" EOS").append(" \n");
         String selfNet = EosParseManager.selfNet(account);
@@ -666,7 +667,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void refund() {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         RefundArg refundArg = new RefundArg(eosAccount.getName(), eosAccount.getPrivateKey(), "owner");
@@ -683,7 +684,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void vote() {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         List<String> producers = new ArrayList<>();
@@ -722,7 +723,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     public void voteProxy() {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
 
@@ -742,7 +743,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void rexRent(String cpu, String net) {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         RexRentArg rexRent = new RexRentArg(eosAccount.getName(), eosAccount.getPrivateKey(), "owner", cpu, net);
@@ -762,7 +763,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void unStakeToRex(String cpu, String net, String receiver) {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         UnstakeToRexArg unstakeToRex = new UnstakeToRexArg(eosAccount.getName(), eosAccount.getPrivateKey(), "owner", receiver, cpu, net);
@@ -780,7 +781,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void buyRex(String quant) {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         BuyRexArg buyRexArg = new BuyRexArg(eosAccount.getName(), eosAccount.getPrivateKey(), "owner", quant);
@@ -798,7 +799,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void sellRex(String quant) {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         SellRexArg sellRexArg = new SellRexArg(eosAccount.getName(), eosAccount.getPrivateKey(), "owner", quant);
@@ -816,7 +817,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void withdrawRex(String quant) {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         WithdrawRexArg withdrawRexArg = new WithdrawRexArg(eosAccount.getName(), eosAccount.getPrivateKey(), "owner", quant);
@@ -836,7 +837,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void stake(String cpu, String net, String receiver, int transfer) {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         StakeArg stakeArg = new StakeArg(eosAccount.getName(), eosAccount.getPrivateKey(), "owner", eosAccount.getName(), receiver, cpu, net, transfer);
@@ -856,7 +857,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void unStake(String cpu, String net, String receiver) {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         UnStakeArg unStakeArg = new UnStakeArg(eosAccount.getName(), eosAccount.getPrivateKey(), "owner", eosAccount.getName(), receiver, cpu, net);
@@ -873,7 +874,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void buyRam(String quant) {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         BuyRamArg buyRamArg = new BuyRamArg(eosAccount.getName(), eosAccount.getPrivateKey(), "owner", eosAccount.getName(), quant);
@@ -890,7 +891,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void sellRam(float quant) {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         SellRamArg sellRamArg = new SellRamArg(eosAccount.getName(), eosAccount.getPrivateKey(), "owner", quant);
@@ -907,7 +908,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void updateAuth(AuthArg authArg) {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
 
@@ -925,7 +926,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void openChain() {
         EosAccount eosAccount = queryAccount();
-        if (eosAccount == null || Utils.isEmpty(eosAccount.getPrivateKey())) {
+        if (eosAccount == null || EmptyUtils.isEmpty(eosAccount.getPrivateKey())) {
             return;
         }
         OpenChainArg openChainArg = new OpenChainArg(eosAccount.getName(), eosAccount.getPrivateKey(), "owner", "4,EOS");

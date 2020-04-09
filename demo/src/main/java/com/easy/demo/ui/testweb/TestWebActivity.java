@@ -12,7 +12,7 @@ import com.easy.framework.base.WebBaseActivity;
 import com.easy.framework.base.web.IWebCallback;
 import com.easy.framework.base.web.JsToAndroid;
 import com.easy.utils.SystemUtils;
-import com.easy.utils.Utils;
+import com.easy.utils.EmptyUtils;
 
 @ActivityInject
 @Route(path = "/demo/TestWebActivity", name = "测试web")
@@ -78,7 +78,7 @@ public class TestWebActivity extends WebBaseActivity<TestWebPresenter, TestWebBi
 
     @Override
     public void receivedWebTitle(String webTitle) {
-        if (Utils.isNotEmpty(webTitle)) {
+        if (EmptyUtils.isNotEmpty(webTitle)) {
             viewBind.tvTitle.setText(webTitle);
         }
     }

@@ -9,10 +9,12 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.framework.BuildConfig;
 import com.easy.framework.component.Appcomponent;
 import com.easy.framework.component.DaggerAppcomponent;
-import com.easy.framework.manager.ActivityManager;
+import com.easy.framework.manager.activity.ActivityManager;
+import com.easy.framework.manager.screen.ScreenManager;
+import com.easy.framework.manager.screen.ScreenStateBroadcastReceiver;
 import com.easy.framework.module.AppModule;
-import com.easy.framework.network.NetStateChangeReceiver;
-import com.easy.framework.network.NetworkManager;
+import com.easy.framework.manager.network.NetStateChangeReceiver;
+import com.easy.framework.manager.network.NetworkManager;
 import com.easy.net.EasyNet;
 import com.easy.net.RetrofitConfig;
 import com.easy.store.base.EasyStore;
@@ -77,11 +79,11 @@ public abstract class BaseApplication extends Application {
     private void initImportant() {
         //注册生命周期监听
         registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
-        registerNetworkChangeBroadcast();
+        registerBroadcast();
         //路由初始化--用于页面跳转
         initARouter();
 
-       //Dagger初始化--用于注入对象
+        //Dagger初始化--用于注入对象
         appcomponent = DaggerAppcomponent.builder().appModule(new AppModule(this)).build();
         appcomponent.inject(this);
 
@@ -101,9 +103,12 @@ public abstract class BaseApplication extends Application {
     /**
      * 注册网络广播
      */
-    private void registerNetworkChangeBroadcast() {
+    private void registerBroadcast() {
         NetStateChangeReceiver changeReceiver = new NetStateChangeReceiver();
-        NetworkManager.registerReceiver(changeReceiver,this);
+        NetworkManager.registerReceiver(changeReceiver, this);
+
+        ScreenStateBroadcastReceiver screenStateBroadcastReceiver = new ScreenStateBroadcastReceiver();
+        ScreenManager.registerReceiver(screenStateBroadcastReceiver, this);
     }
 
     private void initARouter() {
