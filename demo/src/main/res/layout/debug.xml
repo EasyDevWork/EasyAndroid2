@@ -52,9 +52,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="testLottie"
-                        android:text="lottie动画" />
-
+                        android:onClick="testDownload"
+                        android:text="下载" />
                     <Button
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -157,7 +156,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:onClick="tesSharePreference"
-                        android:text="测试SP" />
+                        android:text="Share_Preference" />
 
                     <Button
                         android:layout_width="0dp"
@@ -263,6 +262,14 @@
                         android:layout_weight="1"
                         android:onClick="goTelosChain"
                         android:text="Telos" />
+
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="testLottie"
+                        android:text="lottie动画" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

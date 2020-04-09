@@ -1,5 +1,7 @@
 package com.easy.net.download;
 
+import android.util.Log;
+
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -58,7 +60,7 @@ public class DownloadResponseBody extends ResponseBody {
                 if (totalBytesCount == 0) {
                     totalBytesCount = contentLength();
                 }
-                Logger.d("download progress readBytesCount:" + readBytesCount + "  totalBytesCount:" + totalBytesCount + " callback:" + callback);
+                Log.d("download","download progress readBytesCount:" + readBytesCount + "  totalBytesCount:" + totalBytesCount + " callback:" + callback);
                 if (callback != null) {
                     callback.progress(readBytesCount, totalBytesCount);
                 }

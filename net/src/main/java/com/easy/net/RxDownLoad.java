@@ -72,13 +72,14 @@ public class RxDownLoad {
         if (download == null) return;
 
         /*正在下载不处理*/
-        if (callbackMap.get(download.getDownloadInfo().getServerUrl()) != null) {
-            callbackMap.get(download.getDownloadInfo().getServerUrl()).setDownload(download);
+        if (callbackMap.get(download.getDownloadInfo().getTag()) != null) {
+            callbackMap.get(download.getDownloadInfo().getTag()).setDownload(download);
             return;
         }
 
         /*已完成下载*/
-        if (download.getDownloadInfo().getCurrentSize() == download.getDownloadInfo().getTotalSize() && (download.getDownloadInfo().getTotalSize() != 0)) {
+        if (download.getDownloadInfo().getCurrentSize() == download.getDownloadInfo().getTotalSize()
+                && (download.getDownloadInfo().getTotalSize() != 0)) {
             return;
         }
         Logger.d("RHttp startDownload:" + download.getDownloadInfo().getServerUrl());
@@ -89,7 +90,7 @@ public class RxDownLoad {
         }
 
         DownloadObserver observer = new DownloadObserver(download, handler, iDownload);
-        callbackMap.put(download.getDownloadInfo().getServerUrl(), observer);
+        callbackMap.put(download.getDownloadInfo().getTag(), observer);
         HttpApi httpApi;
         if (downloadSet.contains(download)) {
             httpApi = download.getApi();
@@ -138,10 +139,10 @@ public class RxDownLoad {
          */
 
         /*1.暂停网络数据*/
-        if (callbackMap.containsKey(download.getDownloadInfo().getServerUrl())) {
-            DownloadObserver observer = callbackMap.get(download.getDownloadInfo().getServerUrl());
+        if (callbackMap.containsKey(download.getDownloadInfo().getTag())) {
+            DownloadObserver observer = callbackMap.get(download.getDownloadInfo().getTag());
             observer.dispose();//取消
-            callbackMap.remove(download.getDownloadInfo().getServerUrl());
+            callbackMap.remove(download.getDownloadInfo().getTag());
         }
 
         /*2.设置数据状态*/
@@ -172,7 +173,7 @@ public class RxDownLoad {
             ComputeUtils.deleteFile(download.getDownloadInfo().getLocalUrl());
         }
 
-        callbackMap.remove(download.getDownloadInfo().getServerUrl());
+        callbackMap.remove(download.getDownloadInfo().getTag());
         downloadSet.remove(download);
 
         //移除数据

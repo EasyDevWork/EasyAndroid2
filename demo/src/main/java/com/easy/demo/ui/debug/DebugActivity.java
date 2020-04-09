@@ -39,6 +39,9 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         }
     }
 
+    public void testDownload(View view) {
+        ARouter.getInstance().build("/demo/DownloadActivity").navigation();
+    }
     public void goLifeCycle(View view) {
         ARouter.getInstance().build("/demo/TestLifeCycleActivity").navigation();
     }

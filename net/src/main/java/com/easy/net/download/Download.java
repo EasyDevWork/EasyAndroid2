@@ -1,6 +1,9 @@
 package com.easy.net.download;
 
+import android.text.TextUtils;
+
 import com.easy.net.api.HttpApi;
+
 import io.objectbox.annotation.Transient;
 
 /**
@@ -8,7 +11,7 @@ import io.objectbox.annotation.Transient;
  * 备注:用户使用下载类需要继承此类
  */
 
-public class Download{
+public class Download {
 
     DownloadInfo downloadInfo;
     @Transient

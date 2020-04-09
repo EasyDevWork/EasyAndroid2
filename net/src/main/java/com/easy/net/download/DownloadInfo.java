@@ -1,12 +1,12 @@
 package com.easy.net.download;
 
 public  class DownloadInfo {
-    private String tag;//下载标记
     private String localUrl;//本地存储地址
     private String serverUrl;//下载地址
     private long totalSize;//文件大
     private long currentSize;//当前大小
     private int state = 0;//0:无状态 1:等待 2:下载中 3:暂停 4:错误 5:完成
+    private String tag = System.currentTimeMillis() + "_" + Math.random();//下载标记
 
     public String getTag() {
         return tag;
@@ -15,7 +15,6 @@ public  class DownloadInfo {
     public void setTag(String tag) {
         this.tag = tag;
     }
-
     public String getLocalUrl() {
         return localUrl;
     }
