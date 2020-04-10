@@ -11,6 +11,7 @@ import com.easy.demo.R;
 import com.easy.demo.base.DemoSharePreferences;
 import com.easy.demo.databinding.DebugBinding;
 import com.easy.framework.base.BaseActivity;
+import com.easy.store.bean.Accounts;
 import com.easy.utils.LanguageUtil;
 import com.easy.utils.ToastUtils;
 import com.easy.utils.WebCacheUtils;
@@ -41,6 +42,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     public void testDownload(View view) {
         ARouter.getInstance().build("/demo/DownloadActivity").navigation();
     }
+
     public void goLifeCycle(View view) {
         ARouter.getInstance().build("/demo/TestLifeCycleActivity").navigation();
     }
@@ -72,14 +74,14 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         i++;
         DemoSharePreferences sharePreferences = SharePreference.get(this, DemoSharePreferences.class);
         sharePreferences.setNum(i + "");
-//        Accounts account = new Accounts();
-//        account.age = 11;
-//        account.name = "sss";
-//        sharePreferences.setUserInfo(account);
+        Accounts account = new Accounts();
+        account.setAge(11);
+        account.setName("sss");
+        sharePreferences.setUserInfo(account);
         StringBuilder builder = new StringBuilder();
         builder.append("num:").append(sharePreferences.getNum());
         builder.append("guide:").append(sharePreferences.isGoGuide());
-//        builder.append("account:").append(sharePreferences.getUserInfo());
+        builder.append(" account:").append(sharePreferences.getUserInfo());
         show(builder.toString());
     }
 

@@ -58,8 +58,8 @@ dependencies {
     }
     api files('libs/zxing.jar')
 
-    implementation 'com.github.EasyDevWork:AptProcessor:3.0.1'
-    annotationProcessor 'com.github.EasyDevWork:AptProcessor:compiler-3.0.2'
+    api lib.easy_apt
+    annotationProcessor lib.easy_apt_compiler
 
     annotationProcessor lib.dagger_compiler
     implementation project(':Framework')

@@ -86,5 +86,8 @@ ext {
             "tencent_opensdk"              : "com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.3.1",
             "okio"                         : "com.squareup.okio:okio:1.17.4",
 
+            "easy_apt"                     : "com.github.EasyDevWork:AptProcessor:3.0.1",
+            "easy_apt_compiler"            : "com.github.EasyDevWork:AptProcessor:compiler-3.0.3",
+
     ]
 }

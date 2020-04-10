@@ -1,10 +1,12 @@
 package com.easy.store.bean;
 
+import java.io.Serializable;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 
 @Entity
-public class Accounts {
+public class Accounts implements Serializable {
     @Id
     private long id;//数据库ID
     private String name;
@@ -36,6 +38,6 @@ public class Accounts {
 
     @Override
     public String toString() {
-        return "name='" + name + ", age=" + age;
+        return "name=" + name + ", age=" + age;
     }
 }
