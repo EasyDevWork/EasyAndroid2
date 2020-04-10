@@ -93,20 +93,22 @@ public abstract class BaseApplication extends Application {
         //Retrofit初始化--用于接口请求，数据下载
         RetrofitConfig.Builder builder = new RetrofitConfig.Builder(this);
         initBaseConfig(builder);
-        EasyNet.init(builder, EasyStore.getInstance().getDownloadDao());
+        EasyNet.init(builder);
+        EasyNet.initDownload(EasyStore.getInstance().getDownloadDao());
 
         //工具初始化--用于吐司，奔溃信息
         EasyUtils.init(this);
-
     }
 
     /**
      * 注册网络广播
      */
     private void registerBroadcast() {
+        //网络变化广播
         NetStateChangeReceiver changeReceiver = new NetStateChangeReceiver();
         NetworkManager.registerReceiver(changeReceiver, this);
 
+        //锁屏 熄屏，开屏状态变化
         ScreenStateBroadcastReceiver screenStateBroadcastReceiver = new ScreenStateBroadcastReceiver();
         ScreenManager.registerReceiver(screenStateBroadcastReceiver, this);
     }

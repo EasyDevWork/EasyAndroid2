@@ -41,20 +41,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation lib.androidx_appcompat
     implementation lib.fastjson
-
+    implementation lib.logger
     implementation lib.rxandroid
+
     api lib.okhttp3
     api lib.okhttp3_logging
     api lib.retrofit
     api lib.retrofit_adapter_rxjava2
     api lib.retrofit_converter_gson
-
-    implementation lib.objectbox_rxjava
-
-    implementation lib.logger
-
-//    implementation lib.rxlifecycle3
-//    implementation lib.rxlifecycle3_android
 
     implementation lib.autodispose
     implementation lib.autodispose_lifecycle
