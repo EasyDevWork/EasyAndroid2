@@ -69,6 +69,10 @@ dependencies {
     api project(':Framework')
 
     implementation project(':libtv')
-    implementation 'androidx.leanback:leanback:1.0.0'
+    implementation lib.androidx_leanback
+    implementation lib.androidx_lifecycle_extensions
+
+    releaseImplementation lib.objectbox_android
+    debugImplementation lib.objectbox_browser
 
 }

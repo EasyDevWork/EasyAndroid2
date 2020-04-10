@@ -3,6 +3,7 @@ package com.easy.demo.ui.mvvm;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
@@ -25,7 +26,8 @@ public class TestMvvmActivity extends BaseActivity<TestMvvmPresenter, TestMvvmBi
 
     @Override
     public void initView() {
-        testViewModel = new TestViewModel(viewBind);
+        testViewModel = ViewModelProviders.of(this).get(TestViewModel.class);
+        testViewModel.init(viewBind,this);
     }
 
     @BindingAdapter({"onClickCommand", "isThrottleFirst"})

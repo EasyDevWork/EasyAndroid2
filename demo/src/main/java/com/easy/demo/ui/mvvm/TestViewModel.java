@@ -3,18 +3,28 @@ package com.easy.demo.ui.mvvm;
 import android.content.Context;
 import android.view.View;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModel;
 import com.easy.demo.bean.TestMvvm;
 import com.easy.demo.bean.TestMvvm2;
 import com.easy.demo.databinding.TestMvvmBinding;
+import com.easy.store.bean.Accounts;
+import com.easy.store.dao.AccountsDao;
 import com.easy.utils.DimensUtils;
 
-public class TestViewModel {
+public class TestViewModel extends ViewModel {
     TestMvvm testMvvm;
     TestMvvm2 testM2;
     int i = 12, j = 0;
     Context context;
+    Accounts accounts;
+    LifecycleOwner owner;
+    TestMvvmBinding viewDataBinding;
+    AccountsDao accountsDao;
 
-    public TestViewModel(TestMvvmBinding viewDataBinding) {
+    public void init(TestMvvmBinding viewDataBinding, LifecycleOwner owner) {
+        this.viewDataBinding = viewDataBinding;
+        this.owner = owner;
         testMvvm = new TestMvvm();
         viewDataBinding.setTestMvvm(testMvvm);
 
@@ -23,6 +33,18 @@ public class TestViewModel {
         viewDataBinding.setTestVm(this);
 
         context = viewDataBinding.getRoot().getContext();
+
+        accountsDao = new AccountsDao();
+        getAccountsLiveData();
+    }
+
+    public void getAccountsLiveData() {
+        accountsDao.getAccountsLiveData().observe(owner, accounts -> {
+            if (accounts != null && accounts.size() > 0) {
+                viewDataBinding.setAccount(accounts.get(0));
+            }
+        });
+
     }
 
     /**
@@ -55,5 +77,19 @@ public class TestViewModel {
 
     public boolean isThrottleFirst() {
         return true;
+    }
+
+    public void changeAccount() {
+        if (accounts == null) {
+            accounts = new Accounts();
+            accounts.setAge(111);
+            accounts.setName("account1");
+            accountsDao.add(accounts);
+        } else {
+            int age = accounts.getAge() + 1;
+            accounts.setAge(age);
+            accounts.setName("account_" + age);
+            accountsDao.update(accounts);
+        }
     }
 }

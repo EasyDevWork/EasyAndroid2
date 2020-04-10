@@ -1,26 +1,41 @@
 package com.easy.store.bean;
 
-import java.io.Serializable;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
 
-public class Accounts implements Serializable {
-    public String name;
-    public int age;
+@Entity
+public class Accounts {
+    @Id
+    private long id;//数据库ID
+    private String name;
+    private int age;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public long getId() {
+        return id;
+    }
 
-        Accounts person = (Accounts) o;
+    public void setId(long id) {
+        this.id = id;
+    }
 
-        if (age != person.age) return false;
-        return !(name != null ? !name.equals(person.name) : person.name != null);
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + age;
-        return result;
+    public String toString() {
+        return "name='" + name + ", age=" + age;
     }
 }
