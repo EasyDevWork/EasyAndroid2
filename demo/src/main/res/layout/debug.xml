@@ -54,6 +54,7 @@
                         android:layout_weight="1"
                         android:onClick="testDownload"
                         android:text="下载" />
+
                     <Button
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -150,6 +151,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="tesAop"
+                        android:text="aop" />
 
                     <Button
                         android:layout_width="0dp"

@@ -85,6 +85,10 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         show(builder.toString());
     }
 
+    public void tesAop(View view){
+        ARouter.getInstance().build("/demo/TestAopActivity").navigation();
+    }
+
     public void testLoadImage(View view) {
         ARouter.getInstance().build("/demo/TestLoadImageActivity").navigation();
     }
