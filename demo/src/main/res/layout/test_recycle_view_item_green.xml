@@ -9,7 +9,7 @@
         android:id="@+id/tvGreenName"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@color/color_008577"
+        android:background="@color/color_ffffff"
         android:gravity="center_vertical"
         tools:text="@string/app_name" />
 

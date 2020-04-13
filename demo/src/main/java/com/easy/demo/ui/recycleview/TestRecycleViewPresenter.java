@@ -37,11 +37,14 @@ public class TestRecycleViewPresenter extends BasePresenter<TestRecycleView> {
             loadDataError(page);
             return;
         }
+        mvpView.getView().postDelayed(() -> {
+            Response respond = new Response();
+            respond.setResultObj(testDos);
+            respond.setCode(Response.SUCCESS_STATE);
+            mvpView.dataCallback(respond);
+        },500);
         //success
-        Response respond = new Response();
-        respond.setResultObj(testDos);
-        respond.setCode(Response.SUCCESS_STATE);
-        mvpView.dataCallback(respond);
+
     }
 
     public void loadDataError(int page) {

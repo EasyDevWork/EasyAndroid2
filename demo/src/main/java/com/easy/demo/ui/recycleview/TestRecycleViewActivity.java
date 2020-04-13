@@ -1,6 +1,7 @@
 package com.easy.demo.ui.recycleview;
 
 import android.graphics.Color;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -39,7 +40,6 @@ public class TestRecycleViewActivity extends BaseActivity<TestRecycleViewPresent
 
     @Override
     public void initView() {
-//        adapter = new TestRecycleViewAdapter(this);
         adapter = new TestRecycleViewMultipleAdapter(new ArrayList<>(),this);
         adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 
@@ -144,5 +144,10 @@ public class TestRecycleViewActivity extends BaseActivity<TestRecycleViewPresent
                 ToastUtils.showShort(response.getMsg());
             }
         }
+    }
+
+    @Override
+    public View getView() {
+        return viewBind.recyclerView;
     }
 }
