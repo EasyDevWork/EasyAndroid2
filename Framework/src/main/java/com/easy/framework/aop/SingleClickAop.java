@@ -1,9 +1,9 @@
-package com.easy.demo.aop;
+package com.easy.framework.aop;
 
 import android.util.Log;
 import android.view.View;
 
-import com.easy.demo.R;
+import com.easy.framework.R;
 import com.easy.utils.StringUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -22,7 +22,7 @@ public class SingleClickAop {
     public static final int MIN_CLICK_DELAY_TIME = 500;
     private static final String TAG = "SingleClick";
 
-    @Pointcut("execution(@com.easy.demo.aop.SingleClick * *(..))")//方法切入点
+    @Pointcut("execution(@com.easy.framework.aop.SingleClick * *(..))")//方法切入点
     public void methodAnnotated() {
     }
 

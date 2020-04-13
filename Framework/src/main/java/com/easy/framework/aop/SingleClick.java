@@ -1,4 +1,4 @@
-package com.easy.demo.aop;
+package com.easy.framework.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

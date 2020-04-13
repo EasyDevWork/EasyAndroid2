@@ -1,4 +1,4 @@
-package com.easy.demo.aop;
+package com.easy.framework.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;

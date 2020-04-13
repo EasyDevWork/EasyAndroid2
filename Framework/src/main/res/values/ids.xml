@@ -6,6 +6,7 @@
     <item type="id" name="scrollview" />
     <item type="id" name="title_bar" />
 
+    <item name="click_id" type="id"/>
 
     <item type="id" name="status_bar"/>
     <item type="id" name="statusbarutil_fake_status_bar_view" />

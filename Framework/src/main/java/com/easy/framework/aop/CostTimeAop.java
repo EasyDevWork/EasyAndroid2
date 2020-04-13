@@ -1,4 +1,4 @@
-package com.easy.demo.aop;
+package com.easy.framework.aop;
 
 
 import android.util.Log;
@@ -24,7 +24,7 @@ public class CostTimeAop {
      * @param pjd
      * @return
      */
-    @Around("execution(@com.easy.demo.aop.CostTime * *(..))")
+    @Around("execution(@com.easy.framework.aop.CostTime * *(..))")
     public Object aroundMethod(ProceedingJoinPoint pjd) {
         Object result;
         long startTime = System.nanoTime();

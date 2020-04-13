@@ -5,8 +5,8 @@ import android.view.View;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
-import com.easy.demo.aop.CostTime;
-import com.easy.demo.aop.SingleClick;
+import com.easy.framework.aop.CostTime;
+import com.easy.framework.aop.SingleClick;
 import com.easy.demo.aop.TestAop;
 import com.easy.demo.databinding.TestAopBinding;
 import com.easy.framework.base.BaseActivity;
@@ -27,7 +27,7 @@ public class TestAopActivity extends BaseActivity<TestAopPresenter, TestAopBindi
     }
 
     @CostTime
-    @SingleClick
+//    @SingleClick
     @TestAop
     public void click1(View view) {
         ToastUtils.showShort("点击了");
