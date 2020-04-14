@@ -68,6 +68,8 @@ dependencies {
     implementation project(':lottie')
     api project(':Framework')
 
+    implementation project(':flutter')
+
     implementation project(':libtv')
     implementation lib.androidx_leanback
     implementation lib.androidx_lifecycle_extensions

@@ -19,6 +19,8 @@ import com.easy.widget.TitleView;
 
 import java.util.ArrayList;
 
+import io.flutter.embedding.android.FlutterActivity;
+
 @ActivityInject
 @Route(path = "/demo/DebugActivity", name = "测试页面")
 public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> implements DebugView {
@@ -85,7 +87,12 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         show(builder.toString());
     }
 
-    public void tesAop(View view){
+    public void tesFlutter(View view) {
+//        startActivity(FlutterActivity.createDefaultIntent(this));
+        ARouter.getInstance().build("/demo/TestFlutterActivity").navigation();
+    }
+
+    public void tesAop(View view) {
         ARouter.getInstance().build("/demo/TestAopActivity").navigation();
     }
 

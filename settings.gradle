@@ -1,5 +1,10 @@
 rootProject.name = 'EasyAndroid2'
 include ':app'
+setBinding(new Binding([gradle: this]))
+evaluate(new File(
+        settingsDir.parentFile,
+        'easy_flutter/.android/include_flutter.groovy'
+))
 include ':store'
 
 include ':Framework'

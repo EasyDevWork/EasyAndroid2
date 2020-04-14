@@ -40,5 +40,8 @@
         <activity android:name=".ui.lifecycle.TestLifeCycleActivity" />
         <activity android:name=".ui.download.TestDownloadActivity" />
         <activity android:name=".ui.aop.TestAopActivity" />
+        <activity
+            android:name=".ui.flutter.TestFlutterActivity"
+            android:theme="@style/FlutterPageTheme" />
     </application>
 </manifest>

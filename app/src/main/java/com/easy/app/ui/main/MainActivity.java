@@ -1,5 +1,6 @@
 package com.easy.app.ui.main;
 
+import android.os.Debug;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -22,6 +23,12 @@ public class MainActivity extends BaseActivity<MainPresenter, MainBinding> imple
     AppQuitManager manager;
     boolean isAllow;
     AppVersion appVersion;
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        Debug.stopMethodTracing();
+    }
 
     @Override
     public int getLayoutId() {

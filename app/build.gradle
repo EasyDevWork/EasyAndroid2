@@ -15,7 +15,7 @@ android {
         multiDexEnabled true
 
         ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a"/*, "x86"*/
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
         }
 
         javaCompileOptions {
@@ -118,5 +118,6 @@ dependencies {
 
     annotationProcessor lib.dagger_compiler
     api project(':demo')
+    implementation project(':flutter')
 //    api project(':Framework')
 }
