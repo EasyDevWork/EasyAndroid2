@@ -1,6 +1,7 @@
 package com.easy.app.base;
 
 import android.os.Debug;
+import android.util.Log;
 
 import com.easy.apt.lib.JsonConverterFactory;
 import com.easy.apt.lib.SharePreference;
@@ -11,7 +12,7 @@ public class App extends FlutterApp {
 
     @Override
     public void onCreate() {
-        Debug.startMethodTracing(getCacheDir() + "/time.trace", 1024 * 1024 * 1024);
+        Log.d("App","onCreate");
         super.onCreate();
     }
 
