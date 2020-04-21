@@ -43,5 +43,6 @@
         <activity
             android:name=".ui.flutter.TestFlutterActivity"
             android:theme="@style/FlutterPageTheme" />
+        <activity android:name=".ui.cordinator.TestCoordinatorActivity" />
     </application>
 </manifest>

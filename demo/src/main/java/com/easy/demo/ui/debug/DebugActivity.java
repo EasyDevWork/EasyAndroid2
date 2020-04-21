@@ -116,6 +116,9 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         ARouter.getInstance().build("/demo/TestRecycleViewActivity").navigation();
     }
 
+    public void goTestCoordinator(View view) {
+        ARouter.getInstance().build("/demo/TestCoordinatorActivity").navigation();
+    }
     public void testWeb(View view) {
         ARouter.getInstance().build("/demo/TestWebActivity")
                 .withString("url", "file:///android_asset/testjs.html").navigation();

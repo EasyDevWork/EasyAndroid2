@@ -1,3 +1,4 @@
 <resources>
     <string name="debug_title">Debug</string>
+    <string name="behavior_sample_title">com.easy.demo.ui.cordinator.SampleTitleBehavior</string>
 </resources>

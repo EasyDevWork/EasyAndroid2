@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="header_offset">-60dp</dimen>
+    <dimen name="xiami_title_height">60dp</dimen>
+</resources>

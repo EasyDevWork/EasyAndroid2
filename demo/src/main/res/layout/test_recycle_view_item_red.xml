@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvRedName"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        tools:text="@string/app_name"
+        android:background="@color/color_c83c3c"
         android:gravity="center_vertical"
-        android:background="@color/color_c83c3c"/>
+        tools:text="@string/app_name" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white" />
 </LinearLayout>
