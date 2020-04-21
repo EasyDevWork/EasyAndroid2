@@ -2,6 +2,8 @@ package com.easy.demo.ui.debug;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -9,6 +11,7 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.apt.lib.SharePreference;
 import com.easy.demo.R;
 import com.easy.demo.base.DemoSharePreferences;
+import com.easy.demo.bean.DebugDo;
 import com.easy.demo.databinding.DebugBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.store.bean.Accounts;
@@ -18,8 +21,7 @@ import com.easy.utils.WebCacheUtils;
 import com.easy.widget.TitleView;
 
 import java.util.ArrayList;
-
-import io.flutter.embedding.android.FlutterActivity;
+import java.util.List;
 
 @ActivityInject
 @Route(path = "/demo/DebugActivity", name = "测试页面")
@@ -27,6 +29,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
 
     int i = 0;
     TitleView titleView;
+    List<DebugDo> debugDos = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -39,160 +42,145 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         if (titleView != null) {
             titleView.setTitleText(getString(R.string.debug_title));
         }
+        addData();
+        ArrayAdapter<DebugDo> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, debugDos);
+        viewBind.listView.setAdapter(adapter);
+        viewBind.listView.setOnItemClickListener((parent, view, position, id) -> {
+            DebugDo debugDo = adapter.getItem(position);
+            debugDo.doAction();
+        });
     }
 
-    public void testDownload(View view) {
-        ARouter.getInstance().build("/demo/DownloadActivity").navigation();
-    }
+    private void addData() {
+        DebugDo download = new DebugDo("下载", () -> ARouter.getInstance().build("/demo/DownloadActivity").navigation());
+        debugDos.add(download);
 
-    public void goLifeCycle(View view) {
-        ARouter.getInstance().build("/demo/TestLifeCycleActivity").navigation();
-    }
+        DebugDo testActivity = new DebugDo("页面测试", () -> ARouter.getInstance().build("/demo/TestFragmentActivity").navigation());
+        debugDos.add(testActivity);
 
-    public void testLottie(View view) {
-        ARouter.getInstance().build("/demo/TestLottieActivity").navigation();
-    }
+        DebugDo lifeCycle = new DebugDo("生命周期", () -> ARouter.getInstance().build("/demo/TestLifeCycleActivity").navigation());
+        debugDos.add(lifeCycle);
 
-    public void testRouter(View view) {
-        ARouter.getInstance().build("/demo/TestArouterActivity").navigation();
-    }
+        DebugDo lottie = new DebugDo("Lottie", () -> ARouter.getInstance().build("/demo/TestLottieActivity").navigation());
+        debugDos.add(lottie);
 
-    public void testActivity(View view) {
-        ARouter.getInstance().build("/demo/TestFragmentActivity").navigation();
-    }
+        DebugDo router = new DebugDo("页面路由", () -> ARouter.getInstance().build("/demo/TestArouterActivity").navigation());
+        debugDos.add(router);
 
-    public void imageZoom(View view) {
-        ArrayList<String> imageUrl = new ArrayList<>();
-        imageUrl.add("http://t9.baidu.com/it/u=2268908537,2815455140&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=f2bdac1c78a13b038896170ee6ce4694");
-        imageUrl.add("http://t9.baidu.com/it/u=1761131378,1355750940&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=bd8de5251ebb6167e29391b9a92da860");
-        imageUrl.add("http://t9.baidu.com/it/u=4169540006,4220376401&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=5641e3d175af91a852433d57afb75be9");
+        DebugDo imageZoom = new DebugDo("图片缩放", () -> {
+            ArrayList<String> imageUrl = new ArrayList<>();
+            imageUrl.add("http://t9.baidu.com/it/u=2268908537,2815455140&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=f2bdac1c78a13b038896170ee6ce4694");
+            imageUrl.add("http://t9.baidu.com/it/u=1761131378,1355750940&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=bd8de5251ebb6167e29391b9a92da860");
+            imageUrl.add("http://t9.baidu.com/it/u=4169540006,4220376401&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=5641e3d175af91a852433d57afb75be9");
 
-        ARouter.getInstance().build("/imagezoom/ImageZoomActivity")
-                .withObject("images", imageUrl)
-                .withInt("position", 1).navigation();
-    }
+            ARouter.getInstance().build("/imagezoom/ImageZoomActivity")
+                    .withObject("images", imageUrl)
+                    .withInt("position", 1).navigation();
+        });
+        debugDos.add(imageZoom);
 
-    public void tesSharePreference(View view) {
-        i++;
-        DemoSharePreferences sharePreferences = SharePreference.get(this, DemoSharePreferences.class);
-        sharePreferences.setNum(i + "");
-        Accounts account = new Accounts();
-        account.setAge(11);
-        account.setName("sss");
-        sharePreferences.setUserInfo(account);
-        StringBuilder builder = new StringBuilder();
-        builder.append("num:").append(sharePreferences.getNum());
-        builder.append("guide:").append(sharePreferences.isGoGuide());
-        builder.append(" account:").append(sharePreferences.getUserInfo());
-        show(builder.toString());
-    }
+        DebugDo flutter = new DebugDo("flutter", () -> ARouter.getInstance().build("/demo/TestFlutterActivity").navigation());
+        debugDos.add(flutter);
 
-    public void tesFlutter(View view) {
-//        startActivity(FlutterActivity.createDefaultIntent(this));
-        ARouter.getInstance().build("/demo/TestFlutterActivity").navigation();
-    }
+        DebugDo aop = new DebugDo("AOP", () -> ARouter.getInstance().build("/demo/TestAopActivity").navigation());
+        debugDos.add(aop);
 
-    public void tesAop(View view) {
-        ARouter.getInstance().build("/demo/TestAopActivity").navigation();
-    }
+        DebugDo loadImage = new DebugDo("加载图片", () -> ARouter.getInstance().build("/demo/TestLoadImageActivity").navigation());
+        debugDos.add(loadImage);
 
-    public void testLoadImage(View view) {
-        ARouter.getInstance().build("/demo/TestLoadImageActivity").navigation();
-    }
+        DebugDo dialog = new DebugDo("对话框", () -> ARouter.getInstance().build("/demo/DialogActivity").navigation());
+        debugDos.add(dialog);
 
-    public void testDialog(View view) {
-        ARouter.getInstance().build("/demo/DialogActivity").navigation();
-    }
+        DebugDo WeChat = new DebugDo("微信", () -> ARouter.getInstance().build("/demo/WeChatActivity").navigation());
+        debugDos.add(WeChat);
 
-    public void goWeChatTest(View view) {
-        ARouter.getInstance().build("/demo/WeChatActivity").navigation();
-    }
+        DebugDo QrCode = new DebugDo("二维码", () -> ARouter.getInstance().build("/demo/TestQrCodeActivity").navigation());
+        debugDos.add(QrCode);
 
-    public void testQrCode(View view) {
-        ARouter.getInstance().build("/demo/TestQrCodeActivity").navigation();
-    }
+        DebugDo RecycleView = new DebugDo("RecycleView", () -> ARouter.getInstance().build("/demo/TestRecycleViewActivity").navigation());
+        debugDos.add(RecycleView);
 
-    public void goTestRecycleView(View view) {
-        ARouter.getInstance().build("/demo/TestRecycleViewActivity").navigation();
-    }
+        DebugDo Player = new DebugDo("播放器", () -> ARouter.getInstance().build("/demo/PlayerActivity").navigation());
+        debugDos.add(Player);
 
-    public void goTestCoordinator(View view) {
-        ARouter.getInstance().build("/demo/TestCoordinatorActivity").navigation();
-    }
-    public void testWeb(View view) {
-        ARouter.getInstance().build("/demo/TestWebActivity")
-                .withString("url", "file:///android_asset/testjs.html").navigation();
-    }
+        DebugDo Coordinator = new DebugDo("控件联动", () -> ARouter.getInstance().build("/demo/TestCoordinatorActivity").navigation());
+        debugDos.add(Coordinator);
 
+        DebugDo WebView = new DebugDo("WebView", () -> ARouter.getInstance().build("/demo/TestWebActivity").withString("url", "file:///android_asset/testjs.html").navigation());
+        debugDos.add(WebView);
 
-    public void goPlayer(View view) {
-        ARouter.getInstance().build("/demo/PlayerActivity").navigation();
-    }
+        DebugDo WebCache = new DebugDo("清除web缓存", () -> {
+            String[] size = WebCacheUtils.getWebCacheSize(this);
+            show(size[0] + size[1]);
+            WebCacheUtils.clearWebCache(this);
+        });
+        debugDos.add(WebCache);
 
-    public void cleanWebCache(View view) {
-        String[] size = WebCacheUtils.getWebCacheSize(this);
-        show(size[0] + size[1]);
-        WebCacheUtils.clearWebCache(this);
-    }
+        DebugDo Language = new DebugDo("语言设置", () -> {
+            i++;
+            if (i % 2 == 0) {
+                LanguageUtil.changeLanguage(this, "zh");
+            } else {
+                LanguageUtil.changeLanguage(this, "en");
+            }
+            titleView.setTitleText(getString(R.string.debug_title));
+            Log.d("Language", "current1:" + LanguageUtil.getSystemLanguage());
+        });
+        debugDos.add(Language);
 
+        DebugDo tv = new DebugDo("TV", () -> ARouter.getInstance().build("/demo/LauncherActivity").navigation());
+        debugDos.add(tv);
 
-    public void testLanguage(View view) {
-        i++;
-        if (i % 2 == 0) {
-            LanguageUtil.changeLanguage(this, "zh");
-        } else {
-            LanguageUtil.changeLanguage(this, "en");
-        }
-        titleView.setTitleText(getString(R.string.debug_title));
-        Log.d("Language", "current1:" + LanguageUtil.getSystemLanguage());
-    }
+        DebugDo Mvvm = new DebugDo("Mvvm", () -> ARouter.getInstance().build("/demo/TestMvvmActivity").navigation());
+        debugDos.add(Mvvm);
 
-    public void goTv(View view) {
-        ARouter.getInstance().build("/demo/LauncherActivity").navigation();
-    }
+        DebugDo testCache = new DebugDo("testCache", () -> {
+            i++;
+            presenter.setTestCache("cache_" + i);
+            show(presenter.getTestCache());
+        });
+        debugDos.add(testCache);
 
-    public void goMvvm(View view) {
-        ARouter.getInstance().build("/demo/TestMvvmActivity").navigation();
-    }
+        DebugDo tesSharePreference = new DebugDo("SharePreference", () -> {
+            i++;
+            DemoSharePreferences sharePreferences = SharePreference.get(this, DemoSharePreferences.class);
+            sharePreferences.setNum(i + "");
+            Accounts account = new Accounts();
+            account.setAge(11);
+            account.setName("sss");
+            sharePreferences.setUserInfo(account);
+            StringBuilder builder = new StringBuilder();
+            builder.append("num:").append(sharePreferences.getNum());
+            builder.append("guide:").append(sharePreferences.isGoGuide());
+            builder.append(" account:").append(sharePreferences.getUserInfo());
+            show(builder.toString());
+        });
+        debugDos.add(tesSharePreference);
 
-    public void goEosChain(View view) {
-        ARouter.getInstance().build("/demo/EosChainActivity").navigation();
-    }
+        DebugDo eos = new DebugDo("eos", () -> ARouter.getInstance().build("/demo/EosChainActivity").navigation());
+        debugDos.add(eos);
 
-    public void goBtcChain(View view) {
-        ToastUtils.showShort("未补充");
-    }
+        DebugDo btc = new DebugDo("btc", () ->  ToastUtils.showShort("未补充"));
+        debugDos.add(btc);
 
-    public void goBnbChain(View view) {
-        ToastUtils.showShort("未补充");
-    }
+        DebugDo bnb = new DebugDo("bnb", () ->  ToastUtils.showShort("未补充"));
+        debugDos.add(bnb);
 
-    public void goEthChain(View view) {
-        ToastUtils.showShort("未补充");
-    }
+        DebugDo eth = new DebugDo("eth", () ->  ToastUtils.showShort("未补充"));
+        debugDos.add(eth);
 
-    public void goCosmosChain(View view) {
-        ToastUtils.showShort("未补充");
-    }
+        DebugDo Cosmos = new DebugDo("Cosmos", () ->  ToastUtils.showShort("未补充"));
+        debugDos.add(Cosmos);
 
-    public void goUuosChain(View view) {
-        ToastUtils.showShort("未补充");
-    }
+        DebugDo Uuos = new DebugDo("Uuos", () ->  ToastUtils.showShort("未补充"));
+        debugDos.add(Uuos);
 
-    public void goTelosChain(View view) {
-        ToastUtils.showShort("未补充");
-    }
-
-
-    public void testCache(View view) {
-        i++;
-        presenter.setTestCache("cache_" + i);
-        show(presenter.getTestCache());
+        DebugDo Telos = new DebugDo("Telos", () ->  ToastUtils.showShort("未补充"));
+        debugDos.add(Telos);
     }
 
     public void show(String content) {
         viewBind.tvScreen.setVisibility(View.VISIBLE);
         viewBind.tvScreen.setText(content);
     }
-
 }
