@@ -27,7 +27,7 @@ public class TestCoordinatorActivity extends BaseActivity<TestCoordinatorPresent
     @Override
     public void initView() {
 
-        adapter = new TestRecycleViewMultipleAdapter(new ArrayList<>(),this);
+        adapter = new TestRecycleViewMultipleAdapter(new ArrayList<>(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         viewBind.recycleView.setLayoutManager(layoutManager);
@@ -42,5 +42,10 @@ public class TestCoordinatorActivity extends BaseActivity<TestCoordinatorPresent
             testDos.add(testDo);
         }
         adapter.setNewData(testDos);
+
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this);
+        layoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
+        viewBind.llContent.setLayoutManager(layoutManager2);
+        viewBind.llContent.setAdapter(adapter);
     }
 }
