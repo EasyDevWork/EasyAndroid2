@@ -14,13 +14,30 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onBind"
-            android:text="bind" />
+            android:onClick="getBook"
+            android:text="获取书籍" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onUnBind"
-            android:text="unbind" />
+            android:onClick="addBook"
+            android:text="添加书籍inout" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="addBookIn"
+            android:text="添加书籍IN" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="addBookOut"
+            android:text="添加书籍Out" />
+
+        <TextView
+            android:id="@+id/tvScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </layout>

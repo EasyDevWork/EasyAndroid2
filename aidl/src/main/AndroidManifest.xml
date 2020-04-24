@@ -4,11 +4,12 @@
     <application>
 
         <service
-            android:name=".MyRemoteService"
+            android:name=".AIDLService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="RemoteAIDL"></action>
+                <action android:name="com.easy.aidl.action" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
     </application>
