@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.Messenger;
 import android.util.Log;
 import android.view.View;
 
@@ -12,6 +13,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.aidl.AIDLService;
 import com.easy.aidl.BookController;
+import com.easy.aidl.MessengerService;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestAidlBinding;
@@ -22,7 +24,7 @@ import com.easy.framework.base.BaseActivity;
 public class TestAidlActivity extends BaseActivity<TestAidlPresenter, TestAidlBinding> implements TestAidlView {
     BookController bookController;
     private boolean connected;
-    ServiceConnection conn = new ServiceConnection() {
+    ServiceConnection aidlConnect = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             bookController = BookController.Stub.asInterface(service);
@@ -39,6 +41,22 @@ public class TestAidlActivity extends BaseActivity<TestAidlPresenter, TestAidlBi
         }
     };
 
+    //message
+    private Messenger messenger;
+    private ServiceConnection msgConnect = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            messenger = new Messenger(service);
+            Log.d("TestAidlService", "msg Connected " + name);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            messenger = null;
+            Log.d("TestAidlService", "msg Disconnected " + name);
+        }
+    };
+
     @Override
     public int getLayoutId() {
         return R.layout.test_aidl;
@@ -51,12 +69,23 @@ public class TestAidlActivity extends BaseActivity<TestAidlPresenter, TestAidlBi
 
     public void bindService(View view) {
         Intent intent = new Intent(TestAidlActivity.this, AIDLService.class);
-        bindService(intent, conn, Context.BIND_AUTO_CREATE);
+        bindService(intent, aidlConnect, Context.BIND_AUTO_CREATE);
     }
 
     public void unBindService(View view) {
         if (connected) {
-            unbindService(conn);
+            unbindService(aidlConnect);
+        }
+    }
+
+    public void bindMsgService(View view) {
+        Intent intent = new Intent(TestAidlActivity.this, MessengerService.class);
+        bindService(intent, msgConnect, Context.BIND_AUTO_CREATE);
+    }
+
+    public void unBindMsgService(View view) {
+        if (connected) {
+            unbindService(msgConnect);
         }
     }
 

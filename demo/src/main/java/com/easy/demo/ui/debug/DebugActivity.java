@@ -52,7 +52,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     }
 
     private void addData() {
-        DebugDo aidl = new DebugDo("Aidl", () -> ARouter.getInstance().build("/demo/TestAidlActivity").navigation());
+        DebugDo aidl = new DebugDo("ipc进程间通信", () -> ARouter.getInstance().build("/demo/TestAidlActivity").navigation());
         debugDos.add(aidl);
 
         DebugDo download = new DebugDo("下载", () -> ARouter.getInstance().build("/demo/DownloadActivity").navigation());

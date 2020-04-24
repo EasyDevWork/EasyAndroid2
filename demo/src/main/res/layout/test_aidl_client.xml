@@ -14,6 +14,12 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="registerAidl"
+            android:text="注册aidl" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:onClick="getBook"
             android:text="获取书籍" />
 
@@ -40,6 +46,17 @@
             android:layout_height="wrap_content"
             android:onClick="addTwoBook"
             android:text="添加书籍回调" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="registerMessage"
+            android:text="注册message" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="testMsg"
+            android:text="测试Message" />
 
         <TextView
             android:id="@+id/tvScreen"
