@@ -3,7 +3,7 @@ include ':app'
 setBinding(new Binding([gradle: this]))
 evaluate(new File(
         settingsDir.parentFile,
-        'easy_flutter/.android/include_flutter.groovy'
+        './EasyAndroid2/easy_flutter/.android/include_flutter.groovy'
 ))
 include ':store'
 
