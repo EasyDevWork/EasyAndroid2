@@ -44,6 +44,9 @@
             android:name=".ui.flutter.TestFlutterActivity"
             android:theme="@style/FlutterPageTheme" />
         <activity android:name=".ui.cordinator.TestCoordinatorActivity" />
-        <activity android:name=".ui.aidl.TestAidlActivity"/>
+        <activity android:name=".ui.aidl.TestAidlActivity" />
+        <activity
+            android:name=".ui.aidl.client.TestAidlClientActivity"
+            android:process="com.easy.client" />
     </application>
 </manifest>

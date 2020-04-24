@@ -9,25 +9,37 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="服务端" />
+            android:text="客户端" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="bindService"
-            android:text="注册服务" />
+            android:onClick="getBook"
+            android:text="获取书籍" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="unBindService"
-            android:text="取消服务" />
+            android:onClick="addBook"
+            android:text="添加书籍inout" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="openClient"
-            android:text="打开客户端" />
+            android:onClick="addBookIn"
+            android:text="添加书籍IN" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="addBookOut"
+            android:text="添加书籍Out" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="addTwoBook"
+            android:text="添加书籍回调" />
 
         <TextView
             android:id="@+id/tvScreen"
