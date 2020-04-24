@@ -51,6 +51,7 @@ android {
         abortOnError true
         checkReleaseBuilds false
     }
+
 }
 
 dependencies {
@@ -68,6 +69,8 @@ dependencies {
     implementation project(':lottie')
     api project(':Framework')
 
+    implementation project(':aidl')
+
     implementation project(':flutter')
 
     implementation project(':libtv')
@@ -83,10 +86,11 @@ dependencies {
 import org.aspectj.bridge.IMessage
 import org.aspectj.bridge.MessageHandler
 import org.aspectj.tools.ajc.Main
+
 final def log = project.logger
 final def variants = project.android.libraryVariants
 
-variants.all {  variant ->
+variants.all { variant ->
     JavaCompile javaCompile = variant.javaCompile
     javaCompile.doLast {
         String[] args = ["-showWeaveInfo",
