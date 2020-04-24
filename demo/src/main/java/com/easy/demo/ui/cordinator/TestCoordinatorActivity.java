@@ -45,7 +45,7 @@ public class TestCoordinatorActivity extends BaseActivity<TestCoordinatorPresent
 
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(this);
         layoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
-        viewBind.llContent.setLayoutManager(layoutManager2);
-        viewBind.llContent.setAdapter(adapter);
+        viewBind.recycleView2.setLayoutManager(layoutManager2);
+        viewBind.recycleView2.setAdapter(adapter);
     }
 }

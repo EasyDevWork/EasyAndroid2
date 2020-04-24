@@ -61,10 +61,11 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:text="副标题"
+                    android:textColor="@color/blue"
                     android:textSize="14sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -85,7 +86,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/llHeard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 app:layout_behavior="com.easy.demo.ui.cordinator.behavior.SimpleHeadBehavior">
 
                 <TextView
@@ -98,11 +99,29 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
+            <LinearLayout
                 android:id="@+id/llContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="com.easy.demo.ui.cordinator.behavior.SimpleContentBehavior" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_behavior="com.easy.demo.ui.cordinator.behavior.SimpleContentBehavior">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:text="副标题"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="com.easy.demo.ui.cordinator.behavior.SimpleContentBehavior" />
+
+            </LinearLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
 </layout>
