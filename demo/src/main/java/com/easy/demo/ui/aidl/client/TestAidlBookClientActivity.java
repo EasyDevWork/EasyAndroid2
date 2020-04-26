@@ -26,6 +26,7 @@ import com.easy.demo.databinding.TestAidlClientBinding;
 import com.easy.demo.ui.empty.EmptyPresenter;
 import com.easy.demo.ui.empty.EmptyView;
 import com.easy.framework.base.BaseActivity;
+import com.easy.utils.ToastUtils;
 
 import java.util.List;
 
@@ -86,7 +87,8 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
                 case CODE_MESSAGE: {
                     int arg = msg.arg1;
                     String receiverMsg = ((Bundle) msg.obj).getString("msg");
-                    Log.d("TestAidlClient", "客户端收到了服务端回复的消息：" + arg + "_" + receiverMsg);
+                    Log.d("TestAidlClient", arg + "_" + receiverMsg);
+                    ToastUtils.showShort(arg + "_" + receiverMsg);
                     break;
                 }
             }
@@ -228,7 +230,9 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
         Message message = new Message();
         message.what = CODE_MESSAGE;
         Bundle bundle = new Bundle();
+        String msg = "我是客户端的消息";
         bundle.putString("msg", "客户端发送的内容");
+        viewBind.tvScreen.setText("客户端发送的内容:" + msg);
         message.obj = bundle;
         message.arg1 = 1;
         message.replyTo = replyMessage;

@@ -23,7 +23,7 @@ public class BinderPoolImpl extends IBinderPool.Stub {
                     Message message = new Message();
                     message.what = CODE_MESSAGE;
                     Bundle bundle = new Bundle();
-                    bundle.putString("msg", "服务端处理后消息【" + receiverMsg + "】");
+                    bundle.putString("msg", "我是服务端加的【" + receiverMsg + "】");
                     message.obj = bundle;
                     message.arg1 = msg.arg1 * 2;
                     try {
