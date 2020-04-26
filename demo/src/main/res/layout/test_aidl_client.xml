@@ -11,11 +11,40 @@
             android:layout_height="wrap_content"
             android:text="客户端" />
 
-        <Button
+        <TextView
+            android:id="@+id/tvScreen"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="registerAidl"
-            android:text="注册aidl" />
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="addBookInout"
+                android:text="添加书籍inout" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="addBookIn"
+                android:text="添加书籍IN" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="addBookOut"
+                android:text="添加书籍Out" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="addBookCallback"
+                android:text="添加书籍回调返回" />
+        </LinearLayout>
 
         <Button
             android:layout_width="wrap_content"
@@ -26,41 +55,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="addBook"
-            android:text="添加书籍inout" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="addBookIn"
-            android:text="添加书籍IN" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="addBookOut"
-            android:text="添加书籍Out" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="addTwoBook"
-            android:text="添加书籍回调" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="registerMessage"
-            android:text="注册message" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:onClick="testMsg"
             android:text="测试Message" />
 
-        <TextView
-            android:id="@+id/tvScreen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 </layout>

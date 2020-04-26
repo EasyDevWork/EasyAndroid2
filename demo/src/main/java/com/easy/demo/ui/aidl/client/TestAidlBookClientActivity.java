@@ -17,6 +17,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.aidl.Book;
 import com.easy.aidl.BookController;
 import com.easy.aidl.Food;
+import com.easy.aidl.FoodController;
 import com.easy.aidl.IAdilListener;
 import com.easy.aidl.IBinderPool;
 import com.easy.apt.annotation.ActivityInject;
@@ -32,32 +33,32 @@ import java.util.List;
 @Route(path = "/demo/TestAidlBookClientActivity", name = "Aidl client")
 public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, TestAidlClientBinding> implements EmptyView {
 
+    IBinderPool binderPool;
     private BookController bookController;
+    private FoodController foodController;
+    private Messenger messengerController;
     private boolean connected;
     int i;
     private List<Book> bookList;
     //aidl
     private ServiceConnection aidlConnect = new ServiceConnection() {
         @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            try {
-                IBinderPool binderPool = IBinderPool.Stub.asInterface(service);
-                //本客户端的唯一标识是 100
-                //获取真实的 Binder 对象
-                bookController = BookController.Stub.asInterface(binderPool.queryBinder(100));
-                bookController.registerListener(iAdilListener);
-                connected = true;
-                viewBind.tvScreen.setText("Connected 成功" + name);
-                Log.d("TestAidlClient", "client_Connected name=" + name);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+        public void onServiceConnected(ComponentName name, IBinder binder) {
+            binderPool = IBinderPool.Stub.asInterface(binder);
+            connected = true;
+            viewBind.tvScreen.setText("Connected 成功" + name);
+            Log.d("TestAidlClient", "client_Connected name=" + name);
+            initBookController(name, binder);
+            initFoodController(name, binder);
+            initMessageController(name, binder);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             connected = false;
             bookController = null;
+            foodController = null;
+            messengerController = null;
             Log.d("TestAidlClient", "client_Disconnected name=" + name);
         }
     };
@@ -75,21 +76,8 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
     };
     //message
     private static final int CODE_MESSAGE = 1;
-    private Messenger messenger;
-    private Messenger replyMessage = new Messenger(new MessengerHandler());
-    private ServiceConnection msgConnect = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            messenger = new Messenger(service);
-            Log.d("TestAidlClient", "client_Connected name=" + name);
-        }
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            messenger = null;
-            Log.d("TestAidlClient", "client_Disconnected name=" + name);
-        }
-    };
+    private Messenger replyMessage = new Messenger(new MessengerHandler());
 
     private static class MessengerHandler extends Handler {
         @Override
@@ -112,7 +100,7 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
 
     @Override
     public void initView() {
-
+        registerAidl();
     }
 
     @Override
@@ -125,22 +113,50 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            unbindService(msgConnect);
         }
     }
 
-    public void registerAidl(View view) {
+    public void initBookController(ComponentName name, IBinder binder) {
+        if (binderPool != null) {
+            try {
+                //本客户端的唯一标识是 100
+                //获取真实的 Binder 对象
+                bookController = BookController.Stub.asInterface(binderPool.queryBinder(name, binder, 100));
+                bookController.registerListener(iAdilListener);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void initFoodController(ComponentName name, IBinder binder) {
+        if (binderPool != null) {
+            try {
+                //本客户端的唯一标识是 100
+                //获取真实的 Binder 对象
+                foodController = FoodController.Stub.asInterface(binderPool.queryBinder(name, binder, 200));
+                foodController.registerListener(iAdilListener);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void initMessageController(ComponentName name, IBinder binder) {
+        if (binderPool != null) {
+            try {
+                messengerController = new Messenger(binderPool.queryBinder(name, binder, 300));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void registerAidl() {
         Intent intent = new Intent();
         intent.setPackage("com.easy");//服务端包名
         intent.setAction("com.easy.aidl.action");//服务端声明的action
         bindService(intent, aidlConnect, Context.BIND_AUTO_CREATE);
-    }
-
-    public void registerMessage(View view) {
-        Intent intent = new Intent();
-        intent.setPackage("com.easy");//服务端包名
-        intent.setAction("com.easy.message.action");//服务端声明的action
-        bindService(intent, msgConnect, Context.BIND_AUTO_CREATE);
     }
 
     public void getBook(View view) {
@@ -181,7 +197,7 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
         }
     }
 
-    public void addTwoBook(View view) {
+    public void addBookCallback(View view) {
         if (connected) {
             i++;
             Book book2 = new Book("Client_add_" + i);
@@ -194,7 +210,7 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
         }
     }
 
-    public void addBook(View view) {
+    public void addBookInout(View view) {
         if (connected) {
             i++;
             Book book = new Book("ClientBook_" + i);
@@ -217,7 +233,7 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
         message.arg1 = 1;
         message.replyTo = replyMessage;
         try {
-            messenger.send(message);
+            messengerController.send(message);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

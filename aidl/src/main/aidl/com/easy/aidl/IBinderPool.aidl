@@ -1,7 +1,7 @@
-// IBinderPool.aidl
 package com.easy.aidl;
 
 interface IBinderPool {
 
-     IBinder queryBinder(int binderCode);
+     IBinder queryBinder(in ComponentName name, in IBinder service,int binderCode);
+
 }
