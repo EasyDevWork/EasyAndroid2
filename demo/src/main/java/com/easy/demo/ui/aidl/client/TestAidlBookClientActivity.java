@@ -231,7 +231,7 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
         message.what = CODE_MESSAGE;
         Bundle bundle = new Bundle();
         String msg = "我是客户端的消息";
-        bundle.putString("msg", "客户端发送的内容");
+        bundle.putString("msg", msg);
         viewBind.tvScreen.setText("客户端发送的内容:" + msg);
         message.obj = bundle;
         message.arg1 = 1;
