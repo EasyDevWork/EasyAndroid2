@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.aidl.AIDLService;
 import com.easy.aidl.BookController;
+import com.easy.aidl.IBinderPool;
 import com.easy.aidl.MessengerService;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
@@ -23,21 +25,28 @@ import com.easy.framework.base.BaseActivity;
 @Route(path = "/demo/TestAidlActivity", name = "Aidl")
 public class TestAidlActivity extends BaseActivity<TestAidlPresenter, TestAidlBinding> implements TestAidlView {
     BookController bookController;
-    private boolean connected;
+
     ServiceConnection aidlConnect = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            bookController = BookController.Stub.asInterface(service);
-            Log.d("TestAidlService", "Connected " + name);
-            viewBind.tvScreen.setText("Connected 成功" + name);
-            connected = true;
+            try {
+                IBinderPool binderPool = IBinderPool.Stub.asInterface(service);
+                //本客户端的唯一标识是 100
+                //获取真实的 Binder 对象
+                bookController = BookController.Stub.asInterface(binderPool.queryBinder(100));
+                Log.d("TestAidlService", "Connected " + name);
+                viewBind.tvScreen.setText("Connected 成功" + name);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            connected = false;
+            bookController = null;
             Log.d("TestAidlService", "Disconnected " + name);
             viewBind.tvScreen.setText("Disconnected 成功" + name);
+            bindAidlService();
         }
     };
 
@@ -64,32 +73,36 @@ public class TestAidlActivity extends BaseActivity<TestAidlPresenter, TestAidlBi
 
     @Override
     public void initView() {
+        viewBind.bindAidlService.setOnClickListener(v -> bindAidlService());
+        viewBind.unbindAidlService.setOnClickListener(v -> unbindAidlService());
 
+        viewBind.bindMsgService.setOnClickListener(v -> bindMsgService());
+        viewBind.unBindMsgService.setOnClickListener(v -> unBindMsgService());
     }
 
-    public void bindService(View view) {
+    public void bindAidlService() {
         Intent intent = new Intent(TestAidlActivity.this, AIDLService.class);
         bindService(intent, aidlConnect, Context.BIND_AUTO_CREATE);
     }
 
-    public void unBindService(View view) {
-        if (connected) {
+    public void unbindAidlService() {
+        if (bookController != null) {
             unbindService(aidlConnect);
         }
     }
 
-    public void bindMsgService(View view) {
+    public void bindMsgService() {
         Intent intent = new Intent(TestAidlActivity.this, MessengerService.class);
         bindService(intent, msgConnect, Context.BIND_AUTO_CREATE);
     }
 
-    public void unBindMsgService(View view) {
-        if (connected) {
+    public void unBindMsgService() {
+        if (messenger != null) {
             unbindService(msgConnect);
         }
     }
 
     public void openClient(View view) {
-        ARouter.getInstance().build("/demo/TestAidlClientActivity").navigation();
+        ARouter.getInstance().build("/demo/TestAidlBookClientActivity").navigation();
     }
 }

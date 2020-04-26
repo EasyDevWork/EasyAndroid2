@@ -16,17 +16,21 @@ import android.view.View;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.aidl.Book;
 import com.easy.aidl.BookController;
+import com.easy.aidl.Food;
 import com.easy.aidl.IAdilListener;
+import com.easy.aidl.IBinderPool;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestAidlClientBinding;
+import com.easy.demo.ui.empty.EmptyPresenter;
+import com.easy.demo.ui.empty.EmptyView;
 import com.easy.framework.base.BaseActivity;
 
 import java.util.List;
 
 @ActivityInject
-@Route(path = "/demo/TestAidlClientActivity", name = "Aidl client")
-public class TestAidlClientActivity extends BaseActivity<TestAidlClientPresenter, TestAidlClientBinding> implements TestAidClientView {
+@Route(path = "/demo/TestAidlBookClientActivity", name = "Aidl client")
+public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, TestAidlClientBinding> implements EmptyView {
 
     private BookController bookController;
     private boolean connected;
@@ -36,15 +40,18 @@ public class TestAidlClientActivity extends BaseActivity<TestAidlClientPresenter
     private ServiceConnection aidlConnect = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            bookController = BookController.Stub.asInterface(service);
-            connected = true;
             try {
-                //添加回调监听
+                IBinderPool binderPool = IBinderPool.Stub.asInterface(service);
+                //本客户端的唯一标识是 100
+                //获取真实的 Binder 对象
+                bookController = BookController.Stub.asInterface(binderPool.queryBinder(100));
                 bookController.registerListener(iAdilListener);
+                connected = true;
+                viewBind.tvScreen.setText("Connected 成功" + name);
+                Log.d("TestAidlClient", "client_Connected name=" + name);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            Log.d("TestAidlClient", "client_Connected name=" + name);
         }
 
         @Override
@@ -57,8 +64,13 @@ public class TestAidlClientActivity extends BaseActivity<TestAidlClientPresenter
 
     private IAdilListener iAdilListener = new IAdilListener.Stub() {
         @Override
-        public void onOperationCompleted(final Book result) {
-            runOnUiThread(() -> viewBind.tvScreen.setText("two add book=" + result.toString()));
+        public void addFoodCallback(Food result) throws RemoteException {
+            runOnUiThread(() -> viewBind.tvScreen.setText("add food=" + result.toString()));
+        }
+
+        @Override
+        public void addBookCallback(Book result) throws RemoteException {
+            runOnUiThread(() -> viewBind.tvScreen.setText("add book=" + result.toString()));
         }
     };
     //message
@@ -175,7 +187,7 @@ public class TestAidlClientActivity extends BaseActivity<TestAidlClientPresenter
             Book book2 = new Book("Client_add_" + i);
             Book book1 = new Book("Client_add_" + i);
             try {
-                bookController.addTwoBook(book1, book2);
+                bookController.addBook(book1, book2);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

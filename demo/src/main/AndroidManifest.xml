@@ -46,7 +46,7 @@
         <activity android:name=".ui.cordinator.TestCoordinatorActivity" />
         <activity android:name=".ui.aidl.TestAidlActivity" />
         <activity
-            android:name=".ui.aidl.client.TestAidlClientActivity"
+            android:name=".ui.aidl.client.TestAidlBookClientActivity"
             android:process="com.easy.client" />
     </application>
 </manifest>

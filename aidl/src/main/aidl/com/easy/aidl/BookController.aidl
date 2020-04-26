@@ -9,7 +9,7 @@ interface BookController {
     void addBookIn(in Book book);
     void addBookOut(out Book book);
 
-    Book addTwoBook(in Book book1,in Book book2);
+    void addBook(in Book book1,in Book book2);
 
     void registerListener(in IAdilListener listener);
 

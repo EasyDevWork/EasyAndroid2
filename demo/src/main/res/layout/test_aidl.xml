@@ -12,27 +12,27 @@
             android:text="服务端" />
 
         <Button
+            android:id="@+id/bindAidlService"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="bindService"
-            android:text="注册服务" />
+            android:text="注册aidl服务" />
 
         <Button
+            android:id="@+id/unbindAidlService"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="unBindService"
-            android:text="取消服务" />
+            android:text="取消aidl服务" />
 
         <Button
+            android:id="@+id/bindMsgService"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="bindMsgService"
             android:text="注册msg服务" />
 
         <Button
+            android:id="@+id/unBindMsgService"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="unBindMsgService"
             android:text="取消msg服务" />
 
         <Button
