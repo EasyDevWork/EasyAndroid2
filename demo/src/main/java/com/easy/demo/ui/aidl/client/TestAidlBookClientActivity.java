@@ -1,9 +1,13 @@
 package com.easy.demo.ui.aidl.client;
 
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -76,24 +80,30 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
         }
     };
     //message
-    private static final int CODE_MESSAGE = 1;
-
+    private static final int CODE_MESSAGE = 1;//消息通知
+    private static final int SQL_UPDATE = 2;
     private Messenger replyMessage = new Messenger(new MessengerHandler());
 
     private static class MessengerHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case CODE_MESSAGE: {
+                case CODE_MESSAGE:
                     int arg = msg.arg1;
                     String receiverMsg = ((Bundle) msg.obj).getString("msg");
                     Log.d("TestAidlClient", arg + "_" + receiverMsg);
                     ToastUtils.showShort(arg + "_" + receiverMsg);
                     break;
-                }
+                case SQL_UPDATE:
+                    break;
             }
         }
     }
+
+    //contentProvider
+    private static final String AUTHORITY = "com.easy.studentProvider";
+    private static final Uri STUDENT_URI = Uri.parse("content://" + AUTHORITY + "/student");
+    ContentResolver contentResolver;
 
     @Override
     public int getLayoutId() {
@@ -102,6 +112,8 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
 
     @Override
     public void initView() {
+        contentResolver = getContentResolver();
+        contentResolver.registerContentObserver(STUDENT_URI, true, new StudentContentObserver(new MessengerHandler()));
         registerAidl();
     }
 
@@ -241,5 +253,35 @@ public class TestAidlBookClientActivity extends BaseActivity<EmptyPresenter, Tes
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public void insertSql(View view) {
+        //创建期待匹配的uri
+        ContentValues values = new ContentValues();
+        values.put("name", "小明");
+        //获得ContentResolver对象，调用方法
+        contentResolver.insert(STUDENT_URI, values);
+    }
+
+    public void deleteSql(View view) {
+        contentResolver.delete(STUDENT_URI, "name=?", new String[]{"小明"});
+    }
+
+    public void updateSql(View view) {
+        ContentValues values1 = new ContentValues();
+        values1.put("name", "小李");
+        contentResolver.update(STUDENT_URI, values1, "name = ?", new String[]{"小明"});
+    }
+
+    public void querySql(View view) {
+        Cursor cursor = getContentResolver().query(STUDENT_URI, null, null, null, null);
+        cursor.moveToFirst();
+        StringBuilder builder = new StringBuilder();
+        do {
+            String name2 = cursor.getString(cursor.getColumnIndex("name"));
+            builder.append("name").append(name2).append("\n");
+        } while (cursor.moveToNext());
+        cursor.close();
+        viewBind.tvScreen.setText(builder.toString());
     }
 }

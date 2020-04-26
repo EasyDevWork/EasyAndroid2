@@ -12,5 +12,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
+
+        <provider
+            android:authorities="com.easy.studentProvider"
+            android:name=".StudentContentProvider"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 </manifest>

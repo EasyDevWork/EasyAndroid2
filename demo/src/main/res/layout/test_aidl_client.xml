@@ -12,6 +12,11 @@
             android:text="客户端" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AIDL" />
+
+        <TextView
             android:id="@+id/tvScreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -38,19 +43,30 @@
                 android:layout_height="wrap_content"
                 android:onClick="addBookOut"
                 android:text="添加书籍Out" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="addBookCallback"
                 android:text="添加书籍回调返回" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="getBook"
+                android:text="获取书籍" />
         </LinearLayout>
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="getBook"
-            android:text="获取书籍" />
+            android:text="Message" />
 
         <Button
             android:layout_width="wrap_content"
@@ -58,5 +74,36 @@
             android:onClick="testMsg"
             android:text="测试Message" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ContentProvider" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="insertSql"
+                android:text="插入书籍" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="deleteSql"
+                android:text="删除书籍" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="updateSql"
+                android:text="更新书籍" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="querySql"
+                android:text="查下书籍" />
+        </LinearLayout>
     </LinearLayout>
 </layout>
