@@ -48,5 +48,6 @@
         <activity
             android:name=".ui.aidl.client.TestAidlBookClientActivity"
             android:process="com.easy.client" />
+        <activity android:name=".ui.im.TestSocketActivity" />
     </application>
 </manifest>

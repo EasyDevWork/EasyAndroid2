@@ -74,6 +74,9 @@ dependencies {
     implementation project(':flutter')
 
     implementation project(':libtv')
+
+    api project(':im_lib')
+
     implementation lib.androidx_leanback
     implementation lib.androidx_lifecycle_extensions
 
