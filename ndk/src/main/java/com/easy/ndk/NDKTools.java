@@ -1,6 +1,7 @@
 package com.easy.ndk;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.widget.Toast;
 
 public class NDKTools {
@@ -10,11 +11,31 @@ public class NDKTools {
         System.loadLibrary("native-lib");
     }
 
-    public static void logMessage(String msg) {
-        Toast.makeText(context.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    public static String logMessage(String msg) {
+        return msg;
     }
 
-    public static native void callStaticMethod();
+    public static String getVersionName() {
+        try {
+            String versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+            return "app -v " + versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "app -v 1.0.0";
+    }
 
-    public static native int addNative(int a,int b);
+    public static void callNullPointerException() throws NullPointerException {
+        throw new NullPointerException("MainActivity NullPointerException");
+    }
+
+    public static native String callStaticMethod();
+
+    public static native int addNative(int a, int b);
+
+    public static native int getNativeVersion();
+
+    public static native String getJavaVersion();
+
+    public static native void handleExcept() throws IllegalArgumentException;
 }

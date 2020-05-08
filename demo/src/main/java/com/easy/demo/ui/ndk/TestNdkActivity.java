@@ -1,5 +1,7 @@
 package com.easy.demo.ui.ndk;
 
+import android.view.View;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
@@ -22,7 +24,30 @@ public class TestNdkActivity extends BaseActivity<EmptyPresenter, TestNdkBinding
     @Override
     public void initView() {
         NDKTools.context = this;
-        NDKTools.callStaticMethod();
+    }
+
+    public void getNativeData(View v) {
+        viewBind.tvNdk.setText("native -v " + NDKTools.getNativeVersion());
+    }
+
+    public void getJavaData(View v) {
+        viewBind.tvNdk.setText(NDKTools.getJavaVersion());
+    }
+
+    public void getJavaObjectMethod(View v) {
         viewBind.tvNdk.setText("native 计算3+5=" + NDKTools.addNative(3, 5));
     }
+
+    public void getJavaStaticMethod(View v) {
+        viewBind.tvNdk.setText(NDKTools.callStaticMethod());
+    }
+
+    public void handleExcept(View v) {
+        try {
+            NDKTools.handleExcept();
+        } catch (Exception e) {
+            viewBind.tvNdk.setText(e.getLocalizedMessage());
+        }
+    }
+
 }
