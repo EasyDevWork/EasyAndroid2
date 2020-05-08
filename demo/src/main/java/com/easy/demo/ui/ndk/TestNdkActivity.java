@@ -13,9 +13,6 @@ import com.easy.ndk.NDKTools;
 @ActivityInject
 @Route(path = "/demo/TestNdkActivity", name = "NDK测试")
 public class TestNdkActivity extends BaseActivity<EmptyPresenter, TestNdkBinding> implements EmptyView {
-    static {
-        System.loadLibrary("native-lib");
-    }
 
     @Override
     public int getLayoutId() {
@@ -24,7 +21,8 @@ public class TestNdkActivity extends BaseActivity<EmptyPresenter, TestNdkBinding
 
     @Override
     public void initView() {
-        String content = NDKTools.stringFromJNI();
-        viewBind.tvNdk.setText(content);
+        NDKTools.context = this;
+        NDKTools.callStaticMethod();
+        viewBind.tvNdk.setText("native 计算3+5=" + NDKTools.addNative(3, 5));
     }
 }
