@@ -55,6 +55,9 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         DebugDo socket = new DebugDo("socket", () -> ARouter.getInstance().build("/demo/TestSocketActivity").navigation());
         debugDos.add(socket);
 
+        DebugDo ndk = new DebugDo("NDK", () -> ARouter.getInstance().build("/demo/TestNdkActivity").navigation());
+        debugDos.add(ndk);
+
         DebugDo aidl = new DebugDo("ipc进程间通信", () -> ARouter.getInstance().build("/demo/TestAidlActivity").navigation());
         debugDos.add(aidl);
 

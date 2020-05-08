@@ -77,6 +77,8 @@ dependencies {
 
     api project(':im_lib')
 
+    implementation project(':ndk')
+
     implementation lib.androidx_leanback
     implementation lib.androidx_lifecycle_extensions
 
