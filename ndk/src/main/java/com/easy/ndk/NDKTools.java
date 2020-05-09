@@ -9,6 +9,7 @@ public class NDKTools {
 
     static {
         System.loadLibrary("native-lib");
+        System.loadLibrary("native-dy-lib");
     }
 
     public static String logMessage(String msg) {
@@ -38,4 +39,8 @@ public class NDKTools {
     public static native String getJavaVersion();
 
     public static native void handleExcept() throws IllegalArgumentException;
+
+    public static native String stringFromJNIByDy();
+
+    public static native int addByDy(int a, int b);
 }

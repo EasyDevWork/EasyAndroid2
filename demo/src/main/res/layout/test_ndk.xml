@@ -41,5 +41,17 @@
             android:layout_height="wrap_content"
             android:onClick="handleExcept"
             android:text="异常处理" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getNativeDataBydy"
+            android:text="动态注册--获取native数据" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getNativeAddBydy"
+            android:text="动态注册--调用native方法" />
     </LinearLayout>
 </layout>

@@ -46,8 +46,16 @@ public class TestNdkActivity extends BaseActivity<EmptyPresenter, TestNdkBinding
         try {
             NDKTools.handleExcept();
         } catch (Exception e) {
-            viewBind.tvNdk.setText(e.getLocalizedMessage());
+            e.printStackTrace();
+            viewBind.tvNdk.setText(e.getMessage());
         }
     }
 
+    public void getNativeDataBydy(View v) {
+        viewBind.tvNdk.setText(NDKTools.stringFromJNIByDy());
+    }
+
+    public void getNativeAddBydy(View v) {
+        viewBind.tvNdk.setText("native 计算2+7=" + NDKTools.addByDy(2, 7));
+    }
 }
