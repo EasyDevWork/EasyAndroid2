@@ -2,6 +2,7 @@
 #include <string>
 #include <dirent.h>
 #include "LogUtils.h"
+#include <android/bitmap.h>
 
 extern "C" {
 using namespace std;
@@ -24,7 +25,8 @@ JNIEXPORT jstring JNICALL Java_com_easy_ndk_NDKTools_callStaticMethod(JNIEnv *en
     return result;
 }
 
-JNIEXPORT jint JNICALL Java_com_easy_ndk_NDKTools_addNative(JNIEnv *env, jclass instance, jint arg1, jint arg2) {
+JNIEXPORT jint JNICALL
+Java_com_easy_ndk_NDKTools_addNative(JNIEnv *env, jclass instance, jint arg1, jint arg2) {
 // 找到对应类
     jclass cls_adder = env->FindClass("com/easy/ndk/Adder");
 // 获取构造方法
@@ -40,9 +42,11 @@ JNIEXPORT jint JNICALL Java_com_easy_ndk_NDKTools_addNative(JNIEnv *env, jclass 
     env->DeleteLocalRef(adder);
     return result;
 }
+
 JNIEXPORT jint JNICALL Java_com_easy_ndk_NDKTools_getNativeVersion(JNIEnv *env, jclass clazz) {
     return env->GetVersion();
 }
+
 JNIEXPORT jstring JNICALL Java_com_easy_ndk_NDKTools_getJavaVersion(JNIEnv *env, jclass clazz) {
     jclass NDKToolsClass = env->FindClass("com/easy/ndk/NDKTools");
     if (NDKToolsClass == NULL) {
@@ -55,6 +59,7 @@ JNIEXPORT jstring JNICALL Java_com_easy_ndk_NDKTools_getJavaVersion(JNIEnv *env,
                                                                       NDKToolsMethod));
     return result;
 }
+
 JNIEXPORT void JNICALL Java_com_easy_ndk_NDKTools_handleExcept(JNIEnv *env, jclass clazz) {
     jmethodID methodId = env->GetStaticMethodID(clazz, "callNullPointerException", "()V");
     if (methodId == NULL) return;
@@ -67,6 +72,7 @@ JNIEXPORT void JNICALL Java_com_easy_ndk_NDKTools_handleExcept(JNIEnv *env, jcla
         env->ThrowNew(newExcCls, "throw from JNI"); // 返回一个新的异常到 Java
     }
 }
+
 void showAllFiles(string dir_name) {
     // check the parameter
     if (dir_name.empty()) {
@@ -103,4 +109,38 @@ JNIEXPORT void JNICALL Java_com_easy_ndk_NDKTools_showAllFiles(JNIEnv *env, jcla
     showAllFiles(string(dirPath));
     env->ReleaseStringUTFChars(dirPath_, dirPath);
 }
+
+JNIEXPORT void JNICALL Java_com_easy_ndk_NDKTools_parseBitmap(JNIEnv *env, jclass thiz, jobject bitmap) {
+    if (NULL == bitmap) {
+        LOGE("bitmap is null!");
+        return;
+    }
+    AndroidBitmapInfo info; // create a AndroidBitmapInfo
+    int result;
+    // 获取图片信息
+    result = AndroidBitmap_getInfo(env, bitmap, &info);
+    if (result != ANDROID_BITMAP_RESULT_SUCCESS) {
+        LOGE("AndroidBitmap_getInfo failed, result: %d", result);
+        return;
+    }
+    LOGD("bitmap width: %d, height: %d, format: %d, stride: %d", info.width, info.height,info.format, info.stride);
+    // 获取像素信息
+    unsigned char *addrPtr;
+    result = AndroidBitmap_lockPixels(env, bitmap, reinterpret_cast<void **>(&addrPtr));
+    if (result != ANDROID_BITMAP_RESULT_SUCCESS) {
+        LOGE("AndroidBitmap_lockPixels failed, result: %d", result);
+        return;
+    }
+    // 执行图片操作的逻辑
+    int length = info.stride * info.height;
+    for (int i = 0; i < length; ++i) {
+        LOGD("value: %x", addrPtr[i]);
+    }
+    // 像素信息不再使用后需要解除锁定
+    result = AndroidBitmap_unlockPixels(env, bitmap);
+    if (result != ANDROID_BITMAP_RESULT_SUCCESS) {
+        LOGE("AndroidBitmap_unlockPixels failed, result: %d", result);
+    }
 }
+}
+

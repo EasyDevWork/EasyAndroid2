@@ -2,6 +2,7 @@ package com.easy.ndk;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.widget.Toast;
 
 public class NDKTools {
@@ -45,4 +46,6 @@ public class NDKTools {
     public static native int addByDy(int a, int b);
 
     public static native void showAllFiles(String path);
+
+    public static native void parseBitmap(Bitmap bitmap);
 }
