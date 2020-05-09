@@ -53,5 +53,11 @@
             android:layout_height="wrap_content"
             android:onClick="getNativeAddBydy"
             android:text="动态注册--调用native方法" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="showAllFiles"
+            android:text="获取文件" />
+
     </LinearLayout>
 </layout>

@@ -58,4 +58,8 @@ public class TestNdkActivity extends BaseActivity<EmptyPresenter, TestNdkBinding
     public void getNativeAddBydy(View v) {
         viewBind.tvNdk.setText("native 计算2+7=" + NDKTools.addByDy(2, 7));
     }
+
+    public void showAllFiles(View v) {
+        NDKTools.showAllFiles(getFilesDir().getPath());
+    }
 }

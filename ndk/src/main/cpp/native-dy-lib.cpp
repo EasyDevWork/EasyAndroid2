@@ -1,5 +1,7 @@
 #include <jni.h>
 #include <string>
+#include "LogUtils.h"
+#include "TimeUtils.h" // 包含这个头文件
 
 extern "C" {
 jstring stringFromJNIByDy(JNIEnv *env, jclass instance) {
@@ -25,12 +27,14 @@ jint RegisterNatives(JNIEnv *env) {
 }
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved) {
+    __TIC1__(fwrite); // 耗时统计起始处
     JNIEnv *env = NULL;
     if (vm->GetEnv((void **) &env, JNI_VERSION_1_6) != JNI_OK) {
         return JNI_ERR;
     }
     jint result = RegisterNatives(env);
-//    LOGD("RegisterNatives result: %d", result);
+    LOGD("RegisterNatives result: %d", result);
+    __TOC1__(fwrite); // 耗时统计结束
     return JNI_VERSION_1_6;
 }
 }

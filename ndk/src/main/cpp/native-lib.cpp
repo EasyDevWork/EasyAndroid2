@@ -1,7 +1,11 @@
 #include <jni.h>
 #include <string>
+#include <dirent.h>
+#include "LogUtils.h"
 
 extern "C" {
+using namespace std;
+
 JNIEXPORT jstring JNICALL Java_com_easy_ndk_NDKTools_callStaticMethod(JNIEnv *env, jclass clazz) {
     jclass NDKToolsClass = env->FindClass("com/easy/ndk/NDKTools");// 找到对应的类
     if (NDKToolsClass == NULL) return NULL;
@@ -62,5 +66,41 @@ JNIEXPORT void JNICALL Java_com_easy_ndk_NDKTools_handleExcept(JNIEnv *env, jcla
         jclass newExcCls = env->FindClass("java/lang/IllegalArgumentException");
         env->ThrowNew(newExcCls, "throw from JNI"); // 返回一个新的异常到 Java
     }
+}
+void showAllFiles(string dir_name) {
+    // check the parameter
+    if (dir_name.empty()) {
+        LOGE("dir_name is null !");
+        return;
+    }
+    DIR *dir = opendir(dir_name.c_str());
+    // check is dir ?
+    if (NULL == dir) {
+        LOGE("Can not open dir. Check path or permission!");
+        return;
+    }
+    struct dirent *file;
+    // read all the files in dir
+    while ((file = readdir(dir)) != NULL) {
+        // skip "." and ".."
+        if (strcmp(file->d_name, ".") == 0 || strcmp(file->d_name, "..") == 0) {
+            LOGV("ignore . and ..");
+            continue;
+        }
+        if (file->d_type == DT_DIR) {
+            string filePath = dir_name + "/" + file->d_name;
+            showAllFiles(filePath); // 递归执行
+        } else {
+            // 如果需要把路径保存到集合中去，就在这里执行 add 的操作
+            LOGI("filePath: %s/%s", dir_name.c_str(), file->d_name);
+        }
+    }
+    closedir(dir);
+}
+
+JNIEXPORT void JNICALL Java_com_easy_ndk_NDKTools_showAllFiles(JNIEnv *env, jclass instance, jstring dirPath_) {
+    const char *dirPath = env->GetStringUTFChars(dirPath_, 0);
+    showAllFiles(string(dirPath));
+    env->ReleaseStringUTFChars(dirPath_, dirPath);
 }
 }

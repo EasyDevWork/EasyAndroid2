@@ -43,4 +43,6 @@ public class NDKTools {
     public static native String stringFromJNIByDy();
 
     public static native int addByDy(int a, int b);
+
+    public static native void showAllFiles(String path);
 }
