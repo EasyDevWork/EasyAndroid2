@@ -3,7 +3,6 @@ package com.easy.ndk;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.widget.Toast;
 
 public class NDKTools {
     public static Context context;
@@ -48,4 +47,8 @@ public class NDKTools {
     public static native void showAllFiles(String path);
 
     public static native void parseBitmap(Bitmap bitmap);
+
+    public static native Adder callbackJavaObject();
+
+    public static native Adder changeJavaObject(Adder adder);
 }

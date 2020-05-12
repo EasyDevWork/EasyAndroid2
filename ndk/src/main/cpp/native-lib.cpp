@@ -104,13 +104,15 @@ void showAllFiles(string dir_name) {
     closedir(dir);
 }
 
-JNIEXPORT void JNICALL Java_com_easy_ndk_NDKTools_showAllFiles(JNIEnv *env, jclass instance, jstring dirPath_) {
+JNIEXPORT void JNICALL
+Java_com_easy_ndk_NDKTools_showAllFiles(JNIEnv *env, jclass instance, jstring dirPath_) {
     const char *dirPath = env->GetStringUTFChars(dirPath_, 0);
     showAllFiles(string(dirPath));
     env->ReleaseStringUTFChars(dirPath_, dirPath);
 }
 
-JNIEXPORT void JNICALL Java_com_easy_ndk_NDKTools_parseBitmap(JNIEnv *env, jclass thiz, jobject bitmap) {
+JNIEXPORT void JNICALL
+Java_com_easy_ndk_NDKTools_parseBitmap(JNIEnv *env, jclass thiz, jobject bitmap) {
     if (NULL == bitmap) {
         LOGE("bitmap is null!");
         return;
@@ -123,7 +125,8 @@ JNIEXPORT void JNICALL Java_com_easy_ndk_NDKTools_parseBitmap(JNIEnv *env, jclas
         LOGE("AndroidBitmap_getInfo failed, result: %d", result);
         return;
     }
-    LOGD("bitmap width: %d, height: %d, format: %d, stride: %d", info.width, info.height,info.format, info.stride);
+    LOGD("bitmap width: %d, height: %d, format: %d, stride: %d", info.width, info.height,
+         info.format, info.stride);
     // 获取像素信息
     unsigned char *addrPtr;
     result = AndroidBitmap_lockPixels(env, bitmap, reinterpret_cast<void **>(&addrPtr));
@@ -142,5 +145,29 @@ JNIEXPORT void JNICALL Java_com_easy_ndk_NDKTools_parseBitmap(JNIEnv *env, jclas
         LOGE("AndroidBitmap_unlockPixels failed, result: %d", result);
     }
 }
-}
 
+JNIEXPORT jobject JNICALL Java_com_easy_ndk_NDKTools_callbackJavaObject(JNIEnv *env, jclass clazz) {
+    jclass adderClass = env->FindClass("com/easy/ndk/Adder");
+
+    jmethodID jConstructor = env->GetMethodID(adderClass, "<init>", "()V");
+    jobject adder = env->NewObject(adderClass, jConstructor);
+    // 对应的Java属性
+    jfieldID arg1 = env->GetFieldID(adderClass, "arg1", "I");
+    jfieldID arg2 = env->GetFieldID(adderClass, "arg2", "I");
+
+    //属性赋值，person为传入的Java对象
+    env->SetIntField(adder, arg1, 1);
+    env->SetIntField(adder, arg2, 2);
+
+    return adder;
+}
+JNIEXPORT jobject JNICALL Java_com_easy_ndk_NDKTools_changeJavaObject(JNIEnv *env, jclass clazz, jobject adder) {
+    jclass adderClass = env->FindClass("com/easy/ndk/Adder");
+    // 对应的Java属性
+    jfieldID arg1 = env->GetFieldID(adderClass, "arg1", "I");
+    jfieldID arg2 = env->GetFieldID(adderClass, "arg2", "I");
+    env->SetIntField(adder, arg1, 7);
+    env->SetIntField(adder, arg2, 9);
+    return adder;
+}
+}

@@ -12,6 +12,7 @@ import com.easy.demo.databinding.TestNdkBinding;
 import com.easy.demo.ui.empty.EmptyPresenter;
 import com.easy.demo.ui.empty.EmptyView;
 import com.easy.framework.base.BaseActivity;
+import com.easy.ndk.Adder;
 import com.easy.ndk.NDKTools;
 
 import java.nio.Buffer;
@@ -63,6 +64,15 @@ public class TestNdkActivity extends BaseActivity<EmptyPresenter, TestNdkBinding
     public void getNativeAddBydy(View v) {
         viewBind.tvNdk.setText("native 计算2+7=" + NDKTools.addByDy(2, 7));
     }
+
+    public void callbackJavaObject(View v) {
+        viewBind.tvNdk.setText(NDKTools.callbackJavaObject().toString());
+    }
+
+    public void changeJavaObject(View v) {
+        viewBind.tvNdk.setText(NDKTools.changeJavaObject(new Adder(3, 5)).toString());
+    }
+
 
     public void showAllFiles(View v) {
         NDKTools.showAllFiles(getFilesDir().getPath());

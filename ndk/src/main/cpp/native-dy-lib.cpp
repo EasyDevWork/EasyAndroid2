@@ -22,8 +22,7 @@ jint RegisterNatives(JNIEnv *env) {
             {"stringFromJNIByDy", "()Ljava/lang/String;", (void *) stringFromJNIByDy},
             {"addByDy",           "(II)I",                (void *) addByDy}
     };
-    return env->RegisterNatives(clazz, methods_MainActivity,
-                                sizeof(methods_MainActivity) / sizeof(methods_MainActivity[0]));
+    return env->RegisterNatives(clazz, methods_MainActivity,sizeof(methods_MainActivity) / sizeof(methods_MainActivity[0]));
 }
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved) {
