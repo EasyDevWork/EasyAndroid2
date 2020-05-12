@@ -45,7 +45,9 @@ public abstract class BasePresenter<V extends BaseView> {
             contentRef.clear();
             contentRef = null;
         }
-        lifecycleOwner = null;
+        if (lifecycleOwner != null) {
+            lifecycleOwner = null;
+        }
     }
 
     @Nullable
@@ -54,13 +56,5 @@ public abstract class BasePresenter<V extends BaseView> {
             return null;
         }
         return contentRef.get();
-    }
-
-    @Nullable
-    public V getView() {
-        if (mvpViewRef == null) {
-            return null;
-        }
-        return mvpViewRef.get();
     }
 }

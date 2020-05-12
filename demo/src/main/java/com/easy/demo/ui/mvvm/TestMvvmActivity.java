@@ -3,21 +3,26 @@ package com.easy.demo.ui.mvvm;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestMvvmBinding;
-import com.easy.framework.base.BaseActivity;
+import com.easy.framework.base.BaseMvvmActivity;
+import com.easy.framework.base.BaseViewModel;
 import com.easy.loadimage.ImageConfig;
 import com.easy.utils.ToastUtils;
 
 @ActivityInject
 @Route(path = "/demo/TestMvvmActivity", name = "mvvm")
-public class TestMvvmActivity extends BaseActivity<TestMvvmPresenter, TestMvvmBinding> implements TestMvvmView {
+public class TestMvvmActivity extends BaseMvvmActivity<TestMvvmPresenter, TestMvvmBinding> implements TestMvvmView {
 
-    TestViewModel testViewModel;
+    @Override
+    public BaseViewModel getViewModel() {
+        return ViewModelProviders.of(this).get(TestViewModel.class);
+    }
 
     @Override
     public int getLayoutId() {
@@ -26,8 +31,7 @@ public class TestMvvmActivity extends BaseActivity<TestMvvmPresenter, TestMvvmBi
 
     @Override
     public void initView() {
-        testViewModel = ViewModelProviders.of(this).get(TestViewModel.class);
-        testViewModel.init(viewBind,this);
+
     }
 
     @BindingAdapter({"onClickCommand", "isThrottleFirst"})
