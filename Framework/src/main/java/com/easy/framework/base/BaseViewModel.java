@@ -1,26 +1,26 @@
 package com.easy.framework.base;
 
-import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
 
-public abstract class BaseViewModel<D extends ViewDataBinding> extends ViewModel {
+import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.AutoDisposeConverter;
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
-    public LifecycleOwner owner;
-    public D viewBind;
+public abstract class BaseViewModel extends ViewModel {
 
-    public void attach(D viewDataBinding, LifecycleOwner owner) {
-        this.viewBind = viewDataBinding;
-        this.owner = owner;
+    public LifecycleOwner lifecycleOwner;
+
+    public <T> AutoDisposeConverter<T> getAutoDispose() {
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner));
     }
 
-    public void detach() {
-        if (viewBind != null) {
-            viewBind.unbind();
-            viewBind = null;
-        }
-        if (owner != null) {
-            owner = null;
-        }
+    public <T> AutoDisposeConverter<T> getAutoDispose(Lifecycle.Event untilEvent) {
+        return AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner, untilEvent));
+    }
+
+    public void attach(LifecycleOwner lifecycleOwner) {
+        this.lifecycleOwner= lifecycleOwner;
     }
 }

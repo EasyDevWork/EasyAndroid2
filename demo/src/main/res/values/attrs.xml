@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="onClickCommand" format="reference" />
-    <attr name="isThrottleFirst" format="boolean" />
+    <declare-styleable name="View">
+        <attr name="onFocusChangeCommand" format="reference" />
+        <attr name="onTextChangedCommand" format="reference" />
+        <attr name="onClickCommand" format="reference" />
+        <attr name="isThrottleFirst" format="boolean" />
+    </declare-styleable>
 </resources>

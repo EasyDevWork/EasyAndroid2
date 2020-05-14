@@ -52,6 +52,9 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     }
 
     private void addData() {
+        DebugDo rxjava = new DebugDo("rxjava", () -> ARouter.getInstance().build("/demo/TestRxJavaActivity").navigation());
+        debugDos.add(rxjava);
+
         DebugDo socket = new DebugDo("socket", () -> ARouter.getInstance().build("/demo/TestSocketActivity").navigation());
         debugDos.add(socket);
 
@@ -140,8 +143,8 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         DebugDo tv = new DebugDo("TV", () -> ARouter.getInstance().build("/demo/LauncherActivity").navigation());
         debugDos.add(tv);
 
-        DebugDo Mvvm = new DebugDo("Mvvm", () -> ARouter.getInstance().build("/demo/TestMvvmActivity").navigation());
-        debugDos.add(Mvvm);
+        DebugDo mvpvm= new DebugDo("MVPVM", () -> ARouter.getInstance().build("/demo/TestMvvmActivity").navigation());
+        debugDos.add(mvpvm);
 
         DebugDo testCache = new DebugDo("testCache", () -> {
             i++;

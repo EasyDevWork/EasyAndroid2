@@ -69,6 +69,8 @@ dependencies {
     implementation project(':lottie')
     api project(':Framework')
 
+    implementation lib.rxbinding
+
     implementation project(':aidl')
 
     implementation project(':flutter')

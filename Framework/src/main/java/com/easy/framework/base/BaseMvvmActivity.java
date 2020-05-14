@@ -6,8 +6,8 @@ import android.util.Log;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProviders;
 
-import com.easy.apt.lib.InjectActivity;
 import com.easy.framework.base.common.CommonActivity;
 import com.easy.framework.manager.network.INetStateChange;
 import com.easy.framework.manager.network.NetworkManager;
@@ -20,35 +20,42 @@ import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.AutoDisposeConverter;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 import javax.inject.Inject;
 
 /**
  * 添加通用的功能
- *
- * @param <P>
  */
-public abstract class BaseMvvmActivity<P extends BaseMvvmPresenter, D extends ViewDataBinding> extends CommonActivity implements BaseView, INetStateChange, IScreenStateChange {
+public abstract class BaseMvvmActivity<Vm extends BaseViewModel, D extends ViewDataBinding> extends CommonActivity implements BaseView, INetStateChange, IScreenStateChange {
     public D viewBind;
     @Inject
-    public P presenter;
+    public Vm viewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewBind = DataBindingUtil.setContentView(this, getLayoutId());
+        viewBind.setLifecycleOwner(this);
+        initViewModel();
         initStateBar();
-        InjectActivity.inject(this);
-        if (presenter != null) {
-            presenter.attachView(context, this, this);
-            BaseViewModel viewModel = getViewModel();
-            if (viewModel != null) {
-                viewModel.attach(viewBind, this);
-                presenter.attachViewModel(viewModel);
-            }
-        }
         NetworkManager.registerObserver(this);
         ScreenManager.registerObserver(this);
         initView();
+    }
+
+    private void initViewModel() {
+        Class modelClass;
+        Type type = getClass().getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            modelClass = (Class) ((ParameterizedType) type).getActualTypeArguments()[0];
+        } else {
+            throw new NullPointerException("viewModel is null");
+        }
+        viewModel = (Vm) ViewModelProviders.of(this).get(modelClass);
+        viewModel.attach(this);
+        viewBind.setVariable(initVariableId(), viewModel);
     }
 
     @Override
@@ -56,16 +63,16 @@ public abstract class BaseMvvmActivity<P extends BaseMvvmPresenter, D extends Vi
         NetworkManager.unRegisterObserver(this);
         ScreenManager.unRegisterObserver(this);
         super.onDestroy();
-        if (presenter != null) {
-            presenter.detachView();
+        if (viewBind != null) {
+            viewBind.unbind();
         }
     }
-
-    public abstract BaseViewModel getViewModel();
 
     public abstract int getLayoutId();
 
     public abstract void initView();
+
+    public abstract int initVariableId();
 
     @Override
     public void onNetDisconnected() {

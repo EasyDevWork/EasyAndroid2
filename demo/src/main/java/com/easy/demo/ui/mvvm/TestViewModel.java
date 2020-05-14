@@ -1,97 +1,91 @@
 package com.easy.demo.ui.mvvm;
 
-import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
-import androidx.lifecycle.LifecycleOwner;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
 
-import com.easy.demo.bean.TestMvvm;
-import com.easy.demo.bean.TestMvvm2;
-import com.easy.demo.databinding.TestMvvmBinding;
+import com.easy.demo.ui.mvvm.binding.BindingCommand;
 import com.easy.framework.base.BaseViewModel;
-import com.easy.store.bean.Accounts;
-import com.easy.store.dao.AccountsDao;
-import com.easy.utils.DimensUtils;
+import com.easy.utils.ToastUtils;
 
-public class TestViewModel extends BaseViewModel<TestMvvmBinding> {
-    TestMvvm testMvvm;
-    TestMvvm2 testM2;
-    int i = 12, j = 0;
-    Context context;
-    Accounts accounts;
+import java.util.concurrent.TimeUnit;
 
-    AccountsDao accountsDao;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
-    @Override
-    public void attach(TestMvvmBinding viewDataBinding, LifecycleOwner owner) {
-        super.attach(viewDataBinding, owner);
+public class TestViewModel extends BaseViewModel {
 
-        testMvvm = new TestMvvm();
-        viewDataBinding.setTestMvvm(testMvvm);
+    //用户名的绑定
+    public ObservableField<String> userName = new ObservableField<>("");
+    //用户名清除按钮的显示隐藏绑定
+    public ObservableInt clearBtnVisibility = new ObservableInt();
+    //密码的绑定
+    public ObservableField<String> password = new ObservableField<>("");
+    //封装一个界面发生改变的观察者
+    public UIChangeObservable uiChange = new UIChangeObservable();
+    //登陆按钮的是否可用
+    public ObservableBoolean loginAble = new ObservableBoolean();
 
-        testM2 = new TestMvvm2();
-        viewDataBinding.setTestM2(testM2);
-        viewDataBinding.setTestVm(this);
-
-        context = viewDataBinding.getRoot().getContext();
-
-        accountsDao = new AccountsDao();
-        getAccountsLiveData();
+    public class UIChangeObservable {
+        //密码开关观察者
+        public SingleLiveEvent<Boolean> passwordShowEvent = new SingleLiveEvent<>();
     }
 
-    public void getAccountsLiveData() {
-        accountsDao.getAccountsLiveData().observe(owner, accounts -> {
-            if (accounts != null && accounts.size() > 0) {
-                viewBind.setAccount(accounts.get(0));
-            }
-        });
-
-    }
-
-    /**
-     * 直接引用--参数必须是引用要用的参数
-     *
-     * @param view
-     */
-    public void clickChangeNameBtn(View view) {
-        i++;
-        testM2.setName("testM2_" + i);
-        testMvvm.setName("testMvvm_" + i);
-        testM2.setSize(DimensUtils.dp2px(context, 15));
-        testMvvm.setSize(DimensUtils.dp2px(context, 15));
-    }
-
-    /**
-     * 绑定监听-参数不受影响
-     */
-    public void clickChangeSizeBtn() {
-        j++;
-        testM2.setName("testM2");
-        testMvvm.setName("testMvvm");
-        testM2.setSize(DimensUtils.dp2px(context, 20 + j));
-        testMvvm.setSize(DimensUtils.dp2px(context, 40 - j));
-    }
-
-    public String imageUrl() {
-        return "http://img2.imgtn.bdimg.com/it/u=3137891603,2800618441&fm=26&gp=0.jpg";
-    }
-
-    public boolean isThrottleFirst() {
-        return true;
-    }
-
-    public void changeAccount() {
-        if (accounts == null) {
-            accounts = new Accounts();
-            accounts.setAge(111);
-            accounts.setName("account1");
-            accountsDao.add(accounts);
+    //用户名输入框焦点改变的回调事件
+    public BindingCommand<Boolean> onFocusChangeCommand = new BindingCommand<>(hasFocus -> {
+        if (hasFocus) {
+            clearBtnVisibility.set(View.VISIBLE);
         } else {
-            int age = accounts.getAge() + 1;
-            accounts.setAge(age);
-            accounts.setName("account_" + age);
-            accountsDao.update(accounts);
+            clearBtnVisibility.set(View.INVISIBLE);
         }
-    }
+    });
 
+    //清除用户名的点击事件, 逻辑从View层转换到ViewModel层
+    public BindingCommand clearUserNameOnClickCommand = new BindingCommand(() -> userName.set(""));
+
+    //密码显示开关  (你可以尝试着狂按这个按钮,会发现它有防多次点击的功能)
+    public BindingCommand passwordShowCommand = new BindingCommand(() -> {
+        //让观察者的数据改变,逻辑从ViewModel层转到View层，在View层的监听则会被调用
+        boolean change = uiChange.passwordShowEvent.getValue() == null || !uiChange.passwordShowEvent.getValue();
+        Log.d("passwordShowCommand", "点击了change=" + change);
+        uiChange.passwordShowEvent.setValue(change);
+    });
+
+    public BindingCommand<String> onTextChangedCommand = new BindingCommand<>(isEmpty -> {
+        if (TextUtils.isEmpty(userName.get()) || TextUtils.isEmpty(password.get())) {
+            loginAble.set(false);
+        } else {
+            loginAble.set(true);
+        }
+    });
+
+    //登录按钮的点击事件
+    public BindingCommand loginOnClickCommand = new BindingCommand(() -> login());
+
+    private void login() {
+        if (TextUtils.isEmpty(userName.get())) {
+            ToastUtils.showShort("请输入账号！");
+            return;
+        }
+        if (TextUtils.isEmpty(password.get())) {
+            ToastUtils.showShort("请输入密码！");
+            return;
+        }
+        //RaJava模拟登录
+        Observable.interval(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnDispose(() -> {
+                    Log.i("login", "bindLifeCycle==> Dispose");
+                }).as(getAutoDispose())
+                .subscribe(num -> {
+                    Log.i("login", "bindLifeCycle==>  num:" + num);
+                }, throwable -> Log.i("login", "bindLifeCycle==>  error"));
+
+    }
 }

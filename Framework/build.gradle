@@ -81,6 +81,8 @@ dependencies {
 
     implementation lib.multidex
 
+    implementation lib.androidx_lifecycle_extensions
+    api lib.liveDataBus
     api lib.rxjava
     api lib.rxandroid
     api lib.rxpermissions
