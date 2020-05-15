@@ -1,21 +1,18 @@
 package com.easy.net.observer;
 
 import com.easy.net.function.HttpResultFunction;
-import com.easy.net.function.ServerResultFunction;
-import com.google.gson.JsonElement;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 /**
  * 适用Retrofit网络请求Observable(被监听者)
  */
 public class HttpObservable {
-    /*HttpObserver*/
     private HttpObserver observer;
-    /*Observable<JsonElement> apiObservable*/
-    private Observable<JsonElement> apiObservable;
+    private Observable<ResponseBody> apiObservable;
 
     /*构造函数*/
     private HttpObservable(Builder builder) {
@@ -23,20 +20,9 @@ public class HttpObservable {
         this.apiObservable = builder.apiObservable;
     }
 
-    /*map*/
-    private Observable map() {
-        return apiObservable.map(new ServerResultFunction());
-    }
-
-    /* compose 操作符 介于 map onErrorResumeNext */
-    private Observable compose() {
-        Observable observable = map();
-        return observable;
-    }
-
     /*onErrorResumeNext*/
     private Observable onErrorResumeNext() {
-        return compose().onErrorResumeNext(new HttpResultFunction<>());
+        return apiObservable.onErrorResumeNext(new HttpResultFunction<>());
     }
 
     /*doOnDispose*/

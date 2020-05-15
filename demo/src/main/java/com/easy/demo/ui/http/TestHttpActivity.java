@@ -32,7 +32,11 @@ public class TestHttpActivity extends BaseActivity<TestHttpPresenter, TestHttpBi
 
     }
 
-    public void testCache(View v) {
-        presenter.testCache();
+    public void testJson(View v) {
+        presenter.testJsonData();
+    }
+
+    public void testNoJson(View v) {
+        presenter.testNoJsonData();
     }
 }

@@ -10,8 +10,15 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="testCache"
-            android:text="测试缓存"
+            android:onClick="testJson"
+            android:text="JSON格式数据"
+            android:textSize="18sp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="testNoJson"
+            android:text="不是JSON格式数据"
             android:textSize="18sp" />
     </LinearLayout>
 </layout>

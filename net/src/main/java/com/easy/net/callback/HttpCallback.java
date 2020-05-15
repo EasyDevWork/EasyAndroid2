@@ -1,8 +1,12 @@
 package com.easy.net.callback;
 
+import com.easy.net.beans.Response;
 import com.easy.net.exception.ApiException;
 import com.easy.net.help.ParseHelper;
-import com.easy.net.beans.Response;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 
 public abstract class HttpCallback<T> extends BaseCallback<T> implements ParseHelper {
 
@@ -14,7 +18,14 @@ public abstract class HttpCallback<T> extends BaseCallback<T> implements ParseHe
 
     @Override
     public void inSuccess(T value) {
-        parse((String) value);
+        if (value instanceof ResponseBody) {
+            ResponseBody responseBody = (ResponseBody) value;
+            try {
+                parse(responseBody.string());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

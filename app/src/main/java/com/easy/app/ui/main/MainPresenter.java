@@ -16,9 +16,6 @@ import java.util.TreeMap;
 
 import javax.inject.Inject;
 
-import io.objectbox.reactive.DataObserver;
-import io.reactivex.functions.Consumer;
-
 public class MainPresenter extends AppPresenter<MainView> {
 
     @Inject

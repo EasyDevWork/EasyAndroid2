@@ -121,7 +121,6 @@ public class RxHttp {
         builder.get(apiUrl);
         return builder;
     }
-
     /*POST*/
     public static RxHttp.Builder post(String apiUrl) {
         RxHttp.Builder builder = new Builder();

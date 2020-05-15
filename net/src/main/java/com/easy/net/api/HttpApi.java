@@ -1,8 +1,6 @@
 package com.easy.net.api;
 
 
-import com.google.gson.JsonElement;
-
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +35,7 @@ public interface HttpApi {
      * @return
      */
     @GET
-    Observable<JsonElement> get(@Url String url, @QueryMap Map<String, Object> parameter, @HeaderMap Map<String, Object> header);
+    Observable<ResponseBody> get(@Url String url, @QueryMap Map<String, Object> parameter, @HeaderMap Map<String, Object> header);
 
     /**
      * POST 请求
@@ -49,14 +47,14 @@ public interface HttpApi {
      */
     @FormUrlEncoded
     @POST
-    Observable<JsonElement> post(@Url String url, @FieldMap Map<String, Object> parameter, @HeaderMap Map<String, Object> header);
+    Observable<ResponseBody> post(@Url String url, @FieldMap Map<String, Object> parameter, @HeaderMap Map<String, Object> header);
 
 
     /**
      * @param requestBody 用于String/JSON格式数据
      */
     @POST
-    Observable<JsonElement> post(@Url String url, @Body RequestBody requestBody, @HeaderMap Map<String, Object> header);
+    Observable<ResponseBody> post(@Url String url, @Body RequestBody requestBody, @HeaderMap Map<String, Object> header);
 
 
     /**
@@ -68,7 +66,7 @@ public interface HttpApi {
      * @return
      */
     @DELETE
-    Observable<JsonElement> delete(@Url String url, @QueryMap Map<String, Object> parameter, @HeaderMap Map<String, Object> header);
+    Observable<ResponseBody> delete(@Url String url, @QueryMap Map<String, Object> parameter, @HeaderMap Map<String, Object> header);
 
 
     /**
@@ -81,7 +79,7 @@ public interface HttpApi {
      */
     @FormUrlEncoded
     @PUT
-    Observable<JsonElement> put(@Url String url, @FieldMap Map<String, Object> parameter, @HeaderMap Map<String, Object> header);
+    Observable<ResponseBody> put(@Url String url, @FieldMap Map<String, Object> parameter, @HeaderMap Map<String, Object> header);
 
 
     /**
@@ -96,7 +94,7 @@ public interface HttpApi {
      */
     @Multipart
     @POST
-    Observable<JsonElement> upload(@Url String url, @PartMap Map<String, Object> parameter, @HeaderMap Map<String, Object> header, @Part List<MultipartBody.Part> fileList);
+    Observable<ResponseBody> upload(@Url String url, @PartMap Map<String, Object> parameter, @HeaderMap Map<String, Object> header, @Part List<MultipartBody.Part> fileList);
 
 
     /**

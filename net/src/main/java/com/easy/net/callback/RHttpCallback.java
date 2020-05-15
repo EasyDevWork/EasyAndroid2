@@ -18,21 +18,29 @@ public abstract class RHttpCallback<T> extends HttpCallback<T> {
     @Override
     public Response<T> onConvert(String data) {
         Response response;
-        try {
-            response = JSON.parseObject(data, Response.class);
+        if (aClass.getClass().equals(String.class.getClass())) {
+            response = new Response();
             response.setOriData(data);
-            if (response.getCode() == Response.ERROR_STATE) {//说明外层不是Response格式的JSON
-                response = parseObject(data);
-            } else if (response.isSuccess() && response.getResult() != null) {
-                T t = new Gson().fromJson(response.getResult(), aClass);
-                response.setResultObj(t);
+            response.setResultObj(data);
+            response.setCode(Response.SUCCESS_STATE);
+        } else {
+            try {
+                response = JSON.parseObject(data, Response.class);
+                response.setOriData(data);
+                if (response.getCode() == Response.ERROR_STATE) {//说明外层不是Response格式的JSON
+                    response = parseObject(data);
+                } else if (response.isSuccess() && response.getResult() != null) {
+                    T t = new Gson().fromJson(response.getResult(), aClass);
+                    response.setResultObj(t);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                response = new Response<>();
+                response.setOriData(data);
+                response.setMsg(e.getMessage());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response = new Response<>();
-            response.setOriData(data);
-            response.setMsg(e.getMessage());
         }
+
         return response;
     }
 
