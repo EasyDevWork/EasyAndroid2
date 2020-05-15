@@ -52,8 +52,11 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     }
 
     private void addData() {
-        DebugDo rxjava = new DebugDo("rxjava", () -> ARouter.getInstance().build("/demo/TestRxJavaActivity").navigation());
+        DebugDo rxjava = new DebugDo("空", () -> ARouter.getInstance().build("/demo/TestRxJavaActivity").navigation());
         debugDos.add(rxjava);
+
+        DebugDo http = new DebugDo("http", () -> ARouter.getInstance().build("/demo/TestHttpActivity").navigation());
+        debugDos.add(http);
 
         DebugDo socket = new DebugDo("socket", () -> ARouter.getInstance().build("/demo/TestSocketActivity").navigation());
         debugDos.add(socket);
@@ -143,7 +146,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         DebugDo tv = new DebugDo("TV", () -> ARouter.getInstance().build("/demo/LauncherActivity").navigation());
         debugDos.add(tv);
 
-        DebugDo mvpvm= new DebugDo("MVPVM", () -> ARouter.getInstance().build("/demo/TestMvvmActivity").navigation());
+        DebugDo mvpvm = new DebugDo("MVPVM", () -> ARouter.getInstance().build("/demo/TestMvvmActivity").navigation());
         debugDos.add(mvpvm);
 
         DebugDo testCache = new DebugDo("testCache", () -> {
@@ -172,22 +175,22 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         DebugDo eos = new DebugDo("eos", () -> ARouter.getInstance().build("/demo/EosChainActivity").navigation());
         debugDos.add(eos);
 
-        DebugDo btc = new DebugDo("btc", () ->  ToastUtils.showShort("未补充"));
+        DebugDo btc = new DebugDo("btc", () -> ToastUtils.showShort("未补充"));
         debugDos.add(btc);
 
-        DebugDo bnb = new DebugDo("bnb", () ->  ToastUtils.showShort("未补充"));
+        DebugDo bnb = new DebugDo("bnb", () -> ToastUtils.showShort("未补充"));
         debugDos.add(bnb);
 
-        DebugDo eth = new DebugDo("eth", () ->  ToastUtils.showShort("未补充"));
+        DebugDo eth = new DebugDo("eth", () -> ToastUtils.showShort("未补充"));
         debugDos.add(eth);
 
-        DebugDo Cosmos = new DebugDo("Cosmos", () ->  ToastUtils.showShort("未补充"));
+        DebugDo Cosmos = new DebugDo("Cosmos", () -> ToastUtils.showShort("未补充"));
         debugDos.add(Cosmos);
 
-        DebugDo Uuos = new DebugDo("Uuos", () ->  ToastUtils.showShort("未补充"));
+        DebugDo Uuos = new DebugDo("Uuos", () -> ToastUtils.showShort("未补充"));
         debugDos.add(Uuos);
 
-        DebugDo Telos = new DebugDo("Telos", () ->  ToastUtils.showShort("未补充"));
+        DebugDo Telos = new DebugDo("Telos", () -> ToastUtils.showShort("未补充"));
         debugDos.add(Telos);
     }
 

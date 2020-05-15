@@ -51,5 +51,6 @@
         <activity android:name=".ui.im.TestSocketActivity" />
         <activity android:name=".ui.ndk.TestNdkActivity" />
         <activity android:name=".ui.rxjava.TestRxJavaActivity" />
+        <activity android:name=".ui.http.TestHttpActivity" />
     </application>
 </manifest>
