@@ -1,6 +1,5 @@
 package com.easy.app.base;
 
-import android.os.Debug;
 import android.util.Log;
 
 import com.easy.apt.lib.JsonConverterFactory;
@@ -12,13 +11,13 @@ public class App extends FlutterApp {
 
     @Override
     public void onCreate() {
-        Log.d("App","onCreate");
+        Log.d("App", "onCreate");
         super.onCreate();
     }
 
     @Override
     protected void initBaseConfig(RetrofitConfig.Builder builder) {
-        builder.baseUrl(AppConstant.BASE_URL);
+        builder.baseUrl(AppConstant.BASE_URL).forceCache(true,600);
     }
 
     @Override

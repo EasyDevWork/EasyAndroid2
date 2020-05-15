@@ -94,6 +94,15 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
         SystemUtils.setScreenBrightness(this, i % 2 == 0 ? 0 : 255);
     }
 
+    public void btn8(View view) {
+        getRxPermissions().request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .doOnDispose(() -> ToastUtils.showShort("被取消："))
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(aBoolean -> {
+                    ToastUtils.showShort("是否允许：" + aBoolean);
+                }, throwable -> ToastUtils.showShort("异常："));
+    }
+
     @Override
     public void initView() {
 

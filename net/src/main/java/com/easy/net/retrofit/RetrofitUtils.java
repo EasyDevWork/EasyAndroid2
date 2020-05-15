@@ -1,14 +1,18 @@
 package com.easy.net.retrofit;
 
 
+import android.util.Log;
+
 import com.easy.net.RetrofitConfig;
 import com.easy.net.download.DownloadInterceptor;
+import com.easy.net.interceptor.CacheInterceptor;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
+import okhttp3.ConnectionPool;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -56,16 +60,25 @@ public class RetrofitUtils {
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder()
                 .readTimeout(retrofitConfig.readTimeout, TimeUnit.MILLISECONDS)
                 .writeTimeout(retrofitConfig.writeTimeout, TimeUnit.MILLISECONDS)
-                .connectTimeout(retrofitConfig.connectTimeout, TimeUnit.MILLISECONDS);
+                .connectTimeout(retrofitConfig.connectTimeout, TimeUnit.MILLISECONDS)
+                .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS));
+
+        //cookies
+//        okHttpBuilder.cookieJar(new CookieJarImpl(new PersistentCookieStore(retrofitConfig.context)));
 
         //缓存
-        File cacheFile = new File(retrofitConfig.context.getCacheDir(), retrofitConfig.cacheName);
-        Cache cache = new Cache(cacheFile, retrofitConfig.cacheMaxSize);
-        okHttpBuilder.cache(cache);
-
+        if (retrofitConfig.isCache) {
+            File cacheFile = new File(retrofitConfig.context.getExternalCacheDir(), retrofitConfig.cacheName);
+            Cache cache = new Cache(cacheFile, retrofitConfig.cacheMaxSize);
+            okHttpBuilder.cache(cache);
+        }
+        //强制缓存
+        if (retrofitConfig.forceCache) {
+            okHttpBuilder.addNetworkInterceptor(new CacheInterceptor(retrofitConfig.cacheTime));
+        }
         //日志拦截器
-        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(message -> Logger.d("okHttp:" + message));
-        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(message -> Log.d("okHttp:", message));
+        logInterceptor.level(HttpLoggingInterceptor.Level.BODY);
 
         if (retrofitConfig.interceptors != null) {
             for (Interceptor interceptor : retrofitConfig.interceptors) {
@@ -78,6 +91,7 @@ public class RetrofitUtils {
                 okHttpBuilder.addNetworkInterceptor(interceptor);
             }
         }
+
         if (retrofitConfig.showLogInterceptor) {
             okHttpBuilder.addInterceptor(logInterceptor);
         }
@@ -93,7 +107,8 @@ public class RetrofitUtils {
         return new Retrofit.Builder().client(okHttpClient)
                 .baseUrl(retrofitConfig.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build();
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
     }
 
     public Retrofit getRetrofitDownload(String baseUrl, DownloadInterceptor downloadInterceptor) {

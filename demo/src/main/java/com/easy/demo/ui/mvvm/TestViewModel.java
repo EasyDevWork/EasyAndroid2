@@ -7,11 +7,20 @@ import android.view.View;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableInt;
+import androidx.lifecycle.Lifecycle;
 
 import com.easy.demo.ui.mvvm.binding.BindingCommand;
 import com.easy.framework.base.BaseViewModel;
+import com.easy.framework.bean.AppVersion;
+import com.easy.net.RxHttp;
+import com.easy.net.beans.Response;
+import com.easy.net.callback.RHttpCallback;
+import com.easy.net.exception.ApiException;
 import com.easy.utils.ToastUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -76,16 +85,16 @@ public class TestViewModel extends BaseViewModel {
             ToastUtils.showShort("请输入密码！");
             return;
         }
-        //RaJava模拟登录
-        Observable.interval(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnDispose(() -> {
-                    Log.i("login", "bindLifeCycle==> Dispose");
-                }).as(getAutoDispose())
-                .subscribe(num -> {
-                    Log.i("login", "bindLifeCycle==>  num:" + num);
-                }, throwable -> Log.i("login", "bindLifeCycle==>  error"));
+//        //RaJava模拟登录
+//        Observable.interval(1, TimeUnit.SECONDS)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnDispose(() -> {
+//                    Log.i("login", "bindLifeCycle==> Dispose");
+//                }).as(getAutoDispose())
+//                .subscribe(num -> {
+//                    Log.i("login", "bindLifeCycle==>  num:" + num);
+//                }, throwable -> Log.i("login", "bindLifeCycle==>  error"));
 
     }
 }
