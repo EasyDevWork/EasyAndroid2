@@ -29,7 +29,6 @@ import com.easy.eoschain.utils.EosUtils;
 import com.easy.framework.base.BasePresenter;
 import com.easy.net.beans.Response;
 import com.easy.net.callback.HttpCallback;
-import com.easy.net.callback.RHttpCallback;
 import com.easy.net.exception.ApiException;
 import com.easy.store.bean.EosAccount;
 import com.easy.store.bean.eoschain.Eos2UsdtPrice;
@@ -43,8 +42,8 @@ import com.easy.store.bean.eoschain.TokenPrice;
 import com.easy.store.bean.eoschain.TokenShow;
 import com.easy.store.dao.EosAccountDao;
 import com.easy.utils.BigDecimalUtils;
-import com.easy.utils.ToastUtils;
 import com.easy.utils.EmptyUtils;
+import com.easy.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,11 +121,10 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 请求链信息
-     *
      */
     public void requestChainInfo() {
         EosChainManager.getInstance().requestChainInfo(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<ChainInfo>(ChainInfo.class) {
+                new HttpCallback<ChainInfo>() {
                     @Override
                     public void handleSuccess(Response response) {
                         mvpView.chainInfoCallback(response);
@@ -148,11 +146,10 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 查询合约账号信息
-     *
      */
     public void requestContract(String accountName) {
         EosChainManager.getInstance().requestContract(accountName, getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<AbiContract>(AbiContract.class) {
+                new HttpCallback<AbiContract>() {
                     @Override
                     public void handleSuccess(Response response) {
                         mvpView.requestContractCallback(response);
@@ -177,7 +174,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void requestVoteList() {
         EosChainManager.getInstance().requestVoteList(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<ProducerInfo>(ProducerInfo.class) {
+                new HttpCallback<ProducerInfo>() {
                     @Override
                     public void handleSuccess(Response response) {
                         mvpView.requestVoteListCallback(response);
@@ -198,7 +195,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     }
 
     public void requestCurrencyListBalance(List<CurrencyInfo> currencyList) {
-         EosChainManager.getInstance()
+        EosChainManager.getInstance()
                 .requestCurrencyListBalance(currencyList)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(currencyInfos -> mvpView.currencyListBalanceCallback(currencyInfos),
@@ -207,23 +204,17 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 获取货币数量
-     *
      */
     public void requestCurrencyBalance(CurrencyInfo balance) {
         EosChainManager.getInstance().requestCurrencyBalance(balance, getAutoDispose(Lifecycle.Event.ON_DESTROY),
                 new HttpCallback<String>() {
                     @Override
-                    public Response onConvert(String data) {
-                        Response<String> response = new Response<>();
-                        response.setOriData(data);
-                        if (EmptyUtils.isNotEmpty(data)) {
-                            List<String> currencys = JSON.parseArray(data, String.class);
-                            if (EmptyUtils.isNotEmpty(currencys)) {
-                                response.setResultObj(currencys.get(0));
-                                response.setCode(Response.SUCCESS_STATE);
-                            }
+                    public String onConvert(Response response) {
+                        if (EmptyUtils.isNotEmpty(response.getOriData())) {
+                            List<String> currencys = JSON.parseArray(response.getOriData(), String.class);
+                            return currencys.get(0);
                         }
-                        return response;
+                        return "";
                     }
 
                     @Override
@@ -247,7 +238,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 请求USDT价格
-     *
      */
     public void requestUsdtPrice() {
         EosAccount eosAccount = queryAccount();
@@ -255,7 +245,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
             return;
         }
         EosChainManager.getInstance().requestUsdtPrice(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<String>(String.class) {
+                new HttpCallback<String>() {
                     @Override
                     public void handleSuccess(Response response) {
                         if (response.getCode() == Response.SUCCESS_STATE) {
@@ -286,7 +276,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 获取RexFund数据
-     *
      */
     public void requestRexFundData() {
         EosAccount eosAccount = queryAccount();
@@ -294,7 +283,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
             return;
         }
         EosChainManager.getInstance().requestRexFundData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<RexFund>(RexFund.class) {
+                new HttpCallback<RexFund>() {
                     @Override
                     public void handleSuccess(Response response) {
                         if (response.getCode() == Response.SUCCESS_STATE) {
@@ -321,7 +310,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 获取rex数据
-     *
      */
     public void requestRexData() {
         EosAccount eosAccount = queryAccount();
@@ -329,7 +317,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
             return;
         }
         EosChainManager.getInstance().requestRexData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<RexBean>(RexBean.class) {
+                new HttpCallback<RexBean>() {
                     @Override
                     public void handleSuccess(Response response) {
                         if (response.getCode() == Response.SUCCESS_STATE) {
@@ -356,7 +344,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 获取REX价格
-     *
      */
     public void requestRexPrice() {
         EosAccount eosAccount = queryAccount();
@@ -364,7 +351,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
             return;
         }
         EosChainManager.getInstance().requestRexPriceData(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<RexPrice>(RexPrice.class) {
+                new HttpCallback<RexPrice>() {
                     @Override
                     public void handleSuccess(Response response) {
                         if (response.getCode() == Response.SUCCESS_STATE) {
@@ -391,7 +378,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 获取Ram价格
-     *
      */
     public void requestRamPrice() {
         EosAccount eosAccount = queryAccount();
@@ -399,7 +385,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
             return;
         }
         EosChainManager.getInstance().requestRamPrice(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<RamPrice>(RamPrice.class) {
+                new HttpCallback<RamPrice>() {
                     @Override
                     public void handleSuccess(Response response) {
                         if (response.getCode() == Response.SUCCESS_STATE) {
@@ -426,7 +412,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 获取抵押数据
-     *
      */
     public void requestStakeData() {
         EosAccount eosAccount = queryAccount();
@@ -434,7 +419,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
             return;
         }
         EosChainManager.getInstance().requestStakeData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<StakeBean>(StakeBean.class) {
+                new HttpCallback<StakeBean>() {
                     @Override
                     public void handleSuccess(Response response) {
                         if (response.getCode() == Response.SUCCESS_STATE) {
@@ -470,7 +455,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 请求账号信息
-     *
      */
     public void requestAccountInfo() {
         EosAccount eosAccount = queryAccount();
@@ -478,7 +462,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
             return;
         }
         EosChainManager.getInstance().requestAccountInfo(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<ChainAccount>(ChainAccount.class) {
+                new HttpCallback<ChainAccount>() {
                     @Override
                     public void handleSuccess(Response response) {
                         if (response.getCode() == Response.SUCCESS_STATE) {
@@ -519,7 +503,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
             return;
         }
         EosChainManager.getInstance().requestTokenPrice(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<String>(String.class) {
+                new HttpCallback<String>() {
                     @Override
                     public void handleSuccess(Response response) {
                         if (response.getCode() == 200) {
@@ -557,7 +541,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
             return;
         }
         EosChainManager.getInstance().requestTokenData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new RHttpCallback<String>(String.class) {
+                new HttpCallback<String>() {
                     @Override
                     public void handleSuccess(Response response) {
                         if (response.getCode() == Response.SUCCESS_STATE) {
@@ -663,7 +647,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 退还-- 有时申请赎回3天后不一定自动到账，需要手动在触发这个动作
-     *
      */
     public void refund() {
         EosAccount eosAccount = queryAccount();
@@ -680,7 +663,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 投票
-     *
      */
     public void vote() {
         EosAccount eosAccount = queryAccount();
@@ -738,8 +720,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     /**
      * 租赁Rex
      *
-     * @param cpu         0.0001 EOS
-     * @param net         0.0001 EOS
+     * @param cpu 0.0001 EOS
+     * @param net 0.0001 EOS
      */
     public void rexRent(String cpu, String net) {
         EosAccount eosAccount = queryAccount();
@@ -870,7 +852,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 买Ram
-     *
      */
     public void buyRam(String quant) {
         EosAccount eosAccount = queryAccount();
@@ -887,7 +868,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 卖Ram
-     *
      */
     public void sellRam(float quant) {
         EosAccount eosAccount = queryAccount();
@@ -904,7 +884,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 更新权限
-     *
      */
     public void updateAuth(AuthArg authArg) {
         EosAccount eosAccount = queryAccount();
@@ -922,7 +901,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
 
     /**
      * 强制刷新CPU资源等，将会消耗资源
-     *
      */
     public void openChain() {
         EosAccount eosAccount = queryAccount();
@@ -938,6 +916,6 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
     }
 
     public void signProvider() {
-        
+
     }
 }

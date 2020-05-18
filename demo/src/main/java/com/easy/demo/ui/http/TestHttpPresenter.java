@@ -6,9 +6,8 @@ import com.easy.framework.base.BasePresenter;
 import com.easy.framework.bean.AppVersion;
 import com.easy.net.RxHttp;
 import com.easy.net.beans.Response;
-import com.easy.net.callback.RHttpCallback;
+import com.easy.net.callback.HttpCallback;
 import com.easy.net.exception.ApiException;
-import com.easy.utils.ToastUtils;
 
 import java.util.TreeMap;
 
@@ -28,20 +27,20 @@ public class TestHttpPresenter extends BasePresenter<TestHttpView> {
         RxHttp.get("http://publicobject.com/helloworld.txt")
                 .addParameter(request)
                 .addAutoDispose(getAutoDispose(Lifecycle.Event.ON_DESTROY))
-                .request(new RHttpCallback<String>(String.class) {
+                .request(new HttpCallback<String>() {
                     @Override
                     public void handleSuccess(Response response) {
-                        ToastUtils.showShort(response.getResultObj().toString());
+                        mvpView.callback(response.getResultObj().toString(), null);
                     }
 
                     @Override
                     public void handleCancel() {
-                        ToastUtils.showShort("cancel");
+                        mvpView.callback("cancel", null);
                     }
 
                     @Override
                     public void handleError(ApiException exception) {
-                        ToastUtils.showShort(exception.toString());
+                        mvpView.callback(null, exception);
                     }
                 });
     }
@@ -50,24 +49,22 @@ public class TestHttpPresenter extends BasePresenter<TestHttpView> {
      * json格式
      */
     public void testJsonData() {
-        TreeMap<String, Object> request = new TreeMap<>();
         RxHttp.get("v2/rn/updating")
-                .addParameter(request)
                 .addAutoDispose(getAutoDispose(Lifecycle.Event.ON_DESTROY))
-                .request(new RHttpCallback<AppVersion>(AppVersion.class) {
+                .request(new HttpCallback<AppVersion>() {
                     @Override
                     public void handleSuccess(Response response) {
-                        ToastUtils.showShort("success");
+                        mvpView.callback(response.getResultObj().toString(), null);
                     }
 
                     @Override
                     public void handleCancel() {
-                        ToastUtils.showShort("cancel");
+                        mvpView.callback("cancel", null);
                     }
 
                     @Override
                     public void handleError(ApiException exception) {
-                        ToastUtils.showShort(exception.toString());
+                        mvpView.callback(null, exception);
                     }
                 });
     }

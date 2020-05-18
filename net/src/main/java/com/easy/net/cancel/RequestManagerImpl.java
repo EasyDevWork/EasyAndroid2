@@ -23,18 +23,15 @@ public class RequestManagerImpl implements RequestManager<Object> {
         return mInstance;
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     private RequestManagerImpl() {
         mMaps = new ArrayMap<>();
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void add(Object tag, Disposable disposable) {
         mMaps.put(tag, disposable);
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void remove(Object tag) {
         if (!mMaps.isEmpty()) {
@@ -42,7 +39,6 @@ public class RequestManagerImpl implements RequestManager<Object> {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void cancel(Object tag) {
         if (mMaps.isEmpty()) {

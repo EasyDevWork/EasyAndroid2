@@ -1,66 +1,27 @@
 package com.easy.net.callback;
 
+import com.alibaba.fastjson.JSON;
 import com.easy.net.beans.Response;
-import com.easy.net.exception.ApiException;
-import com.easy.net.help.ParseHelper;
 
-import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
-import okhttp3.ResponseBody;
-
-public abstract class HttpCallback<T> extends BaseCallback<T> implements ParseHelper {
+public abstract class HttpCallback<T> extends BaseCallback<T> {
 
     @Override
-    public void parse(String data) {
-        Response t = onConvert(data);
-        handleSuccess(t);
-    }
-
-    @Override
-    public void inSuccess(T value) {
-        if (value instanceof ResponseBody) {
-            ResponseBody responseBody = (ResponseBody) value;
-            try {
-                parse(responseBody.string());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public T onConvert(Response response) {
+        Type type = getClass().getGenericSuperclass();
+        Class modelClass;
+        if (type instanceof ParameterizedType) {
+            modelClass = (Class) ((ParameterizedType) type).getActualTypeArguments()[0];
+        } else {
+            modelClass = String.class;
+        }
+        if (modelClass.getCanonicalName().equals(String.class.getCanonicalName())) {
+            return (T) response.getOriData();
+        } else {
+            T result = JSON.parseObject(response.getOriData(), (Type) modelClass);
+            return result;
         }
     }
-
-    @Override
-    public void inError(ApiException exception) {
-        handleError(exception);
-    }
-
-    @Override
-    public void inCancel() {
-        handleCancel();
-    }
-
-    /**
-     * 数据转换/解析数据
-     *
-     * @param data
-     * @return
-     */
-    public abstract Response onConvert(String data);
-
-    /**
-     * 成功回调
-     *
-     * @param value
-     */
-    public abstract void handleSuccess(Response value);
-
-    /**
-     * 取消回调
-     */
-    public abstract void handleCancel();
-
-
-    /**
-     * 请求出错
-     */
-    public abstract void handleError(ApiException exception);
 }

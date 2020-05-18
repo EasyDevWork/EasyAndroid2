@@ -8,7 +8,7 @@ import com.easy.app.base.AppPresenter;
 import com.easy.framework.bean.AppVersion;
 import com.easy.net.RxHttp;
 import com.easy.net.beans.Response;
-import com.easy.net.callback.RHttpCallback;
+import com.easy.net.callback.HttpCallback;
 import com.easy.net.exception.ApiException;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -30,7 +30,8 @@ public class MainPresenter extends AppPresenter<MainView> {
         RxHttp.get("v2/rn/updating")
                 .addParameter(request)
                 .addAutoDispose(getAutoDispose(Lifecycle.Event.ON_DESTROY))
-                .request(new RHttpCallback<AppVersion>(AppVersion.class) {
+                .request(new HttpCallback<AppVersion>() {
+
                     @Override
                     public void handleSuccess(Response response) {
                         mvpView.appVersionCallback(response);

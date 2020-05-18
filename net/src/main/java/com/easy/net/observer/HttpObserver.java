@@ -26,6 +26,20 @@ public abstract class HttpObserver<T> implements Observer<T>, RequestCancel {
     private String mTag;
 
     @Override
+    public void onSubscribe(@NonNull Disposable d) {
+        if (!TextUtils.isEmpty(mTag)) {
+            RequestManagerImpl.getInstance().add(mTag, d);
+        }
+    }
+
+    @Override
+    public void onNext(@NonNull T value) {
+        if (!TextUtils.isEmpty(mTag)) {
+            RequestManagerImpl.getInstance().remove(mTag);
+        }
+    }
+
+    @Override
     public void onError(Throwable e) {
         e.printStackTrace();
         if (!TextUtils.isEmpty(mTag)) {
@@ -47,18 +61,14 @@ public abstract class HttpObserver<T> implements Observer<T>, RequestCancel {
         }
     }
 
-    @Override
-    public void onNext(@NonNull T value) {
-        if (!TextUtils.isEmpty(mTag)) {
-            RequestManagerImpl.getInstance().remove(mTag);
-        }
-    }
 
-    @Override
-    public void onSubscribe(@NonNull Disposable d) {
-        if (!TextUtils.isEmpty(mTag)) {
-            RequestManagerImpl.getInstance().add(mTag, d);
-        }
+    /**
+     * 设置标识请求的TAG
+     *
+     * @param tag
+     */
+    public void setTag(String tag) {
+        this.mTag = tag;
     }
 
     /**
@@ -81,12 +91,4 @@ public abstract class HttpObserver<T> implements Observer<T>, RequestCancel {
         return RequestManagerImpl.getInstance().isDisposed(mTag);
     }
 
-    /**
-     * 设置标识请求的TAG
-     *
-     * @param tag
-     */
-    public void setTag(String tag) {
-        this.mTag = tag;
-    }
 }

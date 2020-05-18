@@ -1,6 +1,5 @@
 package com.easy.net.beans;
 
-import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -22,13 +21,12 @@ public class Response<T> implements Serializable {
     private int code = ERROR_STATE;
 
     /**
-     * 数据对象/成功返回对象
+     * 结果的原始数据
      */
-    @SerializedName("data")
-    private JsonElement result;
-    //原始数据
     private String oriData;
-
+    /**
+     * 结果返回的数据转化后的对象
+     */
     private T resultObj;
 
     public T getResultObj() {
@@ -78,13 +76,5 @@ public class Response<T> implements Serializable {
 
     public void setCode(int code) {
         this.code = code;
-    }
-
-    public JsonElement getResult() {
-        return result;
-    }
-
-    public void setResult(JsonElement result) {
-        this.result = result;
     }
 }

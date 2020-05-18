@@ -121,6 +121,7 @@ public class RxHttp {
         builder.get(apiUrl);
         return builder;
     }
+
     /*POST*/
     public static RxHttp.Builder post(String apiUrl) {
         RxHttp.Builder builder = new Builder();
@@ -219,7 +220,8 @@ public class RxHttp {
             RequestBody requestBody;
             for (String key : fileMap.keySet()) {
                 file = fileMap.get(key);
-                requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                MediaType mediaType=MediaType.Companion.parse("multipart/form-data");
+                requestBody=RequestBody.Companion.create(file,mediaType);
                 MultipartBody.Part part = MultipartBody.Part.createFormData(key, file.getName(), new UploadRequestBody(requestBody, file, index, size, uploadCallback));
                 fileList.add(part);
                 index++;
@@ -249,8 +251,8 @@ public class RxHttp {
         boolean hasBodyString = isNotEmpty(bodyString);
         RequestBody requestBody = null;
         if (hasBodyString) {
-            String mediaType = isJson ? "application/json; charset=utf-8" : "text/plain;charset=utf-8";
-            requestBody = RequestBody.create(okhttp3.MediaType.parse(mediaType), bodyString);
+            MediaType mediaType = isJson ? MediaType.Companion.parse("application/json; charset=utf-8") : MediaType.Companion.parse("text/plain;charset=utf-8");
+            requestBody = RequestBody.Companion.create(bodyString, mediaType);
         }
         /*Api接口*/
         HttpApi apiService = retrofit.create(HttpApi.class);
