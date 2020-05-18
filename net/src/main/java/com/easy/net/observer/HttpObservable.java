@@ -27,9 +27,6 @@ public class HttpObservable {
 
     /*doOnDispose*/
     private Observable doOnDispose() {
-        if (observer != null) {
-            return onErrorResumeNext().doOnDispose(() -> observer.onCanceled());
-        }
         return onErrorResumeNext();
     }
 

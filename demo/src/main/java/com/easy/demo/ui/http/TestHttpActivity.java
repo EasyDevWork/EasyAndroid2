@@ -19,7 +19,17 @@ public class TestHttpActivity extends BaseActivity<TestHttpPresenter, TestHttpBi
 
     @Override
     public void initView() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("1.支持切换域名").append("\n");
+        builder.append("2.支持解析JSON结果").append("\n");
+        builder.append("3.支持返回不是JSON结果").append("\n");
+        builder.append("4.自动取消请求--绑定生命周期").append("\n");
+        builder.append("5.支持Cookies").append("\n");
+        viewBind.tvFunction.setText(builder.toString());
+    }
 
+    public void testLifeCycle(View v) {
+        presenter.testLifeCycle();
     }
 
     public void testJson(View v) {
@@ -28,6 +38,10 @@ public class TestHttpActivity extends BaseActivity<TestHttpPresenter, TestHttpBi
 
     public void testNoJson(View v) {
         presenter.testNoJsonData();
+    }
+
+    public void testHostGroup(View v) {
+        presenter.testHostGroup();
     }
 
     @Override

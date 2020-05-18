@@ -91,16 +91,4 @@ public abstract class BaseCallback<T> extends HttpObserver<T> {
             handleError(apiException);
         }
     }
-
-    /**
-     * Http被取消回调处理逻辑
-     */
-    @Override
-    public void onCanceled() {
-        if (!ThreadUtils.isMainThread()) {
-            new Handler(Looper.getMainLooper()).post(() -> handleCancel());
-        } else {
-            handleCancel();
-        }
-    }
 }

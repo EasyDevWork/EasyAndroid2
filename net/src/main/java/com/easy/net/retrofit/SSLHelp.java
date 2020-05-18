@@ -21,7 +21,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
-public class HttpsUtils {
+public class SSLHelp {
 
     public static class SSLParams {
         public SSLSocketFactory sSLSocketFactory;

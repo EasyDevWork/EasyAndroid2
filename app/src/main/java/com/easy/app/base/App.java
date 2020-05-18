@@ -5,7 +5,10 @@ import android.util.Log;
 import com.easy.apt.lib.JsonConverterFactory;
 import com.easy.apt.lib.SharePreference;
 import com.easy.framework.base.web.protocol.WebProtocolManager;
-import com.easy.net.RetrofitConfig;
+import com.easy.net.retrofit.RetrofitConfig;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class App extends FlutterApp {
 
@@ -17,7 +20,12 @@ public class App extends FlutterApp {
 
     @Override
     protected void initBaseConfig(RetrofitConfig.Builder builder) {
-        builder.baseUrl(AppConstant.BASE_URL).forceCache(true,600);
+        Map<String, String> hostMap = new HashMap<>();
+        hostMap.put("publicHost", "http://publicobject.com");
+        hostMap.put("EosHost", "https://mainnet.meet.one");
+        builder.baseUrl(AppConstant.BASE_URL)
+                .supportCookies(true)
+                .supportHostGroup(hostMap).forceCache(true, 600);
     }
 
     @Override

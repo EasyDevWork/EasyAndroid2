@@ -9,16 +9,20 @@ import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface ChainApi {
 
+    @Headers("host_group:EosHost")
     @GET("v1/chain/get_info")
     fun getChainInfo(): Single<Response<Info>>
 
+    @Headers("host_group:EosHost")
     @POST("v1/chain/push_transaction")
     fun pushTransaction(@Body body: PushTransaction): Single<Response<TransactionCommitted>>
 
+    @Headers("host_group:EosHost")
     @POST("v1/chain/get_currency_balance")
     fun getCurrencyBalance(@Body body: CurrencyInfo): Single<Response<List<String>>>
 

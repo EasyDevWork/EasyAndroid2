@@ -1,6 +1,5 @@
 package com.easy.eoschain.manager;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -15,15 +14,15 @@ import com.easy.eoschain.bean.response.TransactionCommitted;
 import com.easy.eoschain.encrypt.abi.ActionAbi;
 import com.easy.eoschain.encrypt.crypto.signature.PrivateKeySigning;
 import com.easy.eoschain.utils.EosUtils;
-import com.easy.net.RetrofitConfig;
 import com.easy.net.RxHttp;
 import com.easy.net.callback.HttpCallback;
-import com.easy.net.retrofit.RetrofitUtils;
+import com.easy.net.retrofit.RetrofitHelp;
 import com.easy.utils.EmptyUtils;
 import com.uber.autodispose.AutoDisposeConverter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -31,27 +30,20 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 public class EosChainManager {
-    Retrofit retrofit;
+    TreeMap<String, Object> heads = new TreeMap<>();
 
     public static final class Holder {
         public static final EosChainManager INSTANCE = new EosChainManager();
     }
 
     private EosChainManager() {
-
+        heads.put("host_group", "EosHost");
     }
 
     public static EosChainManager getInstance() {
         return EosChainManager.Holder.INSTANCE;
-    }
-
-    public void init(Context context, String baseUrl) {
-        RetrofitConfig.Builder builder = new RetrofitConfig.Builder(context);
-        builder.baseUrl(baseUrl);
-        retrofit = RetrofitUtils.get().createRetrofit(builder.build());
     }
 
     /**
@@ -59,8 +51,9 @@ public class EosChainManager {
      */
     public void requestChainInfo(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         RxHttp.get("v1/chain/get_info")
+                .addHeader(heads)
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -70,9 +63,10 @@ public class EosChainManager {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("account_name", accountName);
         RxHttp.post("v1/chain/get_abi")
+                .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(jsonObject))
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -84,9 +78,10 @@ public class EosChainManager {
         jsonObject.put("lower_bound", "");
         jsonObject.put("limit", 999);
         RxHttp.post("v1/chain/get_producers")
+                .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(jsonObject))
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -107,8 +102,9 @@ public class EosChainManager {
      */
     public void requestUsdtPrice(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         RxHttp.get("https://www.ethte.com/eos_price/eos_usd")
+                .addHeader(heads)
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -119,8 +115,9 @@ public class EosChainManager {
     public void requestCurrencyBalance(CurrencyInfo balance, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         RxHttp.post("v1/chain/get_currency_balance")
                 .setBodyJson(JSON.toJSONString(balance))
+                .addHeader(heads)
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -149,7 +146,7 @@ public class EosChainManager {
      * @return
      */
     public Single<CurrencyInfo> getCurrencyBalance(CurrencyInfo currencyInfo) {
-        return retrofit.create(ChainApi.class).getCurrencyBalance(currencyInfo).map(listResponse -> {
+        return RetrofitHelp.get().getRetrofit().create(ChainApi.class).getCurrencyBalance(currencyInfo).map(listResponse -> {
             List<String> list = listResponse.body();
             if (!EmptyUtils.isEmpty(list)) {
                 currencyInfo.setBalance(EosUtils.getNumOfData(list.get(0)));
@@ -177,9 +174,10 @@ public class EosChainManager {
         tableRows.setIndex_position("");
         tableRows.setEncode_type("dec");
         RxHttp.post("v1/chain/get_table_rows")
+                .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(tableRows))
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -190,8 +188,9 @@ public class EosChainManager {
         jsonObject.put("account_name", accountName);
         RxHttp.post("v1/chain/get_account")
                 .setBodyJson(jsonObject.toJSONString())
+                .addHeader(heads)
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -202,8 +201,9 @@ public class EosChainManager {
         jsonObject.put("account", accountName);
         RxHttp.post("https://www.ethte.com/account_info/v1/get_account")
                 .setBodyJson(jsonObject.toJSONString())
+                .addHeader(heads)
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -211,8 +211,9 @@ public class EosChainManager {
      */
     public void requestTokenPrice(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         RxHttp.get("https://www.ethte.com/eos_price/tokens_eos")
+                .addHeader(heads)
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -235,9 +236,10 @@ public class EosChainManager {
         tableRows.setIndex_position("");
         tableRows.setEncode_type("dec");
         RxHttp.post("v1/chain/get_table_rows")
+                .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(tableRows))
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -246,7 +248,7 @@ public class EosChainManager {
      * @param accountName
      * @param httpCallback
      */
-    public void requestRexFundData(String accountName,  AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
+    public void requestRexFundData(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         TableRows tableRows = new TableRows();
         tableRows.setScope("eosio");
         tableRows.setCode("eosio");
@@ -260,9 +262,10 @@ public class EosChainManager {
         tableRows.setIndex_position("1");
         tableRows.setEncode_type("");
         RxHttp.post("v1/chain/get_table_rows")
+                .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(tableRows))
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -271,7 +274,7 @@ public class EosChainManager {
      * @param accountName
      * @param httpCallback
      */
-    public void requestRexData(String accountName,  AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
+    public void requestRexData(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
         TableRows tableRows = new TableRows();
         tableRows.setScope("eosio");
         tableRows.setCode("eosio");
@@ -285,9 +288,10 @@ public class EosChainManager {
         tableRows.setIndex_position("");
         tableRows.setEncode_type("");
         RxHttp.post("v1/chain/get_table_rows")
+                .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(tableRows))
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -309,9 +313,10 @@ public class EosChainManager {
         tableRows.setIndex_position("");
         tableRows.setEncode_type("");
         RxHttp.post("v1/chain/get_table_rows")
+                .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(tableRows))
                 .addAutoDispose(autoDisposeConverter)
-                .request(retrofit, httpCallback);
+                .request(httpCallback);
     }
 
     /**
@@ -322,7 +327,7 @@ public class EosChainManager {
      * @return
      */
     public Observable<ChainResponse<TransactionCommitted>> push(String privateKey, List<ActionAbi> actions) {
-        ChainTransaction transaction = new ChainTransaction(retrofit.create(ChainApi.class));
+        ChainTransaction transaction = new ChainTransaction(RetrofitHelp.get().getRetrofit().create(ChainApi.class));
         return transaction.push(privateKey, actions).toObservable();
     }
 

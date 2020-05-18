@@ -3,9 +3,11 @@ package com.easy.net.retrofit;
 
 import android.util.Log;
 
-import com.easy.net.RetrofitConfig;
+import com.easy.net.cookie.CookieJarImpl;
+import com.easy.net.cookie.PersistentCookieStore;
 import com.easy.net.download.DownloadInterceptor;
 import com.easy.net.interceptor.CacheInterceptor;
+import com.easy.net.interceptor.HostSwitchInterceptorImp;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -24,19 +26,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Retrofit工具类
  * 获取Retrofit 默认使用OkHttpClient
  */
-public class RetrofitUtils {
-    private static RetrofitUtils instance = null;
+public class RetrofitHelp {
+    private static RetrofitHelp instance = null;
     Retrofit retrofit;
 
-    private RetrofitUtils() {
+    private RetrofitHelp() {
 
     }
 
-    public static RetrofitUtils get() {
+    public static RetrofitHelp get() {
         if (instance == null) {
-            synchronized (RetrofitUtils.class) {
+            synchronized (RetrofitHelp.class) {
                 if (instance == null) {
-                    instance = new RetrofitUtils();
+                    instance = new RetrofitHelp();
                 }
             }
         }
@@ -64,7 +66,9 @@ public class RetrofitUtils {
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS));
 
         //cookies
-//        okHttpBuilder.cookieJar(new CookieJarImpl(new PersistentCookieStore(retrofitConfig.context)));
+        if (retrofitConfig.supportCookies) {
+            okHttpBuilder.cookieJar(new CookieJarImpl(new PersistentCookieStore(retrofitConfig.context)));
+        }
 
         //缓存
         if (retrofitConfig.isCache) {
@@ -96,11 +100,16 @@ public class RetrofitUtils {
             okHttpBuilder.addInterceptor(logInterceptor);
         }
 
+        if (retrofitConfig.hostMap != null && retrofitConfig.hostMap.size() > 0) {
+            HostSwitchInterceptorImp.getInstance().put("default", retrofitConfig.baseUrl);
+            HostSwitchInterceptorImp.getInstance().puts(retrofitConfig.hostMap);
+            okHttpBuilder.addInterceptor(HostSwitchInterceptorImp.getInstance());
+        }
         /**
          * https设置
          * 备注:信任所有证书,不安全有风险
          */
-        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
+        SSLHelp.SSLParams sslParams = SSLHelp.getSslSocketFactory();
         okHttpBuilder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
         OkHttpClient okHttpClient = okHttpBuilder.build();
 

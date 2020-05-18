@@ -15,7 +15,6 @@ import com.easy.eoschain.bean.CurrencyInfo;
 import com.easy.eoschain.bean.ProducerInfo;
 import com.easy.eoschain.bean.response.ChainResponse;
 import com.easy.eoschain.bean.response.TransactionCommitted;
-import com.easy.eoschain.manager.EosChainManager;
 import com.easy.framework.base.BaseActivity;
 import com.easy.net.beans.Response;
 import com.easy.store.bean.EosAccount;
@@ -37,7 +36,6 @@ import java.util.List;
 @Route(path = "/demo/EosChainActivity", name = "eos相关")
 public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosChainBinding> implements EosChainView {
 
-    private String domain = "https://mainnet.meet.one";
     private String netType = "EOS";
     private String testPrivateKey = "5JeLoyLLWEPCmu9jPzBd9bGDyHAJQNY77CdCo5rTqa2dvwp7GdF";
 
@@ -48,7 +46,6 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
 
     @Override
     public void initView() {
-        EosChainManager.getInstance().init(this, domain);
         viewBind.tvScreen.setOnLongClickListener(view -> {
             ClipBoardUtils.copyToClipBoard(this, "", viewBind.tvScreen.getText().toString());
             return true;

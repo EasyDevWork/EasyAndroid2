@@ -10,7 +10,7 @@ import com.easy.net.download.DownloadInfo;
 import com.easy.net.download.IDownload;
 import com.easy.net.download.DownloadInterceptor;
 import com.easy.net.download.DownloadObserver;
-import com.easy.net.retrofit.RetrofitUtils;
+import com.easy.net.retrofit.RetrofitHelp;
 import com.easy.net.tools.ComputeUtils;
 import com.easy.net.tools.RequestUtils;
 import com.easy.net.tools.ResponseUtils;
@@ -105,7 +105,7 @@ public class RxDownLoad {
             //下载拦截器
             DownloadInterceptor downloadInterceptor = new DownloadInterceptor(observer);
             //Retrofit
-            Retrofit retrofit = RetrofitUtils.get().getRetrofitDownload(RequestUtils.getBasUrl(download.getDownloadInfo().getServerUrl()), downloadInterceptor);
+            Retrofit retrofit = RetrofitHelp.get().getRetrofitDownload(RequestUtils.getBasUrl(download.getDownloadInfo().getServerUrl()), downloadInterceptor);
             HttpApi httpApi = retrofit.create(HttpApi.class);
             download.setApi(httpApi);
             downloadSet.add(download);
@@ -149,7 +149,7 @@ public class RxDownLoad {
         }
         if (!downloadSet.contains(download)) {
             DownloadInterceptor downloadInterceptor = new DownloadInterceptor(downloadObserver);
-            Retrofit retrofit = RetrofitUtils.get().getRetrofitDownload(RequestUtils.getBasUrl(download.getDownloadInfo().getServerUrl()), downloadInterceptor);
+            Retrofit retrofit = RetrofitHelp.get().getRetrofitDownload(RequestUtils.getBasUrl(download.getDownloadInfo().getServerUrl()), downloadInterceptor);
             HttpApi httpApi = retrofit.create(HttpApi.class);
             download.setApi(httpApi);
             downloadSet.add(download);

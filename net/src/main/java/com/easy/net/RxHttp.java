@@ -1,17 +1,14 @@
 package com.easy.net;
 
-import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 
 import com.easy.net.api.HttpApi;
 import com.easy.net.callback.HttpCallback;
 import com.easy.net.callback.UploadCallback;
-import com.easy.net.cancel.RequestManagerImpl;
 import com.easy.net.download.UploadRequestBody;
 import com.easy.net.observer.HttpObservable;
 import com.easy.net.retrofit.Method;
-import com.easy.net.retrofit.RetrofitUtils;
+import com.easy.net.retrofit.RetrofitHelp;
 import com.easy.net.tools.RequestUtils;
 import com.uber.autodispose.AutoDisposeConverter;
 
@@ -42,8 +39,6 @@ public class RxHttp {
     private Map<String, Object> header;
     /*HttpCallback*/
     private HttpCallback httpCallback;
-    /*标识请求的TAG*/
-    private String tag;
     /*文件map*/
     private Map<String, File> fileMap;
     /*上传文件回调*/
@@ -61,7 +56,6 @@ public class RxHttp {
     private RxHttp(Builder builder) {
         this.parameter = builder.parameter;
         this.header = builder.header;
-        this.tag = builder.tag;
         this.fileMap = builder.fileMap;
         this.apiUrl = builder.apiUrl;
         this.isJson = builder.isJson;
@@ -75,16 +69,6 @@ public class RxHttp {
     }
 
     /**
-     * 设置请求唯一标识
-     */
-    public void handleTag() {
-        /*设置请求唯一标识*/
-        if (httpCallback != null) {
-            httpCallback.setTag(isEmpty(tag) ? String.valueOf(System.currentTimeMillis()) : tag);
-        }
-    }
-
-    /**
      * header处理
      */
     private void handleHeader() {
@@ -94,25 +78,6 @@ public class RxHttp {
                 header.put(key, RequestUtils.getHeaderValueEncoded(header.get(key)));
             }
         }
-    }
-
-    /**
-     * 根据tag取消请求
-     *
-     * @param tag
-     */
-    public static void cancel(String tag) {
-        if (TextUtils.isEmpty(tag)) {
-            return;
-        }
-        RequestManagerImpl.getInstance().cancel(tag);
-    }
-
-    /**
-     * 取消全部请求
-     */
-    public static void cancelAll() {
-        RequestManagerImpl.getInstance().cancelAll();
     }
 
     /*GET*/
@@ -152,7 +117,7 @@ public class RxHttp {
     /*普通Http请求*/
     public void request(@NonNull HttpCallback httpCallback) {
         this.httpCallback = httpCallback;
-        doRequest(RetrofitUtils.get().getRetrofit());
+        doRequest(RetrofitHelp.get().getRetrofit());
     }
 
     /*上传文件请求*/
@@ -161,32 +126,9 @@ public class RxHttp {
         doUpload();
     }
 
-    /*取消网络请求*/
-    public void cancel() {
-        if (httpCallback != null) {
-            httpCallback.cancel();
-        }
-        if (uploadCallback != null) {
-            uploadCallback.cancel();
-        }
-    }
-
-    /*请求是否已经取消*/
-    public boolean isCanceled() {
-        boolean isCanceled = true;
-        if (httpCallback != null) {
-            isCanceled = httpCallback.isDisposed();
-        }
-        if (uploadCallback != null) {
-            isCanceled = uploadCallback.isDisposed();
-        }
-        return isCanceled;
-    }
 
     /*执行请求*/
     private void doRequest(Retrofit retrofit) {
-        handleTag();
-
         handleHeader();
 
         /*请求方式处理*/
@@ -207,8 +149,6 @@ public class RxHttp {
 
     /*执行文件上传*/
     private void doUpload() {
-        handleTag();
-
         handleHeader();
 
         /*处理文件集合*/
@@ -230,7 +170,7 @@ public class RxHttp {
 
         /*请求处理*/
         String url = isEmpty(apiUrl) ? "" : apiUrl;
-        Observable apiObservable = RetrofitUtils.get().getRetrofit().create(HttpApi.class).upload(url, parameter, header, fileList);
+        Observable apiObservable = RetrofitHelp.get().getRetrofit().create(HttpApi.class).upload(url, parameter, header, fileList);
 
         /* 被观察者 httpObservable */
         HttpObservable httpObservable = new HttpObservable.Builder(apiObservable)
@@ -289,8 +229,6 @@ public class RxHttp {
         private Map<String, Object> parameter = new TreeMap<>();
         /*header*/
         private Map<String, Object> header = new TreeMap<>();
-        /*标识请求的TAG*/
-        private String tag;
         /*文件map*/
         private Map<String, File> fileMap = new TreeMap<>();
         /*apiUrl*/
@@ -362,12 +300,6 @@ public class RxHttp {
             return this;
         }
 
-        /*tag*/
-        public RxHttp.Builder tag(@NonNull String tag) {
-            this.tag = tag;
-            return this;
-        }
-
         /*文件集合*/
         public RxHttp.Builder file(@NonNull Map<String, File> file) {
             this.fileMap = file;
@@ -388,17 +320,8 @@ public class RxHttp {
             new RxHttp(this).request(httpCallback);
         }
 
-        public void request(Retrofit retrofit, @NonNull HttpCallback httpCallback) {
-            new RxHttp(this).request(retrofit, httpCallback);
-        }
-
         public void upload(@NonNull UploadCallback uploadCallback) {
             new RxHttp(this).upload(uploadCallback);
         }
-
-        public RxHttp build() {
-            return new RxHttp(this);
-        }
     }
-
 }

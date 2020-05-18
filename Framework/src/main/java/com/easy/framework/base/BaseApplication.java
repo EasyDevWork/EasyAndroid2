@@ -16,7 +16,7 @@ import com.easy.framework.module.AppModule;
 import com.easy.framework.manager.network.NetStateChangeReceiver;
 import com.easy.framework.manager.network.NetworkManager;
 import com.easy.net.EasyNet;
-import com.easy.net.RetrofitConfig;
+import com.easy.net.retrofit.RetrofitConfig;
 import com.easy.store.base.EasyStore;
 import com.easy.utils.EasyUtils;
 import com.orhanobut.logger.Logger;

@@ -1,8 +1,9 @@
-package com.easy.net;
+package com.easy.net.retrofit;
 
 import android.content.Context;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Interceptor;
 
@@ -17,15 +18,19 @@ public class RetrofitConfig {
     public String cacheName;
     public boolean isCache;//是否开启缓存--开启后缓存策略由接口提供是否有缓存标记来决定
     public boolean forceCache;//是否开启无网络使用缓存数据--
-    public long cacheTime ;//秒计算
+    public long cacheTime;//秒计算
+    public Map<String, String> hostMap;//是否支持多组HOST请求
     public List<Interceptor> interceptors;
     public List<Interceptor> networkInterceptors;
     public boolean showLogInterceptor;
+    public boolean supportCookies;//支持Cookies
 
     private RetrofitConfig(Builder builder) {
         context = builder.context;
         baseUrl = builder.baseUrl;
         isCache = builder.isCache;
+        hostMap = builder.hostMap;
+        supportCookies = builder.supportCookies;
         forceCache = builder.forceCache;
         cacheTime = builder.cacheTime;
         readTimeout = builder.readTimeout;
@@ -52,6 +57,8 @@ public class RetrofitConfig {
         private List<Interceptor> interceptors;
         private List<Interceptor> networkInterceptors;
         private boolean showLogInterceptor = true;
+        public Map<String, String> hostMap;//是否支持多组HOST请求
+        public boolean supportCookies;//支持Cookies
 
         public Builder(Context context) {
             this.context = context;
@@ -62,8 +69,18 @@ public class RetrofitConfig {
             return this;
         }
 
+        public Builder supportCookies(boolean supportCookies) {
+            this.supportCookies = supportCookies;
+            return this;
+        }
+
         public Builder isCache(boolean isCache) {
             this.isCache = isCache;
+            return this;
+        }
+
+        public Builder supportHostGroup(Map<String, String> hostMap) {
+            this.hostMap = hostMap;
             return this;
         }
 
