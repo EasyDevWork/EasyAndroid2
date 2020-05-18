@@ -7,16 +7,17 @@ import androidx.annotation.NonNull;
 
 import com.easy.net.beans.Response;
 import com.easy.net.exception.ApiException;
-import com.easy.net.observer.HttpObserver;
 import com.easy.net.tools.ThreadUtils;
 
 import java.io.IOException;
 
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import okhttp3.ResponseBody;
 
 import static com.easy.net.exception.ExceptionEngine.UN_KNOWN_ERROR;
 
-public abstract class BaseCallback<T> extends HttpObserver<T> {
+public  abstract class BaseCallback<T> implements Observer<T> {
     /**
      * 数据转换/解析数据
      *
@@ -37,14 +38,13 @@ public abstract class BaseCallback<T> extends HttpObserver<T> {
      */
     public abstract void handleError(ApiException exception);
 
-    /**
-     * 请求取消
-     */
-    public abstract void handleCancel();
+    @Override
+    public void onSubscribe(Disposable d) {
+
+    }
 
     @Override
     public void onNext(@NonNull T value) {
-        super.onNext(value);
         if (value instanceof ResponseBody) {
             ResponseBody responseBody = (ResponseBody) value;
             Response response = assembleResponse(responseBody);
@@ -78,7 +78,6 @@ public abstract class BaseCallback<T> extends HttpObserver<T> {
 
     @Override
     public void onError(Throwable e) {
-        super.onError(e);
         ApiException apiException;
         if (e instanceof ApiException) {
             apiException = (ApiException) e;
@@ -90,5 +89,10 @@ public abstract class BaseCallback<T> extends HttpObserver<T> {
         } else {
             handleError(apiException);
         }
+    }
+
+    @Override
+    public void onComplete() {
+
     }
 }

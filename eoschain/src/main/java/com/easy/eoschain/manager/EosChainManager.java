@@ -7,7 +7,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.easy.eoschain.action.ChainTransaction;
 import com.easy.eoschain.base.ChainApi;
+import com.easy.eoschain.bean.AbiContract;
+import com.easy.eoschain.bean.ChainAccount;
+import com.easy.eoschain.bean.ChainInfo;
 import com.easy.eoschain.bean.CurrencyInfo;
+import com.easy.eoschain.bean.ProducerInfo;
 import com.easy.eoschain.bean.TableRows;
 import com.easy.eoschain.bean.response.ChainResponse;
 import com.easy.eoschain.bean.response.TransactionCommitted;
@@ -15,8 +19,14 @@ import com.easy.eoschain.encrypt.abi.ActionAbi;
 import com.easy.eoschain.encrypt.crypto.signature.PrivateKeySigning;
 import com.easy.eoschain.utils.EosUtils;
 import com.easy.net.RxHttp;
+import com.easy.net.beans.Response;
 import com.easy.net.callback.HttpCallback;
 import com.easy.net.retrofit.RetrofitHelp;
+import com.easy.store.bean.eoschain.RamPrice;
+import com.easy.store.bean.eoschain.RexBean;
+import com.easy.store.bean.eoschain.RexFund;
+import com.easy.store.bean.eoschain.RexPrice;
+import com.easy.store.bean.eoschain.StakeBean;
 import com.easy.utils.EmptyUtils;
 import com.uber.autodispose.AutoDisposeConverter;
 
@@ -49,39 +59,36 @@ public class EosChainManager {
     /**
      * 获取链信息
      */
-    public void requestChainInfo(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
-        RxHttp.get("v1/chain/get_info")
+    public Observable<Response<ChainInfo>> requestChainInfo() {
+        return RxHttp.get("v1/chain/get_info")
                 .addHeader(heads)
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(ChainInfo.class);
     }
 
     /**
      * 查询合约账号信息
      */
-    public void requestContract(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
+    public Observable<Response<AbiContract>> requestContract(String accountName) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("account_name", accountName);
-        RxHttp.post("v1/chain/get_abi")
+        return RxHttp.post("v1/chain/get_abi")
                 .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(jsonObject))
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(AbiContract.class);
     }
 
     /**
      * 查询投票列表
      */
-    public void requestVoteList(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
+    public Observable<Response<ProducerInfo>> requestVoteList() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("json", true);
         jsonObject.put("lower_bound", "");
         jsonObject.put("limit", 999);
-        RxHttp.post("v1/chain/get_producers")
+        return RxHttp.post("v1/chain/get_producers")
                 .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(jsonObject))
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(ProducerInfo.class);
     }
 
     /**
@@ -100,24 +107,20 @@ public class EosChainManager {
     /**
      * 获取USDT价格
      */
-    public void requestUsdtPrice(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
-        RxHttp.get("https://www.ethte.com/eos_price/eos_usd")
+    public Observable<Response<String>> requestUsdtPrice() {
+        return RxHttp.get("https://www.ethte.com/eos_price/eos_usd")
                 .addHeader(heads)
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(String.class);
     }
 
     /**
      * 获取单个货币数量
-     *
-     * @param httpCallback
      */
-    public void requestCurrencyBalance(CurrencyInfo balance, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
-        RxHttp.post("v1/chain/get_currency_balance")
+    public Observable<Response<String>> requestCurrencyBalance(CurrencyInfo balance) {
+        return RxHttp.post("v1/chain/get_currency_balance")
                 .setBodyJson(JSON.toJSONString(balance))
                 .addHeader(heads)
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(String.class);
     }
 
     /**
@@ -160,7 +163,7 @@ public class EosChainManager {
     /**
      * 获取Ram价格
      */
-    public void requestRamPrice(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
+    public Observable<Response<RamPrice>> requestRamPrice() {
         TableRows tableRows = new TableRows();
         tableRows.setScope("eosio");
         tableRows.setCode("eosio");
@@ -173,56 +176,51 @@ public class EosChainManager {
         tableRows.setKey_type("");
         tableRows.setIndex_position("");
         tableRows.setEncode_type("dec");
-        RxHttp.post("v1/chain/get_table_rows")
+        return RxHttp.post("v1/chain/get_table_rows")
                 .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(tableRows))
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(RamPrice.class);
     }
 
     /**
      * 获取账号信息
      */
-    public void requestAccountInfo(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
+    public Observable<Response<ChainAccount>> requestAccountInfo(String accountName) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("account_name", accountName);
-        RxHttp.post("v1/chain/get_account")
+        return RxHttp.post("v1/chain/get_account")
                 .setBodyJson(jsonObject.toJSONString())
                 .addHeader(heads)
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(ChainAccount.class);
     }
 
     /**
      * 获取账号下有金额的货币列表
      */
-    public void requestTokenData(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
+    public Observable<Response<String>> requestTokenData(String accountName) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("account", accountName);
-        RxHttp.post("https://www.ethte.com/account_info/v1/get_account")
+        return RxHttp.post("https://www.ethte.com/account_info/v1/get_account")
                 .setBodyJson(jsonObject.toJSONString())
                 .addHeader(heads)
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(String.class);
     }
 
     /**
      * 获取token当前价格
      */
-    public void requestTokenPrice(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
-        RxHttp.get("https://www.ethte.com/eos_price/tokens_eos")
+    public Observable<Response<String>> requestTokenPrice() {
+        return RxHttp.get("https://www.ethte.com/eos_price/tokens_eos")
                 .addHeader(heads)
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(String.class);
     }
 
     /**
      * 请求抵押列表
      *
      * @param accountName
-     * @param httpCallback
      */
-    public void requestStakeData(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
+    public Observable<Response<StakeBean>> requestStakeData(String accountName) {
         TableRows tableRows = new TableRows();
         tableRows.setScope(accountName);
         tableRows.setCode("eosio");
@@ -235,20 +233,18 @@ public class EosChainManager {
         tableRows.setKey_type("");
         tableRows.setIndex_position("");
         tableRows.setEncode_type("dec");
-        RxHttp.post("v1/chain/get_table_rows")
+        return RxHttp.post("v1/chain/get_table_rows")
                 .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(tableRows))
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(StakeBean.class);
     }
 
     /**
      * 获取RexFund数据
      *
      * @param accountName
-     * @param httpCallback
      */
-    public void requestRexFundData(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
+    public Observable<Response<RexFund>> requestRexFundData(String accountName) {
         TableRows tableRows = new TableRows();
         tableRows.setScope("eosio");
         tableRows.setCode("eosio");
@@ -261,20 +257,18 @@ public class EosChainManager {
         tableRows.setKey_type("");
         tableRows.setIndex_position("1");
         tableRows.setEncode_type("");
-        RxHttp.post("v1/chain/get_table_rows")
+        return RxHttp.post("v1/chain/get_table_rows")
                 .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(tableRows))
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(RexFund.class);
     }
 
     /**
      * 获取Rex数据
      *
      * @param accountName
-     * @param httpCallback
      */
-    public void requestRexData(String accountName, AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
+    public Observable<Response<RexBean>> requestRexData(String accountName) {
         TableRows tableRows = new TableRows();
         tableRows.setScope("eosio");
         tableRows.setCode("eosio");
@@ -287,19 +281,16 @@ public class EosChainManager {
         tableRows.setKey_type("");
         tableRows.setIndex_position("");
         tableRows.setEncode_type("");
-        RxHttp.post("v1/chain/get_table_rows")
+        return RxHttp.post("v1/chain/get_table_rows")
                 .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(tableRows))
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(RexBean.class);
     }
 
     /**
      * 获取Rex价值
-     *
-     * @param httpCallback
      */
-    public void requestRexPriceData(AutoDisposeConverter autoDisposeConverter, HttpCallback httpCallback) {
+    public Observable<Response<RexPrice>> requestRexPriceData() {
         TableRows tableRows = new TableRows();
         tableRows.setScope("eosio");
         tableRows.setCode("eosio");
@@ -312,11 +303,10 @@ public class EosChainManager {
         tableRows.setKey_type("");
         tableRows.setIndex_position("");
         tableRows.setEncode_type("");
-        RxHttp.post("v1/chain/get_table_rows")
+        return RxHttp.post("v1/chain/get_table_rows")
                 .addHeader(heads)
                 .setBodyJson(JSON.toJSONString(tableRows))
-                .addAutoDispose(autoDisposeConverter)
-                .request(httpCallback);
+                .request(RexPrice.class);
     }
 
     /**

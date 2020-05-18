@@ -18,11 +18,8 @@ import com.easy.eoschain.action.args.UnstakeToRexArg;
 import com.easy.eoschain.action.args.UpdateAuthArg;
 import com.easy.eoschain.action.args.VoteArg;
 import com.easy.eoschain.action.args.WithdrawRexArg;
-import com.easy.eoschain.bean.AbiContract;
 import com.easy.eoschain.bean.ChainAccount;
-import com.easy.eoschain.bean.ChainInfo;
 import com.easy.eoschain.bean.CurrencyInfo;
-import com.easy.eoschain.bean.ProducerInfo;
 import com.easy.eoschain.manager.EosChainManager;
 import com.easy.eoschain.manager.EosParseManager;
 import com.easy.eoschain.utils.EosUtils;
@@ -54,6 +51,7 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class EosChainPresenter extends BasePresenter<EosChainView> {
@@ -123,81 +121,53 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      * 请求链信息
      */
     public void requestChainInfo() {
-        EosChainManager.getInstance().requestChainInfo(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<ChainInfo>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        mvpView.chainInfoCallback(response);
-                    }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.chainInfoCallback(response);
-                    }
-                });
+        EosChainManager.getInstance().requestChainInfo()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.chainInfoCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.chainInfoCallback(response);
+                        });
+        ;
     }
 
     /**
      * 查询合约账号信息
      */
     public void requestContract(String accountName) {
-        EosChainManager.getInstance().requestContract(accountName, getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<AbiContract>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        mvpView.requestContractCallback(response);
-                    }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.requestContractCallback(response);
-                    }
-                });
+        EosChainManager.getInstance().requestContract(accountName)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.requestContractCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.requestContractCallback(response);
+                        });
     }
 
     /**
      * 查询投票列表
      */
     public void requestVoteList() {
-        EosChainManager.getInstance().requestVoteList(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<ProducerInfo>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        mvpView.requestVoteListCallback(response);
-                    }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.requestVoteListCallback(response);
-                    }
-                });
+        EosChainManager.getInstance().requestVoteList()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.requestVoteListCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.requestVoteListCallback(response);
+                        });
+        ;
     }
 
     public void requestCurrencyListBalance(List<CurrencyInfo> currencyList) {
-        EosChainManager.getInstance()
-                .requestCurrencyListBalance(currencyList)
+        EosChainManager.getInstance().requestCurrencyListBalance(currencyList)
                 .observeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(currencyInfos -> mvpView.currencyListBalanceCallback(currencyInfos),
                         throwable -> mvpView.currencyListBalanceCallback(null));
     }
@@ -206,34 +176,22 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      * 获取货币数量
      */
     public void requestCurrencyBalance(CurrencyInfo balance) {
-        EosChainManager.getInstance().requestCurrencyBalance(balance, getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<String>() {
-                    @Override
-                    public String onConvert(Response response) {
-                        if (EmptyUtils.isNotEmpty(response.getOriData())) {
-                            List<String> currencys = JSON.parseArray(response.getOriData(), String.class);
-                            return currencys.get(0);
-                        }
-                        return "";
+        EosChainManager.getInstance().requestCurrencyBalance(balance)
+                .map(response -> {
+                    if (EmptyUtils.isNotEmpty(response.getOriData())) {
+                        List<String> currencys = JSON.parseArray(response.getOriData(), String.class);
+                        response.setResultObj(currencys.get(0));
                     }
-
-                    @Override
-                    public void handleSuccess(Response response) {
-                        mvpView.currencyBalanceCallback(response);
-                    }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.currencyBalanceCallback(response);
-                    }
-                });
+                    return response;
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.currencyBalanceCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.currencyBalanceCallback(response);
+                        });
     }
 
     /**
@@ -244,34 +202,27 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestUsdtPrice(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<String>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        if (response.getCode() == Response.SUCCESS_STATE) {
-                            String oriData = response.getOriData();
-                            JSONObject jsonObject = JSON.parseObject(oriData);
-                            JSONObject dataJ = jsonObject.getJSONObject("data");
-                            JSONObject quotesJ = dataJ.getJSONObject("quotes");
-                            Eos2UsdtPrice usdtPrice = JSON.parseObject(quotesJ.getString("USD"), Eos2UsdtPrice.class);
-                            eosAccount.setUsdtPrice(usdtPrice);
-                            eosAccountDao.get().insertOrUpdate(eosAccount);
-                        }
-                        mvpView.usdtPriceCallback(response);
+        EosChainManager.getInstance().requestUsdtPrice()
+                .map(response -> {
+                    if (response.getCode() == Response.SUCCESS_STATE) {
+                        String oriData = response.getOriData();
+                        JSONObject jsonObject = JSON.parseObject(oriData);
+                        JSONObject dataJ = jsonObject.getJSONObject("data");
+                        JSONObject quotesJ = dataJ.getJSONObject("quotes");
+                        Eos2UsdtPrice usdtPrice = JSON.parseObject(quotesJ.getString("USD"), Eos2UsdtPrice.class);
+                        eosAccount.setUsdtPrice(usdtPrice);
+                        eosAccountDao.get().insertOrUpdate(eosAccount);
                     }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.usdtPriceCallback(response);
-                    }
-                });
+                    return response;
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.usdtPriceCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.usdtPriceCallback(response);
+                        });
     }
 
     /**
@@ -282,30 +233,24 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestRexFundData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<RexFund>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        if (response.getCode() == Response.SUCCESS_STATE) {
-                            RexFund rexFund = (RexFund) response.getResultObj();
-                            eosAccount.setRexFund(rexFund);
-                            eosAccountDao.get().insertOrUpdate(eosAccount);
-                        }
-                        mvpView.rexDataCallback(response);
+        EosChainManager.getInstance().requestRexFundData(eosAccount.getName())
+                .map(response -> {
+                    if (response.getCode() == Response.SUCCESS_STATE) {
+                        RexFund rexFund = response.getResultObj();
+                        eosAccount.setRexFund(rexFund);
+                        eosAccountDao.get().insertOrUpdate(eosAccount);
                     }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.rexDataCallback(response);
-                    }
-                });
+                    return response;
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.rexDataCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.rexDataCallback(response);
+                        });
+        ;
     }
 
     /**
@@ -316,30 +261,23 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestRexData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<RexBean>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        if (response.getCode() == Response.SUCCESS_STATE) {
-                            RexBean stakeBean = (RexBean) response.getResultObj();
-                            eosAccount.setRexBean(stakeBean);
-                            eosAccountDao.get().insertOrUpdate(eosAccount);
-                        }
-                        mvpView.rexDataCallback(response);
+        EosChainManager.getInstance().requestRexData(eosAccount.getName())
+                .map(response -> {
+                    if (response.getCode() == Response.SUCCESS_STATE) {
+                        RexBean stakeBean = response.getResultObj();
+                        eosAccount.setRexBean(stakeBean);
+                        eosAccountDao.get().insertOrUpdate(eosAccount);
                     }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.rexDataCallback(response);
-                    }
-                });
+                    return response;
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.rexBeanDataCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.rexBeanDataCallback(response);
+                        });
     }
 
     /**
@@ -350,30 +288,23 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestRexPriceData(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<RexPrice>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        if (response.getCode() == Response.SUCCESS_STATE) {
-                            RexPrice rexPrice = (RexPrice) response.getResultObj();
-                            eosAccount.setRexPrice(rexPrice);
-                            eosAccountDao.get().insertOrUpdate(eosAccount);
-                        }
-                        mvpView.rexPriceCallback(response);
+        EosChainManager.getInstance().requestRexPriceData()
+                .map(response -> {
+                    if (response.getCode() == Response.SUCCESS_STATE) {
+                        RexPrice rexPrice = response.getResultObj();
+                        eosAccount.setRexPrice(rexPrice);
+                        eosAccountDao.get().insertOrUpdate(eosAccount);
                     }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.rexPriceCallback(response);
-                    }
-                });
+                    return response;
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.rexPriceCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.rexPriceCallback(response);
+                        });
     }
 
     /**
@@ -384,30 +315,23 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestRamPrice(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<RamPrice>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        if (response.getCode() == Response.SUCCESS_STATE) {
-                            RamPrice ramPrice = (RamPrice) response.getResultObj();
-                            eosAccount.setRamPrice(ramPrice);
-                            eosAccountDao.get().insertOrUpdate(eosAccount);
-                        }
-                        mvpView.ramPriceCallback(response);
+        EosChainManager.getInstance().requestRamPrice()
+                .map((Function<Response<RamPrice>, Response<RamPrice>>) response -> {
+                    if (response.getCode() == Response.SUCCESS_STATE) {
+                        RamPrice ramPrice = (RamPrice) response.getResultObj();
+                        eosAccount.setRamPrice(ramPrice);
+                        eosAccountDao.get().insertOrUpdate(eosAccount);
                     }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.ramPriceCallback(response);
-                    }
-                });
+                    return response;
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.ramPriceCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.ramPriceCallback(response);
+                        });
     }
 
     /**
@@ -418,30 +342,23 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestStakeData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<StakeBean>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        if (response.getCode() == Response.SUCCESS_STATE) {
-                            StakeBean stakeBean = (StakeBean) response.getResultObj();
-                            eosAccount.setStakeBean(stakeBean);
-                            eosAccountDao.get().insertOrUpdate(eosAccount);
-                        }
-                        mvpView.stakeDataCallback(response);
+        EosChainManager.getInstance().requestStakeData(eosAccount.getName())
+                .map((Function<Response<StakeBean>, Response<StakeBean>>) response -> {
+                    if (response.getCode() == Response.SUCCESS_STATE) {
+                        StakeBean stakeBean = (StakeBean) response.getResultObj();
+                        eosAccount.setStakeBean(stakeBean);
+                        eosAccountDao.get().insertOrUpdate(eosAccount);
                     }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.stakeDataCallback(response);
-                    }
-                });
+                    return null;
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.stakeDataCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.stakeDataCallback(response);
+                        });
     }
 
     public EosAccount queryAccount() {
@@ -461,40 +378,33 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestAccountInfo(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<ChainAccount>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        if (response.getCode() == Response.SUCCESS_STATE) {
-                            ChainAccount chainAccount = (ChainAccount) response.getResultObj();
-                            eosAccount.setName(chainAccount.getAccount_name());
-                            eosAccount.setCoreLiquidBalance(EosUtils.getNumOfData(chainAccount.getCore_liquid_balance()));
-                            eosAccount.setCpuLimit(chainAccount.getCpu_limit());
-                            eosAccount.setNetLimit(chainAccount.getNet_limit());
-                            eosAccount.setRamQuota(String.valueOf(chainAccount.getRam_quota()));
-                            eosAccount.setRamUsage(String.valueOf(chainAccount.getRam_usage()));
-                            eosAccount.setPermissions(chainAccount.getPermissions());
-                            eosAccount.setVoterInfo(chainAccount.getVoter_info());
-                            eosAccount.setRefund_request(chainAccount.getRefund_request());
-                            eosAccount.setTotal_resources(chainAccount.getTotal_resources());
-                            eosAccount.setSelf_delegated_bandwidth(chainAccount.getSelf_delegated_bandwidth());
-                            eosAccountDao.get().insertOrUpdate(eosAccount);
-                        }
-                        mvpView.chainAccountInfoCallback(response, eosAccount);
+        EosChainManager.getInstance().requestAccountInfo(eosAccount.getName())
+                .map(response -> {
+                    if (response.getCode() == Response.SUCCESS_STATE) {
+                        ChainAccount chainAccount = response.getResultObj();
+                        eosAccount.setName(chainAccount.getAccount_name());
+                        eosAccount.setCoreLiquidBalance(EosUtils.getNumOfData(chainAccount.getCore_liquid_balance()));
+                        eosAccount.setCpuLimit(chainAccount.getCpu_limit());
+                        eosAccount.setNetLimit(chainAccount.getNet_limit());
+                        eosAccount.setRamQuota(String.valueOf(chainAccount.getRam_quota()));
+                        eosAccount.setRamUsage(String.valueOf(chainAccount.getRam_usage()));
+                        eosAccount.setPermissions(chainAccount.getPermissions());
+                        eosAccount.setVoterInfo(chainAccount.getVoter_info());
+                        eosAccount.setRefund_request(chainAccount.getRefund_request());
+                        eosAccount.setTotal_resources(chainAccount.getTotal_resources());
+                        eosAccount.setSelf_delegated_bandwidth(chainAccount.getSelf_delegated_bandwidth());
+                        eosAccountDao.get().insertOrUpdate(eosAccount);
                     }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.chainAccountInfoCallback(response, null);
-                    }
-                });
+                    return response;
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.chainAccountInfoCallback(result, null),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.chainAccountInfoCallback(response, null);
+                        });
     }
 
     public void requestCurrencyPrice() {
@@ -502,33 +412,25 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestTokenPrice(getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<String>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        if (response.getCode() == 200) {
-                            String oriData = response.getOriData();
-                            JSONObject jsonObject = JSON.parseObject(oriData);
-                            List<TokenPrice> tokenList = JSON.parseArray(jsonObject.getString("data"), TokenPrice.class);
-                            response.setResultObj(tokenList);
-                            eosAccount.setTokenPriceList(tokenList);
-                            eosAccountDao.get().insertOrUpdate(eosAccount);
-                        }
-                        mvpView.tokenCallback(response);
+        EosChainManager.getInstance().requestTokenPrice()
+                .map(response -> {
+                    if (response.getCode() == 200) {
+                        String oriData = response.getOriData();
+                        JSONObject jsonObject = JSON.parseObject(oriData);
+                        List<TokenPrice> tokenList = JSON.parseArray(jsonObject.getString("data"), TokenPrice.class);
+                        eosAccount.setTokenPriceList(tokenList);
+                        eosAccountDao.get().insertOrUpdate(eosAccount);
                     }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.tokenCallback(response);
-                    }
-                });
+                    return response;
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.tokenCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.tokenCallback(response);
+                        });
     }
 
     public String[] createPrivateAndPublicKey() {
@@ -540,34 +442,26 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
         if (eosAccount == null) {
             return;
         }
-        EosChainManager.getInstance().requestTokenData(eosAccount.getName(), getAutoDispose(Lifecycle.Event.ON_DESTROY),
-                new HttpCallback<String>() {
-                    @Override
-                    public void handleSuccess(Response response) {
-                        if (response.getCode() == Response.SUCCESS_STATE) {
-                            String oriData = response.getOriData();
-                            JSONObject jsonObject = JSON.parseObject(oriData);
-                            JSONObject accountJ = jsonObject.getJSONObject("account");
-                            List<Token> tokenList = JSON.parseArray(accountJ.getString("tokens"), Token.class);
-                            response.setResultObj(tokenList);
-                            eosAccount.setTokenList(tokenList);
-                            eosAccountDao.get().insertOrUpdate(eosAccount);
-                        }
-                        mvpView.tokenCallback(response);
+        EosChainManager.getInstance().requestTokenData(eosAccount.getName())
+                .map(response -> {
+                    if (response.getCode() == Response.SUCCESS_STATE) {
+                        String oriData = response.getOriData();
+                        JSONObject jsonObject = JSON.parseObject(oriData);
+                        JSONObject accountJ = jsonObject.getJSONObject("account");
+                        List<Token> tokenList = JSON.parseArray(accountJ.getString("tokens"), Token.class);
+                        eosAccount.setTokenList(tokenList);
+                        eosAccountDao.get().insertOrUpdate(eosAccount);
                     }
-
-                    @Override
-                    public void handleCancel() {
-
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.tokenCallback(response);
-                    }
-                });
+                    return response;
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.tokenCallback(result),
+                        throwable -> {
+                            Response response = new Response();
+                            response.setMsg(throwable.getMessage());
+                            mvpView.tokenCallback(response);
+                        });
     }
 
     public void parseAccountInfo() {

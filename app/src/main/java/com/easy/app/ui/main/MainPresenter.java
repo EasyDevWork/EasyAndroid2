@@ -7,14 +7,11 @@ import androidx.lifecycle.Lifecycle;
 import com.easy.app.base.AppPresenter;
 import com.easy.framework.bean.AppVersion;
 import com.easy.net.RxHttp;
-import com.easy.net.beans.Response;
-import com.easy.net.callback.HttpCallback;
-import com.easy.net.exception.ApiException;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.util.TreeMap;
-
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MainPresenter extends AppPresenter<MainView> {
 
@@ -26,29 +23,12 @@ public class MainPresenter extends AppPresenter<MainView> {
      * 请求版本更新
      */
     public void requestAppVersion() {
-        TreeMap<String, Object> request = new TreeMap<>();
         RxHttp.get("v2/rn/updating")
-                .addParameter(request)
-                .addAutoDispose(getAutoDispose(Lifecycle.Event.ON_DESTROY))
-                .request(new HttpCallback<AppVersion>() {
-
-                    @Override
-                    public void handleSuccess(Response response) {
-                        mvpView.appVersionCallback(response);
-                    }
-
-                    @Override
-                    public void handleCancel() {
-                        mvpView.appVersionCallback(null);
-                    }
-
-                    @Override
-                    public void handleError(ApiException exception) {
-                        Response response = new Response();
-                        response.setMsg(exception.getMsg());
-                        mvpView.appVersionCallback(response);
-                    }
-                });
+                .request(AppVersion.class)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(result -> mvpView.appVersionCallback(result),
+                        throwable -> mvpView.appVersionCallback(null));
     }
 
 

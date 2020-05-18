@@ -23,6 +23,7 @@ import com.easy.store.bean.eoschain.KeysBean;
 import com.easy.store.bean.eoschain.RamPrice;
 import com.easy.store.bean.eoschain.RequiredAuth;
 import com.easy.store.bean.eoschain.RexBean;
+import com.easy.store.bean.eoschain.RexFund;
 import com.easy.store.bean.eoschain.RexPrice;
 import com.easy.store.bean.eoschain.StakeBean;
 import com.easy.store.bean.eoschain.Token;
@@ -74,7 +75,7 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
     }
 
     public void requestChainInfo(View v) {
-        presenter.requestChainInfo( );
+        presenter.requestChainInfo();
     }
 
     public void requestCurrencyBalance(View v) {
@@ -99,7 +100,7 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
         meetone.setSymbol("meetone");
         currencyInfos.add(meetone);
 
-        presenter.requestCurrencyListBalance(currencyInfos );
+        presenter.requestCurrencyListBalance(currencyInfos);
     }
 
     public void queryContract(View v) {
@@ -107,47 +108,47 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
     }
 
     public void queryVoteInfo(View v) {
-        presenter.requestVoteList( );
+        presenter.requestVoteList();
     }
 
     public void requestUsdtPrice(View v) {
-        presenter.requestUsdtPrice( );
+        presenter.requestUsdtPrice();
     }
 
     public void requestRamPrice(View v) {
-        presenter.requestRamPrice( );
+        presenter.requestRamPrice();
     }
 
     public void requestAccountInfo(View v) {
-        presenter.requestAccountInfo( );
+        presenter.requestAccountInfo();
     }
 
     public void requestCurrencyList(View v) {
-        presenter.requestCurrencyList( );
+        presenter.requestCurrencyList();
     }
 
     public void requestCurrencyPrice(View v) {
-        presenter.requestCurrencyPrice( );
+        presenter.requestCurrencyPrice();
     }
 
     public void requestStakeData(View v) {
-        presenter.requestStakeData( );
+        presenter.requestStakeData();
     }
 
     public void requestRexData(View v) {
-        presenter.requestRexData( );
+        presenter.requestRexData();
     }
 
     public void requestRexPrice(View v) {
-        presenter.requestRexPrice( );
+        presenter.requestRexPrice();
     }
 
     public void requestRexFund(View v) {
-        presenter.requestRexFundData( );
+        presenter.requestRexFundData();
     }
 
     public void buyRam(View v) {
-        presenter.buyRam("0.0001 EOS" );
+        presenter.buyRam("0.0001 EOS");
     }
 
     public void sellRam(View v) {
@@ -159,23 +160,23 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
     }
 
     public void openChain(View v) {
-        presenter.openChain( );
+        presenter.openChain();
     }
 
     public void refund(View v) {
-        presenter.refund( );
+        presenter.refund();
     }
 
     public void vote(View v) {
-        presenter.vote( );
+        presenter.vote();
     }
 
     public void voteProxy(View v) {
-        presenter.voteProxy( );
+        presenter.voteProxy();
     }
 
     public void signProvider(View v) {
-        presenter.signProvider( );
+        presenter.signProvider();
     }
 
     public void updateAuth(View v) {
@@ -208,7 +209,7 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
 
     public void stake(View v) {
         showLoading();
-        presenter.stake("0.0001 EOS", "0.0000 EOS", "googlehenlan", 0 );
+        presenter.stake("0.0001 EOS", "0.0000 EOS", "googlehenlan", 0);
     }
 
     public void unstake(View v) {
@@ -267,9 +268,17 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
     }
 
     @Override
-    public void rexDataCallback(Response<RexBean> response) {
+    public void rexDataCallback(Response<RexFund> response) {
         if (response.getCode() == Response.SUCCESS_STATE) {
-            RexBean rexBean = response.getResultObj();
+            viewBind.tvScreen.setText(response.getOriData());
+        } else {
+            viewBind.tvScreen.setText(response.toString());
+        }
+    }
+
+    @Override
+    public void rexBeanDataCallback(Response<RexBean> response) {
+        if (response.getCode() == Response.SUCCESS_STATE) {
             viewBind.tvScreen.setText(response.getOriData());
         } else {
             viewBind.tvScreen.setText(response.toString());
@@ -287,19 +296,17 @@ public class EosChainActivity extends BaseActivity<EosChainPresenter, TestEosCha
     }
 
     @Override
-    public void tokenCallback(Response<List<Token>> response) {
+    public void tokenCallback(Response<String> response) {
         if (response.getCode() == Response.SUCCESS_STATE) {
-            List<Token> tokens = response.getResultObj();
-            viewBind.tvScreen.setText(tokens.toString());
+            viewBind.tvScreen.setText(response.toString());
         } else {
             viewBind.tvScreen.setText(response.toString());
         }
     }
 
     @Override
-    public void usdtPriceCallback(Response<Eos2UsdtPrice> response) {
+    public void usdtPriceCallback(Response<String> response) {
         if (response.getCode() == Response.SUCCESS_STATE) {
-            Eos2UsdtPrice eos2UsdtPrice = response.getResultObj();
             viewBind.tvScreen.setText(response.getOriData());
         } else {
             viewBind.tvScreen.setText(response.toString());

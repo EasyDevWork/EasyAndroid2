@@ -25,6 +25,7 @@ public class TestHttpActivity extends BaseActivity<TestHttpPresenter, TestHttpBi
         builder.append("3.支持返回不是JSON结果").append("\n");
         builder.append("4.自动取消请求--绑定生命周期").append("\n");
         builder.append("5.支持Cookies").append("\n");
+        builder.append("6.支持离线缓存--可设置缓存时间").append("\n");
         viewBind.tvFunction.setText(builder.toString());
     }
 

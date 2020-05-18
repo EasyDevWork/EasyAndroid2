@@ -1,16 +1,19 @@
 package com.easy.net;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 
 import com.easy.net.api.HttpApi;
+import com.easy.net.beans.Response;
 import com.easy.net.callback.HttpCallback;
 import com.easy.net.callback.UploadCallback;
 import com.easy.net.download.UploadRequestBody;
-import com.easy.net.observer.HttpObservable;
+import com.easy.net.function.DataSwitchFunction;
+import com.easy.net.function.HttpResultFunction;
 import com.easy.net.retrofit.Method;
 import com.easy.net.retrofit.RetrofitHelp;
 import com.easy.net.tools.RequestUtils;
-import com.uber.autodispose.AutoDisposeConverter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,15 +22,16 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 
 /**
  * Http请求类
- *
- * @author ZhongDaFeng
  */
 public class RxHttp {
 
@@ -37,8 +41,6 @@ public class RxHttp {
     private Map<String, Object> parameter;
     /*header*/
     private Map<String, Object> header;
-    /*HttpCallback*/
-    private HttpCallback httpCallback;
     /*文件map*/
     private Map<String, File> fileMap;
     /*上传文件回调*/
@@ -49,8 +51,6 @@ public class RxHttp {
     String bodyString;
     /*是否强制JSON格式*/
     boolean isJson;
-    private AutoDisposeConverter autoDisposeConverter;
-
 
     /*构造函数*/
     private RxHttp(Builder builder) {
@@ -61,7 +61,6 @@ public class RxHttp {
         this.isJson = builder.isJson;
         this.bodyString = builder.bodyString;
         this.method = builder.method;
-        this.autoDisposeConverter = builder.autoDisposeConverter;
     }
 
     public boolean isEmpty(String value) {
@@ -109,42 +108,32 @@ public class RxHttp {
     }
 
     /*普通Http请求*/
-    public void request(Retrofit retrofit, @NonNull HttpCallback httpCallback) {
-        this.httpCallback = httpCallback;
-        doRequest(retrofit);
+    public void request(@NonNull HttpCallback httpCallback) {
+        doRequest(RetrofitHelp.get().getRetrofit())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(httpCallback);
     }
 
     /*普通Http请求*/
-    public void request(@NonNull HttpCallback httpCallback) {
-        this.httpCallback = httpCallback;
-        doRequest(RetrofitHelp.get().getRetrofit());
+    public <T> Observable<Response<T>> request() {
+        return doRequest(RetrofitHelp.get().getRetrofit())
+                .map(new DataSwitchFunction<>());
+    }
+
+    /*执行请求*/
+    private Observable<ResponseBody> doRequest(Retrofit retrofit) {
+        handleHeader();
+        /*设置监听*/
+        Observable<ResponseBody> observable = apiObservable(retrofit)
+                .onErrorResumeNext(new HttpResultFunction<>())
+                .subscribeOn(Schedulers.io());
+        return observable;
     }
 
     /*上传文件请求*/
     public void upload(@NonNull UploadCallback uploadCallback) {
         this.uploadCallback = uploadCallback;
         doUpload();
-    }
-
-
-    /*执行请求*/
-    private void doRequest(Retrofit retrofit) {
-        handleHeader();
-
-        /*请求方式处理*/
-        Observable apiObservable = disposeApiObservable(retrofit);
-
-        /* 被观察者 httpObservable */
-        HttpObservable httpObservable = new HttpObservable.Builder(apiObservable)
-                .httpObserver(httpCallback)
-                .build();
-        /* 观察者  httpObserver */
-        /*设置监听*/
-        Observable observable = httpObservable.observe();
-        if (autoDisposeConverter != null) {
-            observable.as(autoDisposeConverter);
-        }
-        observable.subscribe(httpCallback);
     }
 
     /*执行文件上传*/
@@ -160,8 +149,8 @@ public class RxHttp {
             RequestBody requestBody;
             for (String key : fileMap.keySet()) {
                 file = fileMap.get(key);
-                MediaType mediaType=MediaType.Companion.parse("multipart/form-data");
-                requestBody=RequestBody.Companion.create(file,mediaType);
+                MediaType mediaType = MediaType.Companion.parse("multipart/form-data");
+                requestBody = RequestBody.Companion.create(file, mediaType);
                 MultipartBody.Part part = MultipartBody.Part.createFormData(key, file.getName(), new UploadRequestBody(requestBody, file, index, size, uploadCallback));
                 fileList.add(part);
                 index++;
@@ -172,21 +161,19 @@ public class RxHttp {
         String url = isEmpty(apiUrl) ? "" : apiUrl;
         Observable apiObservable = RetrofitHelp.get().getRetrofit().create(HttpApi.class).upload(url, parameter, header, fileList);
 
-        /* 被观察者 httpObservable */
-        HttpObservable httpObservable = new HttpObservable.Builder(apiObservable)
-                .httpObserver(uploadCallback)
-                .build();
         /* 观察者  uploadCallback */
         /*设置监听*/
-        httpObservable.observe().subscribe(uploadCallback);
+        apiObservable.onErrorResumeNext(new HttpResultFunction<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(uploadCallback);
     }
 
     private boolean isNotEmpty(String value) {
         return !isEmpty(value);
     }
 
-    /*处理ApiObservable*/
-    private Observable disposeApiObservable(Retrofit retrofit) {
+    private Observable<ResponseBody> apiObservable(Retrofit retrofit) {
         /*是否JSON格式提交参数*/
         boolean hasBodyString = isNotEmpty(bodyString);
         RequestBody requestBody = null;
@@ -196,7 +183,7 @@ public class RxHttp {
         }
         /*Api接口*/
         HttpApi apiService = retrofit.create(HttpApi.class);
-        Observable apiObservable = null;
+        Observable<ResponseBody> apiObservable = null;
         String url = isEmpty(apiUrl) ? "" : apiUrl;
         switch (method) {
             case GET:
@@ -237,8 +224,6 @@ public class RxHttp {
         private String bodyString;
         /*是否强制JSON格式*/
         private boolean isJson = true;
-        /*自动取消*/
-        private AutoDisposeConverter autoDisposeConverter;
 
         public Builder() {
         }
@@ -271,12 +256,6 @@ public class RxHttp {
             return this;
         }
 
-        /*AutoDisposeConverter*/
-        public RxHttp.Builder addAutoDispose(@NonNull AutoDisposeConverter autoDispose) {
-            this.autoDisposeConverter = autoDispose;
-            return this;
-        }
-
         public RxHttp.Builder addHeader(@NonNull Map<String, Object> header) {
             this.header = header;
             return this;
@@ -289,6 +268,7 @@ public class RxHttp {
 
         /*  bodyString设置后Parameter则无效 */
         public RxHttp.Builder setBodyJson(@NonNull String bodyString) {
+            this.isJson = true;
             this.bodyString = bodyString;
             return this;
         }
@@ -316,8 +296,8 @@ public class RxHttp {
             return this;
         }
 
-        public void request(@NonNull HttpCallback httpCallback) {
-            new RxHttp(this).request(httpCallback);
+        public <T> Observable<Response<T>> request(Class<T> t) {
+            return new RxHttp(this).request();
         }
 
         public void upload(@NonNull UploadCallback uploadCallback) {

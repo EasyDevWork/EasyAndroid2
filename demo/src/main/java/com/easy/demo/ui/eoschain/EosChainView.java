@@ -12,6 +12,7 @@ import com.easy.net.beans.Response;
 import com.easy.store.bean.EosAccount;
 import com.easy.store.bean.eoschain.Eos2UsdtPrice;
 import com.easy.store.bean.eoschain.RexBean;
+import com.easy.store.bean.eoschain.RexFund;
 import com.easy.store.bean.eoschain.RexPrice;
 import com.easy.store.bean.eoschain.StakeBean;
 import com.easy.store.bean.eoschain.Token;
@@ -28,13 +29,15 @@ public interface EosChainView extends BaseView {
 
     void stakeDataCallback(Response<StakeBean> response);
 
-    void rexDataCallback(Response<RexBean> response);
+    void rexDataCallback(Response<RexFund> response);
+
+    void rexBeanDataCallback(Response<RexBean> response);
 
     void rexPriceCallback(Response<RexPrice> response);
 
-    void tokenCallback(Response<List<Token>> response);
+    void tokenCallback(Response<String> response);
 
-    void usdtPriceCallback(Response<Eos2UsdtPrice> response);
+    void usdtPriceCallback(Response<String> response);
 
     void transactionCallback(ChainResponse<TransactionCommitted> chainResponse, Throwable throwable);
 
