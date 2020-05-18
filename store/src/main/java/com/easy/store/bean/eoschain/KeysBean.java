@@ -9,6 +9,7 @@ public class KeysBean {
     private String key;
     private Short weight;
 
+
     public KeysBean(String key, Short weight) {
         this.key = key;
         this.weight = weight;

@@ -15,6 +15,9 @@ public class RequiredAuth {
     private List<String> accounts;
     private List<String> waits;
 
+    public RequiredAuth() {
+    }
+
     public RequiredAuth(int threshold, List<KeysBean> keys, List<String> accounts, List<String> waits) {
         this.threshold = threshold;
         this.keys = keys;
