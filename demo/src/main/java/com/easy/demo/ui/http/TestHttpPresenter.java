@@ -51,7 +51,7 @@ public class TestHttpPresenter extends BasePresenter<TestHttpView> {
      * 不是json格式
      */
     public void testNoJsonData() {
-        RxHttp.get("http://publicobject.com/helloworld.txt")
+        RxHttp.get("https://publicobject.com/helloworld.txt")
                 .request(String.class)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))

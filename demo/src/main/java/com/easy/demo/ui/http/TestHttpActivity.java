@@ -45,6 +45,11 @@ public class TestHttpActivity extends BaseActivity<TestHttpPresenter, TestHttpBi
         presenter.testHostGroup();
     }
 
+    public void testNoNetRequest(View v) {
+        presenter.testHostGroup();
+    }
+
+
     @Override
     public void callback(String content, Exception e) {
         if (e != null) {

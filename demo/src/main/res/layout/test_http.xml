@@ -45,6 +45,12 @@
                 android:text="不是JSON格式数据"
                 android:textSize="18sp" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="testNoNetRequest"
+                android:text="支持离线请求"
+                android:textSize="18sp" />
             <TextView
                 android:id="@+id/testShow"
                 android:layout_width="match_parent"

@@ -1,7 +1,5 @@
 package com.easy.net;
 
-import android.annotation.SuppressLint;
-
 import androidx.annotation.NonNull;
 
 import com.easy.net.api.HttpApi;

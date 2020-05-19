@@ -2,6 +2,7 @@ package com.easy.framework.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.multidex.MultiDex;
 
@@ -19,7 +20,10 @@ import com.easy.net.EasyNet;
 import com.easy.net.retrofit.RetrofitConfig;
 import com.easy.store.base.EasyStore;
 import com.easy.utils.EasyUtils;
+import com.getkeepsafe.relinker.ReLinker;
 import com.orhanobut.logger.Logger;
+import com.tencent.mmkv.MMKV;
+import com.tencent.mmkv.MMKVLogLevel;
 
 
 import io.reactivex.Single;
@@ -86,6 +90,12 @@ public abstract class BaseApplication extends Application {
         //Dagger初始化--用于注入对象
         appcomponent = DaggerAppcomponent.builder().appModule(new AppModule(this)).build();
         appcomponent.inject(this);
+
+        //mmkv初始化
+        String dir = getFilesDir().getAbsolutePath() + "/mmkv";
+        MMKV.initialize(dir, libName -> ReLinker.loadLibrary(this, libName),
+                BuildConfig.DEBUG ? MMKVLogLevel.LevelInfo : MMKVLogLevel.LevelNone);
+        Log.d("initImportant", "mmkv root: " + dir);
 
         //存储数据初始化--用户数据库，文件，SharePreference
         EasyStore.getInstance().init(this);

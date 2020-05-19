@@ -52,5 +52,6 @@
         <activity android:name=".ui.ndk.TestNdkActivity" />
         <activity android:name=".ui.rxjava.TestRxJavaActivity" />
         <activity android:name=".ui.http.TestHttpActivity" />
+        <activity android:name=".ui.mmkv.TestMmmkvActivity"/>
     </application>
 </manifest>

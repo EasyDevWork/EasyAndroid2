@@ -21,7 +21,7 @@ public class App extends FlutterApp {
     @Override
     protected void initBaseConfig(RetrofitConfig.Builder builder) {
         Map<String, String> hostMap = new HashMap<>();
-        hostMap.put("publicHost", "http://publicobject.com");
+        hostMap.put("publicHost", "https://publicobject.com");
         hostMap.put("EosHost", "https://mainnet.meet.one");
         builder.baseUrl(AppConstant.BASE_URL)
                 .supportCookies(true)

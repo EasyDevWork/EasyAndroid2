@@ -52,8 +52,11 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     }
 
     private void addData() {
-        DebugDo rxjava = new DebugDo("空", () -> ARouter.getInstance().build("/demo/TestRxJavaActivity").navigation());
-        debugDos.add(rxjava);
+        DebugDo mmkv = new DebugDo("mmkv", () -> ARouter.getInstance().build("/demo/TestMmmkvActivity").navigation());
+        debugDos.add(mmkv);
+
+//        DebugDo rxjava = new DebugDo("空", () -> ARouter.getInstance().build("/demo/TestRxJavaActivity").navigation());
+//        debugDos.add(rxjava);
 
         DebugDo http = new DebugDo("http", () -> ARouter.getInstance().build("/demo/TestHttpActivity").navigation());
         debugDos.add(http);
