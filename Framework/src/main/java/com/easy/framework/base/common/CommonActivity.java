@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.easy.framework.R;
+import com.easy.framework.base.SkinActivity;
 import com.easy.framework.statusbar.StatusBarUtil;
 import com.easy.utils.KeyBoardUtils;
 import com.easy.widget.TitleView;
@@ -21,7 +22,7 @@ import com.lxj.xpopup.core.BasePopupView;
 /**
  * 添加通用的Ui
  */
-public abstract class CommonActivity  extends AppCompatActivity {
+public abstract class CommonActivity  extends SkinActivity {
     public Context context;
     //右滑退出
     public SwipeBackActivityHelper mHelper;

@@ -13,6 +13,7 @@ import com.easy.demo.R;
 import com.easy.demo.base.DemoSharePreferences;
 import com.easy.demo.bean.DebugDo;
 import com.easy.demo.databinding.DebugBinding;
+import com.easy.demo.ui.skin.TestSkinActivity;
 import com.easy.framework.base.BaseActivity;
 import com.easy.store.bean.Accounts;
 import com.easy.utils.LanguageUtil;
@@ -54,6 +55,9 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     private void addData() {
         DebugDo mmkv = new DebugDo("mmkv", () -> ARouter.getInstance().build("/demo/TestMmmkvActivity").navigation());
         debugDos.add(mmkv);
+
+        DebugDo skin = new DebugDo("换肤", () -> ARouter.getInstance().build("/demo/TestSkinActivity").navigation());
+        debugDos.add(skin);
 
 //        DebugDo rxjava = new DebugDo("空", () -> ARouter.getInstance().build("/demo/TestRxJavaActivity").navigation());
 //        debugDos.add(rxjava);

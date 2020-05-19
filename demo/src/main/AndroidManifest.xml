@@ -53,5 +53,6 @@
         <activity android:name=".ui.rxjava.TestRxJavaActivity" />
         <activity android:name=".ui.http.TestHttpActivity" />
         <activity android:name=".ui.mmkv.TestMmmkvActivity"/>
+        <activity android:name=".ui.skin.TestSkinActivity"/>
     </application>
 </manifest>

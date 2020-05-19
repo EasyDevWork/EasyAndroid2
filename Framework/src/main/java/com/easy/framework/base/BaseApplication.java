@@ -11,11 +11,12 @@ import com.easy.framework.BuildConfig;
 import com.easy.framework.component.Appcomponent;
 import com.easy.framework.component.DaggerAppcomponent;
 import com.easy.framework.manager.activity.ActivityManager;
+import com.easy.framework.manager.network.NetStateChangeReceiver;
+import com.easy.framework.manager.network.NetworkManager;
 import com.easy.framework.manager.screen.ScreenManager;
 import com.easy.framework.manager.screen.ScreenStateBroadcastReceiver;
 import com.easy.framework.module.AppModule;
-import com.easy.framework.manager.network.NetStateChangeReceiver;
-import com.easy.framework.manager.network.NetworkManager;
+import com.easy.framework.skin.SkinManager;
 import com.easy.net.EasyNet;
 import com.easy.net.retrofit.RetrofitConfig;
 import com.easy.store.base.EasyStore;
@@ -24,7 +25,6 @@ import com.getkeepsafe.relinker.ReLinker;
 import com.orhanobut.logger.Logger;
 import com.tencent.mmkv.MMKV;
 import com.tencent.mmkv.MMKVLogLevel;
-
 
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
@@ -81,9 +81,13 @@ public abstract class BaseApplication extends Application {
      * 初始化重要
      */
     private void initImportant() {
+        SkinManager.getInstance().init(this);
+
         //注册生命周期监听
         registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
+
         registerBroadcast();
+
         //路由初始化--用于页面跳转
         initARouter();
 
