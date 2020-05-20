@@ -56,6 +56,11 @@ public class SkinManager2 extends Observable {
         if (!file.exists()) {
             return false;
         }
+        if (SkinResources.getInstance().switchSkin(path)) {
+            setChanged();
+            notifyObservers();
+            return true;
+        }
         try {
             AssetManager assetManager = AssetManager.class.newInstance();
             Method method = assetManager.getClass().getMethod("addAssetPath", String.class);
@@ -68,8 +73,7 @@ public class SkinManager2 extends Observable {
             PackageManager mPm = mApplication.getPackageManager();
             PackageInfo info = mPm.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
             String packageName = info.packageName;
-            SkinResources.getInstance().applySkin(skinRes, packageName);
-            //记录
+            SkinResources.getInstance().applySkin(path, skinRes, packageName);
             SkinPathDataSource.getInstance().saveSkinPath(path);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,15 +1,20 @@
 package com.easy.demo.ui.skin;
 
-import android.os.Bundle;
+import android.Manifest;
 import android.os.Environment;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.lifecycle.Lifecycle;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
-import com.easy.framework.base.SkinActivity;
+import com.easy.demo.databinding.TestSkinBinding;
+import com.easy.demo.ui.empty.EmptyPresenter;
+import com.easy.demo.ui.empty.EmptyView;
+import com.easy.framework.base.BaseActivity;
 import com.easy.framework.skin.SkinManager2;
 import com.easy.framework.skin.view_attr.AttrResType;
 import com.easy.framework.skin.view_attr.AttrType;
@@ -23,24 +28,18 @@ import java.util.List;
 
 @ActivityInject
 @Route(path = "/demo/TestSkinActivity", name = "换肤")
-public class TestSkinActivity extends SkinActivity {
+public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBinding> implements EmptyView {
 
-    TextView tvDescribe;
-    LinearLayout container;
     String skinPath;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_skin);
-        tvDescribe = findViewById(R.id.tvDescribe);
-        container = findViewById(R.id.container);
-
-        skinPath = Environment.getExternalStorageDirectory() + File.separator + "Black.skin";
-        initView();
+    public int getLayoutId() {
+        return R.layout.test_skin;
     }
 
+    @Override
     public void initView() {
+        skinPath = Environment.getExternalStorageDirectory() + File.separator + "Black.skin";
         StringBuilder builder = new StringBuilder();
         builder.append("-1.需求请求读写文件权限").append("\n");
         builder.append("0.皮肤路径:" + skinPath).append("\n");
@@ -49,12 +48,18 @@ public class TestSkinActivity extends SkinActivity {
         builder.append("3.支持更换文字颜色").append("\n");
         builder.append("4.支持更换背景颜色").append("\n");
         builder.append("5.支持更换背景图片").append("\n");
-        tvDescribe.setText(builder.toString());
+        viewBind.tvDescribe.setText(builder.toString());
         dynamicAddView();
     }
 
     public void requestPermission(View view) {
-        //todo
+        getRxPermissions().request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                .doOnDispose(() -> ToastUtils.showShort("权限被取消："))
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(aBoolean -> {
+                    ToastUtils.showShort("权限是否允许：" + aBoolean);
+                }, throwable -> ToastUtils.showShort("权限请求异常："));
     }
 
     public void officeSkin(View view) {
@@ -66,7 +71,7 @@ public class TestSkinActivity extends SkinActivity {
         if (isOk) {
             ToastUtils.showShort("换肤成功");
         } else {
-            ToastUtils.showShort("请检查皮肤包是否存在：" + skinPath);
+            ToastUtils.showShort("请检查《权限》和《皮肤包路径》是否存在：" + skinPath);
         }
     }
 
@@ -83,7 +88,7 @@ public class TestSkinActivity extends SkinActivity {
         mDynamicAttr.add(new BaseAttr(AttrType.TextColorAttr, AttrResType.COLOR, R.color.text_color_white));
         mDynamicAttr.add(new BaseAttr(AttrType.BackgroundAttr, AttrResType.DRAWABLE, R.drawable.ic_launcher));
         dynamicAddView(textView, mDynamicAttr);
-        container.addView(textView);
+        viewBind.container.addView(textView);
 
         TextView textView2 = new TextView(this);
         textView2.setText("(背景是颜色)");
@@ -92,7 +97,7 @@ public class TestSkinActivity extends SkinActivity {
         textView2.setTextColor(getResources().getColor(R.color.text_color_white));
         textView2.setBackgroundColor(getResources().getColor(R.color.text_background_back));
         textView2.setTextSize(20);
-        container.addView(textView2);
+        viewBind.container.addView(textView2);
 
         List<BaseAttr> mDynamicAttr2 = new ArrayList<>();
         mDynamicAttr2.add(new BaseAttr(AttrType.TextColorAttr, AttrResType.COLOR, R.color.text_color_white));

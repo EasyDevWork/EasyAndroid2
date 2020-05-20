@@ -12,13 +12,13 @@ public class SkinResources {
 
     private static SkinResources skinManager;
     /**
-     * 皮肤包的Resources
-     */
-    private Resources skinResources;
-    /**
      * APP的Resources
      */
     private Resources appResources;
+    /**
+     * 皮肤包的Resources
+     */
+    private Resources skinResources;
     /**
      * 皮肤包名
      */
@@ -29,6 +29,10 @@ public class SkinResources {
     private boolean isDefaultSkin = true;
 
     private Context mContext;
+    /**
+     * 包路径，用来区分是否是当前皮肤
+     */
+    private String skinPath;
 
     private SkinResources(Context context) {
         mContext = context;
@@ -48,12 +52,26 @@ public class SkinResources {
     }
 
     /**
+     * 切换皮肤
+     *
+     * @param path
+     * @return
+     */
+    public boolean switchSkin(String path) {
+        if (skinPath != null && skinPath.equals(path) && skinResources != null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 设置皮肤
      *
      * @param resources
      * @param pkgName
      */
-    public void applySkin(Resources resources, String pkgName) {
+    public void applySkin(String path, Resources resources, String pkgName) {
+        skinPath = path;
         skinResources = resources;
         mSkinPkgName = pkgName;
         //是否使用默认皮肤
@@ -207,9 +225,5 @@ public class SkinResources {
         } catch (RuntimeException e) {
         }
         return Typeface.DEFAULT;
-    }
-
-    private static class Holder {
-
     }
 }
