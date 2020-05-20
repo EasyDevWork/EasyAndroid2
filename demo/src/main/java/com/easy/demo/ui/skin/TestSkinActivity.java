@@ -1,7 +1,7 @@
 package com.easy.demo.ui.skin;
 
+import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -9,17 +9,12 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
-import com.easy.demo.databinding.TestSkinBinding;
-import com.easy.demo.ui.empty.EmptyPresenter;
-import com.easy.demo.ui.empty.EmptyView;
-import com.easy.framework.base.BaseActivity;
-import com.easy.framework.skin.SkinManager;
-import com.easy.framework.skin.inter.ILoaderListener;
+import com.easy.framework.base.SkinActivity;
+import com.easy.framework.skin.SkinManager2;
 import com.easy.framework.skin.view_attr.AttrResType;
 import com.easy.framework.skin.view_attr.AttrType;
 import com.easy.framework.skin.view_attr.BaseAttr;
 import com.easy.utils.DimensUtils;
-import com.easy.utils.ToastUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,54 +22,68 @@ import java.util.List;
 
 @ActivityInject
 @Route(path = "/demo/TestSkinActivity", name = "换肤")
-public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBinding> implements EmptyView {
+public class TestSkinActivity extends SkinActivity {
 
-    private static final String SKIN_NAME = "Black.skin";
-    private static final String SKIN_DIR = Environment.getExternalStorageDirectory() + File.separator + SKIN_NAME;
+
+    TextView tvDescribe;
+    LinearLayout container;
+    String skinPath;
 
     @Override
-    public int getLayoutId() {
-        return R.layout.test_skin;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.test_skin);
+        tvDescribe = findViewById(R.id.tvDescribe);
+        container = findViewById(R.id.container);
+
+        skinPath = Environment.getExternalStorageDirectory() + File.separator + "Black.skin";
+        initView();
     }
 
-    @Override
     public void initView() {
         StringBuilder builder = new StringBuilder();
+        builder.append("-1.需求请求读写文件权限").append("\n");
+        builder.append("0.皮肤路径:" + skinPath).append("\n");
         builder.append("1.支持动态添加的控件换肤").append("\n");
         builder.append("2.支持XML里的控件换肤").append("\n");
         builder.append("3.支持更换文字颜色").append("\n");
         builder.append("4.支持更换背景颜色").append("\n");
         builder.append("5.支持更换背景图片").append("\n");
-        viewBind.tvDescribe.setText(builder.toString());
+        tvDescribe.setText(builder.toString());
         dynamicAddView();
     }
 
+    public void requestPermission(View view) {
+        //todo
+    }
+
     public void officeSkin(View view) {
-        SkinManager.getInstance().restoreDefaultTheme();
+//        SkinManager.getInstance().restoreDefaultTheme();
     }
 
     public void customSkin(View view) {
-        File skin = new File(SKIN_DIR);
-        if (skin.exists()) {
-            SkinManager.getInstance().load(skin.getAbsolutePath(), new ILoaderListener() {
-                @Override
-                public void onStart() {
-                    Log.d("TestSkinActivity", "startloadSkin");
-                }
-
-                @Override
-                public void onSuccess() {
-                    Log.d("TestSkinActivity", "loadSkinSuccess");
-                }
-
-                @Override
-                public void onFailed() {
-                    Log.d("TestSkinActivity", "loadSkinFail");
-                }
-            });
-        } else {
-            ToastUtils.showShort("请检查" + SKIN_DIR + "是否存在");
-        }
+        SkinManager2.getInstance().loadSkin(skinPath);
+//        File skin = new File(skinPath);
+//        if (skin.exists()) {
+//            SkinManager.getInstance().load(skin.getAbsolutePath(), new ILoaderListener() {
+//                @Override
+//                public void onStart() {
+//                    Log.d("TestSkinActivity", "startloadSkin");
+//                }
+//
+//                @Override
+//                public void onSuccess() {
+//                    Log.d("TestSkinActivity", "loadSkinSuccess");
+//                }
+//
+//                @Override
+//                public void onFailed() {
+//                    Log.d("TestSkinActivity", "loadSkinFail");
+//                }
+//            });
+//        } else {
+//            ToastUtils.showShort("请检查" + SKIN_DIR + "是否存在");
+//        }
     }
 
     public void dynamicAddView() {
@@ -90,7 +99,7 @@ public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBindi
         mDynamicAttr.add(new BaseAttr(AttrType.TextColorAttr, AttrResType.COLOR, R.color.text_color_white));
         mDynamicAttr.add(new BaseAttr(AttrType.BackgroundAttr, AttrResType.DRAWABLE, R.drawable.ic_launcher));
         dynamicAddView(textView, mDynamicAttr);
-        viewBind.container.addView(textView);
+        container.addView(textView);
 
         TextView textView2 = new TextView(this);
         textView2.setText("(背景是颜色)");
@@ -99,7 +108,7 @@ public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBindi
         textView2.setTextColor(getResources().getColor(R.color.text_color_white));
         textView2.setBackgroundColor(getResources().getColor(R.color.text_background_back));
         textView2.setTextSize(20);
-        viewBind.container.addView(textView2);
+        container.addView(textView2);
 
         List<BaseAttr> mDynamicAttr2 = new ArrayList<>();
         mDynamicAttr2.add(new BaseAttr(AttrType.TextColorAttr, AttrResType.COLOR, R.color.text_color_white));

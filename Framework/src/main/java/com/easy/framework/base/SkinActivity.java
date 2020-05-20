@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.LayoutInflaterCompat;
 
 import com.easy.framework.skin.SkinInflaterFactory;
 import com.easy.framework.skin.SkinManager;
@@ -31,6 +32,7 @@ public class SkinActivity extends AppCompatActivity implements ISkinUpdate, IDyn
             field.setBoolean(getLayoutInflater(), false);
             mSkinInflaterFactory = new SkinInflaterFactory();
             getLayoutInflater().setFactory(mSkinInflaterFactory);
+//            LayoutInflaterCompat.setFactory(getLayoutInflater(), mSkinInflaterFactory);
         } catch (Exception e) {
             e.printStackTrace();
         }
