@@ -8,9 +8,8 @@
 
     <TextView
         android:id="@+id/tvDescribe"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:textColor="@color/back" />
 
     <TextView
@@ -19,7 +18,7 @@
         android:background="@drawable/ic_launcher"
         android:gravity="center"
         android:text="静态添加"
-        android:textColor="@color/back"
+        android:textColor="@color/text_color_back"
         skin:enable="true" />
 
     <Button
@@ -27,6 +26,7 @@
         android:layout_height="wrap_content"
         android:onClick="requestPermission"
         android:text="请求权限" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

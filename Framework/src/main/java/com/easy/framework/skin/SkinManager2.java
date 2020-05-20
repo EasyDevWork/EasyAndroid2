@@ -27,6 +27,7 @@ public class SkinManager2 extends Observable {
     private SkinManager2() {
 
     }
+
     /**
      * 初始化
      *
@@ -88,38 +89,4 @@ public class SkinManager2 extends Observable {
         setChanged();
         notifyObservers();
     }
-
-
-    /**
-     * 获取资源文件的Resources
-     *
-     * @param path
-     * @return
-     */
-    public Resources getSkinRes(String path) {
-        Resources resources = mApplication.getResources();
-        if (TextUtils.isEmpty(path)) {
-            return resources;
-        } else {
-            try {
-                AssetManager assetManager = null;
-                assetManager = AssetManager.class.newInstance();
-                Method method = assetManager.getClass().getMethod("addAssetPath", String.class);
-                method.setAccessible(true);
-                method.invoke(assetManager, path);
-                Resources skinRes = new Resources(assetManager, resources.getDisplayMetrics(), resources.getConfiguration());
-                return skinRes;
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-            return resources;
-        }
-    }
-
 }

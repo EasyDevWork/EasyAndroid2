@@ -15,6 +15,7 @@ import com.easy.framework.skin.view_attr.AttrResType;
 import com.easy.framework.skin.view_attr.AttrType;
 import com.easy.framework.skin.view_attr.BaseAttr;
 import com.easy.utils.DimensUtils;
+import com.easy.utils.ToastUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ import java.util.List;
 @ActivityInject
 @Route(path = "/demo/TestSkinActivity", name = "换肤")
 public class TestSkinActivity extends SkinActivity {
-
 
     TextView tvDescribe;
     LinearLayout container;
@@ -58,32 +58,16 @@ public class TestSkinActivity extends SkinActivity {
     }
 
     public void officeSkin(View view) {
-//        SkinManager.getInstance().restoreDefaultTheme();
+        SkinManager2.getInstance().clearSkin();
     }
 
     public void customSkin(View view) {
-        SkinManager2.getInstance().loadSkin(skinPath);
-//        File skin = new File(skinPath);
-//        if (skin.exists()) {
-//            SkinManager.getInstance().load(skin.getAbsolutePath(), new ILoaderListener() {
-//                @Override
-//                public void onStart() {
-//                    Log.d("TestSkinActivity", "startloadSkin");
-//                }
-//
-//                @Override
-//                public void onSuccess() {
-//                    Log.d("TestSkinActivity", "loadSkinSuccess");
-//                }
-//
-//                @Override
-//                public void onFailed() {
-//                    Log.d("TestSkinActivity", "loadSkinFail");
-//                }
-//            });
-//        } else {
-//            ToastUtils.showShort("请检查" + SKIN_DIR + "是否存在");
-//        }
+        boolean isOk = SkinManager2.getInstance().loadSkin(skinPath);
+        if (isOk) {
+            ToastUtils.showShort("换肤成功");
+        } else {
+            ToastUtils.showShort("请检查皮肤包是否存在：" + skinPath);
+        }
     }
 
     public void dynamicAddView() {
