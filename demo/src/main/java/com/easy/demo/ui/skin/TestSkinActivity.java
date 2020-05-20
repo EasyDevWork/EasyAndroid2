@@ -39,6 +39,13 @@ public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBindi
 
     @Override
     public void initView() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("1.支持动态添加的控件换肤").append("\n");
+        builder.append("2.支持XML里的控件换肤").append("\n");
+        builder.append("3.支持更换文字颜色").append("\n");
+        builder.append("4.支持更换背景颜色").append("\n");
+        builder.append("5.支持更换背景图片").append("\n");
+        viewBind.tvDescribe.setText(builder.toString());
         dynamicAddView();
     }
 
