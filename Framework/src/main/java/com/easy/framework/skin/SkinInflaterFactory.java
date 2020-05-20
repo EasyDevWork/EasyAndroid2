@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.LayoutInflater.Factory;
 
-import com.easy.framework.skin.view_attr.DynamicAttr;
+import com.easy.framework.skin.view_attr.BaseAttr;
 import com.easy.framework.skin.view_attr.SkinAttr;
 import com.easy.utils.EmptyUtils;
 
@@ -18,11 +18,10 @@ public class SkinInflaterFactory implements Factory {
     /**
      * Store the view item that need skin changing in the activity
      */
-    private List<SkinItem> mSkinItems = new ArrayList();
+    private List<SkinItem> mSkinItems = new ArrayList<>();
 
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
-        // if this is NOT enable to be skined , simplly skip it
         boolean isSkinEnable = attrs.getAttributeBooleanValue(SkinConfig.NAMESPACE, SkinConfig.ATTR_SKIN_ENABLE, false);
         if (!isSkinEnable) {
             return null;
@@ -89,17 +88,16 @@ public class SkinInflaterFactory implements Factory {
                 continue;
             }
             if (attrValue.startsWith("@")) {
-                try {
-                    int id = Integer.parseInt(attrValue.substring(1));
-                    String entryName = context.getResources().getResourceEntryName(id);
-                    String typeName = context.getResources().getResourceTypeName(id);
-                    SkinAttr mSkinAttr = AttrFactory.get(attrName, id, entryName, typeName);
-                    if (mSkinAttr != null) {
-                        viewAttrs.add(mSkinAttr);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    int id = Integer.parseInt(attrValue.substring(1));
+//                    String typeName = context.getResources().getResourceTypeName(id);
+//                    SkinAttr mSkinAttr = AttrFactory.get(attrName, id, typeName);
+//                    if (mSkinAttr != null) {
+//                        viewAttrs.add(mSkinAttr);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
         }
 
@@ -120,7 +118,6 @@ public class SkinInflaterFactory implements Factory {
         if (EmptyUtils.isEmpty(mSkinItems)) {
             return;
         }
-
         for (SkinItem si : mSkinItems) {
             if (si.view == null) {
                 continue;
@@ -129,32 +126,17 @@ public class SkinInflaterFactory implements Factory {
         }
     }
 
-    public void dynamicAddSkinEnableView(Context context, View view, List<DynamicAttr> pDAttrs) {
-        List<SkinAttr> viewAttrs = new ArrayList<SkinAttr>();
+    public void dynamicAddSkinEnableView(Context context, View view, List<BaseAttr> pDAttrs) {
+        List<SkinAttr> viewAttrs = new ArrayList<>();
         SkinItem skinItem = new SkinItem();
         skinItem.view = view;
-
-        for (DynamicAttr dAttr : pDAttrs) {
-            int id = dAttr.refResId;
+        for (BaseAttr baseAttr : pDAttrs) {
+            int id = baseAttr.attrResRef;
             String entryName = context.getResources().getResourceEntryName(id);
             String typeName = context.getResources().getResourceTypeName(id);
-            SkinAttr mSkinAttr = AttrFactory.get(dAttr.attrName, id, entryName, typeName);
+            SkinAttr mSkinAttr = AttrFactory.get(baseAttr);
             viewAttrs.add(mSkinAttr);
         }
-
-        skinItem.attrs = viewAttrs;
-        addSkinView(skinItem);
-    }
-
-    public void dynamicAddSkinEnableView(Context context, View view, String attrName, int attrValueResId) {
-        int id = attrValueResId;
-        String entryName = context.getResources().getResourceEntryName(id);
-        String typeName = context.getResources().getResourceTypeName(id);
-        SkinAttr mSkinAttr = AttrFactory.get(attrName, id, entryName, typeName);
-        SkinItem skinItem = new SkinItem();
-        skinItem.view = view;
-        List<SkinAttr> viewAttrs = new ArrayList<>();
-        viewAttrs.add(mSkinAttr);
         skinItem.attrs = viewAttrs;
         addSkinView(skinItem);
     }

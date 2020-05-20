@@ -16,4 +16,8 @@
     <color name="actionbar_color">#3FBA91</color>
     <color name="green_bright">#00FF00</color>
     <color name="item_default_color">#EEEEEE</color>
+
+    <color name="text_color_back">#000000</color>
+    <color name="text_color_white">#ffffff</color>
+    <color name="text_background_back">#000000</color>
 </resources>

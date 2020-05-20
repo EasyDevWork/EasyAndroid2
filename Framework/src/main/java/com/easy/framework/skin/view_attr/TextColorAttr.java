@@ -8,13 +8,17 @@ import com.easy.framework.skin.SkinManager;
 
 public class TextColorAttr extends SkinAttr {
 
+    public TextColorAttr(BaseAttr baseAttr) {
+        super(baseAttr);
+    }
+
     @Override
     public void apply(View view) {
-        if(view instanceof TextView){
-            TextView tv = (TextView)view;
-            if(RES_TYPE_NAME_COLOR.equals(attrValueTypeName)){
+        if (view instanceof TextView) {
+            TextView tv = (TextView) view;
+            if (AttrResType.COLOR.equals(baseAttr.attrResType)) {
                 Log.d("attr1", "TextColorAttr");
-                tv.setTextColor(SkinManager.getInstance().convertToColorStateList(attrValueRefId));
+                tv.setTextColor(SkinManager.getInstance().convertToColorStateList(baseAttr.attrResRef));
             }
         }
     }

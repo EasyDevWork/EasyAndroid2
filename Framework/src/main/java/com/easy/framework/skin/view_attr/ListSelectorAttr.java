@@ -7,15 +7,18 @@ import com.easy.framework.skin.SkinManager;
 
 public class ListSelectorAttr extends SkinAttr {
 
+    public ListSelectorAttr(BaseAttr baseAttr) {
+        super(baseAttr);
+    }
+
     @Override
     public void apply(View view) {
         if(view instanceof AbsListView){
             AbsListView tv = (AbsListView)view;
-
-            if(RES_TYPE_NAME_COLOR.equals(attrValueTypeName)){
-                tv.setSelector(SkinManager.getInstance().getColor(attrValueRefId));
-            }else if(RES_TYPE_NAME_DRAWABLE.equals(attrValueTypeName)){
-                tv.setSelector(SkinManager.getInstance().getDrawable(attrValueRefId));
+            if(AttrResType.COLOR.equals(baseAttr.attrResType)){
+                tv.setSelector(SkinManager.getInstance().getColor(baseAttr.attrResRef));
+            }else if(AttrResType.DRAWABLE.equals(baseAttr.attrResType)){
+                tv.setSelector(SkinManager.getInstance().getDrawable(baseAttr.attrResRef));
             }
         }
     }

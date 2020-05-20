@@ -15,6 +15,7 @@ import android.util.Log;
 import com.easy.framework.skin.inter.ILoaderListener;
 import com.easy.framework.skin.inter.ISkinLoader;
 import com.easy.framework.skin.inter.ISkinUpdate;
+import com.easy.utils.ToastUtils;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -106,7 +107,11 @@ public class SkinManager implements ISkinLoader {
 
                         PackageManager mPm = context.getPackageManager();
                         PackageInfo mInfo = mPm.getPackageArchiveInfo(skinPkgPath, PackageManager.GET_ACTIVITIES);
-                        skinPackageName = mInfo.packageName;
+                        if (mInfo == null) {
+                            ToastUtils.showShort("请检查权限问题");
+                        } else {
+                            skinPackageName = mInfo.packageName;
+                        }
 
                         AssetManager assetManager = AssetManager.class.newInstance();
                         Method addAssetPath = assetManager.getClass().getMethod("addAssetPath", String.class);
@@ -173,7 +178,6 @@ public class SkinManager implements ISkinLoader {
 
         int trueResId = mResources.getIdentifier(resName, "color", skinPackageName);
         int trueColor = 0;
-
         try {
             trueColor = mResources.getColor(trueResId);
         } catch (Resources.NotFoundException e) {
@@ -194,9 +198,8 @@ public class SkinManager implements ISkinLoader {
 
         int trueResId = mResources.getIdentifier(resName, "drawable", skinPackageName);
 
-        Drawable trueDrawable = null;
+        Drawable trueDrawable;
         try {
-            Log.d("ttgg", "SDK_INT = " + android.os.Build.VERSION.SDK_INT);
             if (android.os.Build.VERSION.SDK_INT < 22) {
                 trueDrawable = mResources.getDrawable(trueResId);
             } else {
@@ -206,7 +209,6 @@ public class SkinManager implements ISkinLoader {
             e.printStackTrace();
             trueDrawable = originDrawable;
         }
-
         return trueDrawable;
     }
 

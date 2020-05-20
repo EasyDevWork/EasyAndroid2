@@ -10,7 +10,7 @@ import com.easy.framework.skin.SkinInflaterFactory;
 import com.easy.framework.skin.SkinManager;
 import com.easy.framework.skin.inter.IDynamicNewView;
 import com.easy.framework.skin.inter.ISkinUpdate;
-import com.easy.framework.skin.view_attr.DynamicAttr;
+import com.easy.framework.skin.view_attr.BaseAttr;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -46,27 +46,22 @@ public class SkinActivity extends AppCompatActivity implements ISkinUpdate, IDyn
     protected void onDestroy() {
         super.onDestroy();
         SkinManager.getInstance().detach(this);
-        mSkinInflaterFactory.clean();
-    }
-
-    /**
-     * dynamic add a skin view
-     *
-     * @param view
-     * @param attrName
-     * @param attrValueResId
-     */
-    protected void dynamicAddSkinEnableView(View view, String attrName, int attrValueResId) {
-        mSkinInflaterFactory.dynamicAddSkinEnableView(this, view, attrName, attrValueResId);
+        if (mSkinInflaterFactory != null) {
+            mSkinInflaterFactory.clean();
+        }
     }
 
     @Override
-    public void dynamicAddView(View view, List<DynamicAttr> pDAttrs) {
-        mSkinInflaterFactory.dynamicAddSkinEnableView(this, view, pDAttrs);
+    public void dynamicAddView(View view, List<BaseAttr> pDAttrs) {
+        if (mSkinInflaterFactory != null) {
+            mSkinInflaterFactory.dynamicAddSkinEnableView(this, view, pDAttrs);
+        }
     }
 
     @Override
     public void onThemeUpdate() {
-        mSkinInflaterFactory.applySkin();
+        if (mSkinInflaterFactory != null) {
+            mSkinInflaterFactory.applySkin();
+        }
     }
 }

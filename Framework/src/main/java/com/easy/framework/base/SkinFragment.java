@@ -10,7 +10,7 @@ import androidx.annotation.LayoutRes;
 import androidx.fragment.app.Fragment;
 
 import com.easy.framework.skin.inter.IDynamicNewView;
-import com.easy.framework.skin.view_attr.DynamicAttr;
+import com.easy.framework.skin.view_attr.BaseAttr;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class SkinFragment extends Fragment implements IDynamicNewView {
     }
 
     @Override
-    public void dynamicAddView(View view, List<DynamicAttr> pDAttrs) {
+    public void dynamicAddView(View view, List<BaseAttr> pDAttrs) {
         if(mIDynamicNewView == null){
             throw new RuntimeException("IDynamicNewView should be implements !");
         }else{

@@ -1,57 +1,41 @@
 package com.easy.framework.skin;
 
 import com.easy.framework.skin.view_attr.BackgroundAttr;
+import com.easy.framework.skin.view_attr.BaseAttr;
 import com.easy.framework.skin.view_attr.DividerAttr;
 import com.easy.framework.skin.view_attr.ListSelectorAttr;
 import com.easy.framework.skin.view_attr.SkinAttr;
 import com.easy.framework.skin.view_attr.TextColorAttr;
 
 public class AttrFactory {
-    public static final String BACKGROUND = "background";
-    public static final String TEXT_COLOR = "textColor";
-    public static final String LIST_SELECTOR = "listSelector";
-    public static final String DIVIDER = "divider";
 
-    public static SkinAttr get(String attrName, int attrValueRefId, String attrValueRefName, String typeName){
-        SkinAttr mSkinAttr;
-        if(BACKGROUND.equals(attrName)){
-            mSkinAttr = new BackgroundAttr();
-        }else if(TEXT_COLOR.equals(attrName)){
-            mSkinAttr = new TextColorAttr();
-        }else if(LIST_SELECTOR.equals(attrName)){
-            mSkinAttr = new ListSelectorAttr();
-        }else if(DIVIDER.equals(attrName)){
-            mSkinAttr = new DividerAttr();
-        }else{
-            return null;
+    public static SkinAttr get(BaseAttr baseAttr) {
+        SkinAttr mSkinAttr = null;
+        switch (baseAttr.attrType) {
+            case TextColorAttr:
+                mSkinAttr = new TextColorAttr(baseAttr);
+                break;
+            case BackgroundAttr:
+                mSkinAttr = new BackgroundAttr(baseAttr);
+                break;
+            case DividerAttr:
+                mSkinAttr = new DividerAttr(baseAttr);
+                break;
+            case ListSelectorAttr:
+                mSkinAttr = new ListSelectorAttr(baseAttr);
+                break;
         }
-
-        mSkinAttr.attrName = attrName;
-        mSkinAttr.attrValueRefId = attrValueRefId;
-        mSkinAttr.attrValueRefName = attrValueRefName;
-        mSkinAttr.attrValueTypeName = typeName;
         return mSkinAttr;
     }
 
     /**
      * Check whether the attribute is supported
+     *
      * @param attrName
      * @return true : supported <br>
-     * 		   false: not supported
+     * false: not supported
      */
-    public static boolean isSupportedAttr(String attrName){
-        if(BACKGROUND.equals(attrName)){
-            return true;
-        }
-        if(TEXT_COLOR.equals(attrName)){
-            return true;
-        }
-        if(LIST_SELECTOR.equals(attrName)){
-            return true;
-        }
-        if(DIVIDER.equals(attrName)){
-            return true;
-        }
+    public static boolean isSupportedAttr(String attrName) {
         return false;
     }
 }
