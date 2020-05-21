@@ -17,13 +17,13 @@ public class SkinFactory implements LayoutInflater.Factory2, Observer {
     /**
      * 属性处理类
      */
-    SkinAttribute mSkinAttribute;
+    private SkinAttribute mSkinAttribute;
     /**
      * 保存view的构造方法
      */
     private static final HashMap<String, Constructor<? extends View>> sConstructorMap = new HashMap<>();
 
-    static final Class<?>[] mConstructorSignature = new Class[]{Context.class, AttributeSet.class};
+    private static final Class<?>[] mConstructorSignature = new Class[]{Context.class, AttributeSet.class};
 
     public final String[] a = new String[]{
             "android.widget.",
@@ -54,6 +54,9 @@ public class SkinFactory implements LayoutInflater.Factory2, Observer {
         mSkinAttribute.applySkin();
     }
 
+    public SkinAttribute getSkinAttribute() {
+        return mSkinAttribute;
+    }
 
     /**
      * 参考LayoutInflater源码
@@ -94,6 +97,7 @@ public class SkinFactory implements LayoutInflater.Factory2, Observer {
             try {
                 return constructor.newInstance(context, attrs);
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return null;

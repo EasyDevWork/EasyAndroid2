@@ -1,14 +1,11 @@
 package com.easy.framework.skin.view_attr;
 
-import android.view.View;
+public abstract class SkinAttr implements  IApply{
+    public AttrType attrName;
+    public int id;
 
-public abstract class SkinAttr {
-
-    BaseAttr baseAttr;
-
-    public SkinAttr(BaseAttr baseAttr) {
-        this.baseAttr = baseAttr;
+    public SkinAttr(AttrType attrName, int id) {
+        this.attrName = attrName;
+        this.id = id;
     }
-
-    public abstract void apply(View view);
 }

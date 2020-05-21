@@ -10,11 +10,10 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.easy.framework.base.SkinFragment;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 
-public class CommonFragment extends SkinFragment {
+public class CommonFragment extends Fragment {
     public Context context;
     public boolean isShow;
     protected boolean isCreateView, isLazyLoaded;

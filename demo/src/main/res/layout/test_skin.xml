@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:skin="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -36,15 +34,83 @@
                 android:layout_height="wrap_content"
                 android:onClick="customSkin"
                 android:text="定制皮肤" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clearSkin"
+                android:text="清除定制皮肤" />
         </LinearLayout>
 
         <TextView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/ic_launcher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="xml布局控件" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/ic_launcher"
+                android:gravity="center"
+                android:text="文字"
+                android:textColor="@color/text_color_back" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_launcher" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="drawable left right top bottom" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:drawableLeft="@drawable/ic_launcher"
+                android:drawableTop="@drawable/ic_launcher"
+                android:drawableRight="@drawable/ic_launcher"
+                android:drawableBottom="@drawable/ic_launcher"
+                android:gravity="center"
+                android:text="文字"
+                android:textColor="@color/text_color_back" />
+
+<!--            <TextView-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:drawableStart="@drawable/ic_launcher"-->
+<!--                android:drawableTop="@drawable/ic_launcher"-->
+<!--                android:drawableEnd="@drawable/ic_launcher"-->
+<!--                android:drawableBottom="@drawable/ic_launcher"-->
+<!--                android:gravity="center"-->
+<!--                android:text="文字"-->
+<!--                android:textColor="@color/text_color_back" />-->
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="动态布局控件" />
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="静态添加"
-            android:textColor="@color/text_color_back"
-            skin:enable="true" />
+            android:orientation="horizontal" />
+
     </LinearLayout>
 </layout>

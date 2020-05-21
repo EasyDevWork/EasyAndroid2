@@ -12,8 +12,8 @@ import androidx.core.view.LayoutInflaterCompat;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-public class SkinActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
-    private HashMap<Activity, SkinFactory> mLayoutFactoryMap = new HashMap<>();
+public class SkinLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
+    private HashMap<String, SkinFactory> mLayoutFactoryMap = new HashMap<>();
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
@@ -33,8 +33,13 @@ public class SkinActivityLifecycleCallbacks implements Application.ActivityLifec
         SkinFactory skinLayoutFactory = new SkinFactory();
         LayoutInflaterCompat.setFactory2(layoutInflater, skinLayoutFactory);
         //注册观察者
-        SkinManager2.getInstance().addObserver(skinLayoutFactory);
-        mLayoutFactoryMap.put(activity, skinLayoutFactory);
+        SkinManager.getInstance().addObserver(skinLayoutFactory);
+        mLayoutFactoryMap.put(activity.getLocalClassName(), skinLayoutFactory);
+    }
+
+
+    public SkinFactory getSkinFactory(String localClassName) {
+        return mLayoutFactoryMap.get(localClassName);
     }
 
     @Override
@@ -64,8 +69,8 @@ public class SkinActivityLifecycleCallbacks implements Application.ActivityLifec
 
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
-        //删除观察者
-        SkinFactory skinLayoutFactory = mLayoutFactoryMap.remove(activity);
-        SkinManager2.getInstance().deleteObserver(skinLayoutFactory);
+        SkinFactory skinLayoutFactory = mLayoutFactoryMap.remove(activity.getLocalClassName());
+        SkinManager.getInstance().deleteObserver(skinLayoutFactory);
     }
+
 }

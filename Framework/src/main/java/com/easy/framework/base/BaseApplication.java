@@ -17,7 +17,6 @@ import com.easy.framework.manager.screen.ScreenManager;
 import com.easy.framework.manager.screen.ScreenStateBroadcastReceiver;
 import com.easy.framework.module.AppModule;
 import com.easy.framework.skin.SkinManager;
-import com.easy.framework.skin.SkinManager2;
 import com.easy.net.EasyNet;
 import com.easy.net.retrofit.RetrofitConfig;
 import com.easy.store.base.EasyStore;
@@ -82,8 +81,7 @@ public abstract class BaseApplication extends Application {
      * 初始化重要
      */
     private void initImportant() {
-//        SkinManager.getInstance().init(this);
-        SkinManager2.init(this);
+        SkinManager.init(this);
         //注册生命周期监听
         registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
 

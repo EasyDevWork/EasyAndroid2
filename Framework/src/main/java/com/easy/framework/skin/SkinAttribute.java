@@ -3,24 +3,21 @@ package com.easy.framework.skin;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.easy.framework.skin.view_attr.AttrType;
+import com.easy.framework.skin.view_attr.DrawableAttr;
+import com.easy.framework.skin.view_attr.IApply;
+import com.easy.framework.skin.view_attr.SkinAttr;
+import com.easy.framework.skin.view_attr.SkinAttrParam;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SkinAttribute {
 
-    public static final List<String> list = new ArrayList<>();
+    public static final List<AttrType> list = Arrays.asList(AttrType.values());
 
-    private ArrayList<SkinView> skinViews = new ArrayList<SkinView>();
-
-    static {
-        list.add("background");
-        list.add("src");
-        list.add("textColor");
-        list.add("drawableLeft");
-        list.add("drawableTop");
-        list.add("drawableRight");
-        list.add("drawableBottom");
-    }
+    private ArrayList<SkinView> skinViews = new ArrayList<>();
 
     /**
      * 保存view，分解属性，并对view进行换肤处理（当前皮肤可能不是默认时需要更换）
@@ -29,33 +26,41 @@ public class SkinAttribute {
      * @param attrs
      */
     public void loadView(View view, AttributeSet attrs) {
-        ArrayList<SkinAttrParms> skinAttrParms = new ArrayList<>();
+        ArrayList<SkinAttrParam> skinAttrParams = new ArrayList<>();
         for (int i = 0; i < attrs.getAttributeCount(); i++) {
             String attributeName = attrs.getAttributeName(i);
-            if (list.contains(attributeName)) {
+            AttrType attrType = AttrType.getType(attributeName);
+            if (AttrType.NO_SUPPORT != attrType) {
                 String attributeValue = attrs.getAttributeValue(i);
                 if (attributeValue.startsWith("#")) {
                     continue;
                 }
                 int id;
                 if (attributeValue.startsWith("?")) {
-                    int attrid = Integer.parseInt(attributeValue.substring(1));
-                    id = SkinThemeUitls.getThemeResid(view.getContext(), new int[]{attrid})[0];
+                    int attrId = Integer.parseInt(attributeValue.substring(1));
+                    id = SkinThemeUtils.getThemeResId(view.getContext(), new int[]{attrId})[0];
                 } else {
                     id = Integer.parseInt(attributeValue.substring(1));
                 }
                 if (id != 0) {
-                    SkinAttrParms attrParms = new SkinAttrParms(attributeName, id);
-                    skinAttrParms.add(attrParms);
+                    SkinAttrParam attrParams = new SkinAttrParam(attrType, id);
+                    skinAttrParams.add(attrParams);
                 }
             }
         }
-        //将View与之对应的可以动态替换的属性集合 放入 集合中
-        if (!skinAttrParms.isEmpty()) {
-            SkinView skinView = new SkinView(view, skinAttrParms);
+        if (!skinAttrParams.isEmpty()) {
+            List<IApply> skinAttrs = AttrType.assemble(skinAttrParams);
+            SkinView skinView = new SkinView(view, skinAttrs);
             skinView.applySkin();
             skinViews.add(skinView);
         }
+    }
+
+    public void addSkinView(View view, SkinAttrParam... skinAttrParams) {
+        List<IApply> skinAttrs = AttrType.assemble(Arrays.asList(skinAttrParams));
+        SkinView skinView = new SkinView(view, skinAttrs);
+        skinView.applySkin();
+        skinViews.add(skinView);
     }
 
     /**
@@ -66,6 +71,4 @@ public class SkinAttribute {
             skinView.applySkin();
         }
     }
-
-
 }

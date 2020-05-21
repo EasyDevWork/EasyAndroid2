@@ -8,9 +8,13 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
-public class SkinResources {
+import com.easy.utils.EmptyUtils;
 
-    private static SkinResources skinManager;
+import java.lang.ref.WeakReference;
+
+import javax.annotation.Nullable;
+
+public class SkinResourcesHelp {
     /**
      * APP的Resources
      */
@@ -28,40 +32,56 @@ public class SkinResources {
      */
     private boolean isDefaultSkin = true;
 
-    private Context mContext;
+    private WeakReference<Context> mContext;
     /**
      * 包路径，用来区分是否是当前皮肤
      */
     private String skinPath;
 
-    private SkinResources(Context context) {
-        mContext = context;
+    private static class Holder {
+        private static final SkinResourcesHelp instance = new SkinResourcesHelp();
+    }
+
+    private SkinResourcesHelp() {
+
+    }
+
+    public static SkinResourcesHelp getInstance() {
+        return Holder.instance;
+    }
+
+    public void init(Context context) {
+        mContext = new WeakReference<>(context);
         this.appResources = context.getResources();
     }
 
-    public static void init(Context context) {
-        synchronized (SkinManager.class) {
-            if (skinManager == null) {
-                skinManager = new SkinResources(context);
-            }
-        }
-    }
-
-    public static SkinResources getInstance() {
-        return skinManager;
-    }
-
     /**
-     * 切换皮肤
+     * 需要加载资源吗
      *
      * @param path
      * @return
      */
-    public boolean switchSkin(String path) {
-        if (skinPath != null && skinPath.equals(path) && skinResources != null) {
-            return true;
+    public boolean needLoadResource(@Nullable String path) {
+        if (EmptyUtils.isEmpty(path)) {
+            return false;
+        } else if (skinPath != null && skinPath.equals(path) && skinResources != null) {
+            return false;
         }
-        return false;
+        return true;
+    }
+
+    /**
+     * 应用已加载皮肤
+     *
+     * @param path
+     */
+    public void applySkin(String path) {
+        if (EmptyUtils.isEmpty(path)) {
+            isDefaultSkin = true;
+        } else {
+            skinPath = path;
+            isDefaultSkin = false;
+        }
     }
 
     /**
@@ -77,7 +97,6 @@ public class SkinResources {
         //是否使用默认皮肤
         isDefaultSkin = TextUtils.isEmpty(pkgName) || resources == null;
     }
-
 
     /**
      * 获取资源ID
@@ -124,10 +143,9 @@ public class SkinResources {
             return null;
         }
         Resources.Theme newTheme = skinResources.newTheme();
-        Context context = null;
+        Context context;
         try {
-            context = mContext.createPackageContext(mSkinPkgName,
-                    Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
+            context = mContext.get().createPackageContext(mSkinPkgName, Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
             final Resources.Theme theme = context.getTheme();
             if (theme != null) {
                 newTheme.setTo(theme);

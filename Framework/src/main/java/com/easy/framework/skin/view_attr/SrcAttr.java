@@ -1,15 +1,15 @@
 package com.easy.framework.skin.view_attr;
 
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-
-import androidx.core.view.ViewCompat;
+import android.widget.ImageView;
 
 import com.easy.framework.skin.SkinResourcesHelp;
 
-public class BackgroundAttr extends SkinAttr {
+public class SrcAttr extends SkinAttr {
 
-    public BackgroundAttr(AttrType attrName, int id) {
+    public SrcAttr(AttrType attrName, int id) {
         super(attrName, id);
     }
 
@@ -17,9 +17,9 @@ public class BackgroundAttr extends SkinAttr {
     public void apply(View view) {
         Object background = SkinResourcesHelp.getInstance().getBackground(id);
         if (background instanceof Integer) {
-            view.setBackgroundColor((Integer) background);
+            ((ImageView) view).setImageDrawable(new ColorDrawable((Integer) background));
         } else {
-            ViewCompat.setBackground(view, (Drawable) background);
+            ((ImageView) view).setImageDrawable((Drawable) background);
         }
     }
 }
