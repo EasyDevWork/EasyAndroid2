@@ -90,9 +90,11 @@ public class SkinFactory implements LayoutInflater.Factory2, Observer {
      */
     private View createView(String name, Context context, AttributeSet attrs) {
         Constructor<? extends View> constructor = findConstructor(context, name);
-        try {
-            return constructor.newInstance(context, attrs);
-        } catch (Exception e) {
+        if (constructor != null) {
+            try {
+                return constructor.newInstance(context, attrs);
+            } catch (Exception e) {
+            }
         }
         return null;
     }
@@ -108,7 +110,7 @@ public class SkinFactory implements LayoutInflater.Factory2, Observer {
      */
     private Constructor<? extends View> findConstructor(Context context, String name) {
         Constructor<? extends View> constructor = sConstructorMap.get(name);
-        if (null == constructor) {
+        if (null == constructor && !"android.widget.ViewStub".equals(name)) {
             try {
                 Class<? extends View> clazz = context.getClassLoader().loadClass
                         (name).asSubclass(View.class);

@@ -59,8 +59,8 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         DebugDo skin = new DebugDo("换肤", () -> ARouter.getInstance().build("/demo/TestSkinActivity").navigation());
         debugDos.add(skin);
 
-//        DebugDo rxjava = new DebugDo("空", () -> ARouter.getInstance().build("/demo/TestRxJavaActivity").navigation());
-//        debugDos.add(rxjava);
+        DebugDo rxjava = new DebugDo("rxjava", () -> ARouter.getInstance().build("/demo/TestRxJavaActivity").navigation());
+        debugDos.add(rxjava);
 
         DebugDo http = new DebugDo("http", () -> ARouter.getInstance().build("/demo/TestHttpActivity").navigation());
         debugDos.add(http);
