@@ -51,6 +51,7 @@ public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBindi
         builder.append("5.支持更换背景颜色").append("\n");
         builder.append("6.支持更换背景图片").append("\n");
         builder.append("7.支持ImageView src 图片").append("\n");
+        builder.append("8.支持drawable left/right/top/bottom").append("\n");
         viewBind.tvDescribe.setText(builder.toString());
 
         dynamicAddView();
