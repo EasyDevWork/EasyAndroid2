@@ -31,13 +31,25 @@ public class DrawableAttr implements IApply {
 
     @Override
     public void apply(View view) {
-        Drawable dLeft = SkinResourcesHelp.getInstance().getDrawable(lef);
-        Drawable dTop = SkinResourcesHelp.getInstance().getDrawable(top);
-        Drawable dRight = SkinResourcesHelp.getInstance().getDrawable(right);
-        Drawable dBottom = SkinResourcesHelp.getInstance().getDrawable(bottom);
-
-        if (null != dLeft || null != dTop || null != dRight || null != dBottom) {
-            ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(dLeft, dTop, dRight, dBottom);
+        Drawable dLeft = null;
+        if (lef != 0) {
+            dLeft = SkinResourcesHelp.getInstance().getDrawable(lef);
         }
+        Drawable dTop = null;
+        if (top != 0) {
+            dTop = SkinResourcesHelp.getInstance().getDrawable(top);
+        }
+
+        Drawable dRight = null;
+        if (right != 0) {
+            dRight = SkinResourcesHelp.getInstance().getDrawable(right);
+        }
+
+        Drawable dBottom = null;
+        if (bottom != 0) {
+            dBottom = SkinResourcesHelp.getInstance().getDrawable(bottom);
+        }
+
+        ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(dLeft, dTop, dRight, dBottom);
     }
 }

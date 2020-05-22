@@ -6,10 +6,13 @@ import java.util.List;
 public enum AttrType {
     BACKGROUND("background"),
     SRC("src"),
+    TYPE_FACE("typeface"),
     TEXT_COLOR("textColor"),
     DRAWABLE_LEFT("drawableLeft"),
+    DRAWABLE_START("drawableStart"),
     DRAWABLE_TOP("drawableTop"),
     DRAWABLE_RIGHT("drawableRight"),
+    DRAWABLE_END("drawableEnd"),
     DRAWABLE_BOTTOM("drawableBottom"),
     NO_SUPPORT("noSupport");
     public String type;
@@ -23,6 +26,9 @@ public enum AttrType {
         List<IApply> attrs = new ArrayList<>();
         for (SkinAttrParam attrParam : skinAttrParams) {
             switch (attrParam.attrType) {
+                case TYPE_FACE:
+                    attrs.add(new TypeFaceAttr(TYPE_FACE, attrParam.id));
+                    break;
                 case SRC:
                     attrs.add(new SrcAttr(SRC, attrParam.id));
                     break;
@@ -33,6 +39,7 @@ public enum AttrType {
                     attrs.add(new TextColorAttr(TEXT_COLOR, attrParam.id));
                     break;
                 case DRAWABLE_LEFT:
+                case DRAWABLE_START:
                     if (drawableAttr == null) {
                         drawableAttr = new DrawableAttr();
                     }
@@ -45,6 +52,7 @@ public enum AttrType {
                     drawableAttr.setTop(attrParam.id);
                     break;
                 case DRAWABLE_RIGHT:
+                case DRAWABLE_END:
                     if (drawableAttr == null) {
                         drawableAttr = new DrawableAttr();
                     }

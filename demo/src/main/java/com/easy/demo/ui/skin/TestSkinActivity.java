@@ -1,6 +1,7 @@
 package com.easy.demo.ui.skin;
 
 import android.Manifest;
+import android.graphics.Typeface;
 import android.os.Environment;
 import android.view.Gravity;
 import android.view.View;
@@ -14,8 +15,6 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestSkinBinding;
-import com.easy.demo.ui.empty.EmptyPresenter;
-import com.easy.demo.ui.empty.EmptyView;
 import com.easy.framework.base.BaseActivity;
 import com.easy.framework.skin.SkinManager;
 import com.easy.framework.skin.view_attr.AttrType;
@@ -27,10 +26,12 @@ import java.io.File;
 
 @ActivityInject
 @Route(path = "/demo/TestSkinActivity", name = "换肤")
-public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBinding> implements EmptyView {
+public class TestSkinActivity extends BaseActivity<TestSkinPresenter, TestSkinBinding> implements TestSkinView {
 
     String skinPath;
     int width;
+    Typeface typeface;
+    String skinApkName = "Black.skin";
 
     @Override
     public int getLayoutId() {
@@ -40,7 +41,7 @@ public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBindi
     @Override
     public void initView() {
         width = DimensUtils.dp2px(this, 100);
-        skinPath = Environment.getExternalStorageDirectory() + File.separator + "Black.skin";
+        skinPath = Environment.getExternalStorageDirectory() + File.separator + skinApkName;
 
         StringBuilder builder = new StringBuilder();
         builder.append("0.需求请求读写文件权限").append("\n");
@@ -51,10 +52,22 @@ public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBindi
         builder.append("5.支持更换背景颜色").append("\n");
         builder.append("6.支持更换背景图片").append("\n");
         builder.append("7.支持ImageView src 图片").append("\n");
-        builder.append("8.支持drawable left/right/top/bottom").append("\n");
+        builder.append("8.支持drawable left/start/right/end/top/bottom").append("\n");
+        builder.append("9.支持修改字体").append("\n");
         viewBind.tvDescribe.setText(builder.toString());
 
+        typeface = Typeface.createFromAsset(context.getAssets(), getString(R.string.font_type_face));
+        viewBind.tvDescribe.setTypeface(typeface);
+
+        SkinAttrParam src = new SkinAttrParam(AttrType.TYPE_FACE, R.string.font_type_face);
+        SkinManager.getInstance().addSkinView(this, viewBind.tvDescribe, src);
+
         dynamicAddView();
+    }
+
+    public void copySkinApk(View view) {
+        showLoading();
+        presenter.copySkinApkToSdcard(skinApkName, skinPath);
     }
 
     public void requestPermission(View view) {
@@ -72,7 +85,8 @@ public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBindi
             if (loadState) {
                 ToastUtils.showShort("换肤成功");
             } else {
-                ToastUtils.showShort("请检查《权限》和《皮肤包路径》是否存在：" + skinPath);
+                //请检查《权限》和《皮肤包路径》是否存在：+skinPath
+                ToastUtils.showShort("定制失败：\n" + throwable.getMessage());
             }
         });
     }
@@ -86,7 +100,8 @@ public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBindi
             if (loadState) {
                 ToastUtils.showShort("换肤成功");
             } else {
-                ToastUtils.showShort("请检查《权限》和《皮肤包路径》是否存在：" + skinPath);
+                //请检查《权限》和《皮肤包路径》是否存在：+skinPath
+                ToastUtils.showShort("定制失败：\n" + throwable.getMessage());
             }
         });
     }
@@ -128,5 +143,11 @@ public class TestSkinActivity extends BaseActivity<EmptyPresenter, TestSkinBindi
 
         SkinAttrParam src = new SkinAttrParam(AttrType.SRC, R.drawable.ic_launcher);
         SkinManager.getInstance().addSkinView(this, imageView, src);
+    }
+
+    @Override
+    public void copyCallback(boolean result) {
+        hideLoading();
+        ToastUtils.showShort("复制结果：" + result);
     }
 }

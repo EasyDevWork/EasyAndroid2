@@ -30,6 +30,21 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="copySkinApk"
+                    android:text="复制皮肤包到SD卡" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:onClick="officeSkin"
                     android:text="官方皮肤" />
 
@@ -82,8 +97,8 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_launcher"
                     android:drawableTop="@drawable/ic_launcher"
                     android:drawableRight="@drawable/ic_launcher"
@@ -92,16 +107,16 @@
                     android:text="文字"
                     android:textColor="@color/text_color_back" />
 
-                <!--            <TextView-->
-                <!--                android:layout_width="100dp"-->
-                <!--                android:layout_height="100dp"-->
-                <!--                android:drawableStart="@drawable/ic_launcher"-->
-                <!--                android:drawableTop="@drawable/ic_launcher"-->
-                <!--                android:drawableEnd="@drawable/ic_launcher"-->
-                <!--                android:drawableBottom="@drawable/ic_launcher"-->
-                <!--                android:gravity="center"-->
-                <!--                android:text="文字"-->
-                <!--                android:textColor="@color/text_color_back" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_launcher"
+                    android:drawableTop="@drawable/ic_launcher"
+                    android:drawableEnd="@drawable/ic_launcher"
+                    android:drawableBottom="@drawable/ic_launcher"
+                    android:gravity="center"
+                    android:text="文字"
+                    android:textColor="@color/text_color_back" />
             </LinearLayout>
 
             <TextView

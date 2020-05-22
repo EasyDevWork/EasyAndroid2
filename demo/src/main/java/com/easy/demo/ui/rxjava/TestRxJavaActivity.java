@@ -32,12 +32,17 @@ public class TestRxJavaActivity extends BaseActivity<EmptyPresenter, EmptyBindin
     @Override
     @SuppressLint("AutoDispose")
     public void initView() {
-        disposable = Single.create((SingleOnSubscribe<String>) emitter -> emitter.onSuccess(null))
-                .subscribeOn(Schedulers.io())
+        disposable = Single.create((SingleOnSubscribe<Boolean>) emitter -> {
+            int a = 1 / 0;
+            emitter.onSuccess(a == 0);
+        }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(integer -> Log.d("TestRxJavaActivity", "i=" + integer), throwable -> {
-                    Log.d("TestRxJavaActivity", "throwable==>" + throwable.getMessage());
-                });
+                .subscribe(result -> {
+                            Log.d("TestRxJavaActivity", "i=" + result);
+                        },
+                        throwable -> {
+                            Log.d("TestRxJavaActivity", "throwable==>" + throwable.getMessage());
+                        });
     }
 
     @Override

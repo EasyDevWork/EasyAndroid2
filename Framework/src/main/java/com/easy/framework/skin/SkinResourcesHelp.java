@@ -99,6 +99,15 @@ public class SkinResourcesHelp {
     }
 
     /**
+     * 恢复默认皮肤
+     */
+    public void reset() {
+        skinResources = null;
+        mSkinPkgName = "";
+        isDefaultSkin = true;
+    }
+
+    /**
      * 获取资源ID
      *
      * @param resId
@@ -116,47 +125,6 @@ public class SkinResourcesHelp {
         int skinId = skinResources.getIdentifier(resName, resType, mSkinPkgName);
         return skinId;
     }
-
-
-    /**
-     * 恢复默认皮肤
-     */
-    public void reset() {
-        skinResources = null;
-        mSkinPkgName = "";
-        isDefaultSkin = true;
-    }
-
-
-    /**
-     * 可惜获取到的还是本身的theme
-     *
-     * @param resId
-     * @return
-     */
-    public Resources.Theme getTheme(int resId) {
-        if (isDefaultSkin) {
-            return null;
-        }
-        int skinId = getIdentifier(resId);
-        if (skinId == 0) {
-            return null;
-        }
-        Resources.Theme newTheme = skinResources.newTheme();
-        Context context;
-        try {
-            context = mContext.get().createPackageContext(mSkinPkgName, Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
-            final Resources.Theme theme = context.getTheme();
-            if (theme != null) {
-                newTheme.setTo(theme);
-            }
-            theme.applyStyle(resId, true);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 
     public int getColor(int resId) {
         if (isDefaultSkin) {
@@ -201,7 +169,6 @@ public class SkinResourcesHelp {
      */
     public Object getBackground(int resId) {
         String resourceTypeName = appResources.getResourceTypeName(resId);
-
         if (resourceTypeName.equals("color")) {
             return getColor(resId);
         } else {
@@ -220,8 +187,8 @@ public class SkinResourcesHelp {
                 return appResources.getString(skinId);
             }
             return skinResources.getString(skinId);
-        } catch (Resources.NotFoundException e) {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -236,12 +203,41 @@ public class SkinResourcesHelp {
             if (isDefaultSkin) {
                 typeface = Typeface.createFromAsset(appResources.getAssets(), skinTypefacePath);
                 return typeface;
-
             }
             typeface = Typeface.createFromAsset(skinResources.getAssets(), skinTypefacePath);
             return typeface;
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return Typeface.DEFAULT;
+    }
+
+    /**
+     * 可惜获取到的还是本身的theme
+     *
+     * @param resId
+     * @return
+     */
+    public Resources.Theme getTheme(int resId) {
+        if (isDefaultSkin) {
+            return null;
+        }
+        int skinId = getIdentifier(resId);
+        if (skinId == 0) {
+            return null;
+        }
+        Resources.Theme newTheme = skinResources.newTheme();
+        Context context;
+        try {
+            context = mContext.get().createPackageContext(mSkinPkgName, Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
+            final Resources.Theme theme = context.getTheme();
+            if (theme != null) {
+                newTheme.setTo(theme);
+            }
+            theme.applyStyle(resId, true);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

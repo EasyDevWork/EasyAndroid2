@@ -184,6 +184,7 @@ public class FileUtils {
 
     /**
      * 删除文件夹/文件
+     *
      * @param dir
      * @return
      */
@@ -298,10 +299,10 @@ public class FileUtils {
         return false;
     }
 
-    public static void writeExtractedFileToDisk(InputStream in, OutputStream outs) throws Exception {
+    public static void writeFile(InputStream in, FileOutputStream outs) throws Exception {
         byte[] buffer = new byte[1024];
         int length;
-        while ((length = in.read(buffer))>0){
+        while ((length = in.read(buffer)) > 0) {
             outs.write(buffer, 0, length);
         }
         outs.flush();

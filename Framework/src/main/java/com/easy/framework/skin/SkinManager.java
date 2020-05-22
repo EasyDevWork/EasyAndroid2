@@ -122,13 +122,15 @@ public class SkinManager extends Observable {
     public void loadSkinResources(String path, Callback callback) {
         Single.create((SingleOnSubscribe<Boolean>) emitter -> {
             if (TextUtils.isEmpty(path)) {
-                emitter.onSuccess(false);
+                emitter.onError(new Throwable("skinApk path is null"));
                 return;
             }
             File file = new File(path);
             if (!file.exists()) {
-                emitter.onSuccess(false);
+                emitter.onError(new Throwable("skinApk File is no find"));
+                return;
             }
+
             AssetManager assetManager = AssetManager.class.newInstance();
             Method method = assetManager.getClass().getMethod("addAssetPath", String.class);
             method.setAccessible(true);
@@ -136,7 +138,6 @@ public class SkinManager extends Observable {
             Resources resources = mApplication.getResources();
             Resources skinRes = new Resources(assetManager, resources.getDisplayMetrics(), resources.getConfiguration());
 
-            //获取外部Apk(皮肤包) 包名
             PackageManager mPm = mApplication.getPackageManager();
             PackageInfo info = mPm.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
             String packageName = info.packageName;
@@ -160,7 +161,10 @@ public class SkinManager extends Observable {
                         if (callback != null) {
                             callback.loadSkin(result, null);
                         }
-                        Log.d("laod", "isDisposed:" + disposable.isDisposed());
+                        if (disposable != null && !disposable.isDisposed()) {
+                            disposable.dispose();
+                            Log.d("loadResources", "onSuccess isDisposed:" + disposable.isDisposed());
+                        }
                     }
 
                     @Override
@@ -168,7 +172,11 @@ public class SkinManager extends Observable {
                         if (callback != null) {
                             callback.loadSkin(false, throwable);
                         }
-                        Log.d("laod", "isDisposed:" + disposable.isDisposed());
+                        throwable.printStackTrace();
+                        if (disposable != null && !disposable.isDisposed()) {
+                            disposable.dispose();
+                            Log.d("loadResources", "onError isDisposed:" + disposable.isDisposed());
+                        }
                     }
                 });
     }
@@ -177,7 +185,14 @@ public class SkinManager extends Observable {
      * 清除换肤，恢复默认
      */
     public void clearSkin() {
-        saveSkinPath(null);
+        String path = getSkinPath();
+        if (EmptyUtils.isNotEmpty(path)) {
+            File file = new File(path);
+            if (file.exists()) {
+                boolean del = file.delete();
+            }
+            saveSkinPath(null);
+        }
         SkinResourcesHelp.getInstance().reset();
         setChanged();
         notifyObservers();
