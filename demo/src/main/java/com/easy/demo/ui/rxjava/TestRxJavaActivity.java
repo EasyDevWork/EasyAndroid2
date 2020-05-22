@@ -11,10 +11,17 @@ import com.easy.demo.ui.empty.EmptyPresenter;
 import com.easy.demo.ui.empty.EmptyView;
 import com.easy.framework.base.BaseActivity;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleObserver;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -32,17 +39,35 @@ public class TestRxJavaActivity extends BaseActivity<EmptyPresenter, EmptyBindin
     @Override
     @SuppressLint("AutoDispose")
     public void initView() {
-        disposable = Single.create((SingleOnSubscribe<Boolean>) emitter -> {
-            int a = 1 / 0;
-            emitter.onSuccess(a == 0);
+
+        Single.create((SingleOnSubscribe<String>) emitter -> {
+            Log.d("initView", "subscribe thread:" + Thread.currentThread());
+            emitter.onSuccess("ddd");
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                            Log.d("TestRxJavaActivity", "i=" + result);
-                        },
-                        throwable -> {
-                            Log.d("TestRxJavaActivity", "throwable==>" + throwable.getMessage());
-                        });
+                .subscribe(new SingleObserver<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                        Log.d("initView", "onSubscribe thread:" + Thread.currentThread());
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        if (disposable != null && !disposable.isDisposed()) {
+                            disposable.dispose();
+                        }
+                        Log.d("initView", "onSuccess thread:" + Thread.currentThread());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (disposable != null && !disposable.isDisposed()) {
+                            disposable.dispose();
+                        }
+                        Log.d("initView", "onError thread:" + Thread.currentThread());
+                    }
+                });
     }
 
     @Override

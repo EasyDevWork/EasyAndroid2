@@ -1,50 +1,45 @@
 package com.easy.framework.manager.activity;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.easy.framework.base.BaseApplication;
 import com.easy.framework.even.ActivityWakeUpEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class ActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
     public Stack<WeakReference<Activity>> store = new Stack<>();
-    private long resumed;
-    private int paused;
-    private int started;
-    private int stopped;
-    private boolean isForeground = true;//是否在前台；
     private final String tag = "ActivityLifecycle";
+    boolean lastState = false;
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
         WeakReference<Activity> weakActivity = new WeakReference<>(activity);
         store.add(weakActivity);
-        Log.d(tag, getSimpleName(activity) + "<<Create>>");
+        Log.d(tag, getSimpleName(activity) + "<<Create>> InForeground：" + isApplicationInForeground());
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
-        ++started;
-        Log.d(tag, getSimpleName(activity) + "<<Start>>");
+        Log.d(tag, getSimpleName(activity) + "<<Start>> InForeground：" + isApplicationInForeground());
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
-        ++resumed;
-        if (isApplicationInForeground() && !isForeground) {
-            isForeground = true;
-            EventBus.getDefault().post(new ActivityWakeUpEvent());
-        }
-        Log.d(tag, getSimpleName(activity) + "<<Resumed>>");
+        Log.d(tag, getSimpleName(activity) + "<<Resumed>> InForeground：" + isApplicationInForeground());
     }
 
     public String getSimpleName(Activity activity) {
@@ -53,35 +48,53 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
 
     @Override
     public void onActivityPaused(Activity activity) {
-        ++paused;
-        Log.d(tag, getSimpleName(activity) + "<<Paused>>");
+        Log.d(tag, getSimpleName(activity) + "<<Paused>> InForeground：" + isApplicationInForeground());
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
-        ++stopped;
-        isForeground = isApplicationVisible();
-        Log.d(tag, getSimpleName(activity) + "<<Stopped>>");
+        Log.d("activityLife", activity.getLocalClassName() + " Stopped InForeground:" + isApplicationInForeground());
+        boolean currentState = isApplicationInForeground();
+        if (currentState != lastState) {
+            EventBus.getDefault().post(new ActivityWakeUpEvent());
+        }
+        lastState = currentState;
+        Log.d(tag, getSimpleName(activity) + "<<Stopped>> InForeground：" + isApplicationInForeground());
     }
 
     @Override
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
-        Log.d(tag, getSimpleName(activity) + "<<SaveInstanceState>>");
+        Log.d(tag, getSimpleName(activity) + "<<SaveInstanceState>> InForeground：" + isApplicationInForeground());
     }
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        store.remove(activity);
-        Log.d(tag, getSimpleName(activity) + "<<Destroyed>>");
-    }
-
-    public boolean isApplicationVisible() {
-        return started > stopped;
+        List<WeakReference<Activity>> temp = new ArrayList<>();
+        for (WeakReference<Activity> weakReference : store) {
+            if (weakReference.get() != null && activity.getLocalClassName().equals(weakReference.get().getLocalClassName())) {
+                temp.add(weakReference);
+            }
+        }
+        if (temp.size() > 0) {
+            store.removeAll(temp);
+        }
+        Log.d(tag, getSimpleName(activity) + "<<Destroyed>> InForeground："+ isApplicationInForeground());
     }
 
     public boolean isApplicationInForeground() {
-        // 当所有 Activity 的状态中处于 resumed 的大于 paused 状态的，即可认为有Activity处于前台状态中
-        return resumed > paused;
+        android.app.ActivityManager mActivityManager = (android.app.ActivityManager) BaseApplication.getInst().getSystemService(Context.ACTIVITY_SERVICE);
+        assert mActivityManager != null;
+        List<android.app.ActivityManager.RunningAppProcessInfo> processes = mActivityManager.getRunningAppProcesses();
+        if (processes.size() == 0) {
+            return false;
+        }
+        for (android.app.ActivityManager.RunningAppProcessInfo process : processes) {
+            Log.d(tag, "isApplicationInForeground===>" + process.importance);
+            if (process.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -129,7 +142,7 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
         }
         for (WeakReference<Activity> activity : store) {
             if (activity.get() != null) {
-                if (activityName.equals(activity.get().getClass().getName())) {
+                if (activityName.equals(activity.get().getLocalClassName())) {
                     continue;
                 }
                 activity.get().finish();
@@ -153,28 +166,10 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
             return;
         }
         for (WeakReference<Activity> activity : store) {
-            if (activity.get() != null && activityName.equals(activity.get().getClass().getName())) {
+            if (activity.get() != null && activityName.equals(activity.get().getLocalClassName())) {
                 activity.get().finish();
                 break;
             }
         }
-    }
-
-    /**
-     * 页面是否在后台
-     *
-     * @param activityName
-     * @return
-     */
-    public boolean isInBackground(String activityName) {
-        if (TextUtils.isEmpty(activityName)) {
-            return false;
-        }
-        for (WeakReference<Activity> activity : store) {
-            if (activity.get() != null && activityName.equals(activity.get().getClass().getName())) {
-                return true;
-            }
-        }
-        return false;
     }
 }

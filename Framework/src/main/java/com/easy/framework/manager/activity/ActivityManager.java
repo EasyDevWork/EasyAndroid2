@@ -61,29 +61,11 @@ public class ActivityManager {
         callbacks.finishOtherActivity(activity);
     }
 
-    /**
-     * 应用是否在前台
-     *
-     * @return
-     */
-    public boolean isApplicationVisible() {
-        if (callbacks != null) {
-            return callbacks.isApplicationVisible();
-        }
-        return true;
-    }
 
     public void finishActivity(String activityName) {
         if (callbacks != null) {
             callbacks.finishActivity(activityName);
         }
-    }
-
-    public boolean isInBackground(String activityName) {
-        if (callbacks != null) {
-            return callbacks.isInBackground(activityName);
-        }
-        return false;
     }
 
     /**

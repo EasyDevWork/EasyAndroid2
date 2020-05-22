@@ -20,6 +20,9 @@ public class TestLifeCycleActivity extends BaseActivity<TestLifeCyclePresenter, 
 
     @Override
     public void initView() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("测试业务的生命周期绑定");
+        viewBind.tvDescribe.setText(builder.toString());
     }
 
     public void bindLifeCycle(View view) {
