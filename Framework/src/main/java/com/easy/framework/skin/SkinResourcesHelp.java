@@ -3,14 +3,19 @@ package com.easy.framework.skin;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.os.LocaleList;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 
 import com.easy.utils.EmptyUtils;
 
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 
 import javax.annotation.Nullable;
 
@@ -37,6 +42,7 @@ public class SkinResourcesHelp {
      * 包路径，用来区分是否是当前皮肤
      */
     private String skinPath;
+    private String language = "zh";
 
     private static class Holder {
         private static final SkinResourcesHelp instance = new SkinResourcesHelp();
@@ -53,6 +59,59 @@ public class SkinResourcesHelp {
     public void init(Context context) {
         mContext = new WeakReference<>(context);
         this.appResources = context.getResources();
+        language = getSystemLanguage();
+    }
+
+    public void changeLanguage(String language) {
+        this.language = language;
+        changeLanguage(appResources, language);
+        if (skinResources != null) {
+            changeLanguage(skinResources, language);
+        }
+    }
+
+    private String getSystemLanguage() {
+        Locale locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locale = LocaleList.getDefault().get(0);
+        } else {
+            locale = Locale.getDefault();
+        }
+        return locale.getLanguage();
+    }
+
+    private void changeLanguage(Resources resources, String language) {
+        Locale myLocale = getLanguageLocale(language);
+        if (myLocale != null) {
+            Configuration configuration = resources.getConfiguration();
+            DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                configuration.setLocale(myLocale);
+                Context context = mContext.get();
+                if (context != null) {
+                    context.createConfigurationContext(configuration);
+                }
+            } else {
+                configuration.locale = myLocale;
+            }
+            Locale.setDefault(configuration.locale);
+            resources.updateConfiguration(configuration, displayMetrics);
+        }
+    }
+
+    private Locale getLanguageLocale(String languageCode) {
+        if (EmptyUtils.isNotEmpty(languageCode)) {
+            if (languageCode.equals("zh")) {
+                return Locale.CHINA; // 简体中文
+            } else if (languageCode.equals("en")) {
+                return Locale.ENGLISH; // 英文
+            } else if (languageCode.equals("ko")) {
+                return Locale.KOREAN;
+            } else if (languageCode.equals("ja")) {
+                return Locale.JAPAN;
+            }
+        }
+        return null;
     }
 
     /**
@@ -96,6 +155,7 @@ public class SkinResourcesHelp {
         mSkinPkgName = pkgName;
         //是否使用默认皮肤
         isDefaultSkin = TextUtils.isEmpty(pkgName) || resources == null;
+        changeLanguage(skinResources, language);
     }
 
     /**
@@ -176,6 +236,7 @@ public class SkinResourcesHelp {
             return getDrawable(resId);
         }
     }
+
     public String getTextContent(int resId) {
         try {
             if (isDefaultSkin) {
@@ -191,6 +252,7 @@ public class SkinResourcesHelp {
         }
         return null;
     }
+
     public String getString(int resId) {
         try {
             if (isDefaultSkin) {

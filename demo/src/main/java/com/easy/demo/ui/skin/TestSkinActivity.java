@@ -19,6 +19,7 @@ import com.easy.demo.bean.DebugDo;
 import com.easy.demo.databinding.TestSkinBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.framework.skin.SkinManager;
+import com.easy.framework.skin.SkinResourcesHelp;
 import com.easy.framework.skin.view_attr.AttrType;
 import com.easy.framework.skin.view_attr.SkinAttrParam;
 import com.easy.utils.DimensUtils;
@@ -96,12 +97,11 @@ public class TestSkinActivity extends BaseActivity<TestSkinPresenter, TestSkinBi
     }
 
     public void changeLanguage(View v) {
-//        AttrType.supportText = true;
         i++;
         if (i % 2 == 0) {
-            LanguageUtil.changeLanguage(this, "zh");
+            SkinResourcesHelp.getInstance().changeLanguage("zh");
         } else {
-            LanguageUtil.changeLanguage(this, "en");
+            SkinResourcesHelp.getInstance().changeLanguage("en");
         }
         Log.d("Language", "current1:" + LanguageUtil.getSystemLanguage());
     }
