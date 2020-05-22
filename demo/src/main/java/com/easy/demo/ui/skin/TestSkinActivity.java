@@ -49,7 +49,7 @@ public class TestSkinActivity extends BaseActivity<TestSkinPresenter, TestSkinBi
         skinPath = Environment.getExternalStorageDirectory() + File.separator + skinApkName;
 
         StringBuilder builder = new StringBuilder();
-        builder.append("0.操作步骤：请求读写文件权限,复制Asset皮肤包到sd卡（按钮上点击）").append("\n");
+        builder.append("0.操作步骤：请求读写文件权限,\n复制Asset皮肤包到sd卡（按钮上直接点击）").append("\n");
         builder.append("1.皮肤路径:" + skinPath).append("\n");
         builder.append("2.支持动态添加的控件换肤").append("\n");
         builder.append("3.支持XML里的控件换肤").append("\n");
@@ -59,6 +59,7 @@ public class TestSkinActivity extends BaseActivity<TestSkinPresenter, TestSkinBi
         builder.append("7.支持ImageView src 图片").append("\n");
         builder.append("8.支持drawable left/start/right/end/top/bottom").append("\n");
         builder.append("9.支持修改字体").append("\n");
+        builder.append("10.支持切换语言").append("\n");
         viewBind.tvDescribe.setText(builder.toString());
 
         typeface = Typeface.createFromAsset(context.getAssets(), getString(R.string.font_type_face));
@@ -100,8 +101,10 @@ public class TestSkinActivity extends BaseActivity<TestSkinPresenter, TestSkinBi
         i++;
         if (i % 2 == 0) {
             SkinResourcesHelp.getInstance().changeLanguage("zh");
+            ToastUtils.showShort("切换到中文");
         } else {
             SkinResourcesHelp.getInstance().changeLanguage("en");
+            ToastUtils.showShort("切换到英文");
         }
         Log.d("Language", "current1:" + LanguageUtil.getSystemLanguage());
     }

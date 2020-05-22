@@ -106,11 +106,15 @@ public class SkinManager extends Observable {
         if (EmptyUtils.isNotEmpty(path)) {
             saveSkinPath(path);
         }
-        setChanged();
-        notifyObservers();
+        apply();
         if (callback != null) {
             callback.loadSkin(true, null);
         }
+    }
+
+    public void apply() {
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -155,8 +159,7 @@ public class SkinManager extends Observable {
                     @Override
                     public void onSuccess(Boolean result) {
                         if (result) {
-                            setChanged();
-                            notifyObservers();
+                            apply();
                         }
                         if (callback != null) {
                             callback.loadSkin(result, null);
@@ -194,7 +197,6 @@ public class SkinManager extends Observable {
             saveSkinPath(null);
         }
         SkinResourcesHelp.getInstance().reset();
-        setChanged();
-        notifyObservers();
+        apply();
     }
 }

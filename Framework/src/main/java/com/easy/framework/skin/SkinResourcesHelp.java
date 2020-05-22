@@ -68,6 +68,7 @@ public class SkinResourcesHelp {
         if (skinResources != null) {
             changeLanguage(skinResources, language);
         }
+        SkinManager.getInstance().apply();
     }
 
     private String getSystemLanguage() {
