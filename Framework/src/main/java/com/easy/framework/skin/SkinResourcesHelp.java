@@ -176,7 +176,21 @@ public class SkinResourcesHelp {
             return getDrawable(resId);
         }
     }
-
+    public String getTextContent(int resId) {
+        try {
+            if (isDefaultSkin) {
+                return appResources.getString(resId);
+            }
+            int skinId = getIdentifier(resId);
+            if (skinId == 0) {
+                return appResources.getString(skinId);
+            }
+            return skinResources.getString(skinId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public String getString(int resId) {
         try {
             if (isDefaultSkin) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,7 +15,8 @@
                 android:id="@+id/tvDescribe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/back" />
+                android:textColor="@color/back"
+                tools:text="sss" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -33,6 +35,11 @@
                     android:onClick="copySkinApk"
                     android:text="复制皮肤包到SD卡" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_language" />
+
             </LinearLayout>
 
 
@@ -40,7 +47,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
 
                 <Button
                     android:layout_width="wrap_content"
@@ -59,6 +65,13 @@
                     android:layout_height="wrap_content"
                     android:onClick="clearSkin"
                     android:text="清除定制皮肤" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="changeLanguage"
+                    android:text="切换语言" />
+
             </LinearLayout>
 
             <TextView

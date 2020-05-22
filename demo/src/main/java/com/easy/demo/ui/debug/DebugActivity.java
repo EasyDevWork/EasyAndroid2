@@ -1,8 +1,6 @@
 package com.easy.demo.ui.debug;
 
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -13,10 +11,8 @@ import com.easy.demo.R;
 import com.easy.demo.base.DemoSharePreferences;
 import com.easy.demo.bean.DebugDo;
 import com.easy.demo.databinding.DebugBinding;
-import com.easy.demo.ui.skin.TestSkinActivity;
 import com.easy.framework.base.BaseActivity;
 import com.easy.store.bean.Accounts;
-import com.easy.utils.LanguageUtil;
 import com.easy.utils.ToastUtils;
 import com.easy.utils.WebCacheUtils;
 import com.easy.widget.TitleView;
@@ -137,18 +133,6 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
             WebCacheUtils.clearWebCache(this);
         });
         debugDos.add(WebCache);
-
-        DebugDo Language = new DebugDo("语言设置", () -> {
-            i++;
-            if (i % 2 == 0) {
-                LanguageUtil.changeLanguage(this, "zh");
-            } else {
-                LanguageUtil.changeLanguage(this, "en");
-            }
-            titleView.setTitleText(getString(R.string.debug_title));
-            Log.d("Language", "current1:" + LanguageUtil.getSystemLanguage());
-        });
-        debugDos.add(Language);
 
         DebugDo tv = new DebugDo("TV", () -> ARouter.getInstance().build("/demo/LauncherActivity").navigation());
         debugDos.add(tv);

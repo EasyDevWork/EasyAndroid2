@@ -6,6 +6,7 @@ import java.util.List;
 public enum AttrType {
     BACKGROUND("background"),
     SRC("src"),
+    TEXT("text"),
     TYPE_FACE("typeface"),
     TEXT_COLOR("textColor"),
     DRAWABLE_LEFT("drawableLeft"),
@@ -26,6 +27,9 @@ public enum AttrType {
         List<IApply> attrs = new ArrayList<>();
         for (SkinAttrParam attrParam : skinAttrParams) {
             switch (attrParam.attrType) {
+                case TEXT:
+                    attrs.add(new TextAttr(TEXT, attrParam.id));
+                    break;
                 case TYPE_FACE:
                     attrs.add(new TypeFaceAttr(TYPE_FACE, attrParam.id));
                     break;

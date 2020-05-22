@@ -3,6 +3,7 @@ package com.easy.demo.ui.skin;
 import android.Manifest;
 import android.graphics.Typeface;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,12 +15,14 @@ import androidx.lifecycle.Lifecycle;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
+import com.easy.demo.bean.DebugDo;
 import com.easy.demo.databinding.TestSkinBinding;
 import com.easy.framework.base.BaseActivity;
 import com.easy.framework.skin.SkinManager;
 import com.easy.framework.skin.view_attr.AttrType;
 import com.easy.framework.skin.view_attr.SkinAttrParam;
 import com.easy.utils.DimensUtils;
+import com.easy.utils.LanguageUtil;
 import com.easy.utils.ToastUtils;
 
 import java.io.File;
@@ -32,6 +35,7 @@ public class TestSkinActivity extends BaseActivity<TestSkinPresenter, TestSkinBi
     int width;
     Typeface typeface;
     String skinApkName = "Black.skin";
+    int i;
 
     @Override
     public int getLayoutId() {
@@ -44,7 +48,7 @@ public class TestSkinActivity extends BaseActivity<TestSkinPresenter, TestSkinBi
         skinPath = Environment.getExternalStorageDirectory() + File.separator + skinApkName;
 
         StringBuilder builder = new StringBuilder();
-        builder.append("0.需求请求读写文件权限").append("\n");
+        builder.append("0.操作步骤：请求读写文件权限,复制Asset皮肤包到sd卡（按钮上点击）").append("\n");
         builder.append("1.皮肤路径:" + skinPath).append("\n");
         builder.append("2.支持动态添加的控件换肤").append("\n");
         builder.append("3.支持XML里的控件换肤").append("\n");
@@ -89,6 +93,17 @@ public class TestSkinActivity extends BaseActivity<TestSkinPresenter, TestSkinBi
                 ToastUtils.showShort("定制失败：\n" + throwable.getMessage());
             }
         });
+    }
+
+    public void changeLanguage(View v) {
+//        AttrType.supportText = true;
+        i++;
+        if (i % 2 == 0) {
+            LanguageUtil.changeLanguage(this, "zh");
+        } else {
+            LanguageUtil.changeLanguage(this, "en");
+        }
+        Log.d("Language", "current1:" + LanguageUtil.getSystemLanguage());
     }
 
     public void clearSkin(View view) {

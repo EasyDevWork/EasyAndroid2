@@ -4,9 +4,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.easy.framework.skin.view_attr.AttrType;
-import com.easy.framework.skin.view_attr.DrawableAttr;
 import com.easy.framework.skin.view_attr.IApply;
-import com.easy.framework.skin.view_attr.SkinAttr;
 import com.easy.framework.skin.view_attr.SkinAttrParam;
 
 import java.util.ArrayList;
@@ -35,11 +33,11 @@ public class SkinAttribute {
                 if (attributeValue.startsWith("#")) {
                     continue;
                 }
-                int id;
+                int id = 0;
                 if (attributeValue.startsWith("?")) {
                     int attrId = Integer.parseInt(attributeValue.substring(1));
                     id = SkinThemeUtils.getThemeResId(view.getContext(), new int[]{attrId})[0];
-                } else {
+                } else if (attributeValue.startsWith("@")) {
                     id = Integer.parseInt(attributeValue.substring(1));
                 }
                 if (id != 0) {
