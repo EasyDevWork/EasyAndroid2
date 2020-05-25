@@ -11,17 +11,11 @@ import com.easy.demo.ui.empty.EmptyPresenter;
 import com.easy.demo.ui.empty.EmptyView;
 import com.easy.framework.base.BaseActivity;
 
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.Single;
-import io.reactivex.SingleEmitter;
 import io.reactivex.SingleObserver;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 

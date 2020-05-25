@@ -25,8 +25,6 @@ import com.easy.eoschain.manager.EosParseManager;
 import com.easy.eoschain.utils.EosUtils;
 import com.easy.framework.base.BasePresenter;
 import com.easy.net.beans.Response;
-import com.easy.net.callback.HttpCallback;
-import com.easy.net.exception.ApiException;
 import com.easy.store.bean.EosAccount;
 import com.easy.store.bean.eoschain.Eos2UsdtPrice;
 import com.easy.store.bean.eoschain.RamPrice;
