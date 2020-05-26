@@ -27,7 +27,7 @@ public class TestAopActivity extends BaseActivity<TestAopPresenter, TestAopBindi
     }
 
     @CostTime
-//    @SingleClick
+    @SingleClick
     @TestAop
     public void click1(View view) {
         ToastUtils.showShort("点击了");

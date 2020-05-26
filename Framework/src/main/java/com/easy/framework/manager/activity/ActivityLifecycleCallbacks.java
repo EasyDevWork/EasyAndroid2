@@ -21,7 +21,6 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
     public Stack<WeakReference<Activity>> store = new Stack<>();
     private final String tag = "ActivityLifecycle";
     boolean lastState = false;
-
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
         WeakReference<Activity> weakActivity = new WeakReference<>(activity);
