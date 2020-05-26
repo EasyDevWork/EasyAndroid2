@@ -11,10 +11,6 @@ import com.easy.framework.BuildConfig;
 import com.easy.framework.component.Appcomponent;
 import com.easy.framework.component.DaggerAppcomponent;
 import com.easy.framework.manager.activity.ActivityManager;
-import com.easy.framework.manager.network.NetStateChangeReceiver;
-import com.easy.framework.manager.network.NetworkManager;
-import com.easy.framework.manager.screen.ScreenManager;
-import com.easy.framework.manager.screen.ScreenStateBroadcastReceiver;
 import com.easy.framework.module.AppModule;
 import com.easy.net.EasyNet;
 import com.easy.net.retrofit.RetrofitConfig;
@@ -84,8 +80,6 @@ public abstract class BaseApplication extends Application {
         //注册生命周期监听
         registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
 
-        registerBroadcast();
-
         //路由初始化--用于页面跳转
         initARouter();
 
@@ -109,19 +103,6 @@ public abstract class BaseApplication extends Application {
 
         //工具初始化--用于吐司，奔溃信息
         EasyUtils.init(this);
-    }
-
-    /**
-     * 注册网络广播
-     */
-    private void registerBroadcast() {
-        //网络变化广播
-        NetStateChangeReceiver changeReceiver = new NetStateChangeReceiver();
-        NetworkManager.registerReceiver(changeReceiver, this);
-
-        //锁屏 熄屏，开屏状态变化
-        ScreenStateBroadcastReceiver screenStateBroadcastReceiver = new ScreenStateBroadcastReceiver();
-        ScreenManager.registerReceiver(screenStateBroadcastReceiver, this);
     }
 
     private void initARouter() {

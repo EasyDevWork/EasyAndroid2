@@ -2,20 +2,24 @@ package com.easy.demo.ui.fragment;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Observer;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestFragmentActivityBinding;
 import com.easy.framework.base.BaseActivity;
-import com.easy.framework.manager.network.NetworkManager;
-import com.easy.framework.manager.network.NetworkType;
+import com.easy.framework.manager.activity.ActivityStateLiveData;
+import com.easy.framework.manager.activity.ActivityStateType;
+import com.easy.framework.manager.network.NetworkStateLiveData;
+import com.easy.framework.manager.screen.ScreenStateLiveData;
 import com.easy.framework.manager.screen.ScreenStateType;
 import com.easy.framework.statusbar.StatusBarUtil;
 import com.easy.utils.SystemUtils;
@@ -28,6 +32,7 @@ import java.util.List;
 @Route(path = "/demo/TestFragmentActivity", name = "测试fragment的页面")
 public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragmentActivityBinding> implements TestActivityView {
     int i = 0;
+    Observer activityStateObserver, screenStateObserver;
 
     @Override
     public int getLayoutId() {
@@ -43,68 +48,23 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
         StatusBarUtil.setRootViewFitsSystemWindows(this, false);
     }
 
-    /**
-     * 要控制页面沉浸式与非沉浸式切换，可通过控制占位UI显隐来实现
-     *
-     * @param view
-     */
-    public void btn1(View view) {
-        i++;
-        if (i % 2 == 0) {
-            ToastUtils.showShort("沉浸式");
-            viewBind.statusBarSpace.setVisibility(View.GONE);
-        } else {
-            ToastUtils.showShort("非沉浸式");
-            viewBind.statusBarSpace.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void btn2(View view) {
-        i++;
-        if (i % 2 == 0) {
-            StatusBarUtil.setStatusBarColor(this, getResources().getColor(R.color.color_c83c3c));
-        } else {
-            StatusBarUtil.setStatusBarColor(this, getResources().getColor(R.color.color_008577));
-        }
-    }
-
-    public void btn3(View view) {
-        showLoading();
-    }
-
-    public void btn4(View view) {
-        getRxPermissions().request(Manifest.permission.CAMERA)
-                .doOnDispose(() -> ToastUtils.showShort("被取消："))
-                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
-                .subscribe(aBoolean -> {
-                    ToastUtils.showShort("是否允许：" + aBoolean);
-                }, throwable -> ToastUtils.showShort("异常："));
-    }
-
-    public void btn5(View view) {
-        ToastUtils.showShort(NetworkManager.getNetworkType().name());
-    }
-
-    public void btn6(View view) {
-        ToastUtils.showShort("屏幕亮度：" + SystemUtils.getScreenBrightness(this));
-    }
-
-    public void btn7(View view) {
-        i++;
-        SystemUtils.setScreenBrightness(this, i % 2 == 0 ? 0 : 255);
-    }
-
-    public void btn8(View view) {
-        getRxPermissions().request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-                .doOnDispose(() -> ToastUtils.showShort("被取消："))
-                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
-                .subscribe(aBoolean -> {
-                    ToastUtils.showShort("是否允许：" + aBoolean);
-                }, throwable -> ToastUtils.showShort("异常："));
-    }
-
     @Override
     public void initView() {
+        activityStateObserver = (Observer<ActivityStateType>) activityStateType -> Log.d("StateChange", "ActivityState activityStateType=" + activityStateType.toString());
+        ActivityStateLiveData.getInstance().observeForever(activityStateObserver);
+
+        NetworkStateLiveData.getInstance(this).observe(this, networkType -> {
+            viewBind.tvNetInfo.setText("当前网络：" + networkType.toString());
+            Log.d("StateChange", "NetworkState networkInfo=" + networkType.toString());
+        });
+
+        screenStateObserver = (Observer<ScreenStateType>) type -> {
+            viewBind.tvScreenInfo.setText("当前屏幕状态:" + type.toString());
+            Log.d("StateChange", "ScreenState screenStateType=" + type.toString());
+        };
+        ScreenStateLiveData.getInstance(this).observeForever(screenStateObserver);
+
+        viewBind.tvScreenBrightness.setText("屏幕亮度：" + SystemUtils.getScreenBrightness(this));
 
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) viewBind.statusBarSpace.getLayoutParams();
         layoutParams.height = StatusBarUtil.getStatusBarHeight(this);
@@ -138,20 +98,61 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
     }
 
     @Override
-    public void onNetDisconnected() {
-        ToastUtils.showShort("无网络");
+    public void onDestroy() {
+        super.onDestroy();
+        ActivityStateLiveData.getInstance().removeObserver(activityStateObserver);
+        ScreenStateLiveData.getInstance(this).removeObserver(screenStateObserver);
     }
 
-    @Override
-    public void onNetConnected(NetworkType networkType) {
-        super.onNetConnected(networkType);
-        ToastUtils.showShort("有网络：" + networkType.name());
+    /**
+     * 要控制页面沉浸式与非沉浸式切换，可通过控制占位UI显隐来实现
+     *
+     * @param view
+     */
+    public void btn1(View view) {
+        i++;
+        if (i % 2 == 0) {
+            ToastUtils.showShort("沉浸式");
+            viewBind.statusBarSpace.setVisibility(View.GONE);
+        } else {
+            ToastUtils.showShort("非沉浸式");
+            viewBind.statusBarSpace.setVisibility(View.VISIBLE);
+        }
     }
 
-
-    @Override
-    public void onScreenState(ScreenStateType type) {
-        super.onScreenState(type);
-        ToastUtils.showShort("屏幕状态：" + type.name());
+    public void btn2(View view) {
+        i++;
+        if (i % 2 == 0) {
+            StatusBarUtil.setStatusBarColor(this, getResources().getColor(R.color.color_c83c3c));
+        } else {
+            StatusBarUtil.setStatusBarColor(this, getResources().getColor(R.color.color_008577));
+        }
     }
+
+    public void btn3(View view) {
+        showLoading();
+    }
+
+    public void btn7(View view) {
+        float screenBrightness = SystemUtils.getScreenBrightness(this);
+        if (screenBrightness == 1) {
+            i = -1;
+        } else if (screenBrightness <= 0) {
+            i = 1;
+        }
+        SystemUtils.setScreenBrightness(this, screenBrightness + (i * 0.1f));
+        viewBind.tvScreenBrightness.setText("屏幕亮度：" + SystemUtils.getScreenBrightness(this));
+        Log.d("StateChange", viewBind.tvScreenBrightness.getText().toString());
+    }
+
+    public void btn8(View view) {
+        getRxPermissions()
+                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .doOnDispose(() -> ToastUtils.showShort("被取消："))
+                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .subscribe(aBoolean -> {
+                    ToastUtils.showShort("是否允许：" + aBoolean);
+                }, throwable -> ToastUtils.showShort("异常："));
+    }
+
 }

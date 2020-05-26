@@ -24,15 +24,35 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:scaleType="centerCrop"
             android:src="@drawable/testimg" />
+
+        <TextView
+            android:id="@+id/tvNetInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前网络"
+            android:textSize="19sp" />
+
+        <TextView
+            android:id="@+id/tvScreenInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前屏幕状态"
+            android:textSize="19sp" />
+
+        <TextView
+            android:id="@+id/tvScreenBrightness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="屏幕亮度"
+            android:textSize="19sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp">
+            android:orientation="horizontal">
 
             <Button
                 android:layout_width="wrap_content"
@@ -55,16 +75,10 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="btn4"
-                android:text="摄像头权限" />
+                android:onClick="btn7"
+                android:text="屏幕亮度" />
 
         </LinearLayout>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="btn8"
-            android:text="读写权限" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,21 +88,8 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="btn5"
-                android:text="获取当前网络" />
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="btn6"
-                android:text="获取屏幕亮度" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="btn7"
-                android:text="设置屏幕亮度" />
+                android:onClick="btn8"
+                android:text="读写权限" />
         </LinearLayout>
 
         <LinearLayout

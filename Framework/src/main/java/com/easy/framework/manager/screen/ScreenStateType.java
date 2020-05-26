@@ -15,4 +15,4 @@ public enum ScreenStateType {
     public String toString() {
         return desc;
     }
-    }
+}

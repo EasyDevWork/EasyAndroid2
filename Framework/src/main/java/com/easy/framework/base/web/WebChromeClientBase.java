@@ -7,8 +7,7 @@ import android.webkit.WebView;
 
 import com.easy.framework.base.WebBaseFragment;
 import com.easy.framework.even.ChooseFileEvent;
-
-import org.greenrobot.eventbus.EventBus;
+import com.jeremyliao.liveeventbus.LiveEventBus;
 
 import java.lang.ref.WeakReference;
 
@@ -36,7 +35,7 @@ public class WebChromeClientBase extends WebChromeClient {
     //For Android API >= 21 (5.0 OS)
     @Override
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> valueCallback, FileChooserParams fileChooserParams) {
-        EventBus.getDefault().post(new ChooseFileEvent(null, valueCallback, true));
+        LiveEventBus.get("FileChooser").post(new ChooseFileEvent(null, valueCallback));
         return true;
     }
 

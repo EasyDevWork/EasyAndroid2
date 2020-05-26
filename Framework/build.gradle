@@ -76,7 +76,6 @@ dependencies {
     api lib.mmkv
     api lib.relinker
 
-    api lib.eventbus
     api lib.recyclerViewAdapter
     api lib.recyclerviewDecoration
     api lib.recyclerview
@@ -88,7 +87,6 @@ dependencies {
     api lib.rxjava
     api lib.rxandroid
     api lib.rxpermissions
-//    api lib.rxbinding
     api lib.objectbox_rxjava
 
     api lib.dagger

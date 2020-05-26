@@ -1,7 +1,6 @@
 package com.easy.framework.base;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -20,10 +19,8 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.framework.even.ChooseFileEvent;
 import com.easy.widget.WebViewMenuDialog;
+import com.jeremyliao.liveeventbus.LiveEventBus;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 
@@ -55,7 +52,10 @@ public abstract class WebBaseActivity<P extends BasePresenter, V extends ViewDat
         ARouter.getInstance().inject(this);
         initPath();
         initFragment();
+
+        LiveEventBus.get("FileChooser", ChooseFileEvent.class).observe(this, this::openChooserList);
     }
+
     public abstract int getWebViewContainId();
 
     /**
@@ -92,13 +92,10 @@ public abstract class WebBaseActivity<P extends BasePresenter, V extends ViewDat
         fragmentTransaction.commit();
     }
 
-    @SuppressLint("CheckResult")
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void openChooserList(ChooseFileEvent chooseFileEvent) {
         uploadMessage = chooseFileEvent.getUploadMessage();
         uploadMessageAboveL = chooseFileEvent.getUploadMessageAboveL();
         Bundle bundle = new Bundle();
-        bundle.putBoolean("isFeedBack", chooseFileEvent.isFeedBack());
         WebViewMenuDialog.newInstance(bundle, new WebViewMenuDialog.Callback() {
             @Override
             public void cancelDialog() {
@@ -108,21 +105,25 @@ public abstract class WebBaseActivity<P extends BasePresenter, V extends ViewDat
             @Override
             public void choosePhotograph() {
                 RxPermissions permissions = new RxPermissions(WebBaseActivity.this);
-                permissions.request(Manifest.permission.CAMERA).subscribe(granted -> {
-                    if (granted) {
-                        //步骤四：调取系统拍照
-                        Intent intent = new Intent();
-                        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                        startActivityForResult(intent, CAPTURE);
-                    }
-                });
+                permissions.request(Manifest.permission.CAMERA)
+                        .as(getAutoDispose())
+                        .subscribe(granted -> {
+                            if (granted) {
+                                //步骤四：调取系统拍照
+                                Intent intent = new Intent();
+                                intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                                startActivityForResult(intent, CAPTURE);
+                            }
+                        });
             }
 
             @Override
             public void chooseVideo() {
                 RxPermissions permissions = new RxPermissions(WebBaseActivity.this);
-                permissions.request(Manifest.permission.CAMERA).subscribe(granted -> {
+                permissions.request(Manifest.permission.CAMERA)
+                        .as(getAutoDispose())
+                        .subscribe(granted -> {
                     if (granted) {
                         //步骤四：调取系统拍照
                         Intent intent = new Intent();

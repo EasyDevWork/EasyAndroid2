@@ -11,9 +11,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.easy.framework.base.BaseApplication;
-import com.easy.framework.even.ActivityWakeUpEvent;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -40,6 +37,11 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
     @Override
     public void onActivityResumed(Activity activity) {
         Log.d(tag, getSimpleName(activity) + "<<Resumed>> InForeground：" + isApplicationInForeground());
+        boolean currentState = isApplicationInForeground();
+        if (currentState != lastState) {
+            lastState = currentState;
+            ActivityStateLiveData.getInstance().setActivityState(currentState ? ActivityStateType.foreground : ActivityStateType.BACKGROUND);
+        }
     }
 
     public String getSimpleName(Activity activity) {
@@ -56,9 +58,9 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
         Log.d("activityLife", activity.getLocalClassName() + " Stopped InForeground:" + isApplicationInForeground());
         boolean currentState = isApplicationInForeground();
         if (currentState != lastState) {
-            EventBus.getDefault().post(new ActivityWakeUpEvent());
+            lastState = currentState;
+            ActivityStateLiveData.getInstance().setActivityState(currentState ? ActivityStateType.foreground : ActivityStateType.BACKGROUND);
         }
-        lastState = currentState;
         Log.d(tag, getSimpleName(activity) + "<<Stopped>> InForeground：" + isApplicationInForeground());
     }
 
@@ -78,7 +80,7 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
         if (temp.size() > 0) {
             store.removeAll(temp);
         }
-        Log.d(tag, getSimpleName(activity) + "<<Destroyed>> InForeground："+ isApplicationInForeground());
+        Log.d(tag, getSimpleName(activity) + "<<Destroyed>> InForeground：" + isApplicationInForeground());
     }
 
     public boolean isApplicationInForeground() {

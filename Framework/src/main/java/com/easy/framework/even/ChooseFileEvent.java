@@ -7,11 +7,6 @@ public class ChooseFileEvent {
 
     private ValueCallback<Uri> uploadMessage;
     private ValueCallback<Uri[]> uploadMessageAboveL;
-    private boolean isFeedBack;//是否是意见反馈，如果是，不显示录像选项
-
-    public boolean isFeedBack() {
-        return isFeedBack;
-    }
 
     public ValueCallback<Uri> getUploadMessage() {
         return uploadMessage;
@@ -32,14 +27,6 @@ public class ChooseFileEvent {
     public ChooseFileEvent(ValueCallback<Uri> uploadMessage, ValueCallback<Uri[]> uploadMessageAboveL) {
         this.uploadMessage = uploadMessage;
         this.uploadMessageAboveL = uploadMessageAboveL;
-        isFeedBack = false;
-    }
-
-
-    public ChooseFileEvent(ValueCallback<Uri> uploadMessage, ValueCallback<Uri[]> uploadMessageAboveL, boolean isFeedBack) {
-        this.uploadMessage = uploadMessage;
-        this.uploadMessageAboveL = uploadMessageAboveL;
-        this.isFeedBack = isFeedBack;
     }
 
     @Override

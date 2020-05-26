@@ -5,86 +5,56 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
-import com.easy.framework.base.BaseApplication;
+import androidx.lifecycle.LiveData;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.easy.framework.receive.StateChangeReceiver;
 
-public class NetworkManager {
+public class NetworkStateLiveData extends LiveData<NetworkType> {
 
-    public static class Holder {
-        public static NetworkManager holder = new NetworkManager();
+    private final Context mContext;
+    private static NetworkStateLiveData networkStateLiveData;
+    private StateChangeReceiver mNetworkReceiver;
+    private final IntentFilter mIntentFilter;
+
+    private NetworkStateLiveData(Context context) {
+        mContext = context.getApplicationContext();
+        mNetworkReceiver = new StateChangeReceiver();
+        mIntentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
     }
 
-    public static NetworkManager getInstance() {
-        return Holder.holder;
-    }
-
-    public List<INetStateChange> iNetStateChanges = new ArrayList<>();
-
-    private NetworkManager() {
-
-    }
-
-    /**
-     * 注册网络广播改变回调
-     *
-     * @param observer
-     */
-    public static void registerObserver(INetStateChange observer) {
-        if (!NetworkManager.getInstance().iNetStateChanges.contains(observer)) {
-            NetworkManager.getInstance().iNetStateChanges.add(observer);
+    public static NetworkStateLiveData getInstance(Context context) {
+        if (networkStateLiveData == null) {
+            networkStateLiveData = new NetworkStateLiveData(context);
         }
+        return networkStateLiveData;
     }
 
-    /**
-     * 注销网络广播改变回调
-     *
-     * @param observer
-     */
-    public static void unRegisterObserver(INetStateChange observer) {
-        if (NetworkManager.getInstance().iNetStateChanges.contains(observer)) {
-            NetworkManager.getInstance().iNetStateChanges.remove(observer);
-        }
+    public void setNetWork(NetworkInfo networkInfo) {
+        setValue(getNetworkType(networkInfo));
     }
 
-    /**
-     * 注册广播
-     *
-     * @param receiver
-     * @param context
-     */
-    public static void registerReceiver(NetStateChangeReceiver receiver, Context context) {
-        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        context.registerReceiver(receiver, intentFilter);
+    @Override
+    protected void onActive() {
+        super.onActive();
+        Log.d("StateChange", "NetworkState onActive");
+        mContext.registerReceiver(mNetworkReceiver, mIntentFilter);
     }
 
-    /**
-     * 注销广播
-     *
-     * @param receiver
-     * @param context
-     */
-    public static void unRegisterReceiver(NetStateChangeReceiver receiver, Context context) {
-        context.unregisterReceiver(receiver);
-    }
-
-    private static NetworkInfo getActiveNetworkInfo() {
-        ConnectivityManager cm = (ConnectivityManager) BaseApplication.getInst().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm != null) {
-            return cm.getActiveNetworkInfo();
-        }
-        return null;
+    @Override
+    protected void onInactive() {
+        super.onInactive();
+        Log.d("StateChange", "NetworkState onInactive");
+        mContext.unregisterReceiver(mNetworkReceiver);
     }
 
     /**
      * 获取当前网络类型
      * 需添加权限 {@code <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>}
      */
-    public static NetworkType getNetworkType() {
+    public static NetworkType getNetworkType(NetworkInfo info) {
         NetworkType netType = NetworkType.NETWORK_NO;
-        NetworkInfo info = getActiveNetworkInfo();
         if (info != null && info.isAvailable()) {
             if (info.getType() == ConnectivityManager.TYPE_WIFI) {
                 netType = NetworkType.NETWORK_WIFI;

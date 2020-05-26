@@ -47,11 +47,8 @@ public class TestWebActivity extends WebBaseActivity<TestWebPresenter, TestWebBi
     public void callBackJs1(View view) {
         if (webViewFragment != null) {
             //2种都可以
-            webViewFragment.loadJavaScript("javaCallJs()", new ValueCallback<String>() {
-                @Override
-                public void onReceiveValue(String s) {
+            webViewFragment.loadJavaScript("javaCallJs()", s -> {
 
-                }
             });
 //        webViewFragment.loadJavaScript("javaCallJs()");
         }

@@ -26,6 +26,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 
+import static android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+
 /**
  * 调用系统自带页面
  */
@@ -33,6 +35,7 @@ public class SystemUtils {
 
     /**
      * 获取屏幕状态
+     *
      * @param context
      * @return 1:on 0:off 2:error
      */
@@ -48,14 +51,28 @@ public class SystemUtils {
      * 设置屏幕亮度
      *
      * @param activity
-     * @param screenBrightness
+     * @param screenBrightness 0-1
      */
-    public static void setScreenBrightness(Activity activity, int screenBrightness) {
+    public static void setScreenBrightness(Activity activity, float screenBrightness) {
         Window localWindow = activity.getWindow();
         WindowManager.LayoutParams localLayoutParams = localWindow.getAttributes();
-        float f = screenBrightness / 255.0F;
-        localLayoutParams.screenBrightness = f;
+        if (screenBrightness == -1) {
+            localLayoutParams.screenBrightness = BRIGHTNESS_OVERRIDE_NONE;
+        } else {
+            if (screenBrightness <= 0) {
+                screenBrightness = 0;
+            } else if (screenBrightness > 1) {
+                screenBrightness = 1;
+            }
+            localLayoutParams.screenBrightness = screenBrightness;
+        }
         localWindow.setAttributes(localLayoutParams);
+    }
+
+    public static float getScreenBrightness(Activity activity) {
+        Window localWindow = activity.getWindow();
+        WindowManager.LayoutParams localLayoutParams = localWindow.getAttributes();
+        return localLayoutParams.screenBrightness;
     }
 
     /**
@@ -66,21 +83,15 @@ public class SystemUtils {
     }
 
     /**
-     * 设置熄屏
-     */
-    public static void setKeepScreenOff(Activity activity) {
-        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    }
-
-    /**
      * 获取屏幕亮度
      *
      * @return
      */
-    public static int getScreenBrightness(Context context) {
+    public static int getSystemBrightness(Context context) {
         int screenBrightness = 255;
         try {
             screenBrightness = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+            return screenBrightness / 255;
         } catch (Exception localException) {
             localException.printStackTrace();
         }
@@ -143,6 +154,7 @@ public class SystemUtils {
         }
         return content;
     }
+
     /**
      * 打开手机摄像头拍照
      *
@@ -192,7 +204,7 @@ public class SystemUtils {
      * @param activity
      * @param filePath
      */
-    public static String startCorpImage(Activity activity, String filePath, String cutPhotoPath,int requestCode) {
+    public static String startCorpImage(Activity activity, String filePath, String cutPhotoPath, int requestCode) {
         //设置裁剪之后的图片路径文件
         File cutFile = new File(cutPhotoPath); //随便命名一个
         if (cutFile.exists()) {
@@ -235,6 +247,7 @@ public class SystemUtils {
         activity.startActivityForResult(intent, requestCode);
         return cutFile.getAbsolutePath();
     }
+
     public static void creatShortCut(Context context, String appName, int shortcutIconResource, Class<?> goActivity) {
         Intent shortcut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
         // 快捷方式的名称
@@ -252,6 +265,7 @@ public class SystemUtils {
         shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
         context.sendBroadcast(shortcut);
     }
+
     /**
      * 打开系统浏览器
      *

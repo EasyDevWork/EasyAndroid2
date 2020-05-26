@@ -41,7 +41,7 @@ public class TestFragment extends BaseFragment<TestFragmentPresenter, TestFragme
 
     public void btn4(View view) {
         getRxPermissions().request(Manifest.permission.CAMERA)
-                .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
+                .as(getAutoDispose())
                 .subscribe(aBoolean -> ToastUtils.showShort("是否允许：" + aBoolean));
     }
 }
