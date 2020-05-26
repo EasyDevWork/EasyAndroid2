@@ -1,8 +1,8 @@
-package com.easy.framework.skin;
+package com.easy.skin;
 
 import android.view.View;
 
-import com.easy.framework.skin.view_attr.IApply;
+import com.easy.skin.view_attr.IApply;
 
 import java.util.List;
 

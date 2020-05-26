@@ -1,4 +1,4 @@
-package com.easy.framework.skin;
+package com.easy.skin;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -12,13 +12,13 @@ import android.os.LocaleList;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
-import com.easy.utils.EmptyUtils;
+
+import androidx.annotation.Nullable;
 
 import java.util.Locale;
 
-import javax.annotation.Nullable;
 
-import static com.easy.framework.skin.SkinManager.canUse;
+import static com.easy.skin.SkinManager.canUse;
 
 public class SkinResourcesHelp {
     /**
@@ -60,7 +60,7 @@ public class SkinResourcesHelp {
     public void init(Context ct, String lg) {
         context = ct;
         appResources = ct.getResources();
-        if (EmptyUtils.isEmpty(lg)) {
+        if (TextUtils.isEmpty(lg)) {
             language = getSystemLanguage();
         } else {
             language = lg;
@@ -108,7 +108,7 @@ public class SkinResourcesHelp {
     }
 
     private Locale getLanguageLocale(String languageCode) {
-        if (EmptyUtils.isNotEmpty(languageCode)) {
+        if (!TextUtils.isEmpty(languageCode)) {
             switch (languageCode) {
                 case "zh":
                     return Locale.CHINA; // 简体中文
@@ -130,7 +130,7 @@ public class SkinResourcesHelp {
      * @return
      */
     boolean needLoadResource(@Nullable String path) {
-        if (EmptyUtils.isEmpty(path)) {
+        if (TextUtils.isEmpty(path)) {
             return false;
         } else if (skinPath != null && skinPath.equals(path) && skinResources != null) {
             return false;
@@ -144,7 +144,7 @@ public class SkinResourcesHelp {
      * @param path
      */
     void applySkin(String path) {
-        if (EmptyUtils.isEmpty(path)) {
+        if (TextUtils.isEmpty(path)) {
             isDefaultSkin = true;
         } else {
             skinPath = path;

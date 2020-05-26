@@ -1,4 +1,4 @@
-package com.easy.framework.skin.view_attr;
+package com.easy.skin.view_attr;
 
 public class SkinAttrParam {
     public AttrType attrType;

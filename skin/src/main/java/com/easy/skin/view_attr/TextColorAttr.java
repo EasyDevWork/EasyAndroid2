@@ -1,9 +1,9 @@
-package com.easy.framework.skin.view_attr;
+package com.easy.skin.view_attr;
 
 import android.view.View;
 import android.widget.TextView;
 
-import com.easy.framework.skin.SkinResourcesHelp;
+import com.easy.skin.SkinResourcesHelp;
 
 public class TextColorAttr extends SkinAttr {
 

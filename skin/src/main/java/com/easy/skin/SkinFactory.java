@@ -1,4 +1,4 @@
-package com.easy.framework.skin;
+package com.easy.skin;
 
 import android.content.Context;
 import android.util.AttributeSet;

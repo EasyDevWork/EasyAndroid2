@@ -1,11 +1,11 @@
-package com.easy.framework.skin.view_attr;
+package com.easy.skin.view_attr;
 
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.easy.framework.skin.SkinResourcesHelp;
+import com.easy.skin.SkinResourcesHelp;
 
 public class SrcAttr extends SkinAttr {
 

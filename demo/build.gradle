@@ -77,6 +77,8 @@ dependencies {
 
     implementation project(':libtv')
 
+    api project(':skin')
+
     api project(':im_lib')
 
     implementation project(':ndk')

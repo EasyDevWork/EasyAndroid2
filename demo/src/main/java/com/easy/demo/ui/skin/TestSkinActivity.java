@@ -15,13 +15,13 @@ import androidx.lifecycle.Lifecycle;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
-import com.easy.demo.bean.DebugDo;
 import com.easy.demo.databinding.TestSkinBinding;
 import com.easy.framework.base.BaseActivity;
-import com.easy.framework.skin.SkinManager;
-import com.easy.framework.skin.SkinResourcesHelp;
-import com.easy.framework.skin.view_attr.AttrType;
-import com.easy.framework.skin.view_attr.SkinAttrParam;
+
+import com.easy.skin.SkinManager;
+import com.easy.skin.SkinResourcesHelp;
+import com.easy.skin.view_attr.AttrType;
+import com.easy.skin.view_attr.SkinAttrParam;
 import com.easy.utils.DimensUtils;
 import com.easy.utils.LanguageUtil;
 import com.easy.utils.ToastUtils;

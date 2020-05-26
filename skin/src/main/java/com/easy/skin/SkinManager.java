@@ -1,4 +1,4 @@
-package com.easy.framework.skin;
+package com.easy.skin;
 
 import android.app.Activity;
 import android.app.Application;
@@ -12,8 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-import com.easy.framework.skin.view_attr.SkinAttrParam;
-import com.easy.utils.EmptyUtils;
+import com.easy.skin.view_attr.SkinAttrParam;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -115,7 +114,7 @@ public class SkinManager extends Observable {
             return;
         }
         SkinResourcesHelp.getInstance().applySkin(path);
-        if (EmptyUtils.isNotEmpty(path)) {
+        if (!TextUtils.isEmpty(path)) {
             saveSkinPath(path);
         }
         apply();
@@ -207,7 +206,7 @@ public class SkinManager extends Observable {
             return;
         }
         String path = getSkinPath();
-        if (EmptyUtils.isNotEmpty(path)) {
+        if (!TextUtils.isEmpty(path)) {
             File file = new File(path);
             if (file.exists()) {
                 boolean del = file.delete();

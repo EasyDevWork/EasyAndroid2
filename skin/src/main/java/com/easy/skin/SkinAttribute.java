@@ -1,11 +1,11 @@
-package com.easy.framework.skin;
+package com.easy.skin;
 
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.easy.framework.skin.view_attr.AttrType;
-import com.easy.framework.skin.view_attr.IApply;
-import com.easy.framework.skin.view_attr.SkinAttrParam;
+import com.easy.skin.view_attr.AttrType;
+import com.easy.skin.view_attr.IApply;
+import com.easy.skin.view_attr.SkinAttrParam;
 
 import java.util.ArrayList;
 import java.util.Arrays;

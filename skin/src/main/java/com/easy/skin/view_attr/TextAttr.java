@@ -1,9 +1,9 @@
-package com.easy.framework.skin.view_attr;
+package com.easy.skin.view_attr;
 
 import android.view.View;
 import android.widget.TextView;
 
-import com.easy.framework.skin.SkinResourcesHelp;
+import com.easy.skin.SkinResourcesHelp;
 
 //更换文字--可用于无感切换语言
 public class TextAttr extends SkinAttr {

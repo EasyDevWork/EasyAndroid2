@@ -16,7 +16,6 @@ import com.easy.framework.manager.network.NetworkManager;
 import com.easy.framework.manager.screen.ScreenManager;
 import com.easy.framework.manager.screen.ScreenStateBroadcastReceiver;
 import com.easy.framework.module.AppModule;
-import com.easy.framework.skin.SkinManager;
 import com.easy.net.EasyNet;
 import com.easy.net.retrofit.RetrofitConfig;
 import com.easy.store.base.EasyStore;
@@ -92,8 +91,6 @@ public abstract class BaseApplication extends Application {
 
         //Dagger初始化--用于注入对象
         appcomponent = DaggerAppcomponent.builder().appModule(new AppModule(this)).build();
-
-        SkinManager.init(this, "zh");
 
         //mmkv初始化
         String dir = getFilesDir().getAbsolutePath() + "/mmkv";
