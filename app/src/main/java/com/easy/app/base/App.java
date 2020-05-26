@@ -23,9 +23,10 @@ public class App extends FlutterApp {
         Map<String, String> hostMap = new HashMap<>();
         hostMap.put("publicHost", "https://publicobject.com");
         hostMap.put("EosHost", "https://mainnet.meet.one");
-        builder.baseUrl(AppConstant.BASE_URL)
+        builder.baseUrl("https://www.ethte.com")
                 .supportCookies(true)
-                .supportHostGroup(hostMap).forceCache(true, 600);
+                .supportHostGroup(hostMap)
+                .forceCache(true, 600);
     }
 
     @Override
@@ -37,5 +38,4 @@ public class App extends FlutterApp {
     public void initOnMainThread() {
         SharePreference.setConverterFactory(new JsonConverterFactory());
     }
-
 }

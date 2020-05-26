@@ -27,14 +27,13 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class SkinManager extends Observable {
-
-    private static Application mApplication;
-    private SkinLifecycleCallbacks lifecycleCallbacks;
     private static final String SKIN_SHARED = "Black.skin";
     private static final String KEY_SKIN_PATH = "skinPath";
+    public static boolean canUse;//是否可用
+    private Application mApplication;
+    private SkinLifecycleCallbacks lifecycleCallbacks;
     private SharedPreferences mPref;
     Disposable disposable;
-
 
     private static class Holder {
         private static final SkinManager instance = new SkinManager();
@@ -45,11 +44,7 @@ public class SkinManager extends Observable {
     }
 
     private SkinManager() {
-        if (mApplication != null) {
-            lifecycleCallbacks = new SkinLifecycleCallbacks();
-            mApplication.registerActivityLifecycleCallbacks(lifecycleCallbacks);
-            mPref = mApplication.getSharedPreferences(SKIN_SHARED, Context.MODE_PRIVATE);
-        }
+
     }
 
     public interface Callback {
@@ -61,14 +56,28 @@ public class SkinManager extends Observable {
      *
      * @param application
      */
-    public static void init(Application application) {
-        mApplication = application;
-        SkinResourcesHelp.getInstance().init(application);
+    public static void init(Application application,String language) {
+        if (application == null && canUse) {
+            return;
+        }
+        canUse = true;
+        SkinResourcesHelp.getInstance().init(application,language);
         SkinManager skinManager2 = getInstance();
+        skinManager2.initSkinManger(application);
         skinManager2.loadSkin(skinManager2.getSkinPath(), null);
     }
 
+    private void initSkinManger(Application application) {
+        this.mApplication = application;
+        lifecycleCallbacks = new SkinLifecycleCallbacks();
+        mApplication.registerActivityLifecycleCallbacks(lifecycleCallbacks);
+        mPref = mApplication.getSharedPreferences(SKIN_SHARED, Context.MODE_PRIVATE);
+    }
+
     public void addSkinView(Activity activity, View view, SkinAttrParam... skinAttrParams) {
+        if (!canUse) {
+            return;
+        }
         if (activity == null || view == null || skinAttrParams == null || skinAttrParams.length == 0) {
             return;
         }
@@ -79,13 +88,13 @@ public class SkinManager extends Observable {
         }
     }
 
-    public void saveSkinPath(String path) {
+    private void saveSkinPath(String path) {
         if (mPref != null) {
             mPref.edit().putString(KEY_SKIN_PATH, path).apply();
         }
     }
 
-    public String getSkinPath() {
+    private String getSkinPath() {
         if (mPref != null) {
             return mPref.getString(KEY_SKIN_PATH, null);
         }
@@ -98,6 +107,9 @@ public class SkinManager extends Observable {
      * @param path 路径为插件包地址，为空则恢复默认
      */
     public void loadSkin(String path, Callback callback) {
+        if (!canUse) {
+            return;
+        }
         if (SkinResourcesHelp.getInstance().needLoadResource(path)) {
             loadSkinResources(path, callback);
             return;
@@ -113,6 +125,9 @@ public class SkinManager extends Observable {
     }
 
     public void apply() {
+        if (!canUse) {
+            return;
+        }
         setChanged();
         notifyObservers();
     }
@@ -123,7 +138,7 @@ public class SkinManager extends Observable {
      * @param path
      * @param callback
      */
-    public void loadSkinResources(String path, Callback callback) {
+    private void loadSkinResources(String path, Callback callback) {
         Single.create((SingleOnSubscribe<Boolean>) emitter -> {
             if (TextUtils.isEmpty(path)) {
                 emitter.onError(new Throwable("skinApk path is null"));
@@ -188,6 +203,9 @@ public class SkinManager extends Observable {
      * 清除换肤，恢复默认
      */
     public void clearSkin() {
+        if (!canUse) {
+            return;
+        }
         String path = getSkinPath();
         if (EmptyUtils.isNotEmpty(path)) {
             File file = new File(path);

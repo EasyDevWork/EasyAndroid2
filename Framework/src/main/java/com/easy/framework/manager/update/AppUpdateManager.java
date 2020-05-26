@@ -13,7 +13,6 @@ import com.easy.net.download.DownloadInfo;
 import com.easy.utils.FileUtils;
 import com.easy.utils.StringUtils;
 import com.easy.utils.SystemUtils;
-import com.easy.utils.EmptyUtils;
 import com.easy.utils.base.FileConstant;
 import com.easy.widget.AppUpdateDialog;
 

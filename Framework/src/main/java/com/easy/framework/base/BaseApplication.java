@@ -81,7 +81,7 @@ public abstract class BaseApplication extends Application {
      * 初始化重要
      */
     private void initImportant() {
-        SkinManager.init(this);
+
         //注册生命周期监听
         registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
 
@@ -92,7 +92,8 @@ public abstract class BaseApplication extends Application {
 
         //Dagger初始化--用于注入对象
         appcomponent = DaggerAppcomponent.builder().appModule(new AppModule(this)).build();
-        appcomponent.inject(this);
+
+        SkinManager.init(this, "zh");
 
         //mmkv初始化
         String dir = getFilesDir().getAbsolutePath() + "/mmkv";

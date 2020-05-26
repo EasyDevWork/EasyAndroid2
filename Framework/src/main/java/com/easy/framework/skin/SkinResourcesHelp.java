@@ -14,10 +14,11 @@ import android.util.DisplayMetrics;
 
 import com.easy.utils.EmptyUtils;
 
-import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 import javax.annotation.Nullable;
+
+import static com.easy.framework.skin.SkinManager.canUse;
 
 public class SkinResourcesHelp {
     /**
@@ -36,8 +37,8 @@ public class SkinResourcesHelp {
      * 是否使用默认皮肤
      */
     private boolean isDefaultSkin = true;
+    private Context context;
 
-    private WeakReference<Context> mContext;
     /**
      * 包路径，用来区分是否是当前皮肤
      */
@@ -56,13 +57,20 @@ public class SkinResourcesHelp {
         return Holder.instance;
     }
 
-    public void init(Context context) {
-        mContext = new WeakReference<>(context);
-        this.appResources = context.getResources();
-        language = getSystemLanguage();
+    public void init(Context ct, String lg) {
+        context = ct;
+        appResources = ct.getResources();
+        if (EmptyUtils.isEmpty(lg)) {
+            language = getSystemLanguage();
+        } else {
+            language = lg;
+        }
     }
 
     public void changeLanguage(String language) {
+        if (!canUse) {
+            return;
+        }
         this.language = language;
         changeLanguage(appResources, language);
         if (skinResources != null) {
@@ -88,7 +96,6 @@ public class SkinResourcesHelp {
             DisplayMetrics displayMetrics = resources.getDisplayMetrics();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 configuration.setLocale(myLocale);
-                Context context = mContext.get();
                 if (context != null) {
                     context.createConfigurationContext(configuration);
                 }
@@ -102,14 +109,15 @@ public class SkinResourcesHelp {
 
     private Locale getLanguageLocale(String languageCode) {
         if (EmptyUtils.isNotEmpty(languageCode)) {
-            if (languageCode.equals("zh")) {
-                return Locale.CHINA; // 简体中文
-            } else if (languageCode.equals("en")) {
-                return Locale.ENGLISH; // 英文
-            } else if (languageCode.equals("ko")) {
-                return Locale.KOREAN;
-            } else if (languageCode.equals("ja")) {
-                return Locale.JAPAN;
+            switch (languageCode) {
+                case "zh":
+                    return Locale.CHINA; // 简体中文
+                case "en":
+                    return Locale.ENGLISH; // 英文
+                case "ko":
+                    return Locale.KOREAN;
+                case "ja":
+                    return Locale.JAPAN;
             }
         }
         return null;
@@ -121,7 +129,7 @@ public class SkinResourcesHelp {
      * @param path
      * @return
      */
-    public boolean needLoadResource(@Nullable String path) {
+    boolean needLoadResource(@Nullable String path) {
         if (EmptyUtils.isEmpty(path)) {
             return false;
         } else if (skinPath != null && skinPath.equals(path) && skinResources != null) {
@@ -135,7 +143,7 @@ public class SkinResourcesHelp {
      *
      * @param path
      */
-    public void applySkin(String path) {
+    void applySkin(String path) {
         if (EmptyUtils.isEmpty(path)) {
             isDefaultSkin = true;
         } else {
@@ -150,7 +158,7 @@ public class SkinResourcesHelp {
      * @param resources
      * @param pkgName
      */
-    public void applySkin(String path, Resources resources, String pkgName) {
+    void applySkin(String path, Resources resources, String pkgName) {
         skinPath = path;
         skinResources = resources;
         mSkinPkgName = pkgName;
@@ -174,7 +182,7 @@ public class SkinResourcesHelp {
      * @param resId
      * @return
      */
-    public int getIdentifier(int resId) {
+    private int getIdentifier(int resId) {
         if (isDefaultSkin) {
             return resId;
         }
@@ -233,7 +241,6 @@ public class SkinResourcesHelp {
         if (resourceTypeName.equals("color")) {
             return getColor(resId);
         } else {
-            // drawable
             return getDrawable(resId);
         }
     }
@@ -304,10 +311,10 @@ public class SkinResourcesHelp {
             return null;
         }
         Resources.Theme newTheme = skinResources.newTheme();
-        Context context;
+        Context newContext;
         try {
-            context = mContext.get().createPackageContext(mSkinPkgName, Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
-            final Resources.Theme theme = context.getTheme();
+            newContext = context.createPackageContext(mSkinPkgName, Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
+            Resources.Theme theme = newContext.getTheme();
             if (theme != null) {
                 newTheme.setTo(theme);
             }
