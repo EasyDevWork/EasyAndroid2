@@ -2,7 +2,8 @@ package com.easy.framework.module;
 
 
 import android.app.Application;
-import android.content.Context;
+
+import com.easy.framework.bean.GlobalConfig;
 
 import javax.inject.Singleton;
 
@@ -20,8 +21,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public Context getIns() {
-        return application;
+    public GlobalConfig getAppConfig() {
+        return new GlobalConfig();
     }
-
 }

@@ -1,5 +1,6 @@
 package com.easy.demo.ui.debug;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -12,6 +13,7 @@ import com.easy.demo.base.DemoSharePreferences;
 import com.easy.demo.bean.DebugDo;
 import com.easy.demo.databinding.DebugBinding;
 import com.easy.framework.base.BaseActivity;
+import com.easy.framework.bean.GlobalConfig;
 import com.easy.store.bean.Accounts;
 import com.easy.utils.ToastUtils;
 import com.easy.utils.WebCacheUtils;
@@ -19,6 +21,8 @@ import com.easy.widget.TitleView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 @ActivityInject
 @Route(path = "/demo/DebugActivity", name = "测试页面")
@@ -28,6 +32,9 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     TitleView titleView;
     List<DebugDo> debugDos = new ArrayList<>();
 
+    @Inject
+    GlobalConfig appConfig;
+
     @Override
     public int getLayoutId() {
         return R.layout.debug;
@@ -35,6 +42,8 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
 
     @Override
     public void initView() {
+        Log.d("dagger2", "debug appConfig1:" + appConfig);
+        Log.d("dagger2", "debug appConfig2:" + appConfig);
         titleView = addTitleView();
         if (titleView != null) {
             titleView.setTitleText(getString(R.string.debug_title));

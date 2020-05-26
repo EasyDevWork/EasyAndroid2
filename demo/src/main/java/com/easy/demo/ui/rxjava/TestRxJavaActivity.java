@@ -10,6 +10,9 @@ import com.easy.demo.databinding.EmptyBinding;
 import com.easy.demo.ui.empty.EmptyPresenter;
 import com.easy.demo.ui.empty.EmptyView;
 import com.easy.framework.base.BaseActivity;
+import com.easy.framework.bean.GlobalConfig;
+
+import javax.inject.Inject;
 
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
@@ -23,6 +26,8 @@ import io.reactivex.schedulers.Schedulers;
 @Route(path = "/demo/TestRxJavaActivity", name = "Rxjava")
 public class TestRxJavaActivity extends BaseActivity<EmptyPresenter, EmptyBinding> implements EmptyView {
     Disposable disposable;
+    @Inject
+    GlobalConfig appConfig;
 
     @Override
     public int getLayoutId() {
@@ -33,6 +38,7 @@ public class TestRxJavaActivity extends BaseActivity<EmptyPresenter, EmptyBindin
     @Override
     @SuppressLint("AutoDispose")
     public void initView() {
+        Log.d("dagger2", "rxjava appConfig3:" + appConfig);
 
         Single.create((SingleOnSubscribe<String>) emitter -> {
             Log.d("initView", "subscribe thread:" + Thread.currentThread());
