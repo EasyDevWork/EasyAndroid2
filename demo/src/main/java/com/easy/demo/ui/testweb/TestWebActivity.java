@@ -1,22 +1,36 @@
 package com.easy.demo.ui.testweb;
 
+import android.os.Bundle;
 import android.view.View;
-import android.webkit.ValueCallback;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestWebBinding;
 import com.easy.framework.base.WebBaseActivity;
+import com.easy.framework.base.WebBaseFragment;
 import com.easy.framework.base.web.IWebCallback;
 import com.easy.framework.base.web.JsToAndroid;
-import com.easy.utils.SystemUtils;
 import com.easy.utils.EmptyUtils;
+import com.easy.utils.SystemUtils;
 
 @ActivityInject
 @Route(path = "/demo/TestWebActivity", name = "测试web")
 public class TestWebActivity extends WebBaseActivity<TestWebPresenter, TestWebBinding> implements TestWebView, IWebCallback {
+
+    @Autowired(name = "url")
+    public String url;
+    @Autowired(name = "title")
+    public String title;//有值显示，没值显示webview里的标题
+    @Autowired(name = "openGesture")
+    boolean openGesture = false;
+    @Autowired(name = "htmlData")
+    public String htmlData;
 
     @Override
     public int getLayoutId() {
@@ -24,15 +38,22 @@ public class TestWebActivity extends WebBaseActivity<TestWebPresenter, TestWebBi
     }
 
     @Override
-    public int getWebViewContainId() {
-        return R.id.containLayout;
-    }
-
-    @Override
     public void initView() {
         ARouter.getInstance().inject(this);
         closeSwipeBackLayout();
         initHead();
+        initFragment(url, htmlData, openGesture);
+    }
+
+    public void initFragment(String url, String htmlData, boolean openGesture) {
+        Bundle bundle = new Bundle();
+        bundle.putString(WebBaseFragment.KEY_RUL, url);
+        bundle.putString(WebBaseFragment.HTML_DATA, htmlData);
+        bundle.putBoolean(WebBaseFragment.OPEN_GESTURE, openGesture);
+        webViewFragment = (WebBaseFragment) Fragment.instantiate(this, WebBaseFragment.class.getName(), bundle);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.containLayout, webViewFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -44,6 +65,10 @@ public class TestWebActivity extends WebBaseActivity<TestWebPresenter, TestWebBi
         }
     }
 
+    /**
+     * 调用JS无参
+     * @param view
+     */
     public void callBackJs1(View view) {
         if (webViewFragment != null) {
             //2种都可以
@@ -63,7 +88,7 @@ public class TestWebActivity extends WebBaseActivity<TestWebPresenter, TestWebBi
 //
 //            }
 //        });
-            webViewFragment.loadJavaScript("javaCallJsWith('22s')");
+            webViewFragment.loadJavaScript("javaCallJsWith('java传来的参数')");
         }
     }
 
@@ -123,14 +148,5 @@ public class TestWebActivity extends WebBaseActivity<TestWebPresenter, TestWebBi
         }
         finish();
     }
-//
-//    private void initFragment() {
-//        Bundle bundle = new Bundle();
-//        bundle.putString(WebBaseFragment.KEY_RUL, "file:///android_asset/testjs.html");
-//        webViewFragment = (WebBaseFragment) Fragment.instantiate(this, WebBaseFragment.class.getName(), bundle);
-//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(com.easy.common.R.id.containLayout, webViewFragment);
-//        fragmentTransaction.commit();
-//    }
 
 }

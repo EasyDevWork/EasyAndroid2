@@ -114,7 +114,7 @@ public class SkinFactory implements LayoutInflater.Factory2, Observer {
      */
     private Constructor<? extends View> findConstructor(Context context, String name) {
         Constructor<? extends View> constructor = sConstructorMap.get(name);
-        if (null == constructor && !"android.widget.ViewStub".equals(name)) {
+        if (null == constructor && !"android.widget.ViewStub".equals(name) && !"android.widget.View".equals(name)) {
             try {
                 Class<? extends View> clazz = context.getClassLoader().loadClass
                         (name).asSubclass(View.class);

@@ -1,6 +1,7 @@
 package com.easy.framework.base.web;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.util.Log;
 import android.webkit.SslErrorHandler;
@@ -9,6 +10,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.easy.framework.base.WebBaseFragment;
+import com.easy.framework.base.web.protocol.WebProtocolManager;
+import com.easy.utils.EmptyUtils;
+import com.easy.utils.SystemUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -20,13 +24,33 @@ public class WebViewClientBase extends WebViewClient {
         this.webViewFragment = new WeakReference<>(webViewFragment);
     }
 
+    /**
+     * 处理自定义协议
+     *
+     * @param webView
+     * @param url
+     * @return
+     */
+    public boolean overrideUrlLoading(WebView webView, String url) {
+        if (EmptyUtils.isNotEmpty(url)) {
+            Uri uri = Uri.parse(url);
+            if (uri != null && uri.getScheme() != null) {
+                if (uri.getScheme().equalsIgnoreCase("http") || uri.getScheme().equalsIgnoreCase("https")) {
+                    webView.loadUrl(url);
+                } else
+                    return WebProtocolManager.getInstall().handleProtocol(webView.getContext(), uri);
+            } else if (url.contains("alipays://platformapi/startApp")) {
+                SystemUtils.openAliPayApp(webView.getContext(), url);
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean shouldOverrideUrlLoading(WebView webView, String url) {
         Log.d("WebViewClientBase", "shouldOverrideUrlLoading1: " + url);
-        boolean isDone = false;
-        if (webViewFragment.get() != null) {
-            isDone = webViewFragment.get().shouldOverrideUrlLoading(webView, url);
-        }
+        boolean isDone = overrideUrlLoading(webView, url);
         if (isDone) {
             return true;
         }
@@ -42,10 +66,7 @@ public class WebViewClientBase extends WebViewClient {
             url = webView.getUrl();
         }
         Log.d("WebViewClientBase", "shouldOverrideUrlLoading2: " + url);
-        boolean isDone = false;
-        if (webViewFragment.get() != null) {
-            isDone = webViewFragment.get().shouldOverrideUrlLoading(webView, url);
-        }
+        boolean isDone = shouldOverrideUrlLoading(webView, url);
         if (isDone) {
             return true;
         }

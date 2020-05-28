@@ -12,6 +12,7 @@ import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.easy.apt.annotation.FragmentInject;
 import com.easy.framework.R;
@@ -26,7 +27,9 @@ import com.easy.framework.databinding.WebVewFragmentBinding;
 import com.easy.utils.StringUtils;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.EmptyUtils;
+import com.easy.utils.ToastUtils;
 import com.easy.widget.ScrollWebView;
+
 @FragmentInject
 public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragmentBinding> implements WebBaseView, View.OnTouchListener {
 
@@ -36,13 +39,13 @@ public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragme
     private String url;
     private String htmlData;
     private boolean openGesture = false;
-    WebSettings webSettings;
+    private WebSettings webSettings;
     private ScrollWebView.OnScrollChangeListener onScrollChangeListener;
-    IWebCallback iWebCallback;
+    private IWebCallback iWebCallback;
 
-    IProtocolCallback protocolCallback = (context, uri) -> {
+    private IProtocolCallback protocolCallback = (context, uri) -> {
         if (uri != null) {
-            //todo handle Protocol
+            ToastUtils.showShort("原生处理协议："+url);
         }
     };
 
@@ -86,6 +89,8 @@ public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragme
     @Override
     public void initView(View view) {
         initWebView();
+        //scheme 不能包含大写，因为获取到URL时候全是小写的
+        WebProtocolManager.getInstall().addScheme("easy", protocolCallback);
         loadUrl();
     }
 
@@ -129,6 +134,7 @@ public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragme
         if (openGesture) {
             viewBind.webView.setOnTouchListener(this);
         }
+
         viewBind.webView.setDownloadListener((url, userAgent, contentDisposition, mimeType, contentLength) -> {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -140,6 +146,7 @@ public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragme
                 e.printStackTrace();
             }
         });
+
         viewBind.webView.setOnScrollChangeListener((l, t, oldl, oldt) -> {
             if (onScrollChangeListener != null) {
                 onScrollChangeListener.onScrollChanged(l, t, oldl, oldt);
@@ -213,14 +220,12 @@ public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragme
     }
 
     public boolean goBack() {
-        if (viewBind.webView != null) {
-            if (viewBind.webView.canGoBack()) {
-                viewBind.webView.goBack();
-                return true;
-            } else if (iWebCallback != null) {
-                iWebCallback.finish();
-                return true;
-            }
+        if (viewBind.webView.canGoBack()) {
+            viewBind.webView.goBack();
+            return true;
+        } else if (iWebCallback != null) {
+            iWebCallback.finish();
+            return true;
         }
         return false;
     }
@@ -271,29 +276,7 @@ public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragme
         }
     }
 
-    /**
-     * 处理自定义协议
-     *
-     * @param webView
-     * @param url
-     * @return
-     */
-    public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-        if (EmptyUtils.isNotEmpty(url)) {
-            Uri uri = Uri.parse(url);
-            if (uri != null && uri.getScheme() != null) {
-                if (uri.getScheme().equalsIgnoreCase("http") || uri.getScheme().equalsIgnoreCase("https")) {
-                    webView.loadUrl(url);
-                } else if (WebProtocolManager.getInstall().handleProtocol(webView.getContext(), uri, protocolCallback)) {
-                    return true;
-                }
-            } else if (url.contains("alipays://platformapi/startApp")) {
-                SystemUtils.openAliPayApp(webView.getContext(), url);
-                return true;
-            }
-        }
-        return false;
-    }
+
 
     public void onPageFinished() {
         if (iWebCallback != null) {

@@ -10,9 +10,6 @@ import com.easy.utils.ToastUtils;
 public class JsToAndroidImp extends JsToAndroid {
 
     Context context;
-    IProtocolCallback callback = (context, uri) -> {
-
-    };
 
     public JsToAndroidImp(Context context) {
         this.context = context;
@@ -25,11 +22,11 @@ public class JsToAndroidImp extends JsToAndroid {
 
     @JavascriptInterface
     public void jsCallAndroid() {
-        ToastUtils.showShort("Js调用Android方法");
+        ToastUtils.showShort("Js调用Android无参方法");
     }
 
     @JavascriptInterface
     public void jsCallAndroidArgs(String args) {
-        ToastUtils.showShort("Js调用Android方法: " + args);
+        ToastUtils.showShort("Js调用Android有参方法: " + args);
     }
 }

@@ -133,7 +133,11 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         DebugDo Coordinator = new DebugDo("控件联动", () -> ARouter.getInstance().build("/demo/TestCoordinatorActivity").navigation());
         debugDos.add(Coordinator);
 
-        DebugDo WebView = new DebugDo("WebView", () -> ARouter.getInstance().build("/demo/TestWebActivity").withString("url", "file:///android_asset/testjs.html").navigation());
+        DebugDo WebView = new DebugDo("WebView", () ->
+                ARouter.getInstance()
+                .build("/demo/TestWebActivity")
+                .withString("url", "file:///android_asset/testjs.html")
+                        .navigation());
         debugDos.add(WebView);
 
         DebugDo WebCache = new DebugDo("清除web缓存", () -> {

@@ -10,13 +10,10 @@ import java.util.List;
 
 public class WebProtocolManager {
     List<String> schemeList = new ArrayList<>();
+    IProtocolCallback callback;
 
     private WebProtocolManager() {
 
-    }
-
-    public void addScheme(String scheme) {
-        schemeList.add(scheme);
     }
 
     public static final class Holder {
@@ -27,15 +24,9 @@ public class WebProtocolManager {
         return Holder.protocolManager;
     }
 
-    public void handleProtocol(Context context, String message, IProtocolCallback callback) {
-        if (EmptyUtils.isNotEmpty(message)) {
-            try {
-                Uri uri = Uri.parse(message);
-                handleProtocol(context, uri, callback);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public void addScheme(String scheme,IProtocolCallback callback) {
+        schemeList.add(scheme);
+        this.callback = callback;
     }
 
     /**
@@ -43,10 +34,9 @@ public class WebProtocolManager {
      *
      * @param context
      * @param uri
-     * @param callback
      * @return
      */
-    public boolean handleProtocol(Context context, Uri uri, IProtocolCallback callback) {
+    public boolean handleProtocol(Context context, Uri uri) {
         if (uri == null || EmptyUtils.isEmpty(uri.getHost())) {
             return false;
         }

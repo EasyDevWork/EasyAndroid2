@@ -12,11 +12,7 @@ import android.webkit.ValueCallback;
 
 import androidx.core.content.FileProvider;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.easy.framework.even.ChooseFileEvent;
 import com.easy.widget.WebViewMenuDialog;
 import com.jeremyliao.liveeventbus.LiveEventBus;
@@ -35,28 +31,14 @@ public abstract class WebBaseActivity<P extends BasePresenter, V extends ViewDat
     public static String PHOTO_PATH, VIDEO_PATH;
     private Uri photoUri, videoUri;
 
-    @Autowired(name = "url")
-    String url;
-    @Autowired(name = "title")
-    public String title;//有值显示，没值显示webview里的标题
-    @Autowired(name = "openGesture")
-    boolean openGesture = false;
-    @Autowired(name = "htmlData")
-    String htmlData;
-
     public WebBaseFragment webViewFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ARouter.getInstance().inject(this);
         initPath();
-        initFragment();
-
         LiveEventBus.get("FileChooser", ChooseFileEvent.class).observe(this, this::openChooserList);
     }
-
-    public abstract int getWebViewContainId();
 
     /**
      * 初始化图片/视频上传路径
@@ -79,17 +61,6 @@ public abstract class WebBaseActivity<P extends BasePresenter, V extends ViewDat
         } else {
             videoUri = Uri.fromFile(mTempFile);
         }
-    }
-
-    private void initFragment() {
-        Bundle bundle = new Bundle();
-        bundle.putString(WebBaseFragment.KEY_RUL, url);
-        bundle.putString(WebBaseFragment.HTML_DATA, htmlData);
-        bundle.putBoolean(WebBaseFragment.OPEN_GESTURE, openGesture);
-        webViewFragment = (WebBaseFragment) Fragment.instantiate(this, WebBaseFragment.class.getName(), bundle);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(getWebViewContainId(), webViewFragment);
-        fragmentTransaction.commit();
     }
 
     public void openChooserList(ChooseFileEvent chooseFileEvent) {

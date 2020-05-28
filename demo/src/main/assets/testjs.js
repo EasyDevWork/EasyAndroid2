@@ -1,4 +1,4 @@
 function javaCallJs2(){
-                 document.getElementById("showmsg").innerHTML = "这是手动注入JS的";
+                 document.getElementById("showmsg").innerHTML = "成功注入Web外的JS";
             }
-console.log('Hello world');
+console.log('成功注入Web外的JS');
