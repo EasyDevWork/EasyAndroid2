@@ -1,0 +1,76 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.easy.demo">
+
+    <application
+        android:name=".base.DemoApp"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@drawable/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.debug.DebugActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.easy.demo.ui.transparent.TransparentActivity"
+            android:theme="@style/transparent" />
+        <activity android:name=".ui.recycleview.TestRecycleViewActivity" />
+        <activity android:name=".ui.loadimage.TestLoadImageActivity" />
+        <activity android:name=".ui.dialog.DialogActivity" />
+        <activity android:name=".ui.wechat.TestWeChatActivity" />
+        <activity android:name=".ui.eoschain.EosChainActivity" />
+        <activity android:name=".ui.fragment.TestActivity" />
+        <activity android:name=".ui.testweb.TestWebActivity" />
+        <activity android:name=".ui.qrcode.TestQrCodeActivity" />
+        <activity android:name=".ui.lottie.TestLottieActivity" />
+        <activity android:name=".ui.arouter.TestArouterActivity" />
+        <activity
+            android:name=".ui.player.PlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".ui.launcher.LauncherActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/FullScreenTheme">
+            <!--设置为桌面应用时打开/>-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--                <category android:name="android.intent.category.HOME" />-->
+            <!--                <category android:name="android.intent.category.DEFAULT" />-->
+            <!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".ui.album.TestAlbumActivity"
+            android:screenOrientation="fullSensor" />
+        <activity android:name=".ui.mvvm.TestMvvmActivity" />
+        <activity android:name=".ui.lifecycle.TestLifeCycleActivity" />
+        <activity android:name=".ui.download.TestDownloadActivity" />
+        <activity android:name=".ui.aop.TestAopActivity" />
+        <activity
+            android:name=".ui.flutter.TestFlutterActivity"
+            android:theme="@style/FlutterPageTheme" />
+        <activity android:name=".ui.cordinator.TestCoordinatorActivity" />
+        <activity android:name=".ui.aidl.service.TestAidlActivity" />
+        <activity
+            android:name=".ui.aidl.client.TestAidlBookClientActivity"
+            android:process="com.easy.client" />
+        <activity android:name=".ui.im.TestSocketActivity" />
+        <activity android:name=".ui.ndk.TestNdkActivity" />
+        <activity android:name=".ui.rxjava.TestRxJavaActivity" />
+        <activity android:name=".ui.http.TestHttpActivity" />
+        <activity android:name=".ui.mmkv.TestMmmkvActivity" />
+        <activity android:name=".ui.skin.TestSkinActivity" />
+    </application>
+</manifest>
