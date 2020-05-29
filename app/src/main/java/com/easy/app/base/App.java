@@ -1,13 +1,9 @@
 package com.easy.app.base;
 
-import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 
 import com.easy.apt.lib.JsonConverterFactory;
 import com.easy.apt.lib.SharePreference;
-import com.easy.framework.base.web.protocol.IProtocolCallback;
-import com.easy.framework.base.web.protocol.WebProtocolManager;
 import com.easy.net.retrofit.RetrofitConfig;
 import com.easy.skin.SkinManager;
 
@@ -40,7 +36,7 @@ public class App extends FlutterApp {
 
     @Override
     public void initOnMainThread() {
-//        SkinManager.init(this, "zh");
+        SkinManager.init(this, "zh");
         SharePreference.setConverterFactory(new JsonConverterFactory());
     }
 }

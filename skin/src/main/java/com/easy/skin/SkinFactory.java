@@ -18,6 +18,7 @@ public class SkinFactory implements LayoutInflater.Factory2, Observer {
      * 属性处理类
      */
     private SkinAttribute mSkinAttribute;
+    AppCompatViewInflater2 inflater2;
     /**
      * 保存view的构造方法
      */
@@ -33,15 +34,22 @@ public class SkinFactory implements LayoutInflater.Factory2, Observer {
 
     public SkinFactory() {
         mSkinAttribute = new SkinAttribute();
+        inflater2 = new AppCompatViewInflater2();
     }
 
+    /**
+     * AppCompatViewInflater
+     *
+     * @param parent
+     * @param name
+     * @param context
+     * @param attributeSet
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@Nullable View parent, @NonNull String name, @NonNull Context context, @NonNull AttributeSet attributeSet) {
-        View view = createViewFormTag(name, context, attributeSet);
-        if (view == null) {
-            view = createView(name, context, attributeSet);
-        }
+        View view = inflater2.createView(parent, name, context, attributeSet, false, false, true, false);
         if (view != null) {
             mSkinAttribute.loadView(view, attributeSet);
         }
@@ -56,75 +64,6 @@ public class SkinFactory implements LayoutInflater.Factory2, Observer {
 
     public SkinAttribute getSkinAttribute() {
         return mSkinAttribute;
-    }
-
-    /**
-     * 参考LayoutInflater源码
-     *
-     * @param name
-     * @param context
-     * @param attrs
-     * @return
-     */
-    private View createViewFormTag(String name, Context context, AttributeSet attrs) {
-        //包含自定义控件
-        if (-1 != name.indexOf('.')) {
-            return null;
-        }
-        View view = null;
-        for (int i = 0; i < a.length; i++) {
-            view = createView(a[i] + name, context, attrs);
-            if (view != null) {
-                break;
-            }
-        }
-        return view;
-    }
-
-
-    /**
-     * 参考LayoutInflater源码
-     * 获取构造函数，创建view
-     *
-     * @param name
-     * @param context
-     * @param attrs
-     * @return
-     */
-    private View createView(String name, Context context, AttributeSet attrs) {
-        Constructor<? extends View> constructor = findConstructor(context, name);
-        if (constructor != null) {
-            try {
-                return constructor.newInstance(context, attrs);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-
-    /**
-     * 参考LayoutInflater源码
-     * 通过反射获取View构造函数
-     *
-     * @param context
-     * @param name
-     * @return
-     */
-    private Constructor<? extends View> findConstructor(Context context, String name) {
-        Constructor<? extends View> constructor = sConstructorMap.get(name);
-        if (null == constructor && !"android.widget.ViewStub".equals(name) && !"android.widget.View".equals(name)) {
-            try {
-                Class<? extends View> clazz = context.getClassLoader().loadClass
-                        (name).asSubclass(View.class);
-                constructor = clazz.getConstructor(mConstructorSignature);
-                sConstructorMap.put(name, constructor);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return constructor;
     }
 
 
