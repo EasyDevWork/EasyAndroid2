@@ -32,8 +32,4 @@ public class App extends FlutterApp {
 
     }
 
-    @Override
-    public void initOnMainThread() {
-
-    }
 }
