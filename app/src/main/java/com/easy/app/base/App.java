@@ -2,10 +2,8 @@ package com.easy.app.base;
 
 import android.util.Log;
 
-import com.easy.apt.lib.JsonConverterFactory;
-import com.easy.apt.lib.SharePreference;
+import com.easy.demo.base.FlutterApp;
 import com.easy.net.retrofit.RetrofitConfig;
-import com.easy.skin.SkinManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +34,6 @@ public class App extends FlutterApp {
 
     @Override
     public void initOnMainThread() {
-        SkinManager.init(this, "zh");
-        SharePreference.setConverterFactory(new JsonConverterFactory());
+
     }
 }

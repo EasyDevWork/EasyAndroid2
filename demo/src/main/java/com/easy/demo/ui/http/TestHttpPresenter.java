@@ -19,6 +19,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class TestHttpPresenter extends BasePresenter<TestHttpView> {
     @Inject
@@ -35,7 +36,8 @@ public class TestHttpPresenter extends BasePresenter<TestHttpView> {
         RxHttp.get("/helloworld.txt")
                 .addHeader(heads)
                 .request(String.class)
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> {
                             Log.d("testHostGroup", "thread:" + Thread.currentThread());
@@ -53,7 +55,8 @@ public class TestHttpPresenter extends BasePresenter<TestHttpView> {
     public void testNoJsonData() {
         RxHttp.get("https://publicobject.com/helloworld.txt")
                 .request(String.class)
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.callback(result.getResultObj(), null),
                         throwable -> mvpView.callback(null, new Exception(throwable)));
@@ -65,7 +68,8 @@ public class TestHttpPresenter extends BasePresenter<TestHttpView> {
     public void testJsonData() {
         RxHttp.get("v2/rn/updating")
                 .request(AppVersion.class)
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.callback(result.toString(), null),
                         throwable -> mvpView.callback(null, new Exception(throwable)));
@@ -90,7 +94,8 @@ public class TestHttpPresenter extends BasePresenter<TestHttpView> {
                     Log.d("testLifeCycle", "doOnDispose");
                     ToastUtils.showShort("testLifeCycle:doOnDispose");
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.callback(result, null),
                         throwable -> mvpView.callback(null, new Exception(throwable)));

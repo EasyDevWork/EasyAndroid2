@@ -1,7 +1,8 @@
-package com.easy.app.base;
+package com.easy.demo.base;
 
 import com.easy.demo.ui.flutter.FlutterChannel;
 import com.easy.framework.base.BaseApplication;
+import com.easy.skin.SkinManager;
 
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.FlutterEngineCache;
@@ -35,5 +36,10 @@ public abstract class FlutterApp extends BaseApplication {
 
     public static FlutterEngine getFlutterEngine() {
         return mFlutterEngine;
+    }
+
+    @Override
+    public void initOnMainThread() {
+        SkinManager.init(this, "zh");
     }
 }

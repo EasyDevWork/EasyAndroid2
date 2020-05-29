@@ -120,7 +120,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void requestChainInfo() {
         EosChainManager.getInstance().requestChainInfo()
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.chainInfoCallback(result),
                         throwable -> {
@@ -136,7 +137,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void requestContract(String accountName) {
         EosChainManager.getInstance().requestContract(accountName)
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.requestContractCallback(result),
                         throwable -> {
@@ -151,7 +153,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
      */
     public void requestVoteList() {
         EosChainManager.getInstance().requestVoteList()
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.requestVoteListCallback(result),
                         throwable -> {
@@ -182,7 +185,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                     }
                     return response;
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.currencyBalanceCallback(result),
                         throwable -> {
@@ -213,7 +217,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                     }
                     return response;
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.usdtPriceCallback(result),
                         throwable -> {
@@ -240,7 +245,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                     }
                     return response;
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.rexDataCallback(result),
                         throwable -> {
@@ -268,7 +274,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                     }
                     return response;
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.rexBeanDataCallback(result),
                         throwable -> {
@@ -295,7 +302,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                     }
                     return response;
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.rexPriceCallback(result),
                         throwable -> {
@@ -314,7 +322,7 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
             return;
         }
         EosChainManager.getInstance().requestRamPrice()
-                .map((Function<Response<RamPrice>, Response<RamPrice>>) response -> {
+                .map(response -> {
                     if (response.getCode() == Response.SUCCESS_STATE) {
                         RamPrice ramPrice = (RamPrice) response.getResultObj();
                         eosAccount.setRamPrice(ramPrice);
@@ -322,7 +330,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                     }
                     return response;
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.ramPriceCallback(result),
                         throwable -> {
@@ -349,7 +358,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                     }
                     return null;
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.stakeDataCallback(result),
                         throwable -> {
@@ -395,7 +405,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                     }
                     return response;
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.chainAccountInfoCallback(result, null),
                         throwable -> {
@@ -421,7 +432,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                     }
                     return response;
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.tokenCallback(result),
                         throwable -> {
@@ -452,7 +464,8 @@ public class EosChainPresenter extends BasePresenter<EosChainView> {
                     }
                     return response;
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.tokenCallback(result),
                         throwable -> {

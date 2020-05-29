@@ -36,11 +36,11 @@ android {
     }
     productFlavors {
         mTest {
-//            buildConfigField "String", "UMENG_CHANNEL", "\"${umeng_channel_offical}\""
+            buildConfigField "boolean", "DEMO_APP", "${demo_app}"
 //            applicationIdSuffix ".test"
         }
         official {
-//            buildConfigField "String", "UMENG_CHANNEL", "\"${umeng_channel_offical}\""
+            buildConfigField "boolean", "DEMO_APP", "${demo_app}"
         }
     }
     signingConfigs {
@@ -117,7 +117,9 @@ dependencies {
     annotationProcessor lib.easy_apt_compiler
 
     annotationProcessor lib.dagger_compiler
-    api project(':demo')
-    implementation project(':flutter')
-//    api project(':Framework')
+    if (demo_app == "true") {
+        api project(':demo')
+    } else {
+        api project(':Framework')
+    }
 }

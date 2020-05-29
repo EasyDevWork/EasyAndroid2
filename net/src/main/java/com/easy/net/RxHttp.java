@@ -106,16 +106,9 @@ public class RxHttp {
     }
 
     /*普通Http请求*/
-    public void request(@NonNull HttpCallback httpCallback) {
-        doRequest(RetrofitHelp.get().getRetrofit())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(httpCallback);
-    }
-
-    /*普通Http请求*/
-    public <T> Observable<Response<T>> request() {
+    public <T> Observable<Response<T>> request(Class<T> t) {
         return doRequest(RetrofitHelp.get().getRetrofit())
-                .map(new DataSwitchFunction<>());
+                .map(new DataSwitchFunction<>(t));
     }
 
     /*执行请求*/
@@ -295,7 +288,7 @@ public class RxHttp {
         }
 
         public <T> Observable<Response<T>> request(Class<T> t) {
-            return new RxHttp(this).request();
+            return new RxHttp(this).request(t);
         }
 
         public void upload(@NonNull UploadCallback uploadCallback) {

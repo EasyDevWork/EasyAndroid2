@@ -24,7 +24,7 @@
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 # Application classes that will be serialized/deserialized over Gson 下面替换成自己的实体类
--keep class com.example.bean.** { *; }
+-keep class com.easy.framework.bean.** { *; }
 -keep class com.easy.app.ui.*.*$$Inject* { *; }
 
 #-------- OkHttp3 component----------

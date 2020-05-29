@@ -16,12 +16,15 @@ import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestFragmentActivityBinding;
 import com.easy.framework.base.BaseActivity;
+import com.easy.framework.bean.AppVersion;
 import com.easy.framework.manager.activity.ActivityStateLiveData;
 import com.easy.framework.manager.activity.ActivityStateType;
 import com.easy.framework.manager.network.NetworkStateLiveData;
 import com.easy.framework.manager.screen.ScreenStateLiveData;
 import com.easy.framework.manager.screen.ScreenStateType;
+import com.easy.framework.manager.update.AppUpdateManager;
 import com.easy.framework.statusbar.StatusBarUtil;
+import com.easy.net.beans.Response;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.ToastUtils;
 
@@ -33,6 +36,7 @@ import java.util.List;
 public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragmentActivityBinding> implements TestActivityView {
     int i = 0;
     Observer activityStateObserver, screenStateObserver;
+    boolean isAllow;
 
     @Override
     public int getLayoutId() {
@@ -151,8 +155,37 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
                 .doOnDispose(() -> ToastUtils.showShort("被取消："))
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(aBoolean -> {
+                    isAllow = aBoolean;
                     ToastUtils.showShort("是否允许：" + aBoolean);
                 }, throwable -> ToastUtils.showShort("异常："));
     }
 
+    public void btn9(View view) {
+        presenter.requestAppVersion();
+    }
+
+
+    @Override
+    public void appVersionCallback(Response<AppVersion> response) {
+        if (response.isSuccess()) {
+            showUpdateDialog(response.getResultObj());
+        } else {
+            ToastUtils.showShort(response.getMsg());
+        }
+    }
+
+    public void showUpdateDialog(AppVersion version) {
+        AppUpdateManager updateManager = new AppUpdateManager(this);
+        updateManager.showUpdateDialog(version, new AppUpdateManager.AppUpdateCallback() {
+            @Override
+            public boolean permission() {
+                return isAllow;
+            }
+
+            @Override
+            public void permissionCallback() {
+                ToastUtils.showLong(getString(R.string.need_premission));
+            }
+        });
+    }
 }

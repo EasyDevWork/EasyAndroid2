@@ -12,6 +12,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainPresenter extends AppPresenter<MainView> {
 
@@ -25,7 +26,8 @@ public class MainPresenter extends AppPresenter<MainView> {
     public void requestAppVersion() {
         RxHttp.get("v2/rn/updating")
                 .request(AppVersion.class)
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .as(getAutoDispose(Lifecycle.Event.ON_DESTROY))
                 .subscribe(result -> mvpView.appVersionCallback(result),
                         throwable -> mvpView.appVersionCallback(null));
