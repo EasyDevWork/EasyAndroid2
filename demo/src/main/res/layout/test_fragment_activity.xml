@@ -96,6 +96,12 @@
                 android:layout_height="wrap_content"
                 android:onClick="btn9"
                 android:text="版本更新" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="testException"
+                android:text="测试未捕获异常" />
         </LinearLayout>
 
         <LinearLayout

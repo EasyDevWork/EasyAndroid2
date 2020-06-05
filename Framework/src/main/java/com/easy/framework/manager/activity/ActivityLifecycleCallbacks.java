@@ -25,17 +25,17 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
     public void onActivityCreated(Activity activity, Bundle bundle) {
         WeakReference<Activity> weakActivity = new WeakReference<>(activity);
         store.add(weakActivity);
-        Log.d(tag, getSimpleName(activity) + "<<Create>> InForeground：" + isApplicationInForeground());
+        Log.d(tag, getSimpleName(activity) + "<<Create>>");
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
-        Log.d(tag, getSimpleName(activity) + "<<Start>> InForeground：" + isApplicationInForeground());
+        Log.d(tag, getSimpleName(activity) + "  <<Start>>");
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
-        Log.d(tag, getSimpleName(activity) + "<<Resumed>> InForeground：" + isApplicationInForeground());
+        Log.d(tag, getSimpleName(activity) + "  <<Resumed>>");
         boolean currentState = isApplicationInForeground();
         if (currentState != lastState) {
             lastState = currentState;
@@ -49,23 +49,23 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
 
     @Override
     public void onActivityPaused(Activity activity) {
-        Log.d(tag, getSimpleName(activity) + "<<Paused>> InForeground：" + isApplicationInForeground());
+        Log.d(tag, getSimpleName(activity) + "  <<Paused>>");
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
-        Log.d("activityLife", activity.getLocalClassName() + " Stopped InForeground:" + isApplicationInForeground());
+        Log.d("activityLife", activity.getLocalClassName() + "  <<InForeground>>");
         boolean currentState = isApplicationInForeground();
         if (currentState != lastState) {
             lastState = currentState;
             ActivityStateLiveData.getInstance().setActivityState(currentState ? ActivityStateType.foreground : ActivityStateType.BACKGROUND);
         }
-        Log.d(tag, getSimpleName(activity) + "<<Stopped>> InForeground：" + isApplicationInForeground());
+        Log.d(tag, getSimpleName(activity) + "  <<Stopped>>");
     }
 
     @Override
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
-        Log.d(tag, getSimpleName(activity) + "<<SaveInstanceState>> InForeground：" + isApplicationInForeground());
+        Log.d(tag, getSimpleName(activity) + "<<SaveInstanceState>>");
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
         if (temp.size() > 0) {
             store.removeAll(temp);
         }
-        Log.d(tag, getSimpleName(activity) + "<<Destroyed>> InForeground：" + isApplicationInForeground());
+        Log.d(tag, getSimpleName(activity) + "  <<Destroyed>>");
     }
 
     public boolean isApplicationInForeground() {
@@ -143,7 +143,7 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
         }
         for (WeakReference<Activity> activity : store) {
             if (activity.get() != null) {
-                if (activityName.equals(activity.get().getLocalClassName())) {
+                if (activityName.equals(activity.get().getClass().getSimpleName())) {
                     continue;
                 }
                 activity.get().finish();

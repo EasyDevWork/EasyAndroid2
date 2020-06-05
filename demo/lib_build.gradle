@@ -1,0 +1,81 @@
+apply plugin: 'com.android.library'
+
+def config = rootProject.ext.android
+def lib = rootProject.ext.dependencies
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    defaultConfig {
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+    dataBinding {
+        enabled true
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    lintOptions {
+        abortOnError true
+        checkReleaseBuilds false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    annotationProcessor lib.dagger_compiler
+
+    api lib.easy_apt
+    annotationProcessor lib.easy_apt_compiler
+
+    implementation project(':qrcode')
+    implementation project(':imagezoom')
+    implementation project(':eoschain')
+    implementation project(':wechat')
+    implementation project(':aliplayer')
+    implementation project(':lottie')
+    api project(':Framework')
+
+    implementation lib.rxbinding
+
+    implementation project(':aidl')
+
+    implementation project(':flutter')
+
+    implementation project(':libtv')
+
+    api project(':skin')
+
+    api project(':im_lib')
+
+    implementation project(':ndk')
+
+    implementation lib.androidx_leanback
+    implementation lib.androidx_lifecycle_extensions
+
+    releaseImplementation lib.objectbox_android
+    debugImplementation lib.objectbox_browser
+
+    implementation lib.aspectjrt
+}
+apply from: "../aspect.gradle"
+
+
+

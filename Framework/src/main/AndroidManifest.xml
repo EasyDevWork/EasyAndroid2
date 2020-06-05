@@ -38,6 +38,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.CrashActivity" />
+
         <meta-data
             android:name="APP_ID"
             android:value="${application_id}" />

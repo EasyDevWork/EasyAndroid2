@@ -124,6 +124,11 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
         }
     }
 
+    public void testException(View view) {
+        int s = 1 / 0;
+        Log.d("testException", "s=" + s);
+    }
+
     public void btn2(View view) {
         i++;
         if (i % 2 == 0) {

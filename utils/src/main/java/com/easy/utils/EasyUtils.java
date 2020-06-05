@@ -16,7 +16,6 @@ public class EasyUtils {
     public static void init(Context context) {
         ToastUtils.initToast(context);//toast初始化
         CrashReport.initCrashReport(context);//bugly异常上报
-        CrashUtils.init(context);//未捕获异常处理
 
         //打印日志配置
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()

@@ -31,9 +31,4 @@ public class DemoApp extends FlutterApp {
     public void initOnThread() {
 
     }
-
-    @Override
-    public void initOnMainThread() {
-
-    }
 }

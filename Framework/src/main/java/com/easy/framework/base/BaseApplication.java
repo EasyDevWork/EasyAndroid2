@@ -14,6 +14,7 @@ import com.easy.framework.component.Appcomponent;
 import com.easy.framework.component.DaggerAppcomponent;
 import com.easy.framework.manager.activity.ActivityManager;
 import com.easy.framework.module.AppModule;
+import com.easy.framework.ui.CrashHelp;
 import com.easy.net.EasyNet;
 import com.easy.net.retrofit.RetrofitConfig;
 import com.easy.store.base.EasyStore;
@@ -78,7 +79,7 @@ public abstract class BaseApplication extends Application {
      * 初始化重要
      */
     private void initImportant() {
-
+        CrashHelp.getInstance().init(this, 3);
         //注册生命周期监听
         registerActivityLifecycleCallbacks(ActivityManager.getInstance().getCallbacks());
 

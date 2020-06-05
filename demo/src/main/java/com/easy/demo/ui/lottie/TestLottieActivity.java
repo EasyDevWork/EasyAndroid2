@@ -1,5 +1,6 @@
 package com.easy.demo.ui.lottie;
 
+import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -25,4 +26,5 @@ public class TestLottieActivity extends BaseActivity<TestLottiePresenter, TestLo
     public void testLottieAnimation(View view) {
         viewBind.lottie.playAnimation();
     }
+
 }

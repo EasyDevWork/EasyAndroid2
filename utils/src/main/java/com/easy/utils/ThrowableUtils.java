@@ -14,13 +14,13 @@ public class ThrowableUtils {
     }
 
     public static String getFullStackTrace(Throwable throwable) {
-        final List<Throwable> throwableList = new ArrayList<>();
+        List<Throwable> throwableList = new ArrayList<>();
         while (throwable != null && !throwableList.contains(throwable)) {
             throwableList.add(throwable);
             throwable = throwable.getCause();
         }
-        final int size = throwableList.size();
-        final List<String> frames = new ArrayList<>();
+        int size = throwableList.size();
+        List<String> frames = new ArrayList<>();
         List<String> nextTrace = getStackFrameList(throwableList.get(size - 1));
         for (int i = size; --i >= 0; ) {
             final List<String> trace = nextTrace;
