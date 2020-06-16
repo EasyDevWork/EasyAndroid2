@@ -16,6 +16,7 @@
         <activity android:name=".ui.qrcode.TestQrCodeActivity" />
         <activity android:name=".ui.lottie.TestLottieActivity" />
         <activity android:name=".ui.arouter.TestArouterActivity" />
+        <activity android:name=".ui.camera.TestCameraActivity" />
         <activity
             android:name=".ui.player.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -52,7 +53,7 @@
         <activity android:name=".ui.ndk.TestNdkActivity" />
         <activity android:name=".ui.rxjava.TestRxJavaActivity" />
         <activity android:name=".ui.http.TestHttpActivity" />
-        <activity android:name=".ui.mmkv.TestMmmkvActivity"/>
-        <activity android:name=".ui.skin.TestSkinActivity"/>
+        <activity android:name=".ui.mmkv.TestMmmkvActivity" />
+        <activity android:name=".ui.skin.TestSkinActivity" />
     </application>
 </manifest>

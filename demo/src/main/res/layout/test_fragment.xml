@@ -24,9 +24,9 @@
             android:text="加载对话框" />
 
         <Button
+            android:id="@+id/btn4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="btn4"
             android:text="相机权限" />
     </LinearLayout>
 

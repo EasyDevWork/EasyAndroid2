@@ -58,6 +58,9 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     }
 
     private void addData() {
+        DebugDo camera = new DebugDo("camera", () -> ARouter.getInstance().build("/demo/TestCameraActivity").navigation());
+        debugDos.add(camera);
+
         DebugDo mmkv = new DebugDo("mmkv", () -> ARouter.getInstance().build("/demo/TestMmmkvActivity").navigation());
         debugDos.add(mmkv);
 

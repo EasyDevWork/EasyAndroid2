@@ -24,6 +24,9 @@ public class TestFragment extends BaseFragment<TestFragmentPresenter, TestFragme
     @Override
     public void initView(View view) {
         viewBind.tvName.setText(tag + "====>");
+        viewBind.btn4.setOnClickListener(v -> getRxPermissions().request(Manifest.permission.CAMERA)
+                .as(getAutoDispose())
+                .subscribe(aBoolean -> ToastUtils.showShort("是否允许：" + aBoolean)));
     }
 
     @Override
@@ -37,11 +40,5 @@ public class TestFragment extends BaseFragment<TestFragmentPresenter, TestFragme
 
     public void btn3(View view) {
         showLoading();
-    }
-
-    public void btn4(View view) {
-        getRxPermissions().request(Manifest.permission.CAMERA)
-                .as(getAutoDispose())
-                .subscribe(aBoolean -> ToastUtils.showShort("是否允许：" + aBoolean));
     }
 }
