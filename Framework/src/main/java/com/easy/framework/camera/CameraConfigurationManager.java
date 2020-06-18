@@ -1,12 +1,16 @@
 package com.easy.framework.camera;
 
 import android.content.Context;
+import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
+
+import com.easy.framework.camera.CameraFacing;
+import com.easy.framework.camera.OpenCamera;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,8 +82,7 @@ final class CameraConfigurationManager {
             Log.i(TAG, "Front camera overriden to: " + cwRotationFromNaturalToCamera);
         }
 
-        cwRotationFromDisplayToCamera =
-                (360 + cwRotationFromNaturalToCamera - cwRotationFromNaturalToDisplay) % 360;
+        cwRotationFromDisplayToCamera = (360 + cwRotationFromNaturalToCamera - cwRotationFromNaturalToDisplay) % 360;
         Log.i(TAG, "Final display orientation: " + cwRotationFromDisplayToCamera);
         if (camera.getFacing() == CameraFacing.FRONT) {
             Log.i(TAG, "Compensating rotation for front camera");
@@ -111,13 +114,10 @@ final class CameraConfigurationManager {
 
         Camera theCamera = camera.getCamera();
         Camera.Parameters parameters = theCamera.getParameters();
-
         if (parameters == null) {
-            Log.w(TAG,
-                    "Device error: no camera parameters are available. Proceeding without configuration.");
+            Log.w(TAG, "Device error: no camera parameters are available. Proceeding without configuration.");
             return;
         }
-
         Log.i(TAG, "Initial camera parameters: " + parameters.flatten());
 
         if (safeMode) {
@@ -128,13 +128,13 @@ final class CameraConfigurationManager {
         String focusMode = null;
         if (!safeMode) {
             List<String> supportedFocusModes = parameters.getSupportedFocusModes();
-            focusMode =
-                    findSettableValue("focus mode", supportedFocusModes, Camera.Parameters.FOCUS_MODE_AUTO);
+            focusMode = findSettableValue("focus mode", supportedFocusModes, Camera.Parameters.FOCUS_MODE_AUTO);
         }
         if (focusMode != null) {
             parameters.setFocusMode(focusMode);
         }
-
+        parameters.setPictureFormat(ImageFormat.JPEG);
+        parameters.setPictureSize(bestPreviewSize.x, bestPreviewSize.y);
         parameters.setPreviewSize(bestPreviewSize.x, bestPreviewSize.y);
 
         theCamera.setParameters(parameters);
@@ -181,7 +181,8 @@ final class CameraConfigurationManager {
         // Sort by size, descending
         List<Camera.Size> supportedPreviewSizes = new ArrayList<Camera.Size>(rawSupportedSizes);
         Collections.sort(supportedPreviewSizes, new Comparator<Camera.Size>() {
-            @Override public int compare(Camera.Size a, Camera.Size b) {
+            @Override
+            public int compare(Camera.Size a, Camera.Size b) {
                 int aPixels = a.height * a.width;
                 int bPixels = b.height * b.width;
                 if (bPixels < aPixels) {
@@ -212,10 +213,6 @@ final class CameraConfigurationManager {
         for (Camera.Size supportedPreviewSize : supportedPreviewSizes) {
             int realWidth = supportedPreviewSize.width;
             int realHeight = supportedPreviewSize.height;
-            int pixels = realWidth * realHeight;
-            if (pixels < MIN_PREVIEW_PIXELS || pixels > MAX_PREVIEW_PIXELS) {
-                continue;
-            }
 
             // This code is modified since We're using portrait mode
             boolean isCandidateLandscape = realWidth > realHeight;

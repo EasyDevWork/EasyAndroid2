@@ -2,10 +2,17 @@ package com.easy.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Point;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 public class DimensUtils {
+    public static Point getScreenSize(Context context) {
+        Point point = new Point();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getSize(point);
+        return point;
+    }
     /**
      * 获取导航高度
      *

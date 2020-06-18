@@ -3,6 +3,7 @@ package com.easy.framework.camera;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.hardware.Camera;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+
+import com.easy.utils.DimensUtils;
 
 import java.io.IOException;
 
@@ -122,6 +125,9 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback, C
         Log.d(TAG, "surfaceCreated");
         try {
             // Indicate camera, our View dimensions
+            Point screenSize = DimensUtils.getScreenSize(getContext());
+            mCameraManager.openDriver(holder, screenSize.x, screenSize.y);
+
             mCameraManager.openDriver(holder, this.getWidth(), this.getHeight());
         } catch (IOException | RuntimeException e) {
             Log.w(TAG, "Can not openDriver: " + e.getMessage());
