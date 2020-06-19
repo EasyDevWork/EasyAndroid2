@@ -18,23 +18,27 @@ public class CameraManager {
     private boolean initialized;
     private boolean previewing;
     private Camera.PreviewCallback previewCallback;
-    private int displayOrientation = 0;
+    private int displayOrientation = 90;
+    Point bestSize;
 
-    // PreviewCallback references are also removed from original ZXING authors work,
-    // since we're using our own interface.
-    // FramingRects references are also removed from original ZXING authors work,
-    // since We're using all view size while detecting QR-Codes.
     private int requestedCameraId = OpenCameraInterface.NO_REQUESTED_CAMERA;
-    private long autofocusIntervalInMs = AutoFocusManager.DEFAULT_AUTO_FOCUS_INTERVAL_MS;
+    private long autoFocusIntervalInMs = AutoFocusManager.DEFAULT_AUTO_FOCUS_INTERVAL_MS;
 
     public CameraManager(Context context) {
         this.context = context;
         this.configManager = new CameraConfigurationManager(context);
     }
 
+    /**
+     * 设置最佳的宽高比例
+     * @param bestSize
+     */
+    public void setBestSize(Point bestSize) {
+        this.bestSize = bestSize;
+    }
+
     public void setPreviewCallback(Camera.PreviewCallback previewCallback) {
         this.previewCallback = previewCallback;
-
         if (isOpen()) {
             openCamera.getCamera().setPreviewCallback(previewCallback);
         }
@@ -42,16 +46,15 @@ public class CameraManager {
 
     public void setDisplayOrientation(int degrees) {
         this.displayOrientation = degrees;
-
         if (isOpen()) {
             openCamera.getCamera().setDisplayOrientation(degrees);
         }
     }
 
-    public void setAutofocusInterval(long autofocusIntervalInMs) {
-        this.autofocusIntervalInMs = autofocusIntervalInMs;
+    public void setAutoFocusInterval(long autoFocusIntervalInMs) {
+        this.autoFocusIntervalInMs = autoFocusIntervalInMs;
         if (autoFocusManager != null) {
-            autoFocusManager.setAutofocusInterval(autofocusIntervalInMs);
+            autoFocusManager.setAutofocusInterval(autoFocusIntervalInMs);
         }
     }
 
@@ -61,17 +64,14 @@ public class CameraManager {
         }
     }
 
-    public Point getPreviewSize() {
-        return configManager.getCameraResolution();
+    public Camera getCamera() {
+        if (openCamera != null) {
+            return openCamera.getCamera();
+        }
+        return null;
     }
 
-    /**
-     * Opens the camera driver and initializes the hardware parameters.
-     *
-     * @param holder The surface object which the camera will draw preview frames into.
-     * @param height @throws IOException Indicates the camera driver failed to open.
-     */
-    public synchronized void openDriver(SurfaceHolder holder, int width, int height) throws IOException {
+    public synchronized void openDriver(SurfaceHolder holder) throws IOException {
         OpenCamera theCamera = openCamera;
         if (!isOpen()) {
             theCamera = OpenCameraInterface.open(requestedCameraId);
@@ -86,13 +86,12 @@ public class CameraManager {
 
         if (!initialized) {
             initialized = true;
-            configManager.initFromCameraParameters(theCamera, width, height);
+            configManager.initFromCameraParameters(theCamera,bestSize);
         }
 
         Camera cameraObject = theCamera.getCamera();
         Camera.Parameters parameters = cameraObject.getParameters();
-        String parametersFlattened =
-                parameters == null ? null : parameters.flatten(); // Save these, temporarily
+        String parametersFlattened = parameters == null ? null : parameters.flatten(); // Save these, temporarily
         try {
             configManager.setDesiredCameraParameters(theCamera, false);
         } catch (RuntimeException re) {
@@ -132,15 +131,15 @@ public class CameraManager {
     /**
      * @param enabled if {@code true}, light should be turned on if currently off. And vice versa.
      */
-    public synchronized void setTorchEnabled(boolean enabled) {
+    public synchronized void setFlashEnabled(boolean enabled) {
         OpenCamera theCamera = openCamera;
-        if (theCamera != null && enabled != configManager.getTorchState(theCamera.getCamera())) {
+        if (theCamera != null && enabled != configManager.getFlashState(theCamera.getCamera())) {
             boolean wasAutoFocusManager = autoFocusManager != null;
             if (wasAutoFocusManager) {
                 autoFocusManager.stop();
                 autoFocusManager = null;
             }
-            configManager.setTorchEnabled(theCamera.getCamera(), enabled);
+            configManager.setFlashEnabled(theCamera.getCamera(), enabled);
             if (wasAutoFocusManager) {
                 autoFocusManager = new AutoFocusManager(theCamera.getCamera());
                 autoFocusManager.start();
@@ -175,7 +174,7 @@ public class CameraManager {
             theCamera.getCamera().startPreview();
             previewing = true;
             autoFocusManager = new AutoFocusManager(theCamera.getCamera());
-            autoFocusManager.setAutofocusInterval(autofocusIntervalInMs);
+            autoFocusManager.setAutofocusInterval(autoFocusIntervalInMs);
         }
     }
 

@@ -7,22 +7,14 @@ import android.graphics.Point;
 import android.hardware.Camera;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
-
-import com.easy.utils.DimensUtils;
 
 import java.io.IOException;
-
-import static android.hardware.Camera.getCameraInfo;
 
 public class CameraView extends SurfaceView implements SurfaceHolder.Callback, Camera.PreviewCallback {
 
     private static final String TAG = CameraView.class.getName();
-    private int mPreviewWidth;
-    private int mPreviewHeight;
     private CameraManager mCameraManager;
 
     public CameraView(Context context) {
@@ -62,11 +54,11 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback, C
      * Set Camera autofocus interval value
      * default value is 5000 ms.
      *
-     * @param autofocusIntervalInMs autofocus interval value
+     * @param autoFocusIntervalInMs autofocus interval value
      */
-    public void setAutofocusInterval(long autofocusIntervalInMs) {
+    public void setAutoFocusInterval(long autoFocusIntervalInMs) {
         if (mCameraManager != null) {
-            mCameraManager.setAutofocusInterval(autofocusIntervalInMs);
+            mCameraManager.setAutoFocusInterval(autoFocusIntervalInMs);
         }
     }
 
@@ -79,15 +71,22 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback, C
         }
     }
 
+    public Camera getCamera() {
+        if (mCameraManager != null) {
+            return mCameraManager.getCamera();
+        }
+        return null;
+    }
+
     /**
      * Set Torch enabled/disabled.
      * default value is false
      *
      * @param enabled torch enabled/disabled.
      */
-    public void setTorchEnabled(boolean enabled) {
+    public void setFlashEnabled(boolean enabled) {
         if (mCameraManager != null) {
-            mCameraManager.setTorchEnabled(enabled);
+            mCameraManager.setFlashEnabled(enabled);
         }
     }
 
@@ -120,15 +119,17 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback, C
         super.onDetachedFromWindow();
     }
 
+    public void setBestSize(Point bestSize) {
+        if (mCameraManager != null) {
+            mCameraManager.setBestSize(bestSize);
+        }
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(TAG, "surfaceCreated");
         try {
-            // Indicate camera, our View dimensions
-            Point screenSize = DimensUtils.getScreenSize(getContext());
-            mCameraManager.openDriver(holder, screenSize.x, screenSize.y);
-
-            mCameraManager.openDriver(holder, this.getWidth(), this.getHeight());
+            mCameraManager.openDriver(holder);
         } catch (IOException | RuntimeException e) {
             Log.w(TAG, "Can not openDriver: " + e.getMessage());
             mCameraManager.closeDriver();
@@ -144,27 +145,6 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback, C
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.d(TAG, "surfaceChanged");
-
-        if (holder.getSurface() == null) {
-            Log.e(TAG, "Error: preview surface does not exist");
-            return;
-        }
-
-        if (mCameraManager.getPreviewSize() == null) {
-            Log.e(TAG, "Error: preview size does not exist");
-            return;
-        }
-
-        mPreviewWidth = mCameraManager.getPreviewSize().x;
-        mPreviewHeight = mCameraManager.getPreviewSize().y;
-
-        mCameraManager.stopPreview();
-
-        // Fix the camera sensor rotation
-        mCameraManager.setPreviewCallback(this);
-        mCameraManager.setDisplayOrientation(getCameraDisplayOrientation());
-
-        mCameraManager.startPreview();
     }
 
     @Override
@@ -196,43 +176,5 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback, C
             // this device has any camera
             return getContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
         }
-    }
-
-    private int getCameraDisplayOrientation() {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.GINGERBREAD) {
-            return 90;
-        }
-
-        Camera.CameraInfo info = new Camera.CameraInfo();
-        getCameraInfo(mCameraManager.getPreviewCameraId(), info);
-        WindowManager windowManager =
-                (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        int rotation = windowManager.getDefaultDisplay().getRotation();
-        int degrees = 0;
-        switch (rotation) {
-            case Surface.ROTATION_0:
-                degrees = 0;
-                break;
-            case Surface.ROTATION_90:
-                degrees = 90;
-                break;
-            case Surface.ROTATION_180:
-                degrees = 180;
-                break;
-            case Surface.ROTATION_270:
-                degrees = 270;
-                break;
-            default:
-                break;
-        }
-
-        int result;
-        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-            result = (info.orientation + degrees) % 360;
-            result = (360 - result) % 360;  // compensate the mirror
-        } else {  // back-facing
-            result = (info.orientation - degrees + 360) % 360;
-        }
-        return result;
     }
 }

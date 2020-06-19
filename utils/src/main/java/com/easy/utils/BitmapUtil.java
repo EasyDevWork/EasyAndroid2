@@ -1,14 +1,13 @@
 package com.easy.utils;
 
-import android.content.ContentResolver;
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -17,8 +16,6 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 
@@ -85,6 +82,35 @@ public class BitmapUtil {
         ALL // 四角
     }
 
+
+    public static File saveBitmap(Context context, byte[] datas, Point size, int top, String name) {
+        File file = null;
+        FileOutputStream fos = null;
+        Bitmap bm;
+        try {
+            bm = toturn(datas, 90);
+            Log.d("CameraConfiguration","转换角度后图片 width:"+bm.getWidth()+ "height:"+bm.getHeight());
+//            bm = Bitmap.createBitmap(bm, 0, top, bm.getWidth(), size.y, null, false);
+            String newFilePath = StringUtils.buildString(context.getFilesDir().getAbsolutePath(), "/", name, "_", System.currentTimeMillis(), ".jpg");
+            file = new File(newFilePath);
+            boolean isOk = file.createNewFile();
+            fos = new FileOutputStream(file);
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            bm.recycle();
+        } catch (Exception e) {
+            Log.d("saveBitmap", e.toString());
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
+    }
 
     public static String saveBitmap(Context context, Bitmap bm, String name) {
         String newFilePath = context.getFilesDir().getAbsolutePath() + "/"
@@ -213,6 +239,7 @@ public class BitmapUtil {
     //旋将旋转后的图片翻转
     public static Bitmap toturn(byte[] datas, int degree) {
         Bitmap img = BitmapFactory.decodeByteArray(datas, 0, datas.length);
+        Log.d("CameraConfiguration","未转换角度图片 width:"+img.getWidth()+ "height:"+img.getHeight());
         Matrix matrix = new Matrix();
         matrix.postRotate(degree); /*翻转90度*/
         int width = img.getWidth();
@@ -248,6 +275,7 @@ public class BitmapUtil {
         }
         return file;
     }
+
     /**
      * 图片压缩
      *
