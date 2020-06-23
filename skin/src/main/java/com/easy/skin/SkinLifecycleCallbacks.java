@@ -2,6 +2,7 @@ package com.easy.skin;
 
 import android.app.Activity;
 import android.app.Application;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -18,12 +19,21 @@ public class SkinLifecycleCallbacks implements Application.ActivityLifecycleCall
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-        LayoutInflater oldLayoutInflater = LayoutInflater.from(activity);
-        LayoutInflater layoutInflater = oldLayoutInflater.cloneInContext(activity);
-
+        LayoutInflater layoutInflater = LayoutInflater.from(activity);
         SkinFactory skinLayoutFactory = new SkinFactory();
-        LayoutInflaterCompat.setFactory2(layoutInflater, skinLayoutFactory);
-        //注册观察者
+        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            try {
+                Field field = LayoutInflater.class.getDeclaredField("mFactorySet");
+                field.setAccessible(true);
+                field.setBoolean(layoutInflater, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            LayoutInflaterCompat.setFactory2(layoutInflater, skinLayoutFactory);
+        } else {
+            LayoutInflater newLoutInflater = layoutInflater.cloneInContext(activity);
+            LayoutInflaterCompat.setFactory2(newLoutInflater, skinLayoutFactory);
+        }
         SkinManager.getInstance().addObserver(skinLayoutFactory);
         mLayoutFactoryMap.put(activity.getLocalClassName(), skinLayoutFactory);
     }
