@@ -30,7 +30,7 @@ public class SkinLifecycleCallbacks implements Application.ActivityLifecycleCall
                 e.printStackTrace();
             }
             LayoutInflaterCompat.setFactory2(layoutInflater, skinLayoutFactory);
-        } else {
+        } else {//安卓10以后无法反射对象，所以仅支持动态加入属性才可换肤
             LayoutInflater newLoutInflater = layoutInflater.cloneInContext(activity);
             LayoutInflaterCompat.setFactory2(newLoutInflater, skinLayoutFactory);
         }
