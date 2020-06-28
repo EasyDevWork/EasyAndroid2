@@ -94,5 +94,6 @@ ext {
             "easy_apt"                     : "com.github.EasyDevWork:AptProcessor:3.0.1",
             "easy_apt_compiler"            : "com.github.EasyDevWork:AptProcessor:compiler-3.0.3",
 
+            "startup"                      : "androidx.startup:startup-runtime:1.0.0-alpha01",
     ]
 }

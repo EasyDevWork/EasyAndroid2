@@ -65,6 +65,7 @@ android {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
 
+    api lib.startup
     api lib.androidx_appcompat
 
     implementation lib.aspectjrt
