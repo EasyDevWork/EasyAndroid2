@@ -20,6 +20,8 @@ import com.easy.framework.bean.AppVersion;
 import com.easy.framework.manager.activity.ActivityStateLiveData;
 import com.easy.framework.manager.activity.ActivityStateType;
 import com.easy.framework.manager.network.NetworkStateLiveData;
+import com.easy.framework.manager.screen.ScreenOrientation;
+import com.easy.framework.manager.screen.ScreenOrientationLiveData;
 import com.easy.framework.manager.screen.ScreenStateLiveData;
 import com.easy.framework.manager.screen.ScreenStateType;
 import com.easy.framework.manager.update.AppUpdateManager;
@@ -54,6 +56,7 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
 
     @Override
     public void initView() {
+
         activityStateObserver = (Observer<ActivityStateType>) activityStateType -> Log.d("StateChange", "ActivityState activityStateType=" + activityStateType.toString());
         ActivityStateLiveData.getInstance().observeForever(activityStateObserver);
 
@@ -62,11 +65,18 @@ public class TestActivity extends BaseActivity<TestActivityPresenter, TestFragme
             Log.d("StateChange", "NetworkState networkInfo=" + networkType.toString());
         });
 
+        ScreenOrientationLiveData screenOrientationLiveData = new ScreenOrientationLiveData(this);
+        screenOrientationLiveData.observe(this, screenOrientation -> {
+            Log.d("ScreenOrientation", screenOrientation.toString());
+            viewBind.tvScreenOrientation.setText("屏幕方向:" + screenOrientation.orientation + " 角度：" + screenOrientation.rotateAngle);
+        });
+
         screenStateObserver = (Observer<ScreenStateType>) type -> {
             viewBind.tvScreenInfo.setText("当前屏幕状态:" + type.toString());
             Log.d("StateChange", "ScreenState screenStateType=" + type.toString());
         };
         ScreenStateLiveData.getInstance(this).observeForever(screenStateObserver);
+
 
         viewBind.tvScreenBrightness.setText("屏幕亮度：" + SystemUtils.getScreenBrightness(this));
 

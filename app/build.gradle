@@ -35,8 +35,8 @@ android {
         enabled true
     }
     productFlavors {
-        google {
-//            applicationIdSuffix ".test"
+        mTest {
+            applicationIdSuffix ".test"
         }
         official {
         }

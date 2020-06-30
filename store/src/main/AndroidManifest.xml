@@ -1,2 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.easy.store" />
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.easy.store">
+
+    <application>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${application_id}.androidx-startup"
+            android:exported="false"
+            tools:node="merge"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="com.easy.store.base.EasyStoreInit"
+                android:value="androidx.startup" />
+        </provider>
+    </application>
+</manifest>

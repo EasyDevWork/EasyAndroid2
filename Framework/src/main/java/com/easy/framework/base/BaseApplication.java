@@ -96,7 +96,6 @@ public abstract class BaseApplication extends Application {
         Log.d("initImportant", "mmkv root: " + dir);
 
         //存储数据初始化--用户数据库，文件，SharePreference
-        EasyStore.getInstance().init(this);
         SharePreference.setConverterFactory(new JsonConverterFactory());
 
         //Retrofit初始化--用于接口请求，数据下载

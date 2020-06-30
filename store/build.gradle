@@ -13,11 +13,13 @@ android {
     }
     buildTypes {
         release {
+            manifestPlaceholders = [application_id    : config.applicationId]
             minifyEnabled false
             zipAlignEnabled false
             consumerProguardFiles 'proguard-rules.pro'
         }
         debug {
+            manifestPlaceholders = [application_id    : config.applicationId]
             minifyEnabled false
             zipAlignEnabled false
             consumerProguardFiles 'proguard-rules.pro'
@@ -33,6 +35,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api lib.androidx_appcompat
+    implementation lib.startup
 
     implementation lib.dagger
     annotationProcessor lib.dagger_compiler
