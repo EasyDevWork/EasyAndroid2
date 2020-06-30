@@ -8,11 +8,13 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.aliyun.player.IPlayer;
 import com.easy.aliplayer.base.ThemeEnum;
 import com.easy.aliplayer.listener.OnChangeQualityListener;
+import com.easy.aliplayer.listener.OnOrientationListener;
 import com.easy.aliplayer.listener.OnScreenBrightnessListener;
 import com.easy.apt.annotation.ActivityInject;
 import com.easy.demo.R;
 import com.easy.demo.databinding.TestPlayerBinding;
 import com.easy.framework.base.BaseActivity;
+import com.easy.framework.manager.screen.ScreenOrientationLiveData;
 import com.easy.framework.watch.NetStatusWatch;
 import com.easy.utils.BrightnessUtils;
 
@@ -23,6 +25,7 @@ import java.util.Date;
 @Route(path = "/demo/PlayerActivity", name = "播放器页面")
 public class PlayerActivity extends BaseActivity<PlayerPresenter, TestPlayerBinding> implements PlayerView {
     private final static String TAG = "PlayerActivity";
+    OnOrientationListener onOrientationListener;
 
     @Override
     public int getLayoutId() {
@@ -36,6 +39,22 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter, TestPlayerBind
         viewBind.playerView.setPlaySource("http://player.alicdn.com/video/aliyunmedia.mp4");
         viewBind.playerView.setVideoScalingMode(IPlayer.ScaleMode.SCALE_TO_FILL);//可选
 //        viewBind.playerView.setLockPortraitMode(LockPortrait.FIX_NONE);//可选
+
+        onOrientationListener = viewBind.playerView.getOrientationWatchdog();
+        ScreenOrientationLiveData screenOrientationLiveData = new ScreenOrientationLiveData(this);
+        screenOrientationLiveData.observe(this, screenOrientation -> {
+            Log.d("ScreenOrientation", screenOrientation.toString());
+            if (onOrientationListener != null && screenOrientation.isChange) {
+                if (screenOrientation.orientation == ScreenOrientationLiveData.Orientation.PORT_REVERSE
+                        || screenOrientation.orientation == ScreenOrientationLiveData.Orientation.PORT_FORWARD) {
+                    onOrientationListener.changedToPortrait(true);
+                } else if (screenOrientation.orientation == ScreenOrientationLiveData.Orientation.LAND_REVERSE) {
+                    onOrientationListener.changedToLandReverseScape(true);
+                } else {
+                    onOrientationListener.changedToLandScape(true);
+                }
+            }
+        });
     }
 
     @Override

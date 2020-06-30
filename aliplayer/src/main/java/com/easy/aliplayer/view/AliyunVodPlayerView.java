@@ -44,28 +44,28 @@ import com.easy.aliplayer.base.SpeedEnum;
 import com.easy.aliplayer.base.ThemeEnum;
 import com.easy.aliplayer.dialog.ShowMoreDialog;
 import com.easy.aliplayer.handle.PlayerLoadEndHandler;
+import com.easy.aliplayer.interfaces.ITheme;
+import com.easy.aliplayer.interfaces.ViewAction;
 import com.easy.aliplayer.listener.OnAutoPlayListener;
 import com.easy.aliplayer.listener.OnChangeQualityListener;
+import com.easy.aliplayer.listener.OnOrientationListener;
 import com.easy.aliplayer.listener.OnPlayerViewClickListener;
 import com.easy.aliplayer.listener.OnScreenBrightnessListener;
 import com.easy.aliplayer.listener.OnStoppedListener;
 import com.easy.aliplayer.listener.OnTimeExpiredErrorListener;
 import com.easy.aliplayer.quality.QualityView;
-import com.easy.aliplayer.interfaces.ITheme;
+import com.easy.aliplayer.view.function.GuideView;
+import com.easy.aliplayer.view.function.ShowMoreModel;
+import com.easy.aliplayer.view.function.ShowMoreView;
+import com.easy.aliplayer.view.function.SpeedView;
+import com.easy.aliplayer.view.function.ThumbnailView;
 import com.easy.aliplayer.view.gesture.GestureDialogManager;
 import com.easy.aliplayer.view.gesture.GestureView;
 import com.easy.aliplayer.view.gesturedialog.BrightnessDialog;
 import com.easy.aliplayer.view.gesturedialog.SeekDialog;
 import com.easy.aliplayer.view.gesturedialog.VolumeDialog;
-import com.easy.aliplayer.view.function.GuideView;
-import com.easy.aliplayer.interfaces.ViewAction;
-import com.easy.aliplayer.view.function.ShowMoreModel;
-import com.easy.aliplayer.view.function.ShowMoreView;
-import com.easy.aliplayer.view.function.SpeedView;
-import com.easy.aliplayer.view.function.ThumbnailView;
 import com.easy.aliplayer.view.tipsview.TipsView;
 import com.easy.framework.watch.NetStatusWatch;
-import com.easy.framework.watch.ScreenOrientationWatch;
 import com.easy.utils.DateUtils;
 import com.easy.utils.DeviceUtils;
 import com.easy.utils.DimensUtils;
@@ -116,7 +116,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
     //网络状态监听
     private NetStatusWatch mNetWatchdog;
     //屏幕方向监听
-    private ScreenOrientationWatch mOrientationWatchDog;
+    private OnOrientationListener onOrientationListener;
     //锁定竖屏
     private LockPortrait lockPortrait = LockPortrait.FIX_NONE;
     private IPlayer.OnInfoListener mOutInfoListener = null;
@@ -220,8 +220,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         initTipsView();
         //初始化网络监听器
         initNetWatchdog();
-        //初始化屏幕方向监听
-        initOrientationWatchdog();
         //初始化手势对话框控制
         initGestureDialogManager();
         //默认为蓝色主题
@@ -637,9 +635,8 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
     /**
      * 初始化屏幕方向旋转。用来监听屏幕方向。结果通过OrientationListener回调出去。
      */
-    private void initOrientationWatchdog() {
-        mOrientationWatchDog = new ScreenOrientationWatch(getContext());
-        mOrientationWatchDog.setOnOrientationListener(new ScreenOrientationWatch.OnOrientationListener() {
+    public OnOrientationListener getOrientationWatchdog() {
+        onOrientationListener = new OnOrientationListener() {
             @Override
             public void changedToLandScape(boolean fromPort) {
                 playerChangedToLandForwardScape(fromPort);
@@ -654,7 +651,8 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
             public void changedToPortrait(boolean fromLand) {
                 playerChangedToPortrait(fromLand);
             }
-        });
+        };
+        return onOrientationListener;
     }
 
     /**
@@ -1648,10 +1646,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
             mNetWatchdog.startWatch();
         }
 
-        if (mOrientationWatchDog != null) {
-            mOrientationWatchDog.startWatch();
-        }
-
         //从其他界面过来的话，也要show。
 //        if (mControlView != null) {
 //            mControlView.show();
@@ -1669,10 +1663,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         if (mNetWatchdog != null) {
             mNetWatchdog.stopWatch();
         }
-        if (mOrientationWatchDog != null) {
-            mOrientationWatchDog.stopWatch();
-        }
-
         //保存播放器的状态，供resume恢复使用。
         savePlayerState();
     }
@@ -1736,10 +1726,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         mNetWatchdog = null;
         mTipsView = null;
         mAliyunMediaInfo = null;
-        if (mOrientationWatchDog != null) {
-            mOrientationWatchDog.destroy();
-        }
-        mOrientationWatchDog = null;
         if (hasLoadEnd != null) {
             hasLoadEnd.clear();
         }
