@@ -70,4 +70,10 @@ public class DialogActivity extends BaseActivity<DialogPresenter, TestDialogBind
                 .asLoading("正在加载中")
                 .show();
     }
+
+    public void dialog6(View view) {
+        TestDialogFragment dialogFragment = new TestDialogFragment();
+        dialogFragment.show(getSupportFragmentManager());
+    }
+
 }

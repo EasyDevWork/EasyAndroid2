@@ -10,8 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.DialogFragment;
 
 import com.easy.apt.lib.InjectFragment;
+import com.easy.framework.R;
 
 import javax.inject.Inject;
 
@@ -25,6 +27,7 @@ public abstract class BaseDialogFragment<P extends BasePresenter, V extends View
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.BottomDialog);
         context = getContext();
         InjectFragment.inject(this);
         if (presenter != null)
