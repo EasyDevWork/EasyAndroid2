@@ -87,14 +87,9 @@ public class AppUpdateManager {
 
     public boolean needUpdate(AppVersion appVersion) {
         if (appVersion != null) {
-            String currentVersion = BuildConfig.VERSION_NAME.replace(".", "");
-            String versionName = currentVersion;
-            if (!TextUtils.isEmpty(appVersion.getVersion())) {
-                versionName = appVersion.getVersion().replace(".", "");
-            }
-            int current = Integer.valueOf(currentVersion);
-            int last = Integer.valueOf(versionName);
-            return last > current;
+            int currentVersion = SystemUtils.getVersion(BuildConfig.VERSION_NAME);
+            int versionName = SystemUtils.getVersion(appVersion.getVersion());
+            return versionName > currentVersion;
         }
         return false;
     }
