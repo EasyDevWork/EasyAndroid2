@@ -70,7 +70,7 @@ public class TestLoadImageActivity extends BaseActivity<TestLoadImagePresenter, 
                 presenter.requestPermission(getRxPermissions())
         );
 
-        EasyLoadImage.loadImage(this, "https://img.soogif.com/f3OWy0ormPRCVNLNyBYmdU4kKS2dxrSG.gif", viewBind.iv0, null);
+        EasyLoadImage.loadImage(this, "https://img.soogif.com/f3OWy0ormPRCVNLNyBYmdU4kKS2dxrSG.gif", viewBind.iv0);
 
         EasyLoadImage.loadImage(this, imageUrl, viewBind.iv2, new RoundedCornersTransform(40, 0, TOP));
 

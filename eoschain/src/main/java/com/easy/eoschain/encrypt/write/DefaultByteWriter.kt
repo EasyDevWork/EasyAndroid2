@@ -53,7 +53,7 @@ class DefaultByteWriter(
     }
 
     override fun putSymbol(value: String) {
-        var symbol = value.split(",")
+        val symbol = value.split(",")
         currencySymbolWriter.put(symbol[0].toInt(), symbol[1], this)
     }
 
