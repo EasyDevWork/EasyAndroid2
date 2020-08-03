@@ -123,7 +123,17 @@ public class WebBaseFragment extends BaseFragment<WebBasePresenter, WebVewFragme
         WebViewClientBase mWebViewClientBase = new WebViewClientBase(this);
         viewBind.webView.setWebViewClient(mWebViewClientBase);
         viewBind.webView.setWebChromeClient(mWebChromeClientBase);
-
+        viewBind.webView.setOnLongClickListener(v -> {
+            WebView.HitTestResult result = viewBind.webView.getHitTestResult();
+            if (result == null) {
+                return false;
+            }
+            if (result.getType() == WebView.HitTestResult.IMAGE_TYPE) {
+                presenter.saveImage(result.getExtra());
+                return true;
+            }
+            return false;
+        });
         if (iWebCallback != null) {
             JsToAndroid jsToAndroid = iWebCallback.getJsToAndroid();
             if (jsToAndroid != null) {
