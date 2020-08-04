@@ -54,4 +54,7 @@ dependencies {
     implementation lib.autodispose_lifecycle
     implementation lib.autodispose_android
     implementation lib.autodispose_android_lifecycle
+
+    api project(':store')
+    implementation project(':utils')
 }

@@ -16,12 +16,11 @@ import com.easy.framework.base.BaseActivity;
 import com.easy.net.RxDownLoad;
 import com.easy.net.download.Download;
 import com.easy.net.download.DownloadCallback;
-import com.easy.net.download.DownloadInfo;
+import com.easy.store.bean.DownloadDo;
 import com.easy.utils.FileUtils;
 import com.easy.utils.StringUtils;
 import com.easy.utils.SystemUtils;
 import com.easy.utils.ToastUtils;
-import com.easy.utils.EmptyUtils;
 import com.easy.utils.base.FileConstant;
 
 @ActivityInject
@@ -66,13 +65,22 @@ public class TestDownloadActivity extends BaseActivity<EmptyPresenter, TestDownl
             public void onSuccess(Download object) {
                 ToastUtils.showShort("下载完成");
             }
+
+            @Override
+            public void onSpeedToSend(long size) {
+                Log.d("onProgress", "onSpeedToSend: " + size);
+            }
         };
-        String fileName = "app_112.apk";
-        String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, context) + fileName;
-        DownloadInfo info = new DownloadInfo();
-        info.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.2.2.apk");
-        info.setLocalUrl(downloadPath);
-        RxDownLoad.get().startDownload(info, downloadCallback);
+        String fileName = StringUtils.buildString("app_111.apk");
+        DownloadDo downloadDo = new DownloadDo();
+        downloadDo.setFileName(fileName);
+        downloadDo.setIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595516928583&di=11681615ebdaf494292d2d9e4d998c06&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F36%2F48%2F19300001357258133412489354717.jpg");
+        downloadDo.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.5.3.apk");
+        String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, this) + fileName;
+        downloadDo.setLocalUrl(downloadPath);
+        downloadDo.setTotalSize(45513653);
+        downloadDo.setTag("tag_" + System.currentTimeMillis());
+        RxDownLoad.get().startDownload(downloadDo, downloadCallback);
     }
 
     public void clickDownload2(View view) {
@@ -92,15 +100,24 @@ public class TestDownloadActivity extends BaseActivity<EmptyPresenter, TestDownl
             @Override
             public void onSuccess(Download download) {
                 ToastUtils.showShort("下载完成");
-                viewBind.tvLocalPath.setText(download.getDownloadInfo().getLocalUrl());
+                viewBind.tvLocalPath.setText(download.getDownloadDo().getLocalUrl());
+            }
+
+            @Override
+            public void onSpeedToSend(long size) {
+                Log.d("onProgress", "onSpeedToSend: " + size);
             }
         };
-        String fileName = "app_111.apk";
-        String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, context) + fileName;
-        DownloadInfo info = new DownloadInfo();
-        info.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.2.2.apk");
-        info.setLocalUrl(downloadPath);
-        Download download = RxDownLoad.get().startDownload(info, downloadCallback);
+        String fileName = StringUtils.buildString("app_111.apk");
+        DownloadDo downloadDo = new DownloadDo();
+        downloadDo.setFileName(fileName);
+        downloadDo.setIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595516928583&di=11681615ebdaf494292d2d9e4d998c06&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F36%2F48%2F19300001357258133412489354717.jpg");
+        downloadDo.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.5.3.apk");
+        String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, this) + fileName;
+        downloadDo.setLocalUrl(downloadPath);
+        downloadDo.setTotalSize(45513653);
+        downloadDo.setTag("tag_" + System.currentTimeMillis());
+        Download download = RxDownLoad.get().startDownload(downloadDo, downloadCallback);
         viewBind.btnDownload2.setTag(download);
     }
 

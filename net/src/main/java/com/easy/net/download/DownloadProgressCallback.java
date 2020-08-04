@@ -14,4 +14,5 @@ public interface DownloadProgressCallback {
      */
     void progress(long currentSize, long totalSize);
 
+    boolean isFinish();
 }

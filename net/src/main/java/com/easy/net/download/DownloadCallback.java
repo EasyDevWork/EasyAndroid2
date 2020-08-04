@@ -25,4 +25,6 @@ public abstract class DownloadCallback<T extends Download> {
      * @param object
      */
     public abstract void onSuccess(T object);
+
+    public abstract void onSpeedToSend(long size);
 }

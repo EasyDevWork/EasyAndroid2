@@ -1,20 +1,27 @@
 package com.easy.framework.bean;
 
 public class AppVersion {
-    private String type;
-    private String version;
-    private String download_url;
-    private String title;
-    private String notes;
-    private String force_version;
-    private String package_url;
+    private String version;//版本号
+    private String downloadUrl;//下载地址
+    private String title;//弹窗标题
+    private String notes;//弹窗提示语
+    private long totalSize;//文件大小
+    private String packageName;//如果是Apk 有包名
 
-    public String getType() {
-        return type;
+    public long getTotalSize() {
+        return totalSize;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTotalSize(long totalSize) {
+        this.totalSize = totalSize;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     public String getVersion() {
@@ -25,12 +32,12 @@ public class AppVersion {
         this.version = version;
     }
 
-    public String getDownload_url() {
-        return download_url;
+    public String getDownloadUrl() {
+        return downloadUrl;
     }
 
-    public void setDownload_url(String download_url) {
-        this.download_url = download_url;
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 
     public String getTitle() {
@@ -49,32 +56,13 @@ public class AppVersion {
         this.notes = notes;
     }
 
-    public String getForce_version() {
-        return force_version;
-    }
-
-    public void setForce_version(String force_version) {
-        this.force_version = force_version;
-    }
-
-    public String getPackage_url() {
-        return package_url;
-    }
-
-    public void setPackage_url(String package_url) {
-        this.package_url = package_url;
-    }
-
     @Override
     public String toString() {
         return "AppVersion{" +
-                "type='" + type + '\'' +
                 ", version='" + version + '\'' +
-                ", download_url='" + download_url + '\'' +
+                ", downloadUrl='" + downloadUrl + '\'' +
                 ", title='" + title + '\'' +
                 ", notes='" + notes + '\'' +
-                ", force_version='" + force_version + '\'' +
-                ", package_url='" + package_url + '\'' +
                 '}';
     }
 }

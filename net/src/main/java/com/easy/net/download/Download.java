@@ -1,6 +1,7 @@
 package com.easy.net.download;
 
 import com.easy.net.api.HttpApi;
+import com.easy.store.bean.DownloadDo;
 
 /**
  * 下载实体类
@@ -9,15 +10,16 @@ import com.easy.net.api.HttpApi;
 
 public class Download {
 
-    DownloadInfo downloadInfo;
+    DownloadDo downloadDo;
     private HttpApi api;//接口service
     private DownloadCallback callback;//回调接口
-    public DownloadInfo getDownloadInfo() {
-        return downloadInfo;
+
+    public DownloadDo getDownloadDo() {
+        return downloadDo;
     }
 
-    public void setDownloadInfo(DownloadInfo downloadInfo) {
-        this.downloadInfo = downloadInfo;
+    public void setDownloadDo(DownloadDo downloadDo) {
+        this.downloadDo = downloadDo;
     }
 
     public HttpApi getApi() {
@@ -36,12 +38,4 @@ public class Download {
         this.callback = callback;
     }
 
-    @Override
-    public String toString() {
-        return "Download{" +
-                "downloadInfo=" + downloadInfo +
-                ", api=" + api +
-                ", callback=" + callback +
-                '}';
-    }
 }

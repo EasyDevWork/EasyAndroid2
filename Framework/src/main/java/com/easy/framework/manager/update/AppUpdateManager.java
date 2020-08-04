@@ -1,7 +1,6 @@
 package com.easy.framework.manager.update;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.easy.framework.BuildConfig;
@@ -9,7 +8,7 @@ import com.easy.framework.bean.AppVersion;
 import com.easy.net.RxDownLoad;
 import com.easy.net.download.Download;
 import com.easy.net.download.DownloadCallback;
-import com.easy.net.download.DownloadInfo;
+import com.easy.store.bean.DownloadDo;
 import com.easy.utils.FileUtils;
 import com.easy.utils.StringUtils;
 import com.easy.utils.SystemUtils;
@@ -50,7 +49,12 @@ public class AppUpdateManager {
                 dialog.setProgress(100);
             }
             dialog.dismiss();
-            SystemUtils.install(context, download.getDownloadInfo().getLocalUrl());
+            SystemUtils.install(context, download.getDownloadDo().getLocalUrl());
+        }
+
+        @Override
+        public void onSpeedToSend(long size) {
+
         }
     };
 
@@ -76,10 +80,7 @@ public class AppUpdateManager {
                         dialog.dismiss();
                         callback.permissionCallback();
                     }
-                } else {
-                    download(appVersion, downloadCallback);
                 }
-
             });
             dialog.show();
         }
@@ -101,10 +102,13 @@ public class AppUpdateManager {
      * @param downloadCallback
      */
     private void download(AppVersion appVersion, DownloadCallback downloadCallback) {
-        String fileName = StringUtils.buildString("app_" + appVersion.getVersion() + ".apk");
+        String fileName = StringUtils.buildString(appVersion.getVersion(), "_", System.currentTimeMillis(), ".apk");
         String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, context) + fileName;
-        DownloadInfo info = new DownloadInfo();
-        info.setTag(System.currentTimeMillis() + "");
+        DownloadDo info = new DownloadDo();
+        info.setTag("update_" + System.currentTimeMillis());
+        info.setType(FileConstant.TYPE_APP);
+        info.setTotalSize(appVersion.getTotalSize());
+        info.setFileName(fileName);
         info.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.2.2.apk");
         info.setLocalUrl(downloadPath);
         RxDownLoad.get().startDownload(info, downloadCallback);

@@ -57,9 +57,9 @@ public class ResponseUtils {
                 randomAccessFile = new RandomAccessFile(file, "rwd");
                 channelOut = randomAccessFile.getChannel();
                 //总长度
-                long allLength = download.getDownloadInfo().getTotalSize() == 0 ? responseBody.contentLength() : download.getDownloadInfo().getCurrentSize() + responseBody.contentLength();
+                long allLength = download.getDownloadDo().getTotalSize() == 0 ? responseBody.contentLength() : download.getDownloadDo().getCurrentSize() + responseBody.contentLength();
 
-                MappedByteBuffer mappedBuffer = channelOut.map(FileChannel.MapMode.READ_WRITE, download.getDownloadInfo().getCurrentSize(), allLength - download.getDownloadInfo().getCurrentSize());
+                MappedByteBuffer mappedBuffer = channelOut.map(FileChannel.MapMode.READ_WRITE, download.getDownloadDo().getCurrentSize(), allLength - download.getDownloadDo().getCurrentSize());
 
                 byte[] buffer = new byte[1024 * 4];
                 int length;

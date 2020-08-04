@@ -1,8 +1,7 @@
 package com.easy.net.download;
 
+import android.os.Handler;
 import android.util.Log;
-
-import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 
@@ -12,8 +11,6 @@ import okio.Buffer;
 import okio.BufferedSource;
 import okio.ForwardingSource;
 import okio.Okio;
-import okio.Source;
-
 
 /**
  * 下载ResponseBody
@@ -23,10 +20,15 @@ public class DownloadResponseBody extends ResponseBody {
     private ResponseBody responseBody;
     private DownloadProgressCallback callback;
     private BufferedSource bufferedSource;
+    private long readBytesCount = 0L;
+    private long totalBytesCount = 0L;
+    Handler handler;
+    public static long delayedTime = 100;//500毫秒更新一次
 
-    public DownloadResponseBody(ResponseBody responseBody, DownloadProgressCallback callback) {
+    public DownloadResponseBody(ResponseBody responseBody, DownloadProgressCallback callback, Handler handler) {
         this.responseBody = responseBody;
         this.callback = callback;
+        this.handler = handler;
     }
 
     @Override
@@ -42,29 +44,39 @@ public class DownloadResponseBody extends ResponseBody {
     @Override
     public BufferedSource source() {
         if (bufferedSource == null) {
-            bufferedSource = Okio.buffer(source(responseBody.source()));
+            ForwardingSource forwardingSource = new ForwardingSource(responseBody.source()) {
+                @Override
+                public long read(Buffer sink, long byteCount) throws IOException {
+                    long bytesRead = super.read(sink, byteCount);
+                    // read() returns the number of bytes read, or -1 if this source is exhausted.
+                    readBytesCount += bytesRead != -1 ? bytesRead : 0;
+                    if (totalBytesCount == 0) {
+                        totalBytesCount = contentLength();
+                    }
+//                    Log.d("DownloadResponseBody", "download progress readBytesCount:" + readBytesCount + "  totalBytesCount:" + totalBytesCount);
+                    return bytesRead;
+                }
+            };
+            if (callback != null) {
+                handler.postDelayed(getRunnable(), 500);
+            }
+            bufferedSource = Okio.buffer(forwardingSource);
         }
         return bufferedSource;
     }
 
-    private Source source(Source source) {
-        return new ForwardingSource(source) {
-            long readBytesCount = 0L;
-            long totalBytesCount = 0L;
-
+    public Runnable getRunnable() {
+        return new Runnable() {
             @Override
-            public long read(Buffer sink, long byteCount) throws IOException {
-                long bytesRead = super.read(sink, byteCount);
-                // read() returns the number of bytes read, or -1 if this source is exhausted.
-                readBytesCount += bytesRead != -1 ? bytesRead : 0;
-                if (totalBytesCount == 0) {
-                    totalBytesCount = contentLength();
-                }
-                Log.d("download","download progress readBytesCount:" + readBytesCount + "  totalBytesCount:" + totalBytesCount + " callback:" + callback);
-                if (callback != null) {
+            public void run() {
+                if (callback != null && !callback.isFinish()) {
                     callback.progress(readBytesCount, totalBytesCount);
+                    Log.d("DownloadResponseBody", "handler 500ms后发送");
+                    handler.postDelayed(this, delayedTime);
+                } else {
+                    handler.removeCallbacks(this);
+                    Log.d("DownloadResponseBody", "移除handler");
                 }
-                return bytesRead;
             }
         };
     }

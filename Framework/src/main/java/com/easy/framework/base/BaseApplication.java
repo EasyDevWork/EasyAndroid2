@@ -102,7 +102,6 @@ public abstract class BaseApplication extends Application {
         RetrofitConfig.Builder builder = new RetrofitConfig.Builder(this);
         initBaseConfig(builder);
         EasyNet.init(builder);
-        EasyNet.initDownload(EasyStore.getInstance().getDownloadDao());
 
         //工具初始化--用于吐司，奔溃信息
         EasyUtils.init(this);

@@ -1,10 +1,12 @@
 package com.easy.net.download;
 
 
-import android.os.Handler;
+import android.util.Log;
 
 import com.easy.net.RxDownLoad;
 import com.easy.net.tools.ComputeUtils;
+import com.easy.store.bean.DownloadDo;
+import com.easy.store.dao.DownloadDao;
 
 import java.lang.ref.SoftReference;
 
@@ -20,20 +22,23 @@ import io.reactivex.disposables.Disposable;
 public class DownloadObserver<T extends Download> implements DownloadProgressCallback, Observer<T> {
 
     private Download download;
-    private Handler handler;
+    DownloadDo downloadDo;
     private Disposable disposable;
     private SoftReference<DownloadCallback> downloadCallback;
-    IDownload iDownload;
+    DownloadDao downloadDao;
+    boolean isFinish;//是否结束；用户停止下载进度更新
+    long lastDownloadSize;//上一次下载的大小
 
     public void setDownload(Download download) {
         this.download = download;
+        this.downloadDo = download.getDownloadDo();
         this.downloadCallback = new SoftReference<>(download.getCallback());
     }
 
-    public DownloadObserver(Download download, Handler handler, IDownload iDownload) {
+    public DownloadObserver(Download download, DownloadDao downloadDao) {
         this.download = download;
-        this.iDownload = iDownload;
-        this.handler = handler;
+        this.downloadDo = download.getDownloadDo();
+        this.downloadDao = downloadDao;
         this.downloadCallback = new SoftReference<>(download.getCallback());
     }
 
@@ -44,11 +49,13 @@ public class DownloadObserver<T extends Download> implements DownloadProgressCal
     @Override
     public void onSubscribe(@NonNull Disposable d) {
         disposable = d;
-        download.getDownloadInfo().setState(1);//等待状态
-        iDownload.insertOrUpdate(download.getDownloadInfo());
+        isFinish = false;
+        Log.d("DownloadObserver", "onSubscribe:"+isFinish);
+        downloadDo.setState(1);//等待状态
+        downloadDao.insertOrUpdate(downloadDo);
         if (downloadCallback.get() != null) {//回调
-            float progress = ComputeUtils.getProgress(download.getDownloadInfo().getCurrentSize(), download.getDownloadInfo().getTotalSize());
-            downloadCallback.get().onProgress(download.getDownloadInfo().getState(), download.getDownloadInfo().getCurrentSize(), download.getDownloadInfo().getTotalSize(), progress);
+            float progress = ComputeUtils.getProgress(downloadDo.getCurrentSize(), downloadDo.getTotalSize());
+            downloadCallback.get().onProgress(downloadDo.getState(), downloadDo.getCurrentSize(), downloadDo.getTotalSize(), progress);
         }
     }
 
@@ -58,12 +65,14 @@ public class DownloadObserver<T extends Download> implements DownloadProgressCal
      */
     @Override
     public void onError(Throwable e) {
-        download.getDownloadInfo().setState(4);//错误状态
+        isFinish = true;
+        Log.d("DownloadObserver", "onError");
+        downloadDo.setState(4);//错误状态
         RxDownLoad.get().removeDownload(download, false);//移除下载
-        iDownload.insertOrUpdate(download.getDownloadInfo());
+        downloadDao.insertOrUpdate(downloadDo);
         if (downloadCallback.get() != null) {
-            float progress = ComputeUtils.getProgress(download.getDownloadInfo().getCurrentSize(), download.getDownloadInfo().getTotalSize());
-            downloadCallback.get().onProgress(download.getDownloadInfo().getState(), download.getDownloadInfo().getCurrentSize(), download.getDownloadInfo().getTotalSize(), progress);
+            float progress = ComputeUtils.getProgress(downloadDo.getCurrentSize(), downloadDo.getTotalSize());
+            downloadCallback.get().onProgress(downloadDo.getState(), downloadDo.getCurrentSize(), downloadDo.getTotalSize(), progress);
             downloadCallback.get().onError(e);
         }
     }
@@ -74,9 +83,9 @@ public class DownloadObserver<T extends Download> implements DownloadProgressCal
      */
     @Override
     public void onNext(T t) {
-        download.getDownloadInfo().setState(5);//下载完成
+        downloadDo.setState(5);//下载完成
         RxDownLoad.get().removeDownload(download, false);//移除下载
-        iDownload.insertOrUpdate(download.getDownloadInfo());
+        downloadDao.insertOrUpdate(downloadDo);
         if (downloadCallback.get() != null) {//回调
             downloadCallback.get().onSuccess(t);
         }
@@ -84,6 +93,12 @@ public class DownloadObserver<T extends Download> implements DownloadProgressCal
 
     @Override
     public void onComplete() {
+        isFinish = true;
+        Log.d("DownloadObserver", "onComplete");
+        DownloadCallback callback = downloadCallback.get();
+        if (callback != null) {
+            callback.onProgress(downloadDo.getState(), downloadDo.getCurrentSize(), downloadDo.getTotalSize(), 100);
+        }
     }
 
 
@@ -95,26 +110,35 @@ public class DownloadObserver<T extends Download> implements DownloadProgressCal
      */
     @Override
     public void progress(long currentSize, long totalSize) {
-        if (download.getDownloadInfo().getTotalSize() > totalSize) {
-            currentSize = download.getDownloadInfo().getTotalSize() - totalSize + currentSize;
+        if (downloadDo.getTotalSize() > totalSize) {
+            currentSize = downloadDo.getTotalSize() - totalSize + currentSize;
         } else {
-            download.getDownloadInfo().setTotalSize(totalSize);
+            downloadDo.setTotalSize(totalSize);
         }
-        download.getDownloadInfo().setCurrentSize(currentSize);
-        handler.post(() -> {
-            /*下载进度==总进度修改为完成状态*/
-            if ((download.getDownloadInfo().getCurrentSize() == download.getDownloadInfo().getTotalSize()) && (download.getDownloadInfo().getTotalSize() != 0)) {
-                download.getDownloadInfo().setState(5);
+        downloadDo.setCurrentSize(currentSize);
+        /*下载进度==总进度修改为完成状态*/
+        if ((downloadDo.getCurrentSize() == downloadDo.getTotalSize()) && (downloadDo.getTotalSize() != 0)) {
+            downloadDo.setState(5);
+        }
+        /*如果暂停或者停止状态延迟，不需要继续发送回调，影响显示*/
+        if (downloadDo.getState() != 3) {
+            float progress = (float) downloadDo.getCurrentSize() / (float) downloadDo.getTotalSize();
+            DownloadCallback callback = downloadCallback.get();
+            if (callback != null) {
+                callback.onProgress(downloadDo.getState(), downloadDo.getCurrentSize(), downloadDo.getTotalSize(), progress);
+                long growSize = downloadDo.getCurrentSize() - lastDownloadSize;
+                long speed = (long) (growSize / (DownloadResponseBody.delayedTime / 1000f));
+                callback.onSpeedToSend(speed);
+                lastDownloadSize = downloadDo.getCurrentSize();
             }
-            /*如果暂停或者停止状态延迟，不需要继续发送回调，影响显示*/
-            if (download.getDownloadInfo().getState() != 3) {
-                float progress = (float) download.getDownloadInfo().getCurrentSize() / (float) download.getDownloadInfo().getTotalSize();
-                if (downloadCallback.get() != null) {
-                    downloadCallback.get().onProgress(download.getDownloadInfo().getState(), download.getDownloadInfo().getCurrentSize(), download.getDownloadInfo().getTotalSize(), progress);
-                }
-            }
-        });
+        }
     }
+
+    @Override
+    public boolean isFinish() {
+        return isFinish;
+    }
+
 
     /**
      * 取消请求
@@ -124,6 +148,8 @@ public class DownloadObserver<T extends Download> implements DownloadProgressCal
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
         }
+        isFinish = true;
+        Log.d("DownloadObserver", "dispose");
     }
 
 }
