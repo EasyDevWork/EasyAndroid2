@@ -50,7 +50,8 @@ public class TestCameraActivity extends BaseActivity<TestCameraPresenter, TestCa
     }
 
     public void switchFlash(View v) {
-        viewBind.cameraView.setFlashEnabled(!openFlash);
+        openFlash = !openFlash;
+        viewBind.cameraView.setFlashEnabled(openFlash);
     }
 
     public void takePhoto(View v) {
