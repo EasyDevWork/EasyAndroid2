@@ -75,7 +75,7 @@ public class TestDownloadActivity extends BaseActivity<EmptyPresenter, TestDownl
         DownloadDo downloadDo = new DownloadDo();
         downloadDo.setFileName(fileName);
         downloadDo.setIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595516928583&di=11681615ebdaf494292d2d9e4d998c06&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F36%2F48%2F19300001357258133412489354717.jpg");
-        downloadDo.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.5.3.apk");
+        downloadDo.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.6.6.apk");
         String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, this) + fileName;
         downloadDo.setLocalUrl(downloadPath);
         downloadDo.setTotalSize(45513653);
@@ -112,7 +112,7 @@ public class TestDownloadActivity extends BaseActivity<EmptyPresenter, TestDownl
         DownloadDo downloadDo = new DownloadDo();
         downloadDo.setFileName(fileName);
         downloadDo.setIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595516928583&di=11681615ebdaf494292d2d9e4d998c06&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F36%2F48%2F19300001357258133412489354717.jpg");
-        downloadDo.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.5.3.apk");
+        downloadDo.setServerUrl("https://static.ethte.com/client/release/Android/MEET.ONE_3.6.6.apk");
         String downloadPath = FileUtils.getFilePath(FileConstant.TYPE_APP, this) + fileName;
         downloadDo.setLocalUrl(downloadPath);
         downloadDo.setTotalSize(45513653);

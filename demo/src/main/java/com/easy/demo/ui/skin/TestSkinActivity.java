@@ -60,6 +60,7 @@ public class TestSkinActivity extends BaseActivity<TestSkinPresenter, TestSkinBi
         builder.append("8.支持drawable left/start/right/end/top/bottom").append("\n");
         builder.append("9.支持修改字体").append("\n");
         builder.append("10.支持切换语言").append("\n");
+        builder.append("11.安卓10以后无法反射对象，所以仅支持动态加入属性才可换肤").append("\n");
         viewBind.tvDescribe.setText(builder.toString());
 
         typeface = Typeface.createFromAsset(context.getAssets(), getString(R.string.font_type_face));

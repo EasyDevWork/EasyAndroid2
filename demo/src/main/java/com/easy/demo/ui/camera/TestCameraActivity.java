@@ -4,6 +4,7 @@ import android.Manifest;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.lifecycle.Lifecycle;
@@ -32,7 +33,7 @@ public class TestCameraActivity extends BaseActivity<TestCameraPresenter, TestCa
 
     @Override
     public void initView() {
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) viewBind.cameraView.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = viewBind.cameraView.getLayoutParams();
         layoutParams.width = DimensUtils.getWidth(this);
         layoutParams.height = layoutParams.width * 4 / 3;
         viewBind.cameraView.setLayoutParams(layoutParams);
