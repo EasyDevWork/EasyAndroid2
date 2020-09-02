@@ -35,11 +35,7 @@ android {
         enabled true
     }
     productFlavors {
-        mTest {
-            applicationIdSuffix ".test"
-        }
-        official {
-        }
+
     }
     signingConfigs {
         release {
@@ -64,7 +60,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             android.applicationVariants.all { variant ->
                 variant.outputs.all { output ->
-                    outputFileName = "${config.appName}_${variant.productFlavors[0].name}_${variant.versionName}_${variant.versionCode}.apk"
+                    outputFileName = "${config.appName}_${variant.versionName}_${variant.versionCode}.apk"
                 }
             }
         }
@@ -78,7 +74,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             android.applicationVariants.all { variant ->
                 variant.outputs.all { output ->
-                    outputFileName = "${config.appName}_${variant.productFlavors[0].name}_${variant.versionName}_${variant.versionCode}.apk"
+                    outputFileName = "${config.appName}_${variant.versionName}_${variant.versionCode}.apk"
                 }
             }
         }
