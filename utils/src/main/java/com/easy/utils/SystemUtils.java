@@ -4,12 +4,14 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
@@ -24,7 +26,9 @@ import androidx.core.content.FileProvider;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.UUID;
 
 import static android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
 
@@ -63,6 +67,7 @@ public class SystemUtils {
         }
         return code;
     }
+
     /**
      * 设置屏幕亮度
      *
@@ -379,5 +384,41 @@ public class SystemUtils {
         PackageManager mPackageManager = context.getPackageManager();
         Intent intent = mPackageManager.getLaunchIntentForPackage(packageName);
         context.startActivity(intent);
+    }
+
+    /**
+     * 插入图片到相册---支持安装10系统
+     */
+    public static void insertImageMedia(Context context, File file) {
+        if (Build.VERSION.SDK_INT >= 29) {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        } else {
+            try {
+                MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), file.getName(), null);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 插入媒体图片后--通知相册更新
+     */
+    public static void sendBroadcastUpdateMedia(Context context, File file) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            MediaScannerConnection.scanFile(context, new String[]{file.getAbsolutePath()}, null,
+                    (path, uri) -> {
+                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        mediaScanIntent.setData(uri);
+                        context.sendBroadcast(mediaScanIntent);
+                    });
+        } else {
+            String relationDir = file.getParent();
+            File file1 = new File(relationDir);
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.fromFile(file1.getAbsoluteFile())));
+        }
     }
 }

@@ -21,6 +21,7 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
     public Stack<WeakReference<Activity>> store = new Stack<>();
     private final String tag = "ActivityLifecycle";
     boolean lastState = false;
+
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
         WeakReference<Activity> weakActivity = new WeakReference<>(activity);
@@ -86,7 +87,7 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
         android.app.ActivityManager mActivityManager = (android.app.ActivityManager) BaseApplication.getInst().getSystemService(Context.ACTIVITY_SERVICE);
         assert mActivityManager != null;
         List<android.app.ActivityManager.RunningAppProcessInfo> processes = mActivityManager.getRunningAppProcesses();
-        if (processes.size() == 0) {
+        if (processes == null || processes.size() == 0) {
             return false;
         }
         for (android.app.ActivityManager.RunningAppProcessInfo process : processes) {
