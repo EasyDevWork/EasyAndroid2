@@ -1,6 +1,8 @@
 package com.easy.demo.ui.mvvm.binding;
 
 
+import android.view.View;
+
 /**
  * About : kelin的ReplyCommand
  * 执行的命令回调, 用于ViewModel与xml之间的数据绑定
@@ -53,9 +55,9 @@ public class BindingCommand<T> {
      *
      * @param parameter 泛型参数
      */
-    public void execute(T parameter) {
+    public void execute(View view,T parameter) {
         if (consumer != null && canExecute0()) {
-            consumer.call(parameter);
+            consumer.call(view,parameter);
         }
     }
 

@@ -3,6 +3,15 @@ apply plugin: 'com.android.library'
 def config = rootProject.ext.android
 def lib = rootProject.ext.dependencies
 
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+        arg("AROUTER_GENERATE_DOC", "enable")
+    }
+}
 android {
     compileSdkVersion config.compileSdkVersion
     defaultConfig {
@@ -13,7 +22,7 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [moduleName: project.getName()]
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
+//                arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
     }
@@ -36,14 +45,22 @@ android {
         abortOnError true
         checkReleaseBuilds false
     }
+    kotlin{
+        experimental {
+            coroutines 'enable'
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    annotationProcessor lib.dagger_compiler
 
     api lib.easy_apt
     annotationProcessor lib.easy_apt_compiler
+
+    kapt lib.dagger_compiler
+    kapt lib.arouter_compiler
+    api lib.kotlin_coroutines_android
 
     implementation project(':qrcode')
     implementation project(':imagezoom')

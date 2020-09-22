@@ -35,7 +35,7 @@ public class EasyStore {
         return boxStore;
     }
 
-    public DownloadDao getDownloadDao() {
-        return new DownloadDao();
-    }
+//    public DownloadDao getDownloadDao() {
+//        return new DownloadDao();
+//    }
 }

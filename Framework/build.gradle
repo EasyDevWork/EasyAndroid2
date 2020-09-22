@@ -73,6 +73,7 @@ dependencies {
     api lib.core_ktx
     api lib.constraintlayout
     api lib.kotlin
+    api lib.kotlin_coroutines
     api lib.fastjson
     api lib.mmkv
     api lib.relinker

@@ -53,7 +53,7 @@ public class ViewAdapter {
     public static void onFocusChangeCommand(View view, BindingCommand<Boolean> onFocusChangeCommand) {
         view.setOnFocusChangeListener((v, hasFocus) -> {
             if (onFocusChangeCommand != null) {
-                onFocusChangeCommand.execute(hasFocus);
+                onFocusChangeCommand.execute(v,hasFocus);
             }
         });
     }
@@ -78,7 +78,7 @@ public class ViewAdapter {
             @Override
             public void afterTextChanged(Editable s) {
                 if (onFocusChangeCommand != null) {
-                    onFocusChangeCommand.execute(s.toString());
+                    onFocusChangeCommand.execute(view,s.toString());
                 }
             }
         });

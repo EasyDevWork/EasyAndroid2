@@ -8,7 +8,7 @@ import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.AutoDisposeConverter;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
-public abstract class BaseViewModel extends ViewModel {
+public abstract class BaseViewModel extends ViewModel{
 
     public LifecycleOwner lifecycleOwner;
 

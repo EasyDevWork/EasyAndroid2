@@ -17,6 +17,7 @@
         <activity android:name=".ui.lottie.TestLottieActivity" />
         <activity android:name=".ui.arouter.TestArouterActivity" />
         <activity android:name=".ui.camera.TestCameraActivity" />
+        <activity android:name=".ui.kotlin.TestKotlinActivity" />
         <activity
             android:name=".ui.player.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

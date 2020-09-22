@@ -58,6 +58,9 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     }
 
     private void addData() {
+        DebugDo kotlin = new DebugDo("kotlin", () -> ARouter.getInstance().build("/demo/TestKotlinActivity").withInt("age", 3).navigation());
+        debugDos.add(kotlin);
+
         DebugDo camera = new DebugDo("camera", () -> ARouter.getInstance().build("/demo/TestCameraActivity").navigation());
         debugDos.add(camera);
 
@@ -138,8 +141,8 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
 
         DebugDo WebView = new DebugDo("WebView", () ->
                 ARouter.getInstance()
-                .build("/demo/TestWebActivity")
-                .withString("url", "file:///android_asset/testjs.html")
+                        .build("/demo/TestWebActivity")
+                        .withString("url", "file:///android_asset/testjs.html")
                         .navigation());
         debugDos.add(WebView);
 

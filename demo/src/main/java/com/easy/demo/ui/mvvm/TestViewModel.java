@@ -8,6 +8,7 @@ import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableInt;
 
+import com.easy.demo.R;
 import com.easy.demo.ui.mvvm.binding.BindingCommand;
 import com.easy.framework.base.BaseViewModel;
 import com.easy.utils.ToastUtils;
@@ -17,7 +18,7 @@ public class TestViewModel extends BaseViewModel {
     //用户名的绑定
     public ObservableField<String> userName = new ObservableField<>("");
     //用户名清除按钮的显示隐藏绑定
-    public ObservableInt clearBtnVisibility = new ObservableInt();
+    public ObservableInt clearBtnVisibility = new ObservableInt(4);
     //密码的绑定
     public ObservableField<String> password = new ObservableField<>("");
     //封装一个界面发生改变的观察者
@@ -31,8 +32,8 @@ public class TestViewModel extends BaseViewModel {
     }
 
     //用户名输入框焦点改变的回调事件
-    public BindingCommand<Boolean> onFocusChangeCommand = new BindingCommand<>(hasFocus -> {
-        if (hasFocus) {
+    public BindingCommand<Boolean> onFocusChangeCommand = new BindingCommand<>((view, hasFocus) -> {
+        if (hasFocus && !TextUtils.isEmpty(userName.get())) {
             clearBtnVisibility.set(View.VISIBLE);
         } else {
             clearBtnVisibility.set(View.INVISIBLE);
@@ -50,11 +51,18 @@ public class TestViewModel extends BaseViewModel {
         uiChange.passwordShowEvent.setValue(change);
     });
 
-    public BindingCommand<String> onTextChangedCommand = new BindingCommand<>(isEmpty -> {
+    public BindingCommand<String> onTextChangedCommand = new BindingCommand<>((view, isEmpty) -> {
         if (TextUtils.isEmpty(userName.get()) || TextUtils.isEmpty(password.get())) {
             loginAble.set(false);
         } else {
             loginAble.set(true);
+        }
+        if (view.getId() == R.id.editName) {
+            if (TextUtils.isEmpty(userName.get())) {
+                clearBtnVisibility.set(View.GONE);
+            } else {
+                clearBtnVisibility.set(View.VISIBLE);
+            }
         }
     });
 
