@@ -103,6 +103,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api lib.easy_apt
+    implementation project(path: ':flutter')
     annotationProcessor lib.easy_apt_compiler
 
     annotationProcessor lib.dagger_compiler

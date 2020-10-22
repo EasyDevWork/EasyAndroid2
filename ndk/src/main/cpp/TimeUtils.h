@@ -2,7 +2,7 @@
 #define _TIME_UTILS_H
 
 #include "LogUtils.h"
-#include "../../../../../../Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/sys/time.h"
+//#include "../../../../../../Library/Android/sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/sys/time.h"
 
 #ifdef _MSC_VER // 兼容微软平台
 #include <windows.h>

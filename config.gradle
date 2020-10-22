@@ -2,7 +2,7 @@ ext {
     android = [
             applicationId    : "com.easy",
             compileSdkVersion: 29,
-            buildToolsVersion: "28.0.3",
+            buildToolsVersion: "29.0.3",
             minSdkVersion    : 21,
             targetSdkVersion : 30,
             versionCode      : 1,

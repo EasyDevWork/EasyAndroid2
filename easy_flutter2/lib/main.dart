@@ -1,9 +1,10 @@
 import 'dart:ui';
 
+import 'package:easy_flutter2/utils/Utils.dart';
 import 'package:flutter/material.dart';
-import 'package:mflutter/Config.dart';
-import 'package:mflutter/homepage.dart';
-import 'package:mflutter/utils/Utils.dart';
+
+import 'Config.dart';
+import 'HomePage.dart';
 
 void main() {
   runApp(_widgetForRoute(window.defaultRouteName));
@@ -25,7 +26,7 @@ Widget _widgetForRoute(String url) {
       return MaterialApp(
         home: Center(
           child:
-              Text('Unknown route: $route', textDirection: TextDirection.ltr),
+              Text('Unknown route2: $route', textDirection: TextDirection.ltr),
         ),
       );
   }

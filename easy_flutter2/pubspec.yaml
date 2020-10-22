@@ -1,4 +1,4 @@
-name: mflutter
+name: easy_flutter2
 description: A new Flutter module.
 
 # The following defines the version and build number for your application.
@@ -26,9 +26,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
-  # Toast
-  fluttertoast: ^2.2.11
+  cupertino_icons: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -43,11 +41,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # To add Flutter specific assets to your application, add an assets section, 
+  # To add Flutter specific assets to your application, add an assets section,
   # like this:
   # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -84,5 +82,5 @@ flutter:
   # identifiers, which may be completely independent or the same as these.
   module:
     androidX: true
-    androidPackage: com.easy.mflutter
-    iosBundleIdentifier: com.easy.mflutter
+    androidPackage: com.easy.easy_flutter2
+    iosBundleIdentifier: com.easy.easyFlutter2

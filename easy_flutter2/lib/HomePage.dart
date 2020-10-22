@@ -1,6 +1,6 @@
+import 'package:easy_flutter2/NativeChannel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mflutter/NativeChannel.dart';
 import 'Config.dart';
 
 class HomePage extends StatefulWidget {

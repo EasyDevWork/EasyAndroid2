@@ -3,7 +3,7 @@ include ':app'
 setBinding(new Binding([gradle: this]))
 evaluate(new File(
         settingsDir.parentFile,
-        './EasyAndroid2/easy_flutter/.android/include_flutter.groovy'
+        './EasyAndroid2/easy_flutter2/.android/include_flutter.groovy'
 ))
 include ':store'
 
@@ -26,3 +26,5 @@ include ':aidl'
 include ':im_lib'
 include ':ndk'
 include ':skin'
+
+include ':easy_flutter2'
