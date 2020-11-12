@@ -82,6 +82,8 @@ dependencies {
 
     api project(':im_lib')
 
+    implementation project(':imageEdit')
+
     implementation project(':ndk')
 
     implementation lib.androidx_leanback

@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.easy.demo">
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application>
         <activity android:name=".ui.debug.DebugActivity" />
         <activity
@@ -18,6 +19,9 @@
         <activity android:name=".ui.arouter.TestArouterActivity" />
         <activity android:name=".ui.camera.TestCameraActivity" />
         <activity android:name=".ui.kotlin.TestKotlinActivity" />
+        <activity android:name=".ui.imgEdit.TestImgEditActivity" />
+        <activity android:name=".ui.notification.TestNotificationActivity" />
+
         <activity
             android:name=".ui.player.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

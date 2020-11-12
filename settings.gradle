@@ -27,4 +27,5 @@ include ':im_lib'
 include ':ndk'
 include ':skin'
 
+include ':imageEdit'
 include ':easy_flutter2'

@@ -58,6 +58,13 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
     }
 
     private void addData() {
+
+        DebugDo notification = new DebugDo("通知", () -> ARouter.getInstance().build("/demo/TestNotificationActivity").navigation());
+        debugDos.add(notification);
+
+        DebugDo imgEdit = new DebugDo("imgEdit", () -> ARouter.getInstance().build("/demo/TestImgEditActivity").navigation());
+        debugDos.add(imgEdit);
+
         DebugDo kotlin = new DebugDo("kotlin", () -> ARouter.getInstance().build("/demo/TestKotlinActivity").withInt("age", 3).navigation());
         debugDos.add(kotlin);
 
@@ -102,7 +109,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
 
         DebugDo imageZoom = new DebugDo("图片缩放", () -> {
             ArrayList<String> imageUrl = new ArrayList<>();
-            imageUrl.add("http://t9.baidu.com/it/u=2268908537,2815455140&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=f2bdac1c78a13b038896170ee6ce4694");
+//            imageUrl.add("http://t9.baidu.com/it/u=2268908537,2815455140&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=f2bdac1c78a13b038896170ee6ce4694");
             imageUrl.add("http://t9.baidu.com/it/u=1761131378,1355750940&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=bd8de5251ebb6167e29391b9a92da860");
             imageUrl.add("http://t9.baidu.com/it/u=4169540006,4220376401&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1586156504&t=5641e3d175af91a852433d57afb75be9");
 

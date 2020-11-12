@@ -25,8 +25,8 @@ public class EasyStore {
     public void init(Context context) {
         boxStore = MyObjectBox.builder().androidContext(context).build();
         if (BuildConfig.DEBUG) {
-            boolean started = new AndroidObjectBrowser(boxStore).start(context);
-            Log.i("ObjectBrowser", "Started: " + started + "   " + boxStore.getObjectBrowserPort());
+//            boolean started = new AndroidObjectBrowser(boxStore).start(context);
+//            Log.i("ObjectBrowser", "Started: " + started + "   " + boxStore.getObjectBrowserPort());
             //adb forward tcp:8090 tcp:8090
         }
     }

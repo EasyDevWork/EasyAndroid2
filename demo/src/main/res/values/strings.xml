@@ -8,4 +8,5 @@
     <string name="test_language">语言测试</string>
     <string name="need_premission">更新应用需要必要权限</string>
     <string name="app_name">EasyDemo</string>
+    <string name="short_cuts_menu_1">Lottie动画</string>
 </resources>
