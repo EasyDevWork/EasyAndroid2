@@ -1,0 +1,13 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher"
+        android:shortcutId="lottie"
+        android:shortcutShortLabel="@string/short_cuts_menu_1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.easy.demo.ui.lottie.TestLottieActivity"
+            android:targetPackage="com.easy" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>
