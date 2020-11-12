@@ -3,8 +3,12 @@ package com.easy.demo.ui.notification;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.provider.Settings;
 import android.view.View;
@@ -31,7 +35,25 @@ public class TestNotificationActivity extends BaseActivity<EmptyPresenter, Empty
 
     @Override
     public void initView() {
+        updateShortCut();//添加桌面快捷入口
+    }
 
+    private void updateShortCut() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+            if (shortcutManager.isRequestPinShortcutSupported()) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, null, this, TestNotificationActivity.class);
+                ShortcutInfo pinShortcutInfo = new ShortcutInfo.Builder(this, "通知")
+                        .setShortLabel("通知")
+                        .setIcon(Icon.createWithResource(this, R.drawable.ic_launcher))
+                        .setIntent(intent)
+                        .build();
+                Intent pinnedShortcutCallbackIntent = shortcutManager.createShortcutResultIntent(pinShortcutInfo);
+                //配置意图，以便应用程序的广播接收器回调成功的广播。
+                PendingIntent successCallback = PendingIntent.getBroadcast(this, 0, pinnedShortcutCallbackIntent, 0);
+                shortcutManager.requestPinShortcut(pinShortcutInfo, successCallback.getIntentSender());
+            }
+        }
     }
 
     public void sendImportNotify(View v) {

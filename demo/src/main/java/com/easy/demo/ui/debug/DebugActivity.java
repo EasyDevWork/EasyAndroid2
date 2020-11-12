@@ -1,5 +1,11 @@
 package com.easy.demo.ui.debug;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Icon;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +18,8 @@ import com.easy.demo.R;
 import com.easy.demo.base.DemoSharePreferences;
 import com.easy.demo.bean.DebugDo;
 import com.easy.demo.databinding.DebugBinding;
+import com.easy.demo.ui.notification.TestNotificationActivity;
+import com.easy.demo.ui.notification.TitleService;
 import com.easy.framework.base.BaseActivity;
 import com.easy.framework.bean.GlobalConfig;
 import com.easy.store.bean.Accounts;
@@ -48,6 +56,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         if (titleView != null) {
             titleView.setTitleText(getString(R.string.debug_title));
         }
+
         addData();
         ArrayAdapter<DebugDo> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, debugDos);
         viewBind.listView.setAdapter(adapter);

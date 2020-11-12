@@ -22,6 +22,16 @@
         <activity android:name=".ui.imgEdit.TestImgEditActivity" />
         <activity android:name=".ui.notification.TestNotificationActivity" />
 
+        <service
+            android:name=".ui.notification.TitleService"
+            android:icon="@drawable/ic_small_logo"
+            android:label="果果视频"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" >
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".ui.player.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
