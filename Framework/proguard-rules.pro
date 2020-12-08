@@ -106,3 +106,6 @@
 -keep class com.jeremyliao.liveeventbus.** { *; }
 -keep class androidx.lifecycle.** { *; }
 -keep class androidx.arch.core.** { *; }
+
+####################utdid############
+-keep class com.ta.utdid2.** { *;}

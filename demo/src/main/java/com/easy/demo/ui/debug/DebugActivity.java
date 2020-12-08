@@ -26,6 +26,7 @@ import com.easy.store.bean.Accounts;
 import com.easy.utils.ToastUtils;
 import com.easy.utils.WebCacheUtils;
 import com.easy.widget.TitleView;
+import com.ta.utdid2.device.UTDevice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         if (titleView != null) {
             titleView.setTitleText(getString(R.string.debug_title));
         }
+        show("utdId : "+ UTDevice.getUtdid(this));
 
         addData();
         ArrayAdapter<DebugDo> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, debugDos);

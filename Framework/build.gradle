@@ -111,5 +111,6 @@ dependencies {
     api project(':loadimage')
     api project(':widget')
     api project(':utils')
+    api "com.umeng.umsdk:utdid:1.1.5.3"
 }
 apply from: "../aspect.gradle"
