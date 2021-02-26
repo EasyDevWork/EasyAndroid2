@@ -57,7 +57,7 @@ public class DebugActivity extends BaseActivity<DebugPresenter, DebugBinding> im
         if (titleView != null) {
             titleView.setTitleText(getString(R.string.debug_title));
         }
-        show("utdId : "+ UTDevice.getUtdid(this));
+        show("utdId : " + UTDevice.getUtdid(this));
 
         addData();
         ArrayAdapter<DebugDo> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, debugDos);
